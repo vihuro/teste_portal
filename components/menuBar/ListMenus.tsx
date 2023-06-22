@@ -6,24 +6,28 @@ const List = [
     {
         class: "row_active",
         text: "ESTOQUE",
+        link: "/estoque",
         icon: <BsBoxes />,
         rotas: []
     },
     {
         class: "row",
         text: "EXPEDIÇÃO",
+        link: "/#",
         icon: <FaTruck />,
         rotas: []
     },
     {
         class: "row",
         text: "PRODUÇÃO",
+        link: "/#",
         icon: <FaServer />,
         rotas: []
     },
     {
         class: "row",
         text: "GERENCIAL",
+        link: "/#",
         icon: <MdOutlineEngineering />,
         rotas: []
     }

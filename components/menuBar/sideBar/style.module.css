@@ -7,6 +7,7 @@
     display: grid;
     grid-template-rows: 80px 1fr 80px;
     transition: 1s;
+    z-index: 800;
 }
 
 .side_bar {
@@ -87,11 +88,13 @@
     z-index: 500;
 }
 
-.row p,
-.row_active p {
+.row a,
+.row_active a {
     position: relative;
     left: 40px;
     z-index: 500;
+    text-decoration: none;
+    color: white;
 }
 
 .side_bar .row svg,
@@ -103,15 +106,15 @@
 .side_bar .row_active svg,
 .side_bar_close .row_active svg,
 .side_bar_close .row svg,
-.side_bar .row p,
-.side_bar .row_active p,
-.side_bar_close .row_active p,
-.side_bar_close .row p {
+.side_bar .row a,
+.side_bar .row_active a,
+.side_bar_close .row_active a,
+.side_bar_close .row a {
     transition: 1s;
 }
 
-.side_bar_close .row p,
-.side_bar_close .row_active p {
+.side_bar_close .row a,
+.side_bar_close .row_active a {
     transform: translateX(-100px);
     opacity: 0;
 }

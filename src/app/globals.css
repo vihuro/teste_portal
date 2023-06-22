@@ -1,6 +1,7 @@
-*{
+* {
   padding: 0;
   margin: 0;
+
 }
 
 
@@ -56,4 +57,20 @@
   --text-color-yellow-500: rgb(100, 102, 0);
   --text-color-yellow-400: rgb(250, 246, 0);
   --text-color-yellow-200: rgb(243, 255, 79);
+}
+
+.body {
+  width: calc(100% - 100px);
+  position: relative;
+  left: 100px;
+  top: 100px;
+}
+
+@media(max-width:770px){
+  .body {
+    width: calc(100% - 100px);
+    position: relative;
+    left: 20px;
+    top: 100px;
+  }
 }

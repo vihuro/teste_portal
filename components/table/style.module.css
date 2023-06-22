@@ -1,22 +1,184 @@
 .container_table {
     position: relative;
-    width: calc(100% - 200px);
+    width: calc(100% - 60px);
     height: calc(100vh - 140px);
-    left: 110px;
+    left: 20px;
     top: 20px;
     z-index: 1;
     overflow: auto;
 }
 
 .table {
+    top: 50px;
     border-collapse: collapse;
+    border-radius: 7px;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    z-index: 2;
+    min-height: 300px;
 }
 
-.table tr {
+
+.table thead th {
+    background-color: var(--background-color-blue-700);
     padding: 10px;
-    border: 1px solid rgb(0, 0, 0)
+    color: rgba(255, 255, 255, 0.815);
 }
 
-.table td:nth-last-child(1) {
-    border: 1px solid rgb(0, 0, 0);
+.table th svg {
+    position: relative;
+    font-size: 24px;
+    left: 10px;
+    top: 5px;
+    border-radius: 50%;
+}
+
+.table th svg:hover {
+    box-shadow: 0 0 10px 0 rgba(142, 202, 241, 0.527);
+    transition: 1s;
+    border-radius: 50%;
+}
+
+.table th:not(:last-child) {
+    border-right: 1px solid rgb(255, 255, 255);
+}
+
+.table_body,
+.table_body tr {}
+
+.table_body {
+    background-color: rgba(219, 233, 240, .5);
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--text-color-blue-600);
+    text-align: center;
+}
+
+.table_body tr:hover {
+
+
+    transition: 0.5s;
+}
+
+.table_body td {
+    padding: 10px;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+}
+
+.table_body tr:not(:last-child) {
+    border-bottom: 1px solid var(--background-color-blue-700);
+}
+
+.table_button {
+    font-size: 10px;
+}
+
+.table_button p,
+.card_type label,
+.card_type_close label {
+    border-radius: 7px;
+    padding: 3px;
+    text-align: center;
+}
+
+.--unidade p {}
+
+.--estocagem p {}
+
+.--tipo p {}
+
+@media(max-width:770px) {
+    .container_table {
+        width: calc(100% - 60px);
+        left: 110px;
+        top: 0;
+        height: calc(100vh - 100px);
+        background-color: green;
+    }
+}
+
+.card_type,
+.card_type_close {
+    position: absolute;
+    z-index: 1;
+    padding: 5px;
+    background-color: white;
+    box-shadow: 0 0 15px 0 rgb(0, 0, 0);
+    overflow: auto;
+    font-size: 11px;
+    transition: 1s;
+
+}
+
+.card_type_close {
+    overflow: hidden;
+    transform: scaleY(-0.01)  translateY(-300px);
+    transform-origin: top right;
+    margin-top: 50px;
+    opacity: 0;
+    
+    
+}
+
+.card_type {
+
+    border-radius: 7px;
+    transition: 1s;
+}
+
+.card_type::-webkit-scrollbar {
+    display: flex;
+    width: 7px;
+
+}
+
+.card_type::-webkit-scrollbar-thumb {
+    background-color: rgba(26, 26, 26, 0.911);
+    border-radius: 7px;
+}
+
+.card_type label,
+.card_type_close label {
+    width: 60%;
+    top: -10px;
+}
+
+.card_type li,
+.card_type_close li {
+    margin: 5px;
+    display: flex;
+}
+
+
+
+.card_type input[type="checkbox"],
+.card_type_close input[type="checkbox"] {
+    appearance: none;
+    margin-right: 7px;
+    display: flex;
+    width: 20px;
+    height: 20px;
+    border: 1px solid rgba(0, 3, 190, 0.329);
+    border-radius: 5px;
+
+}
+
+.card_type input[type="checkbox"]:checked,
+.card_type_close input[type="checkbox"]:checked {
+    appearance: none;
+}
+
+.card_type input[type="checkbox"]:checked::before,
+.card_type_close input[type="checkbox"]:checked::before {
+    appearance: none;
+    content: "✔";
+    position: relative;
+    left: 3px;
+    top: -2px;
+    font-size: medium;
+    color: rgb(0, 255, 98);
 }

@@ -71,7 +71,7 @@ export default function SideBar() {
                             key={index}
                         >
                             {item.icon}
-                            <p>{item.text}</p>
+                            <a href={item.link} >{item.text}</a>
                         </li>
                     ))}
                     <div className={style.selector} style={{
