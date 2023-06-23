@@ -79,17 +79,14 @@
 
 .table_button p,
 .card_type label,
-.card_type_close label {
+.card_type_close label,
+.card_local label,
+.card_local_close label {
     border-radius: 7px;
     padding: 3px;
     text-align: center;
 }
 
-.--unidade p {}
-
-.--estocagem p {}
-
-.--tipo p {}
 
 @media(max-width:770px) {
     .container_table {
@@ -102,53 +99,62 @@
 }
 
 .card_type,
-.card_type_close {
+.card_type_close,
+.card_local,
+.card_local_close{
     position: absolute;
-    z-index: 1;
     padding: 5px;
     background-color: white;
     box-shadow: 0 0 15px 0 rgb(0, 0, 0);
-    overflow: auto;
     font-size: 11px;
-    transition: 1s;
-
+    transition: .5s;
+    z-index: 1;
 }
 
-.card_type_close {
+.card_type_close,
+.card_local_close {
+    width: 20px;
+    height: 20px;
     overflow: hidden;
-    transform: scaleY(-0.01)  translateY(-300px);
-    transform-origin: top right;
-    margin-top: 50px;
+    border-radius: 100%;
+    transform: translateX(80px);
     opacity: 0;
-    
-    
 }
 
-.card_type {
-
+.card_type,
+.card_local{
+    width: 120px;
+    height: 200px;
     border-radius: 7px;
-    transition: 1s;
+    transform-origin: left;
+    overflow: auto;
 }
 
-.card_type::-webkit-scrollbar {
+.card_type::-webkit-scrollbar,
+.card_local::-webkit-scrollbar {
     display: flex;
     width: 7px;
 
 }
 
-.card_type::-webkit-scrollbar-thumb {
+.card_type::-webkit-scrollbar-thumb,
+.card_local::-webkit-scrollbar-thumb {
     background-color: rgba(26, 26, 26, 0.911);
     border-radius: 7px;
 }
 
 .card_type label,
-.card_type_close label {
+.card_type_close label,
+.card_local label,
+.card_local_close label  {
     width: 60%;
     top: -10px;
 }
 
 .card_type li,
-.card_type_close li {
+.card_type_close li,
+.card_local li,
+.card_local_close li {
     margin: 5px;
     display: flex;
 }
@@ -156,7 +162,9 @@
 
 
 .card_type input[type="checkbox"],
-.card_type_close input[type="checkbox"] {
+.card_type_close input[type="checkbox"],
+.card_local input[type="checkbox"],
+.card_local_close input[type="checkbox"] {
     appearance: none;
     margin-right: 7px;
     display: flex;
@@ -168,12 +176,16 @@
 }
 
 .card_type input[type="checkbox"]:checked,
-.card_type_close input[type="checkbox"]:checked {
+.card_type_close input[type="checkbox"]:checked,
+.card_local input[type="checkbox"]:checked,
+.card_local_close input[type="checkbox"]:checked  {
     appearance: none;
 }
 
 .card_type input[type="checkbox"]:checked::before,
-.card_type_close input[type="checkbox"]:checked::before {
+.card_type_close input[type="checkbox"]:checked::before,
+.card_local input[type="checkbox"]:checked::before,
+.card_local_close input[type="checkbox"]:checked::before {
     appearance: none;
     content: "✔";
     position: relative;

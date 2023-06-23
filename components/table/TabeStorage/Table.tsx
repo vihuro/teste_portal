@@ -1,9 +1,9 @@
 "use client"
 
 import style from "./style.module.css";
-import ApiRadar from "@/app/api/radar/ApiRadar";
 import { useEffect, useState } from "react";
 import { CiMenuKebab } from "react-icons/ci";
+import { MdOutlineMapsHomeWork } from "react-icons/md";
 
 export default function Table() {
 
@@ -30,6 +30,13 @@ export default function Table() {
 
         "shrink": true
 
+    })
+    const [dataFiltterlocale, setDataFilterLocale] = useState({
+
+        "fabrica": false
+        ,
+
+        "matriz": true
     })
 
 
@@ -110,6 +117,15 @@ export default function Table() {
             "unidade": "ROL",
             "quantidade": 12,
             "localEstocagem": "MATRIZ",
+            "dataEntrada": "22-06-2023 10:00:00",
+            "tipo": "PET VIRGEM"
+        },
+        {
+            "codigo": "PENT103002",
+            "descricao": "FITA PET VDE REC 9X0,63 C/20 KG",
+            "unidade": "ROL",
+            "quantidade": 12,
+            "localEstocagem": "FABRICA",
             "dataEntrada": "22-06-2023 10:00:00",
             "tipo": "PET VIRGEM"
         },
@@ -222,77 +238,100 @@ export default function Table() {
             "tipo": "PP-2"
         }
     ]
-
     const filter = List.filter(item => {
-        return (
-            (item.tipo === "PET VIRGEM" && dataFiltterTypes.pet_virgem) ||
-            (item.tipo === "PET-2" && dataFiltterTypes.pet_2) ||
-            (item.tipo === "PP VIRGEM" && dataFiltterTypes.pp_virgem) ||
-            (item.tipo === "PP-2" && dataFiltterTypes.pp_2) ||
-            (item.tipo === "STRETCH" && dataFiltterTypes.stretch) ||
-            (item.tipo === "STRETCH ECO" && dataFiltterTypes.stretch_eco) ||
-            (item.tipo === "SHRINK" && dataFiltterTypes.shrink)
-        );
+        if (
+            (item.localEstocagem === "FABRICA" && dataFiltterlocale.fabrica) ||
+            (item.localEstocagem === "MATRIZ" && dataFiltterlocale.matriz)
+        ) {
+            return (
+                (item.tipo === "PET VIRGEM" && dataFiltterTypes.pet_virgem) ||
+                (item.tipo === "PET-2" && dataFiltterTypes.pet_2) ||
+                (item.tipo === "PP VIRGEM" && dataFiltterTypes.pp_virgem) ||
+                (item.tipo === "PP-2" && dataFiltterTypes.pp_2) ||
+                (item.tipo === "STRETCH" && dataFiltterTypes.stretch) ||
+                (item.tipo === "STRETCH ECO" && dataFiltterTypes.stretch_eco) ||
+                (item.tipo === "SHRINK" && dataFiltterTypes.shrink)
+            );
+        }
+
+        return false;
     });
+    // const filter = List.filter(item => {
+
+
+    //     return (
+    //         (item.tipo === "PET VIRGEM" && dataFiltterTypes.pet_virgem && 
+    //         item.localEstocagem === "FABRICA" && dataFiltterlocale.fabrica || 
+    //         item.localEstocagem === "FABRICA" && dataFiltterlocale.matriz  ) ||
+    //         (item.tipo === "PET-2" && dataFiltterTypes.pet_2) ||
+    //         (item.tipo === "PP VIRGEM" && dataFiltterTypes.pp_virgem) ||
+    //         (item.tipo === "PP-2" && dataFiltterTypes.pp_2) ||
+    //         (item.tipo === "STRETCH" && dataFiltterTypes.stretch) ||
+    //         (item.tipo === "STRETCH ECO" && dataFiltterTypes.stretch_eco) ||
+    //         (item.tipo === "SHRINK" && dataFiltterTypes.shrink) ||
+    //         (item.localEstocagem === "MATRIZ" && dataFiltterlocale.matriz) ||
+    //         (item.localEstocagem === "FABRICA" && dataFiltterlocale.fabrica)
+    //     );
+    // });
 
     const CardFilterType = () => {
         const [card_filter_type, set_card_filter_type] = useState(false);
 
         const Card = () => {
             return (
-                    <ul className={style.list} >
-                        <li>
-                            <input id="pet_virgem" type="checkbox"
-                                checked={dataFiltterTypes.pet_virgem}
-                                onChange={e => setDataFilterTypes({ ...dataFiltterTypes, pet_virgem: e.target.checked })}
-                            />
-                            <label htmlFor="pet_virgem" style={getColorStyle("PET VIRGEM")} >
-                                PET VIRGEM
-                            </label>
-                        </li>
-                        <li>
-                            <input id="pet_2" type="checkbox" checked={dataFiltterTypes.pet_2}
-                                onChange={e => setDataFilterTypes({ ...dataFiltterTypes, pet_2: e.target.checked })} />
-                            <label htmlFor="pet_2" style={getColorStyle("PET-2")} >
-                                PET-2
-                            </label>
-                        </li>
-                        <li>
-                            <input id="pp_virgem" type="checkbox" checked={dataFiltterTypes.pp_virgem}
-                                onChange={e => setDataFilterTypes({ ...dataFiltterTypes, pp_virgem: e.target.checked })} />
-                            <label htmlFor="pp_virgem" style={getColorStyle("PP VIRGEM")} >
-                                PP VIRGEM
-                            </label>
-                        </li>
-                        <li>
-                            <input id="pp_2" type="checkbox" checked={dataFiltterTypes.pp_2}
-                                onChange={e => setDataFilterTypes({ ...dataFiltterTypes, pp_2: e.target.checked })} />
-                            <label htmlFor="pp_2" style={getColorStyle("PP-2")}  >
-                                PP-2
-                            </label>
-                        </li>
-                        <li>
-                            <input id="stretch" type="checkbox" checked={dataFiltterTypes.stretch}
-                                onChange={e => setDataFilterTypes({ ...dataFiltterTypes, stretch: e.target.checked })} />
-                            <label style={getColorStyle("STRETCH")} htmlFor="stretch" >
-                                STRETCH
-                            </label>
-                        </li>
-                        <li>
-                            <input id="stretch_eco" type="checkbox" checked={dataFiltterTypes.stretch_eco}
-                                onChange={e => setDataFilterTypes({ ...dataFiltterTypes, stretch_eco: e.target.checked })} />
-                            <label htmlFor="stretch_eco" style={getColorStyle("STRETCH ECO")} >
-                                STRETCH ECO
-                            </label>
-                        </li>
-                        <li>
-                            <input id="shrink" type="checkbox" checked={dataFiltterTypes.shrink}
-                                onChange={e => setDataFilterTypes({ ...dataFiltterTypes, shrink: e.target.checked })} />
-                            <label htmlFor="shrink" style={getColorStyle("SHRINK")}>
-                                SHRINK
-                            </label>
-                        </li>
-                    </ul>
+                <ul className={style.list} >
+                    <li>
+                        <input id="pet_virgem" type="checkbox"
+                            checked={dataFiltterTypes.pet_virgem}
+                            onChange={e => setDataFilterTypes({ ...dataFiltterTypes, pet_virgem: e.target.checked })}
+                        />
+                        <label htmlFor="pet_virgem" style={getColorStyle("PET VIRGEM")} >
+                            PET VIRGEM
+                        </label>
+                    </li>
+                    <li>
+                        <input id="pet_2" type="checkbox" checked={dataFiltterTypes.pet_2}
+                            onChange={e => setDataFilterTypes({ ...dataFiltterTypes, pet_2: e.target.checked })} />
+                        <label htmlFor="pet_2" style={getColorStyle("PET-2")} >
+                            PET-2
+                        </label>
+                    </li>
+                    <li>
+                        <input id="pp_virgem" type="checkbox" checked={dataFiltterTypes.pp_virgem}
+                            onChange={e => setDataFilterTypes({ ...dataFiltterTypes, pp_virgem: e.target.checked })} />
+                        <label htmlFor="pp_virgem" style={getColorStyle("PP VIRGEM")} >
+                            PP VIRGEM
+                        </label>
+                    </li>
+                    <li>
+                        <input id="pp_2" type="checkbox" checked={dataFiltterTypes.pp_2}
+                            onChange={e => setDataFilterTypes({ ...dataFiltterTypes, pp_2: e.target.checked })} />
+                        <label htmlFor="pp_2" style={getColorStyle("PP-2")}  >
+                            PP-2
+                        </label>
+                    </li>
+                    <li>
+                        <input id="stretch" type="checkbox" checked={dataFiltterTypes.stretch}
+                            onChange={e => setDataFilterTypes({ ...dataFiltterTypes, stretch: e.target.checked })} />
+                        <label style={getColorStyle("STRETCH")} htmlFor="stretch" >
+                            STRETCH
+                        </label>
+                    </li>
+                    <li>
+                        <input id="stretch_eco" type="checkbox" checked={dataFiltterTypes.stretch_eco}
+                            onChange={e => setDataFilterTypes({ ...dataFiltterTypes, stretch_eco: e.target.checked })} />
+                        <label htmlFor="stretch_eco" style={getColorStyle("STRETCH ECO")} >
+                            STRETCH ECO
+                        </label>
+                    </li>
+                    <li>
+                        <input id="shrink" type="checkbox" checked={dataFiltterTypes.shrink}
+                            onChange={e => setDataFilterTypes({ ...dataFiltterTypes, shrink: e.target.checked })} />
+                        <label htmlFor="shrink" style={getColorStyle("SHRINK")}>
+                            SHRINK
+                        </label>
+                    </li>
+                </ul>
             )
 
         }
@@ -303,11 +342,49 @@ export default function Table() {
         }
     }
 
+    const CardFilterLocal = () => {
+        const [card_filter_Local, set_card_filter_Local] = useState(false);
+
+        const Card = () => {
+            return (
+                <ul className={style.list} >
+                    <li>
+                        <input id="fabrica" type="checkbox"
+                            checked={dataFiltterlocale.fabrica}
+                            onChange={e =>
+                                setDataFilterLocale({ ...dataFiltterlocale, fabrica: e.target.checked })}
+                        />
+                        <label htmlFor="fabrica" style={getColorStyle("FABRICA")} >
+                            FÁBRICA
+                        </label>
+                    </li>
+                    <li>
+                        <input id="matriz" type="checkbox" checked={dataFiltterlocale.matriz}
+                            onChange={e => setDataFilterLocale({ ...dataFiltterlocale, matriz: e.target.checked })} />
+                        <label htmlFor="matriz" style={getColorStyle("MATRIZ")} >
+                            MATRIZ
+                        </label>
+                    </li>
+                </ul>
+            )
+
+        }
+        return {
+            set_card_filter_Local,
+            card_filter_Local,
+            Card
+        }
+    }
+
     const { Card, set_card_filter_type, card_filter_type } = CardFilterType();
+    const { Card: CardLocal, set_card_filter_Local, card_filter_Local } = CardFilterLocal()
 
     return (
         <div className={style.container_table} >
-            <table className={style.table} >
+            <table className={style.table} onClick={() => {
+                set_card_filter_Local(false),
+                    set_card_filter_type(false)
+            }}>
                 <thead>
                     <tr>
                         <th>
@@ -324,11 +401,21 @@ export default function Table() {
                         </th>
                         <th>
                             LOCAL/EST.
+                            <CiMenuKebab onClick={(e) => {
+                                e.stopPropagation(),
+                                    set_card_filter_Local(!card_filter_Local)
+                            }} />
+                            <div onClick={e => e.stopPropagation()} className={card_filter_Local ? style.card_local : style.card_local_close} >
+                                <CardLocal />
+                            </div>
                         </th>
                         <th>
                             TIPO
-                            <CiMenuKebab onClick={() => set_card_filter_type(!card_filter_type)} />
-                            <div className={card_filter_type ? style.card_type : style.card_type_close} >
+                            <CiMenuKebab onClick={(e) => {
+                                e.stopPropagation(),
+                                set_card_filter_type(!card_filter_type)
+                            }} />
+                            <div onClick={e => e.stopPropagation()} className={card_filter_type ? style.card_type : style.card_type_close} >
                                 <Card />
                             </div>
                         </th>
