@@ -5,7 +5,7 @@ export default function Document() {
     return (
         <Html>
             <Head>
-                <title>THR</title>
+
             </Head>
             <body>
                 <Main />

@@ -1,6 +1,6 @@
 .container_table {
     position: relative;
-    width: calc(100% - 60px);
+    width: calc(100% - 30px);
     height: calc(100vh - 140px);
     left: 20px;
     top: 20px;
@@ -16,13 +16,13 @@
     position: relative;
     width: 100%;
     z-index: 2;
-    min-height: 300px;
 }
 
 
 .table thead th {
     background-color: var(--background-color-blue-700);
     padding: 10px;
+    font-size: 15px;
     color: rgba(255, 255, 255, 0.815);
 }
 
@@ -43,6 +43,10 @@
 .table th:not(:last-child) {
     border-right: 1px solid rgb(255, 255, 255);
 }
+.table p:hover{
+    cursor:  default;
+
+}
 
 .table_body,
 .table_body tr {}
@@ -56,8 +60,6 @@
 }
 
 .table_body tr:hover {
-
-
     transition: 0.5s;
 }
 
@@ -77,6 +79,12 @@
     font-size: 10px;
 }
 
+.--substitutos p {
+    font-size: 14px;
+    color: rgb(211, 211, 211);
+    background-color: rgb(49, 49, 49);
+}
+
 .table_button p,
 .card_type label,
 .card_type_close label,
@@ -90,18 +98,25 @@
 
 @media(max-width:770px) {
     .container_table {
-        width: calc(100% - 60px);
-        left: 110px;
+        width: calc(100% - 20px);
+        left: 85px;
         top: 0;
         height: calc(100vh - 100px);
-        background-color: green;
+    }
+
+    .table thead th {
+        padding: 5px;
+        font-size: 14px;
+    }
+    .table_body td {
+        padding: 7px;
     }
 }
 
 .card_type,
 .card_type_close,
 .card_local,
-.card_local_close{
+.card_local_close {
     position: absolute;
     padding: 5px;
     background-color: white;
@@ -111,18 +126,35 @@
     z-index: 1;
 }
 
-.card_type_close,
+.card_type {
+    transform: translateX(-60px);
+}
+
+.card_type_close {
+    width: 20px;
+    height: 20px;
+    overflow: hidden;
+    border-radius: 100%;
+    transform: translateX(40px);
+    opacity: 0;
+}
+
+.card_local {
+    transform: translateX(-10px);
+}
+
+
 .card_local_close {
     width: 20px;
     height: 20px;
     overflow: hidden;
     border-radius: 100%;
-    transform: translateX(80px);
+    transform: translateX(100px);
     opacity: 0;
 }
 
 .card_type,
-.card_local{
+.card_local {
     width: 120px;
     height: 200px;
     border-radius: 7px;
@@ -131,14 +163,17 @@
 }
 
 .card_type::-webkit-scrollbar,
-.card_local::-webkit-scrollbar {
+.card_local::-webkit-scrollbar,
+.cardSubstituto::-webkit-scrollbar {
     display: flex;
     width: 7px;
+    height: 2px;
 
 }
 
 .card_type::-webkit-scrollbar-thumb,
-.card_local::-webkit-scrollbar-thumb {
+.card_local::-webkit-scrollbar-thumb,
+.cardSubstituto::-webkit-scrollbar-thumb {
     background-color: rgba(26, 26, 26, 0.911);
     border-radius: 7px;
 }
@@ -146,7 +181,7 @@
 .card_type label,
 .card_type_close label,
 .card_local label,
-.card_local_close label  {
+.card_local_close label {
     width: 60%;
     top: -10px;
 }
@@ -178,7 +213,7 @@
 .card_type input[type="checkbox"]:checked,
 .card_type_close input[type="checkbox"]:checked,
 .card_local input[type="checkbox"]:checked,
-.card_local_close input[type="checkbox"]:checked  {
+.card_local_close input[type="checkbox"]:checked {
     appearance: none;
 }
 
@@ -193,4 +228,47 @@
     top: -2px;
     font-size: medium;
     color: rgb(0, 255, 98);
+}
+
+.cardSubstituto,
+.cardSubstituto_close{
+    position: absolute;
+    background-color: white;
+    box-shadow: 0 5px 20px 0 rgb(0, 0, 0);
+    padding: 2px;
+    transition: .5s;
+    list-style: none;
+}
+.cardSubstituto{
+    width: 400px;
+    max-height: 100px;
+    transform: translateY(25px) translateX(-350px);
+    border-radius: 7px;
+    overflow: auto;
+}
+
+.cardSubstituto_close{
+    transform: translateY(25px) translateX(0px);
+    border-radius: 100%;
+    width: 20px;
+    height: 20px;
+    overflow: hidden;
+    opacity: 0;
+    
+
+}
+.cardSubstituto_items table{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+
+}
+.cardSubstituto_items p{
+    font-size: 10px;
+}
+
+.cardSubstituto_items td{
+    padding: 5px;
 }

@@ -49,6 +49,17 @@ export default function Table() {
         dataEntrada: string,
         tipo: string
     }
+    interface PropsSub {
+
+        codigo: string,
+        descricao: string,
+        quantidade: number,
+        unidade: string,
+        localEstocagem: string,
+        tipo: string
+
+
+    }
 
     interface Color {
         background: string,
@@ -117,6 +128,35 @@ export default function Table() {
             "unidade": "ROL",
             "quantidade": 12,
             "localEstocagem": "MATRIZ",
+            "dataEntrada": "22-06-2023 10:00:00",
+            "tipo": "PET VIRGEM",
+            "substitutos": [
+                {
+                    "codigo": "PENT103010",
+                    "descricao": "FITA PET VDE REC 9X0,63 C/20 KG",
+                    "unidade": "ROL",
+                    "quantidade": 12,
+                    "localEstocagem": "MATRIZ",
+                    "dataEntrada": "22-06-2023 10:00:00",
+                    "tipo": "PET VIRGEM",
+                }
+                , {
+                    "codigo": "PENT103011",
+                    "descricao": "FITA PET VDE REC 9X0,63 C/20 KG",
+                    "unidade": "ROL",
+                    "quantidade": 12,
+                    "localEstocagem": "FABRICA",
+                    "dataEntrada": "22-06-2023 10:00:00",
+                    "tipo": "PET VIRGEM",
+                }
+            ]
+        },
+        {
+            "codigo": "PENT103001",
+            "descricao": "FITA PET VDE REC 9X0,63 C/20 KG",
+            "unidade": "ROL",
+            "quantidade": 0,
+            "localEstocagem": "FABRICA",
             "dataEntrada": "22-06-2023 10:00:00",
             "tipo": "PET VIRGEM"
         },
@@ -256,23 +296,6 @@ export default function Table() {
 
         return false;
     });
-    // const filter = List.filter(item => {
-
-
-    //     return (
-    //         (item.tipo === "PET VIRGEM" && dataFiltterTypes.pet_virgem && 
-    //         item.localEstocagem === "FABRICA" && dataFiltterlocale.fabrica || 
-    //         item.localEstocagem === "FABRICA" && dataFiltterlocale.matriz  ) ||
-    //         (item.tipo === "PET-2" && dataFiltterTypes.pet_2) ||
-    //         (item.tipo === "PP VIRGEM" && dataFiltterTypes.pp_virgem) ||
-    //         (item.tipo === "PP-2" && dataFiltterTypes.pp_2) ||
-    //         (item.tipo === "STRETCH" && dataFiltterTypes.stretch) ||
-    //         (item.tipo === "STRETCH ECO" && dataFiltterTypes.stretch_eco) ||
-    //         (item.tipo === "SHRINK" && dataFiltterTypes.shrink) ||
-    //         (item.localEstocagem === "MATRIZ" && dataFiltterlocale.matriz) ||
-    //         (item.localEstocagem === "FABRICA" && dataFiltterlocale.fabrica)
-    //     );
-    // });
 
     const CardFilterType = () => {
         const [card_filter_type, set_card_filter_type] = useState(false);
@@ -375,9 +398,56 @@ export default function Table() {
             Card
         }
     }
+    const CardSubstituto = () => {
+
+        const [toggle, setToggle] = useState(false);
+        const [selectedRows, setSelectedRows] = useState<number[]>([]);
+
+
+        const Card = ({ list }: { list: PropsSub[] }) => {
+            return (
+                <>
+                    {list && list.length > 0 && (
+                        <table className={style.cardSubstituto_items}>
+                            <tbody>
+
+
+                                {list.map((item, index) => (
+
+                                    <tr key={index}>
+                                        <td>{item.codigo}</td>
+                                        <td>{item.descricao}</td>
+                                        <td>{item.quantidade}</td>
+                                        <td>
+                                            <p style={getColorStyle(item.unidade)}>{item.unidade}</p>
+                                        </td>
+                                        <td>
+                                            <p style={getColorStyle(item.localEstocagem)} > {item.localEstocagem}</p>
+                                        </td>
+                                        <td>
+                                            <p style={getColorStyle(item.tipo)} >{item.tipo}</p>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    )}
+                </>
+            );
+        };
+
+        return {
+            toggle,
+            setToggle,
+            Card,
+            selectedRows,
+            setSelectedRows
+        };
+    };
 
     const { Card, set_card_filter_type, card_filter_type } = CardFilterType();
-    const { Card: CardLocal, set_card_filter_Local, card_filter_Local } = CardFilterLocal()
+    const { Card: CardLocal, set_card_filter_Local, card_filter_Local } = CardFilterLocal();
+    const { Card: CardSubs, setToggle, toggle, selectedRows, setSelectedRows } = CardSubstituto();
 
     return (
         <div className={style.container_table} >
@@ -397,10 +467,13 @@ export default function Table() {
                             QTD.
                         </th>
                         <th>
-                            UNIDADE
+                            UND.
                         </th>
                         <th>
-                            LOCAL/EST.
+                            SUBST.
+                        </th>
+                        <th>
+                            LOCAL/ EST.
                             <CiMenuKebab onClick={(e) => {
                                 e.stopPropagation(),
                                     set_card_filter_Local(!card_filter_Local)
@@ -413,7 +486,7 @@ export default function Table() {
                             TIPO
                             <CiMenuKebab onClick={(e) => {
                                 e.stopPropagation(),
-                                set_card_filter_type(!card_filter_type)
+                                    set_card_filter_type(!card_filter_type)
                             }} />
                             <div onClick={e => e.stopPropagation()} className={card_filter_type ? style.card_type : style.card_type_close} >
                                 <Card />
@@ -424,6 +497,7 @@ export default function Table() {
                 <tbody className={style.table_body} >
                     {filter && (
                         filter.map((item, index) => {
+                            const isRowSelected = selectedRows.includes(index);
                             return (
                                 <tr key={index} >
                                     <td>{item.codigo}</td>
@@ -434,6 +508,29 @@ export default function Table() {
                                             style={getColorStyle(item.unidade)}
                                         >
                                             {item.unidade}
+                                        </p>
+                                    </td>
+                                    <td className={`${style["table_button"]} ${style["--substitutos"]}`}
+                                        onClick={() => {
+                                            if (isRowSelected) {
+                                                setSelectedRows(selectedRows.filter((row) => row !== index));
+                                            } else {
+                                                setSelectedRows([...selectedRows, index]);
+                                            }
+                                        }}
+                                    >
+                                        {item.substitutos && item.substitutos.length > 0 && (
+                                            <div className={
+                                                isRowSelected
+                                                    ? style.cardSubstituto
+                                                    : style.cardSubstituto_close
+                                            } >
+
+                                                <CardSubs list={item.substitutos} />
+                                            </div>
+                                        )}
+                                        <p>
+                                            {item.substitutos?.length}
                                         </p>
                                     </td>
                                     <td className={`${style["table_button"]} ${style["--estocagem"]}`}>
