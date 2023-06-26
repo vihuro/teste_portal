@@ -6,7 +6,7 @@ const List = [
     {
         class: "row_active",
         text: "ESTOQUE",
-        link: "/estoque",
+        link: "/#",
         icon: <BsBoxes />,
         rotas: []
     },

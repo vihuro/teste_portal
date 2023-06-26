@@ -10,6 +10,7 @@
 
 .table {
     top: 50px;
+    min-height: 250px;
     border-collapse: collapse;
     border-radius: 7px;
     overflow: hidden;
@@ -116,14 +117,42 @@
 .card_type,
 .card_type_close,
 .card_local,
-.card_local_close {
+.container_local_close,
+.container_codigo,
+.container_codigo_close {
     position: absolute;
     padding: 5px;
     background-color: white;
     box-shadow: 0 0 15px 0 rgb(0, 0, 0);
     font-size: 11px;
-    transition: .5s;
+    transition: 0.5s;
     z-index: 1;
+}
+.container_codigo{
+    color: rgb(0, 10, 95);
+    border-radius: 7px;
+    height: 180px;
+    width: 180px;
+    overflow: auto;
+}
+.container_codigo_close{
+    width: 20px;
+    height: 20px;
+    background-color: white;
+    overflow: hidden;
+    border-radius: 50%;
+    transform: translateX(100px);
+    opacity: 0;
+    
+
+}
+
+.card_codigo div{
+    display: flex;
+}
+.card_codigo li{
+    list-style: none;
+    padding: 5px;
 }
 
 .card_type {
@@ -181,7 +210,9 @@
 .card_type label,
 .card_type_close label,
 .card_local label,
-.card_local_close label {
+.card_local_close label,
+.card_codigo label,
+.card_codigo_close label {
     width: 60%;
     top: -10px;
 }
@@ -189,17 +220,40 @@
 .card_type li,
 .card_type_close li,
 .card_local li,
-.card_local_close li {
+.card_local_close li,
+.card_codigo li,
+.card_codigo_close li {
     margin: 5px;
     display: flex;
 }
+.card_type div{
+    display: flex;
+    width: 100%;
+    font-size: 11px;
+}
+.card_type div label{
+    margin-left: 5px;
+    color: rgb(9, 0, 134);
+}
 
+.card_type input[type="radio"]{
+    appearance: none;
+    border: 1px solid rgb(136, 136, 136);
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+}
+.card_type input[type="radio"]:checked{
+    background-image: radial-gradient(rgba(255, 255, 255, 0.904) 35%, rgb(9, 0, 134) 45%) ;
+    border: 1px solid rgb(17, 0, 255);
+}
 
 
 .card_type input[type="checkbox"],
 .card_type_close input[type="checkbox"],
 .card_local input[type="checkbox"],
-.card_local_close input[type="checkbox"] {
+.card_local_close input[type="checkbox"],
+.card_codigo input[type="checkbox"] {
     appearance: none;
     margin-right: 7px;
     display: flex;
@@ -213,14 +267,16 @@
 .card_type input[type="checkbox"]:checked,
 .card_type_close input[type="checkbox"]:checked,
 .card_local input[type="checkbox"]:checked,
-.card_local_close input[type="checkbox"]:checked {
+.card_local_close input[type="checkbox"]:checked,
+.card_codigo input[type="checkbox"]:checked {
     appearance: none;
 }
 
 .card_type input[type="checkbox"]:checked::before,
 .card_type_close input[type="checkbox"]:checked::before,
 .card_local input[type="checkbox"]:checked::before,
-.card_local_close input[type="checkbox"]:checked::before {
+.card_local_close input[type="checkbox"]:checked::before,
+.card_codigo input[type="checkbox"]:checked::before {
     appearance: none;
     content: "✔";
     position: relative;
@@ -254,9 +310,10 @@
     height: 20px;
     overflow: hidden;
     opacity: 0;
-    
-
 }
+
+
+
 .cardSubstituto_items table{
     display: flex;
     align-items: center;
@@ -271,4 +328,45 @@
 
 .cardSubstituto_items td{
     padding: 5px;
+}
+.filter{
+    position: relative;
+    border: 1px solid rgba(128, 162, 255, 0.61);
+    padding: 7px;
+    top: 8px;
+    width: 85%;
+    border-radius: 7px;
+    left: 7px;
+    margin-bottom: 15px;
+}
+
+.filter input{
+    border: none;
+    border-radius: 7px;
+    margin-top: 5px;
+    padding: 2px;
+    width: 85%;
+    outline: none;
+}
+.filter span{
+    position: absolute;
+    background-color: rgb(0, 16, 88);
+    color: white;
+    padding: 3px;
+    border-radius: 7px;
+    left: 8px;
+    font-size: 12px;
+    top: -10px;
+}
+
+.button_filter{
+    border: none;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    background-color: rebeccapurple;
+    display: grid;
+}
+.card_codigo .button_filter svg{
+    background-color: red;
 }

@@ -4,6 +4,7 @@ import style from "./style.module.css";
 import { useEffect, useState } from "react";
 import { CiMenuKebab } from "react-icons/ci";
 import { MdOutlineMapsHomeWork } from "react-icons/md";
+import { BiFilter } from "react-icons/bi";
 
 export default function Table() {
 
@@ -31,13 +32,21 @@ export default function Table() {
         "shrink": true
 
     })
+    const [radioType, setRadioType] = useState({
+        "marcar todos": true,
+        "desmarcar todos": false
+    })
     const [dataFiltterlocale, setDataFilterLocale] = useState({
 
-        "fabrica": false
+        "fabrica": true
         ,
 
         "matriz": true
     })
+    const [dataFilterCode, setDataFilterCode] = useState([]);
+
+    const [textCode, setTextCode] = useState("");
+
 
 
     interface Item {
@@ -60,12 +69,10 @@ export default function Table() {
 
 
     }
-
     interface Color {
         background: string,
         color: string
     }
-
     const colors: Record<string, Color> = {
         MATRIZ: {
             background: "#B40000",
@@ -112,7 +119,6 @@ export default function Table() {
             color: "white"
         }
     }
-
     function getColorStyle(text: string) {
         const color = colors[text];
         return {
@@ -120,7 +126,6 @@ export default function Table() {
             color: color ? color.color : ""
         };
     }
-
     const List = [
         {
             "codigo": "PENT103001",
@@ -278,7 +283,12 @@ export default function Table() {
             "tipo": "PP-2"
         }
     ]
+    function filterText(list: any) {
+        console.log(list)
+    }
+
     const filter = List.filter(item => {
+        const text = item.codigo.toLowerCase().includes(textCode.toLowerCase());
         if (
             (item.localEstocagem === "FABRICA" && dataFiltterlocale.fabrica) ||
             (item.localEstocagem === "MATRIZ" && dataFiltterlocale.matriz)
@@ -291,18 +301,152 @@ export default function Table() {
                 (item.tipo === "STRETCH" && dataFiltterTypes.stretch) ||
                 (item.tipo === "STRETCH ECO" && dataFiltterTypes.stretch_eco) ||
                 (item.tipo === "SHRINK" && dataFiltterTypes.shrink)
-            );
+            ) && text;
         }
 
         return false;
     });
+    const [listCode, setListCode] = useState(filter.map(item => item.codigo))
 
+    const CardCodigo = (action: any) => {
+
+        interface ListItem {
+            text: string,
+            visible: boolean
+        }
+
+        const [toogleCard, setToogleCard] = useState(true);
+
+
+        const Card = (list: any) => {
+            const [listVisible, setListVisible] = useState<ListItem[]>([]);
+
+            useEffect(() => {
+                selection();
+            }, [])
+
+
+            const [text, setText] = useState("");
+
+            function selection() {
+                const newList = list.list.map((item: any, index: number) => {
+                    return {
+                        text: item,
+                        visible: true
+                    };
+                });
+                setListVisible(newList);
+            }
+
+
+            function changeSelection(id: number, visible: boolean) {
+                const newList = listVisible.map((item: any, index: number) => {
+                    return {
+                        ...item,
+                        visible: id === index ? visible : item.visible
+                    };
+                });
+
+                setListVisible(newList);
+            }
+            const filter = listVisible.filter((item) => item.text.toLowerCase().includes(text.toLowerCase()))
+
+
+
+            return (
+                <div className={style.card_codigo} >
+                    <div className={style.filter} >
+                        <input value={text} onChange={e => {
+                            setText(e.target.value)
+                            // action(e.target.value)
+                        }
+                        } placeholder="Digite o código..." type="text" />
+                        <span> Filtro</span>
+
+                        <BiFilter onClick={() => action(text)} style={{
+                            color: "blue",
+                            left: 0,
+                            top: 0
+                        }} />
+                    </div>
+                    {filter && (
+                        filter.map((item: any, index: number) => {
+                            return (
+                                <ul key={index} >
+                                    <li>
+                                        <div>
+                                            <input id={index.toString()} onChange={(e) => {
+                                                changeSelection(index, e.target.checked)
+                                            }} checked={item.visible} type="checkbox" />
+                                            <label htmlFor={index.toString()} >{item.text}</label>
+                                        </div>
+                                    </li>
+                                </ul>
+                            )
+                        })
+                    )}
+                </div>
+            )
+        }
+        return {
+            Card,
+            toogleCard,
+            setToogleCard,
+
+        }
+    }
     const CardFilterType = () => {
         const [card_filter_type, set_card_filter_type] = useState(false);
+        function MarcarTodos() {
+            setDataFilterTypes({
+                pet_2: true,
+                pet_virgem: true,
+                pp_2: true,
+                pp_virgem: true,
+                shrink: true,
+                stretch: true,
+                stretch_eco: true
+            })
+            setRadioType({
+                "desmarcar todos": false,
+                "marcar todos": true
+            })
+        }
+        function desmarcarTodos() {
+            setDataFilterTypes({
+                pet_2: false,
+                pet_virgem: false,
+                pp_2: false,
+                pp_virgem: false,
+                shrink: false,
+                stretch: false,
+                stretch_eco: false
+            })
+            setRadioType({
+                "desmarcar todos": true,
+                "marcar todos": false
+            })
+        }
 
         const Card = () => {
             return (
                 <ul className={style.list} >
+                    <li>
+                        <div>
+                            <input readOnly onClick={() => MarcarTodos()} id="marcar" name="selection" type="radio" checked={radioType["marcar todos"]} />
+                            <label htmlFor="marcar" >
+                                Marcar Todos
+                            </label>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <input readOnly onClick={() => desmarcarTodos()} id="desmarcar" name="selection" type="radio" checked={radioType["desmarcar todos"]} />
+                            <label htmlFor="desmarcar" >
+                                Desmarcar Todos
+                            </label>
+                        </div>
+                    </li>
                     <li>
                         <input id="pet_virgem" type="checkbox"
                             checked={dataFiltterTypes.pet_virgem}
@@ -364,7 +508,6 @@ export default function Table() {
             Card
         }
     }
-
     const CardFilterLocal = () => {
         const [card_filter_Local, set_card_filter_Local] = useState(false);
 
@@ -445,9 +588,11 @@ export default function Table() {
         };
     };
 
+
     const { Card, set_card_filter_type, card_filter_type } = CardFilterType();
     const { Card: CardLocal, set_card_filter_Local, card_filter_Local } = CardFilterLocal();
     const { Card: CardSubs, setToggle, toggle, selectedRows, setSelectedRows } = CardSubstituto();
+    const { Card: CardCode, setToogleCard, toogleCard } = CardCodigo(setTextCode);
 
     return (
         <div className={style.container_table} >
@@ -459,6 +604,13 @@ export default function Table() {
                     <tr>
                         <th>
                             CÓDIGO
+                            <CiMenuKebab onClick={(e) => {
+                                e.stopPropagation(),
+                                    setToogleCard(!toogleCard)
+                            }} />
+                            <div className={toogleCard ? style.container_codigo : style.container_codigo_close} >
+                                <CardCode list={listCode} />
+                            </div>
                         </th>
                         <th>
                             DESCRIÇÃO
@@ -525,7 +677,6 @@ export default function Table() {
                                                     ? style.cardSubstituto
                                                     : style.cardSubstituto_close
                                             } >
-
                                                 <CardSubs list={item.substitutos} />
                                             </div>
                                         )}
