@@ -117,7 +117,7 @@
 .card_type,
 .card_type_close,
 .card_local,
-.container_local_close,
+.card_local_close,
 .container_codigo,
 .container_codigo_close {
     position: absolute;
@@ -369,4 +369,12 @@
 }
 .card_codigo .button_filter svg{
     background-color: red;
+}
+
+.span{
+    padding: 20px;
+    position: absolute;
+    transform: translateX(0px) translateY(-50px) rotate(90deg);
+    transition: 2s;
+    font-size: 20px;
 }

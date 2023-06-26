@@ -128,16 +128,16 @@ export default function Table() {
     }
     const List = [
         {
-            "codigo": "PENT103001",
+            "codigo": "PETN103001",
             "descricao": "FITA PET VDE REC 9X0,63 C/20 KG",
             "unidade": "ROL",
-            "quantidade": 12,
+            "quantidade": 0,
             "localEstocagem": "MATRIZ",
             "dataEntrada": "22-06-2023 10:00:00",
             "tipo": "PET VIRGEM",
             "substitutos": [
                 {
-                    "codigo": "PENT103010",
+                    "codigo": "PETN103010",
                     "descricao": "FITA PET VDE REC 9X0,63 C/20 KG",
                     "unidade": "ROL",
                     "quantidade": 12,
@@ -146,7 +146,7 @@ export default function Table() {
                     "tipo": "PET VIRGEM",
                 }
                 , {
-                    "codigo": "PENT103011",
+                    "codigo": "PETN103011",
                     "descricao": "FITA PET VDE REC 9X0,63 C/20 KG",
                     "unidade": "ROL",
                     "quantidade": 12,
@@ -157,7 +157,7 @@ export default function Table() {
             ]
         },
         {
-            "codigo": "PENT103001",
+            "codigo": "PETN103001",
             "descricao": "FITA PET VDE REC 9X0,63 C/20 KG",
             "unidade": "ROL",
             "quantidade": 0,
@@ -166,7 +166,7 @@ export default function Table() {
             "tipo": "PET VIRGEM"
         },
         {
-            "codigo": "PENT103002",
+            "codigo": "PETN103002",
             "descricao": "FITA PET VDE REC 9X0,63 C/20 KG",
             "unidade": "ROL",
             "quantidade": 12,
@@ -647,7 +647,7 @@ export default function Table() {
                     </tr>
                 </thead>
                 <tbody className={style.table_body} >
-                    {filter && (
+                    {filter && filter.length > 0 ?
                         filter.map((item, index) => {
                             const isRowSelected = selectedRows.includes(index);
                             return (
@@ -698,7 +698,26 @@ export default function Table() {
                                 </tr>
                             )
                         })
-                    )}
+                        :
+                        (
+                            <>
+                                <tr style={{
+                                    border:"none"
+                                }}>
+                                    <td style={{
+                                        border: 'none'
+                                    }} colSpan={7}>Nenhum item disponivel!</td>
+                                </tr>
+                                <tr>
+                                    <td style={{
+                                        border: 'none'
+                                    }} colSpan={7}>
+                                        <span className={style.span} >:(</span>
+                                    </td>
+                                </tr>
+                            </>
+                        )
+                    }
                 </tbody>
             </table>
         </div>
