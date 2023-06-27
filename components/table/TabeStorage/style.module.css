@@ -44,8 +44,9 @@
 .table th:not(:last-child) {
     border-right: 1px solid rgb(255, 255, 255);
 }
-.table p:hover{
-    cursor:  default;
+
+.table p:hover {
+    cursor: default;
 
 }
 
@@ -109,6 +110,7 @@
         padding: 5px;
         font-size: 14px;
     }
+
     .table_body td {
         padding: 7px;
     }
@@ -128,14 +130,16 @@
     transition: 0.5s;
     z-index: 1;
 }
-.container_codigo{
+
+.container_codigo {
     color: rgb(0, 10, 95);
     border-radius: 7px;
     height: 180px;
     width: 180px;
     overflow: auto;
 }
-.container_codigo_close{
+
+.container_codigo_close {
     width: 20px;
     height: 20px;
     background-color: white;
@@ -143,14 +147,15 @@
     border-radius: 50%;
     transform: translateX(100px);
     opacity: 0;
-    
+
 
 }
 
-.card_codigo div{
+.card_codigo div {
     display: flex;
 }
-.card_codigo li{
+
+.card_codigo li {
     list-style: none;
     padding: 5px;
 }
@@ -226,25 +231,28 @@
     margin: 5px;
     display: flex;
 }
-.card_type div{
+
+.card_type div {
     display: flex;
     width: 100%;
     font-size: 11px;
 }
-.card_type div label{
+
+.card_type div label {
     margin-left: 5px;
     color: rgb(9, 0, 134);
 }
 
-.card_type input[type="radio"]{
+.card_type input[type="radio"] {
     appearance: none;
     border: 1px solid rgb(136, 136, 136);
     width: 15px;
     height: 15px;
     border-radius: 50%;
 }
-.card_type input[type="radio"]:checked{
-    background-image: radial-gradient(rgba(255, 255, 255, 0.904) 35%, rgb(9, 0, 134) 45%) ;
+
+.card_type input[type="radio"]:checked {
+    background-image: radial-gradient(rgba(255, 255, 255, 0.904) 35%, rgb(9, 0, 134) 45%);
     border: 1px solid rgb(17, 0, 255);
 }
 
@@ -287,7 +295,7 @@
 }
 
 .cardSubstituto,
-.cardSubstituto_close{
+.cardSubstituto_close {
     position: absolute;
     background-color: white;
     box-shadow: 0 5px 20px 0 rgb(0, 0, 0);
@@ -295,7 +303,8 @@
     transition: .5s;
     list-style: none;
 }
-.cardSubstituto{
+
+.cardSubstituto {
     width: 400px;
     max-height: 100px;
     transform: translateY(25px) translateX(-350px);
@@ -303,7 +312,7 @@
     overflow: auto;
 }
 
-.cardSubstituto_close{
+.cardSubstituto_close {
     transform: translateY(25px) translateX(0px);
     border-radius: 100%;
     width: 20px;
@@ -314,7 +323,7 @@
 
 
 
-.cardSubstituto_items table{
+.cardSubstituto_items table {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -322,14 +331,16 @@
     height: 100%;
 
 }
-.cardSubstituto_items p{
+
+.cardSubstituto_items p {
     font-size: 10px;
 }
 
-.cardSubstituto_items td{
+.cardSubstituto_items td {
     padding: 5px;
 }
-.filter{
+
+.filter {
     position: relative;
     border: 1px solid rgba(128, 162, 255, 0.61);
     padding: 7px;
@@ -340,7 +351,7 @@
     margin-bottom: 15px;
 }
 
-.filter input{
+.filter input {
     border: none;
     border-radius: 7px;
     margin-top: 5px;
@@ -348,7 +359,8 @@
     width: 85%;
     outline: none;
 }
-.filter span{
+
+.filter span {
     position: absolute;
     background-color: rgb(0, 16, 88);
     color: white;
@@ -359,7 +371,7 @@
     top: -10px;
 }
 
-.button_filter{
+.button_filter {
     border: none;
     align-items: center;
     justify-content: center;
@@ -367,14 +379,223 @@
     background-color: rebeccapurple;
     display: grid;
 }
-.card_codigo .button_filter svg{
+
+.card_codigo .button_filter svg {
     background-color: red;
 }
 
-.span{
+.span {
     padding: 20px;
     position: absolute;
     transform: translateX(0px) translateY(-50px) rotate(90deg);
     transition: 2s;
     font-size: 20px;
+}
+
+.container_add {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(143, 143, 143, 0.336);
+    z-index: 999;
+    display: grid;
+    align-items: center;
+    justify-content: center;
+}
+
+.cardAdd_background {
+    width: 400px;
+    height: 400px;
+    background-color: aliceblue;
+    border-radius: 7px;
+    position: relative;
+    overflow: hidden;
+    padding: 1px;
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+}
+
+.cardAdd_background::before {
+    content: "";
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    background-image: linear-gradient(60deg, transparent, rgb(3, 0, 168));
+    top: -50%;
+    left: -50%;
+    transform-origin: bottom right;
+    animation: rotate linear infinite 6s;
+}
+
+.cardAdd_background::after {
+    content: "";
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    background-image: linear-gradient(60deg, transparent, rgb(168, 0, 173));
+    top: -50%;
+    left: -50%;
+    transform-origin: bottom right;
+    animation: rotate linear infinite 6s;
+    animation-delay: 3s;
+}
+
+.cardAdd {
+    background-color: white;
+    position: absolute;
+    inset: 1px;
+    z-index: 2;
+    border-radius: 7px;
+    display: grid;
+    grid-template-rows: 40px 1fr 50px;
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.title {
+    display: flex;
+    font-size: 14px;
+    font-weight: 400;
+    align-items: center;
+    justify-content: center;
+    color: rgb(0, 10, 95);
+}
+
+.bodyCardAdd {
+
+    display: grid;
+    grid-template-rows: 60px 60px 1fr;
+    grid-template-columns: 200px 100px 100px;
+    padding: 15px;
+    position: relative;
+}
+
+.column_codigo {}
+
+.column_codigo input,
+.column_description input {
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid rgba(102, 102, 102, 0.555);
+    color: rgb(0, 10, 95);
+    outline: none;
+}
+
+.column_codigo label {
+    position: absolute;
+    left: 20px;
+    top: 25px;
+    font-size: 14px;
+    transition: .5s;
+}
+
+.column_codigo input:valid~label,
+.column_codigo input:focus~label {
+    background-color: rgb(10, 0, 146);
+    color: white;
+    border-radius: 7px;
+    transform: translateY(-18px);
+    font-size: 12px;
+    padding: 2px;
+}
+
+.column_description {
+    grid-area: 2/1/2/3;
+    position: relative;
+    display: grid;
+    grid-template-columns: 260px 1fr;
+}
+
+.description input {
+    width: 90%;
+}
+
+.description label {
+    position: absolute;
+    left: 7px;
+    font-size: 14px;
+    top: 10px;
+    transition: .5s;
+}
+
+.description input:valid~label,
+.description input:focus~label {
+    transform: translateY(-17px);
+    background-color: rgb(10, 0, 146);
+    color: white;
+    border-radius: 7px;
+    font-size: 12px;
+    padding: 2px;
+}
+
+.unidade {
+    grid-area: 1/2/1/2;
+    position: relative;
+    transition: .5s;
+}
+
+.unidade input {
+    width: 90px;
+}
+
+.unidade label {
+    position: absolute;
+    left: 5px;
+    top: 10px;
+    font-size: 14px;
+    transition: .5s;
+}
+
+.list {
+    position: absolute;
+}
+
+.list:hover {
+    cursor: default;
+}
+
+.list ul {
+    width: 95px;
+    list-style: none;
+    font-size: 14px;
+    background-color: var(--background-color-blue-700);
+    color: white;
+    border-radius: 7px;
+    overflow: hidden;
+    opacity: 0;
+    transition: .5s;
+}
+.unidade input:focus ~ .list ul{
+    opacity: 1;
+}
+
+.unidade input:valid ~ label,
+.unidade input:focus ~ label{
+    top: -7px;
+    font-size: 12px;
+    background-color: rgb(0, 10, 95);
+    padding: 2px;
+    color: white;
+    border-radius: 7px;
+    transition: .5s;
+
+}
+
+.list ul li {
+    padding: 5px;
+
+}
+
+.list ul li:hover {
+    background-color: var(--background-color-blue-600);
 }

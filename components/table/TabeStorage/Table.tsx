@@ -1,10 +1,14 @@
 "use client"
 
 import style from "./style.module.css";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { CiMenuKebab } from "react-icons/ci";
 import { MdOutlineMapsHomeWork } from "react-icons/md";
 import { BiFilter } from "react-icons/bi";
+
+import CardStorageTeste from "./cardAdd/CardTeste";
+
+const {CardStorage,aquiVai} = CardStorageTeste()
 
 export default function Table() {
 
@@ -46,8 +50,6 @@ export default function Table() {
     const [dataFilterCode, setDataFilterCode] = useState([]);
 
     const [textCode, setTextCode] = useState("");
-
-
 
     interface Item {
         codigo: string,
@@ -283,8 +285,16 @@ export default function Table() {
             "tipo": "PP-2"
         }
     ]
-    function filterText(list: any) {
-        console.log(list)
+    const ListUnidade = () => {
+        return (
+            <ul style={{
+                background: "red"
+            }} >
+                <li>KG</li>
+                <li>ROL</li>
+                <li>MI</li>
+            </ul>
+        )
     }
 
     const filter = List.filter(item => {
@@ -315,7 +325,7 @@ export default function Table() {
             visible: boolean
         }
 
-        const [toogleCard, setToogleCard] = useState(true);
+        const [toogleCard, setToogleCard] = useState(false);
 
 
         const Card = (list: any) => {
@@ -350,8 +360,6 @@ export default function Table() {
                 setListVisible(newList);
             }
             const filter = listVisible.filter((item) => item.text.toLowerCase().includes(text.toLowerCase()))
-
-
 
             return (
                 <div className={style.card_codigo} >
@@ -587,15 +595,96 @@ export default function Table() {
             setSelectedRows
         };
     };
+    const CardAdd = () => {
+        const [toogleCard, setToogleCard] = useState(true);
+        const [boxUnidade, setBoxUnidade] = useState(false);
+        const [textUnidade, setTextUnidade] = useState("");
+        const listUnidade = [
+            {
+                "unidade": "KG"
+            },
+            {
+                "unidade": "ROL"
+            },
+            {
+                "unidade": "MI"
+            }
+        ]
+        const [testeText, setTesteText] = useState("");
+
+        const Card = () => {
+            return (
+                <div className={style.cardAdd_background} >
+                    <div className={style.cardAdd} >
+                        <header className={style.title} >
+                            <h1>NOVO PRODUTO</h1>
+                        </header>
+                        <section className={style.bodyCardAdd} >
+                            <div className={style.column_codigo} >
+                                <input value={testeText} onChange={(e) => setTesteText(e.target.value)} id="codigo" required />
+                                <label htmlFor="codigo" >CÓDIGO</label>
+                            </div>
+                            <div className={style.column_description} >
+                                <div className={style.description} >
+                                    <input id="descricao" required />
+                                    <label htmlFor="descricao" >DESCRIÇÃO</label>
+                                </div>
+                                <div className={style.unidade} >
+                                    <input id="unidade" value={textUnidade} autoComplete="off" onChange={() => { }} required />
+                                    <label htmlFor="unidade" >UNIDADE</label>
+                                    <div className={style.list} >
+                                        <ul>
+                                            <li onClick={() => setTextUnidade("")} >Selecione...</li>
+                                            {listUnidade.map((item: any, index: number) => {
+                                                return (
+                                                    <li onClick={() => setTextUnidade(item.unidade)} key={index} >{item.unidade}</li>
+                                                )
+                                            })}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className={style.column_locale} >
+                            </div>
+                            <div className={style.column_type} >
+                            </div>
+
+                        </section>
+                        <footer>
+
+                            <button >
+                                ALTERAR
+                            </button>
+                        </footer>
+                    </div>
+                </div>
+            )
+        }
+
+        return {
+            toogleCard,
+            setToogleCard,
+            Card,
+            setBoxUnidade,
+            boxUnidade
+        }
+    }
 
 
     const { Card, set_card_filter_type, card_filter_type } = CardFilterType();
     const { Card: CardLocal, set_card_filter_Local, card_filter_Local } = CardFilterLocal();
     const { Card: CardSubs, setToggle, toggle, selectedRows, setSelectedRows } = CardSubstituto();
     const { Card: CardCode, setToogleCard, toogleCard } = CardCodigo(setTextCode);
+    const { Card: CardAddStorage, setToogleCard: setToogleStorage, toogleCard: toogleStorage, setBoxUnidade, boxUnidade } = CardAdd();
 
     return (
         <div className={style.container_table} >
+            <div className={style.container_add} >
+
+                {/* <CardAddStorage /> */}
+                <CardStorage />
+
+            </div>
             <table className={style.table} onClick={() => {
                 set_card_filter_Local(false),
                     set_card_filter_type(false)
@@ -702,7 +791,7 @@ export default function Table() {
                         (
                             <>
                                 <tr style={{
-                                    border:"none"
+                                    border: "none"
                                 }}>
                                     <td style={{
                                         border: 'none'
