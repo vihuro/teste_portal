@@ -56,7 +56,7 @@ const CardStorage = () => {
             "locale": "SHRINK"
         }
     ]
-    const {setToogle:changeToogle,toogle:toogleValue} = toogleCard();
+    const { setToogle: changeToogle, toogle: toogleValue } = toogleCard();
 
     return (
         <div className={style.cardAdd_background} >
@@ -65,24 +65,65 @@ const CardStorage = () => {
                     <h1>NOVO PRODUTO</h1>
                 </header>
                 <section className={style.bodyCardAdd} >
+                    <div className={style.select_locale} >
+                        <fieldset>
+                            <div className={style.titleBox} >
+                                <label>
+                                    LOCAL / ESTOQUE
+                                </label>
+                            </div>
+                            <div className={style.todas}>
+                                <input id="todos" name="local" type="radio" />
+                                <label htmlFor="todos">Todas</label>
+
+                            </div>
+                            <div className={style.matriz}>
+                                <input id="matriz" name="local" type="radio" />
+                                <label htmlFor="matriz" >Matriz</label>
+                            </div>
+                            <div className={style.fabrica}>
+                                <input id="fabrica" name="local" type="radio" />
+                                <label htmlFor="fabrica" >Fabrica</label>
+                            </div>
+
+                        </fieldset>
+                    </div>
                     <div className={style.column_codigo} >
-                        <input value={testeText} onChange={(e) => setTesteText(e.target.value)} id="codigo" required />
+                        <input autoComplete="off"
+                            value={testeText}
+                            onChange={(e) =>
+                                setTesteText(e.target.value)}
+                            id="codigo"
+                            required
+                        />
                         <label htmlFor="codigo" >CÓDIGO</label>
                     </div>
                     <div className={style.column_description} >
-                        <div className={style.description} >
-                            <input id="descricao" required />
-                            <label htmlFor="descricao" >DESCRIÇÃO</label>
-                        </div>
+                        <input autoComplete="off" id="descricao" required />
+                        <label htmlFor="descricao" >DESCRIÇÃO</label>
+                    </div>
+                    <div className={style.column_unidade} >
                         <div className={style.unidade} >
-                            <input id="unidade" value={textUnidade} autoComplete="off" onChange={() => { }} required />
+                            <input id="unidade"
+                                value={textUnidade}
+                                autoComplete="off"
+                                onChange={() => { }}
+                                required
+                            />
                             <label htmlFor="unidade" >UNIDADE</label>
                             <div className={style.list} >
                                 <ul>
                                     <li onClick={() => setTextUnidade("")} >Selecione...</li>
                                     {listUnidade.map((item: any, index: number) => {
                                         return (
-                                            <li onClick={() => setTextUnidade(item.unidade)} key={index} >{item.unidade}</li>
+                                            <li key={index}
+                                                onClick={() => {
+                                                    console.log(item.unidade),
+                                                        setTextUnidade(item.unidade)
+                                                }}
+                                            >
+                                                {item.unidade}
+                                            </li>
                                         )
                                     })}
                                 </ul>
@@ -90,25 +131,48 @@ const CardStorage = () => {
                         </div>
                     </div>
                     <div className={style.column_type} >
-                        <input id="type" required />
-                        <label htmlFor="type">TIPO</label>
-                        <div className={style.listTipo} >
-                            <ul>
-                                {listTipo.map((item: any, index: number) => (
-                                    <li>{item.locale}</li>
-                                ))}
+                        <div className={style.type} >
+                            <input autoComplete="off" id="type" required />
+                            <label htmlFor="type">TIPO</label>
+                            <div className={style.listTipo} >
+                                <ul>
+                                    {listTipo.map((item: any, index: number) => (
+                                        <li>{item.locale}</li>
+                                    ))}
 
-                            </ul>
+                                </ul>
+                            </div>
+
                         </div>
+
                     </div>
-
-
                 </section>
 
-                <footer>
-                    <button onClick={() => changeToogle(false)} >
-                        FECHAR
-                    </button>
+                <footer className={style.container_button} >
+                    <div className={style.container_button_cadastrar}>
+                        <div className={style.button} >
+                            <button
+                                className={style.button_cadastrar}
+                                onClick={() => changeToogle(false)}
+                            >
+                                <span>
+                                    CADASTRAR
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                    <div className={style.container_button_cancelar}>
+                        <div className={style.button} >
+                            <button
+                                className={style.button_cancelar}
+                                onClick={() => changeToogle(false)}
+                            >
+                                <span>
+                                    CANCELAR
+                                </span>
+                            </button>
+                        </div>
+                    </div>
                 </footer>
             </div>
         </div>
@@ -127,7 +191,7 @@ const toogleCard = () => {
 
 
 export default function CardStorageTeste() {
-    const {toogle,setToogle} = toogleCard();
+    const { toogle, setToogle } = toogleCard();
 
     return {
         CardStorage,

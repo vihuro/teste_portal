@@ -396,13 +396,18 @@
     position: absolute;
     width: 100%;
     height: 100%;
-    background-color: rgba(143, 143, 143, 0.336);
+    background-color: rgba(0, 0, 0, 0.336);
+    border-radius: 4px;
+    filter: blur(-10px);
     z-index: 999;
     display: grid;
     align-items: center;
     justify-content: center;
     transition: .5s;
-    
+}
+
+.container_add ~.table{
+    filter: blur(.9px);
 }
 
 .container_add_close {

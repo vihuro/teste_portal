@@ -2,7 +2,7 @@
     position: absolute;
     width: 100%;
     height: 100%;
-    background-color: rgba(143, 143, 143, 0.336);
+    background-color: rgba(255, 255, 255, 0.336);
     z-index: 999;
     display: grid;
     align-items: center;
@@ -10,9 +10,9 @@
 }
 
 .cardAdd_background {
-    width: 400px;
+    width: 450px;
     height: 400px;
-    background-color: aliceblue;
+    background-color: white;
     border-radius: 7px;
     position: relative;
     overflow: hidden;
@@ -33,7 +33,7 @@
     top: -50%;
     left: -50%;
     transform-origin: bottom right;
-    animation: rotate linear infinite 6s;
+    animation: rotate linear infinite 8s;
 }
 
 .cardAdd_background::after {
@@ -46,8 +46,8 @@
     top: -50%;
     left: -50%;
     transform-origin: bottom right;
-    animation: rotate linear infinite 6s;
-    animation-delay: 3s;
+    animation: rotate linear infinite 8s;
+    animation-delay: 4s;
 }
 
 .cardAdd {
@@ -80,69 +80,184 @@
 }
 
 .bodyCardAdd {
-
     display: grid;
-    grid-template-rows: 60px 60px 1fr;
-    grid-template-columns: 200px 100px 100px;
+    grid-template-rows: 60px 60px 60px 60px 1fr;
+    grid-template-columns: 200px 100px 1fr;
     padding: 15px;
     position: relative;
 }
 
-.column_codigo {}
+.select_locale {
+    grid-area: 1/1/1/4;
+    display: grid;
+    padding-bottom: 15px;
+}
+
+.select_locale fieldset {
+    border: 1px solid rgb(0, 10, 95);
+    border-radius: 7px;
+    position: relative;
+    display: grid;
+    grid-template-rows: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
+    justify-content: center;
+    padding-top: 7px;
+}
+
+.todas,
+.matriz,
+.fabrica {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.todas label,
+.matriz label,
+.fabrica label {
+    font-size: 12px;
+    font-weight: 600;
+}
+
+
+.todas {
+    grid-area: 1/1/3/1;
+}
+
+.matriz {
+    grid-area: 1/2/3/2;
+}
+
+.matriz label,
+.fabrica label,
+.todas label {
+    position: relative;
+    left: 7px;
+    padding: 3px;
+    border-radius: 5px;
+}
+
+.todas label {
+    background-color: rgb(42, 236, 172);
+    color: rgb(0, 94, 8);
+}
+
+.matriz label {
+    background-color: rgb(233, 24, 24);
+    color: white;
+
+}
+
+.fabrica label {
+
+    background-color: rgba(132, 24, 233, 0.644);
+    color: white;
+
+}
+
+.fabrica {
+    grid-area: 1/3/3/3;
+
+}
+
+
+.body_locale {
+    grid-area: 1/2/2/2;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid;
+}
+
+.titleBox {
+    position: absolute;
+    width: 130px;
+}
+
+.select_locale fieldset .titleBox label {
+    font-size: 12px;
+    position: absolute;
+    top: -12px;
+    left: 15px;
+    background-color: rgb(0, 10, 95);
+    padding: 5px;
+    color: rgb(255, 255, 255);
+    padding: 5px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 600;
+}
+
+.column_codigo {
+    grid-area: 2/1/2/3;
+    position: relative;
+}
+
+.column_codigo input,
+.column_description input {
+    width: 90%;
+
+}
 
 .column_codigo input,
 .column_description input,
+.column_unidade input,
 .column_type input {
-    padding: 10px;
+    padding: 17px 10px 10px 10px;
     border-radius: 4px;
     border: 1px solid rgba(102, 102, 102, 0.555);
     color: rgb(0, 10, 95);
     outline: none;
+
 }
 
 .column_codigo label {
     position: absolute;
-    left: 20px;
-    top: 25px;
+    left: 15px;
+    top: 14px;
     font-size: 14px;
     transition: .5s;
 }
 
 .column_codigo input:valid~label,
 .column_codigo input:focus~label {
+    transform: translateY(-23px);
     background-color: rgb(10, 0, 146);
     color: white;
-    border-radius: 7px;
-    transform: translateY(-18px);
+    border-radius: 4px;
     font-size: 12px;
     padding: 2px;
 }
 
 .column_description {
-    grid-area: 2/1/2/3;
+    grid-area: 3/1/3/3;
+    position: relative;
+}
+
+.column_unidade {
+    grid-area: 3/3/3/4;
     position: relative;
     display: grid;
-    grid-template-columns: 260px 1fr;
 }
 
-.description input {
-    width: 90%;
-}
 
-.description label {
+
+.column_description label {
     position: absolute;
     left: 7px;
     font-size: 14px;
-    top: 10px;
+    top: 14px;
     transition: .5s;
 }
 
-.description input:valid~label,
-.description input:focus~label {
-    transform: translateY(-17px);
+.column_description input:valid~label,
+.column_description input:focus~label {
+    transform: translateY(-23px);
     background-color: rgb(10, 0, 146);
     color: white;
-    border-radius: 7px;
+    border-radius: 4px;
     font-size: 12px;
     padding: 2px;
 }
@@ -160,13 +275,14 @@
 .unidade label {
     position: absolute;
     left: 5px;
-    top: 10px;
+    top: 14px;
     font-size: 14px;
     transition: .5s;
 }
 
 .list {
     position: absolute;
+    z-index: 700;
 }
 
 .list:hover {
@@ -175,28 +291,56 @@
 
 .list ul {
     width: 95px;
+    height: 0px;
     list-style: none;
     font-size: 14px;
     background-color: var(--background-color-blue-700);
     color: white;
     border-radius: 7px;
     overflow: hidden;
-    opacity: 0;
     transition: .5s;
+    opacity: 0;
 }
+
+.select_locale input[type="radio"] {
+    appearance: none;
+    border: 1px solid rgb(0, 10, 95);
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+}
+
+.todas input[type="radio"]:checked {
+    background-image: radial-gradient(rgb(255, 255, 255) 35%, rgb(42, 236, 172) 10%);
+    border: 1px solid rgb(42, 236, 172);
+}
+
+.matriz input[type="radio"]:checked {
+    background-image: radial-gradient(rgb(255, 255, 255) 35%, rgba(233, 24, 34, 0.973) 10%);
+    border: 1px solid rgb(233, 24, 34, 0.973);
+}
+
+.fabrica input[type="radio"]:checked {
+    background-image: radial-gradient(rgb(255, 255, 255) 35%, rgba(132, 24, 233, 0.644) 10%);
+    border: 1px solid rgba(132, 24, 233, 0.644);
+}
+
 
 .unidade input:focus~.list ul {
     opacity: 1;
+    height: 120px;
+    pointer-events: all;
 }
+
 
 .unidade input:valid~label,
 .unidade input:focus~label {
-    top: -7px;
+    transform: translateY(-23px);
     font-size: 12px;
     background-color: rgb(10, 0, 146);
     padding: 2px;
     color: white;
-    border-radius: 7px;
+    border-radius: 4px;
     transition: .5s;
 
 }
@@ -211,45 +355,167 @@
 }
 
 .column_type {
-    grid-area: 3/1/3/1;
+    grid-area: 4/1/4/4;
     position: relative;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
 }
 
 .column_type label {
     position: absolute;
-    top: 10px;
+    top: 14px;
     left: 7px;
     font-size: 14px;
     transition: .5s;
 }
-.column_type input:valid ~ label,
-.column_type input:focus ~ label{
-    top: -7px;
+
+.column_type input:valid~label,
+.column_type input:focus~label {
+    transform: translateY(-23px);
     transition: .5s;
     background-color: rgb(10, 0, 146);
     color: white;
     padding: 2px;
     font-size: 11px;
-    border-radius: 7px;
+    border-radius: 4px;
 }
-.listTipo{
+
+.listTipo {
     position: absolute;
     top: 40px;
     opacity: 0;
     transition: .5s;
 }
-.column_type input:focus ~ .listTipo{
+
+.column_type input:focus~.listTipo {
     opacity: 1;
 }
-.listTipo ul{
+
+.listTipo ul {
     width: 180px;
     height: 100px;
-    overflow:  auto;
+    overflow: auto;
     background-color: rgb(0, 10, 95);
     list-style: none;
     color: white;
     border-radius: 7px;
 }
-.listTipo ul li{
+
+.listTipo ul li {
     padding: 5px;
+}
+
+.container_button {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.button {
+    width: 155px;
+    height: 40px;
+    padding: 0 0 0 15px;
+    position: relative;
+}
+
+.button button {
+    border: none;
+}
+
+.button button span {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    display: flex;
+    top: 0;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: none;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    border-top: 1px solid rgba(22, 22, 22, 0.137);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 30px;
+    z-index: 1;
+    font-weight: 500;
+    letter-spacing: 1px;
+    overflow: hidden;
+    transition: 0.5s;
+    backdrop-filter: blur(15px);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.button button span:hover {
+    letter-spacing: 3px;
+}
+
+.button button span::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50%;
+    height: 100%;
+    background-image: linear-gradient(to left, rgba(232, 230, 236, 0.219), transparent);
+    transform: skewX(45deg) translateX(0px);
+    transition: .5s;
+}
+
+.button button span:hover::before {
+    transform: skewX(45deg) translateX(200%);
+}
+
+.button button::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    transform: translateX(-40%);
+    bottom: -5px;
+    width: 30px;
+    height: 10px;
+    background-color: #f00;
+    border-radius: 10px;
+    transition: 0.5s;
+}
+
+.button button:hover::before {
+    bottom: 0;
+    height: 50%;
+    width: 60%;
+    border-radius: 30px;
+}
+
+.button button::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    transform: translateX(-40%);
+    top: -5px;
+    width: 30px;
+    height: 10px;
+    background-color: #f00;
+    border-radius: 10px;
+    transition: 0.5s;
+}
+
+.button button:hover::after {
+    top: 0;
+    height: 50%;
+    width: 60%;
+    border-radius: 30px;
+}
+
+.container_button .container_button_cadastrar  button::before,
+.container_button .container_button_cadastrar  button::after {
+    background-color: #09e95f;
+    box-shadow: 0 0 15px #09e95f,
+        0 0 30px #09e95f,
+        0 0 60px #09e95f;
+}
+
+.container_button .container_button_cancelar  button::before,
+.container_button .container_button_cancelar  button::after {
+    background-color: #ff1f71;
+    box-shadow: 0 0 15px #ff1f71,
+        0 0 30px #ff1f71,
+        0 0 60px #ff1f71;
 }
