@@ -6,11 +6,12 @@ import { CiMenuKebab } from "react-icons/ci";
 import { MdOutlineMapsHomeWork } from "react-icons/md";
 import { BiFilter } from "react-icons/bi";
 
-import CardStorageTeste from "./cardAdd/CardTeste";
+import CardStorageTeste from "./cardAdd/Card";
 
-const {CardStorage,aquiVai} = CardStorageTeste()
 
 export default function Table() {
+
+    const { CardStorage, toogle: toogleAdd, setToogle: changeToogleAdd } = CardStorageTeste()
 
 
     const [dataFiltterTypes, setDataFilterTypes] = useState({
@@ -669,8 +670,6 @@ export default function Table() {
             boxUnidade
         }
     }
-
-
     const { Card, set_card_filter_type, card_filter_type } = CardFilterType();
     const { Card: CardLocal, set_card_filter_Local, card_filter_Local } = CardFilterLocal();
     const { Card: CardSubs, setToggle, toggle, selectedRows, setSelectedRows } = CardSubstituto();
@@ -679,11 +678,11 @@ export default function Table() {
 
     return (
         <div className={style.container_table} >
-            <div className={style.container_add} >
-
-                {/* <CardAddStorage /> */}
-                <CardStorage />
-
+            <button onClick={() => changeToogleAdd(!toogleAdd)}>
+                Adicionar Produto
+            </button>
+            <div className={toogleAdd ? style.container_add : style.container_add_close} >
+                <CardStorage  />
             </div>
             <table className={style.table} onClick={() => {
                 set_card_filter_Local(false),

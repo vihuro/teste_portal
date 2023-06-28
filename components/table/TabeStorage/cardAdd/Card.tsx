@@ -34,6 +34,29 @@ const CardStorage = () => {
             "unidade": "MI"
         }
     ]
+    const listTipo = [
+        {
+            "locale": "PET VIRGEM"
+        },
+        {
+            "locale": "PET-2"
+        }, {
+            "locale": "PP VIRGEM"
+        },
+        {
+            "locale": "PP-2"
+        },
+        {
+            "locale": "STRETCH"
+        },
+        {
+            "locale": "STRETCH ECO"
+        },
+        {
+            "locale": "SHRINK"
+        }
+    ]
+    const {setToogle:changeToogle,toogle:toogleValue} = toogleCard();
 
     return (
         <div className={style.cardAdd_background} >
@@ -66,29 +89,50 @@ const CardStorage = () => {
                             </div>
                         </div>
                     </div>
-                    <div className={style.column_locale} >
-                    </div>
                     <div className={style.column_type} >
+                        <input id="type" required />
+                        <label htmlFor="type">TIPO</label>
+                        <div className={style.listTipo} >
+                            <ul>
+                                {listTipo.map((item: any, index: number) => (
+                                    <li>{item.locale}</li>
+                                ))}
+
+                            </ul>
+                        </div>
                     </div>
+
 
                 </section>
 
                 <footer>
+                    <button onClick={() => changeToogle(false)} >
+                        FECHAR
+                    </button>
                 </footer>
             </div>
         </div>
     )
 }
-const aquiVai = () => {
-    const [texto, setTeso] = useState("teste");
 
-    return texto;
+const toogleCard = () => {
+
+    const [toogle, setToogle] = useState(false);
+
+    return {
+        toogle,
+        setToogle
+    };
 }
 
 
 export default function CardStorageTeste() {
+    const {toogle,setToogle} = toogleCard();
+
     return {
         CardStorage,
-        aquiVai
+        toogle,
+        setToogle
+
     }
 }
