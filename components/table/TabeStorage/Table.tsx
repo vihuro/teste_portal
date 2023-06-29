@@ -607,7 +607,7 @@ export default function Table() {
         <div className={style.container_table} >
 
             <div className={toogleAdd ? style.container_add : style.container_add_close} >
-                <CardStorage />
+                <CardStorage changeToogle={setToogleCard} toogle={toogleAdd}/>
             </div>
             <div className={style.container_button} >
                 <div className={style.wrap_containerButton} >

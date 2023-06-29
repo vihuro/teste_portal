@@ -384,23 +384,29 @@
 .listTipo {
     position: absolute;
     top: 40px;
-    opacity: 0;
+    height: 0px;
+   
     transition: .5s;
     z-index: 700;
+
 }
 
 .column_type input:focus~.listTipo {
     opacity: 1;
 }
+.column_type input:focus~.listTipo ul{
+    height: 100px;
+}
 
 .listTipo ul {
     width: 180px;
-    height: 100px;
+    height: 0;
     overflow: auto;
     background-color: rgb(0, 10, 95);
     list-style: none;
     color: white;
     border-radius: 7px;
+    transition: .5s;
 }
 
 .listTipo ul li {
