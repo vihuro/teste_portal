@@ -1,8 +1,10 @@
 .body {
     width: calc(100% - 100px);
+    height: calc(100vh - 110px) ;
     position: relative;
     left: 100px;
     top: 100px;
+    overflow: hidden;
   }
   
   @media(max-width:770px){
@@ -11,5 +13,6 @@
       position: relative;
       left: 20px;
       top: 100px;
+      overflow: hidden;
     }
   }

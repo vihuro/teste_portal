@@ -1,27 +1,18 @@
 "use client"
-
 import { useState } from "react"
 import style from "./style.module.css";
 
-const CardStorage = () => {
+const CardStorage = ({
+    toogle,
+    changeToogle
+}: {
+    toogle: boolean,
+    changeToogle: Function
+}) => {
     const [testeText, setTesteText] = useState("");
     const [textUnidade, setTextUnidade] = useState("");
 
-    const [widgets, setWidget] = useState<string[]>([]);
 
-    function handleOnDrag(e: React.DragEvent, widgetType: string) {
-        e.dataTransfer?.setData("widgetType", widgetType);
-    }
-
-    function handleOnDrop(e: React.DragEvent) {
-        const widgetType = e.dataTransfer.getData("widgetType") as string;
-        setWidget([...widgets, widgetType])
-    }
-    function handleDragOver(e: React.DragEvent) {
-
-        e.preventDefault();
-
-    }
 
     const listUnidade = [
         {
@@ -56,7 +47,7 @@ const CardStorage = () => {
             "locale": "SHRINK"
         }
     ]
-    const { setToogle: changeToogle, toogle: toogleValue } = toogleCard();
+
 
     return (
         <div className={style.cardAdd_background} >
@@ -136,24 +127,23 @@ const CardStorage = () => {
                             <label htmlFor="type">TIPO</label>
                             <div className={style.listTipo} >
                                 <ul>
+                                    <li>Selecione...</li>
                                     {listTipo.map((item: any, index: number) => (
-                                        <li>{item.locale}</li>
+                                        <li key={index} >{item.locale}</li>
                                     ))}
 
                                 </ul>
                             </div>
 
                         </div>
-
                     </div>
                 </section>
-
                 <footer className={style.container_button} >
                     <div className={style.container_button_cadastrar}>
                         <div className={style.button} >
                             <button
                                 className={style.button_cadastrar}
-                                onClick={() => changeToogle(false)}
+                                onClick={() => {}}
                             >
                                 <span>
                                     CADASTRAR
@@ -165,7 +155,10 @@ const CardStorage = () => {
                         <div className={style.button} >
                             <button
                                 className={style.button_cancelar}
-                                onClick={() => changeToogle(false)}
+                                onClick={() =>{ 
+
+                                    changeToogle(false)
+                                }}
                             >
                                 <span>
                                     CANCELAR

@@ -1,6 +1,6 @@
 "use client"
 
-import style from "./style.module.css";
+import style from "./styleTable.module.css";
 import { use, useEffect, useState } from "react";
 import { CiMenuKebab } from "react-icons/ci";
 import { MdOutlineMapsHomeWork } from "react-icons/md";
@@ -12,6 +12,8 @@ import CardStorageTeste from "./cardAdd/Card";
 export default function Table() {
 
     const { CardStorage, toogle: toogleAdd, setToogle: changeToogleAdd } = CardStorageTeste()
+
+    const [cardAdd, setCardAdd] = useState(false);
 
 
     const [dataFiltterTypes, setDataFilterTypes] = useState({
@@ -607,7 +609,7 @@ export default function Table() {
         <div className={style.container_table} >
 
             <div className={toogleAdd ? style.container_add : style.container_add_close} >
-                <CardStorage />
+                <CardStorage toogle={toogleAdd} changeToogle={changeToogleAdd} />
             </div>
             <div className={style.container_button} >
                 <div className={style.wrap_containerButton} >
@@ -631,7 +633,7 @@ export default function Table() {
                                         e.stopPropagation(),
                                             setToogleCard(!toogleCard)
                                     }} />
-                                    <div className={toogleCard ? style.container_codigo : style.container_codigo_close} >
+                                    <div onClick={e => e.stopPropagation()} className={toogleCard ? style.container_codigo : style.container_codigo_close} >
                                         <CardCode list={listCode} />
                                     </div>
                                 </th>
