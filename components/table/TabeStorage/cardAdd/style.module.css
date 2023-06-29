@@ -385,6 +385,7 @@
     top: 40px;
     opacity: 0;
     transition: .5s;
+    z-index: 700;
 }
 
 .column_type input:focus~.listTipo {
