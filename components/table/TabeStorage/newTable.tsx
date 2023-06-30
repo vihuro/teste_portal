@@ -606,28 +606,60 @@ export default function Table() {
 
     const [value, setValue] = useState("");
 
+    const [valueDooble, setValueDooble] = useState(0);
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-        const number = e.target.value;
-      
-        let formattedNumber = number.replace(/\D/g, ''); // Remove todos os caracteres não numéricos
-      
-        if (formattedNumber.length > 3) {
-          const integerPart = formattedNumber.slice(0, -3);
-          const decimalPart = formattedNumber.slice(-3);
-          formattedNumber = `${integerPart}.${decimalPart}`;
-          
-          let dotCount = Math.floor((integerPart.length - 1) / 3);
-          let dotPosition = integerPart.length - dotCount * 3;
-      
-          while (dotCount > 0) {
-            formattedNumber = formattedNumber.slice(0, dotPosition) + '.' + formattedNumber.slice(dotPosition);
-            dotPosition += 4;
-            dotCount--;
-          }
-        }
-      
-        setValue(formattedNumber);
-      };
+
+        const text = e.target.value;
+
+        const string = text.replaceAll(".", "").replace(",", ".");
+
+        const dooble = parseFloat(string)
+        const stringInput = dooble.toLocaleString("pt-Br", {
+            style: "decimal",
+            maximumFractionDigits:2
+        })
+
+
+        const caracteres = e.target.value.length;
+        const lastCharacter = e.target.value.charAt(caracteres - 1);
+
+
+        const testeInStringInput = lastCharacter === "," ? stringInput + "," : stringInput
+
+        setValueDooble(valueDooble);
+
+        setValue(testeInStringInput)
+
+
+
+        // const number = e.target.value;
+
+        // let formattedNumber = number.replace(/\D/g, ''); // Remove todos os caracteres não numéricos
+
+        // if (formattedNumber.length > 3) {
+        //   const integerPart = formattedNumber.slice(0, -3);
+        //   const decimalPart = formattedNumber.slice(-3);
+        //   formattedNumber = `${integerPart}.${decimalPart}`;
+
+        //   let dotCount = Math.floor((integerPart.length - 1) / 3);
+        //   let dotPosition = integerPart.length - dotCount * 3;
+
+        //   while (dotCount > 0) {
+        //     formattedNumber = formattedNumber.slice(0, dotPosition) + '.' + formattedNumber.slice(dotPosition);
+        //     dotPosition += 4;
+        //     dotCount--;
+        //   }
+        // }
+
+        // setValue(formattedNumber);
+    };
+
+    const converText = (text: string) => {
+        const string = text.replace(".", ",");
+
+
+    }
 
     return (
         <div className={style.container_table} >
