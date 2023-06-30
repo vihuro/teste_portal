@@ -1,7 +1,7 @@
 "use client"
 
 import style from "./styleTable.module.css";
-import { use, useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import { CiMenuKebab } from "react-icons/ci";
 import { MdOutlineMapsHomeWork } from "react-icons/md";
 import { BiFilter } from "react-icons/bi";
@@ -604,6 +604,30 @@ export default function Table() {
     const { Card: CardSubs, setToggle, toggle, selectedRows, setSelectedRows } = CardSubstituto();
     const { Card: CardCode, setToogleCard, toogleCard } = CardCodigo(setTextCode);
 
+    const [value, setValue] = useState("");
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+        const number = e.target.value;
+      
+        let formattedNumber = number.replace(/\D/g, ''); // Remove todos os caracteres não numéricos
+      
+        if (formattedNumber.length > 3) {
+          const integerPart = formattedNumber.slice(0, -3);
+          const decimalPart = formattedNumber.slice(-3);
+          formattedNumber = `${integerPart}.${decimalPart}`;
+          
+          let dotCount = Math.floor((integerPart.length - 1) / 3);
+          let dotPosition = integerPart.length - dotCount * 3;
+      
+          while (dotCount > 0) {
+            formattedNumber = formattedNumber.slice(0, dotPosition) + '.' + formattedNumber.slice(dotPosition);
+            dotPosition += 4;
+            dotCount--;
+          }
+        }
+      
+        setValue(formattedNumber);
+      };
 
     return (
         <div className={style.container_table} >
@@ -612,11 +636,22 @@ export default function Table() {
                 <CardStorage toogle={toogleAdd} changeToogle={changeToogleAdd} />
             </div>
             <div className={style.container_button} >
+
                 <div className={style.wrap_containerButton} >
                     <button onClick={() => changeToogleAdd(!toogleAdd)}>
                         Adicionar Produto
                     </button>
                 </div>
+                <input style={{
+                    width: 100,
+                    height: 40,
+                    position: "relative",
+                    left: 150,
+                    top: 100
+                }}
+                    value={value}
+                    onChange={handleChange}
+                />
 
             </div>
             <div className={style.wrap_container_table} >

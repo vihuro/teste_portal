@@ -610,10 +610,12 @@ export default function Table() {
                 <CardStorage changeToogle={setToogleCard} toogle={toogleAdd}/>
             </div>
             <div className={style.container_button} >
+                
                 <div className={style.wrap_containerButton} >
                     <button onClick={() => changeToogleAdd(!toogleAdd)}>
                         Adicionar Produto
                     </button>
+                    <input />
                 </div>
 
             </div>
