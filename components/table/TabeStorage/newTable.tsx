@@ -674,7 +674,7 @@ export default function Table() {
                         Adicionar Produto
                     </button>
                 </div>
-                <input style={{
+                {/* <input style={{
                     width: 100,
                     height: 40,
                     position: "relative",
@@ -683,7 +683,7 @@ export default function Table() {
                 }}
                     value={value}
                     onChange={handleChange}
-                />
+                /> */}
 
             </div>
             <div className={style.wrap_container_table} >
