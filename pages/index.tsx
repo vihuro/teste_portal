@@ -1,16 +1,16 @@
 import MenuBar from "../components/menuBar/MenuBar";
+import Body from "../components/table/Body";
+
 import Table from "../components/table/TabeStorage/Table";
-import TableTeste from "../components/table/TabeStorage/newTable";
 import style from "./style.module.css";
 
 export default function Home() {
     return (
-        <div  >
+        <section>
             <MenuBar />
-            <div className={style.body} >
-                <TableTeste />
-                {/* <Table /> */}
-            </div>
-        </div>
+            <Body>
+                <Table />
+            </Body>
+        </section>
     )
 }

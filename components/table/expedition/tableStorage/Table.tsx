@@ -1,6 +1,6 @@
 "use client"
 
-import style from "./styleTable.module.css";
+import style from "./style.module.css";
 import React, { use, useEffect, useState } from "react";
 import { CiMenuKebab } from "react-icons/ci";
 import { MdOutlineMapsHomeWork } from "react-icons/md";
@@ -14,7 +14,6 @@ export default function Table() {
     const { CardStorage, toogle: toogleAdd, setToogle: changeToogleAdd } = CardStorageTeste()
 
     const [cardAdd, setCardAdd] = useState(false);
-
 
     const [dataFiltterTypes, setDataFilterTypes] = useState({
 

@@ -1,7 +1,7 @@
 "use client"
 
 import style from "./style.module.css";
-import { use, useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import { CiMenuKebab } from "react-icons/ci";
 import { MdOutlineMapsHomeWork } from "react-icons/md";
 import { BiFilter } from "react-icons/bi";
@@ -13,6 +13,7 @@ export default function Table() {
 
     const { CardStorage, toogle: toogleAdd, setToogle: changeToogleAdd } = CardStorageTeste()
 
+    const [cardAdd, setCardAdd] = useState(false);
 
     const [dataFiltterTypes, setDataFilterTypes] = useState({
 
@@ -602,21 +603,86 @@ export default function Table() {
     const { Card: CardSubs, setToggle, toggle, selectedRows, setSelectedRows } = CardSubstituto();
     const { Card: CardCode, setToogleCard, toogleCard } = CardCodigo(setTextCode);
 
+    const [value, setValue] = useState("");
+
+    const [valueDooble, setValueDooble] = useState(0);
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+
+        const text = e.target.value;
+
+        const string = text.replaceAll(".", "").replace(",", ".");
+
+        const dooble = parseFloat(string)
+        const stringInput = dooble.toLocaleString("pt-Br", {
+            style: "decimal",
+            maximumFractionDigits:2
+        })
+
+
+        const caracteres = e.target.value.length;
+        const lastCharacter = e.target.value.charAt(caracteres - 1);
+
+
+        const testeInStringInput = lastCharacter === "," ? stringInput + "," : stringInput
+
+        setValueDooble(valueDooble);
+
+        setValue(testeInStringInput)
+
+
+
+        // const number = e.target.value;
+
+        // let formattedNumber = number.replace(/\D/g, ''); // Remove todos os caracteres não numéricos
+
+        // if (formattedNumber.length > 3) {
+        //   const integerPart = formattedNumber.slice(0, -3);
+        //   const decimalPart = formattedNumber.slice(-3);
+        //   formattedNumber = `${integerPart}.${decimalPart}`;
+
+        //   let dotCount = Math.floor((integerPart.length - 1) / 3);
+        //   let dotPosition = integerPart.length - dotCount * 3;
+
+        //   while (dotCount > 0) {
+        //     formattedNumber = formattedNumber.slice(0, dotPosition) + '.' + formattedNumber.slice(dotPosition);
+        //     dotPosition += 4;
+        //     dotCount--;
+        //   }
+        // }
+
+        // setValue(formattedNumber);
+    };
+
+    const converText = (text: string) => {
+        const string = text.replace(".", ",");
+
+
+    }
 
     return (
         <div className={style.container_table} >
 
             <div className={toogleAdd ? style.container_add : style.container_add_close} >
-                <CardStorage changeToogle={setToogleCard} toogle={toogleAdd}/>
+                <CardStorage toogle={toogleAdd} changeToogle={changeToogleAdd} />
             </div>
             <div className={style.container_button} >
-                
+
                 <div className={style.wrap_containerButton} >
                     <button onClick={() => changeToogleAdd(!toogleAdd)}>
                         Adicionar Produto
                     </button>
-                    <input />
                 </div>
+                {/* <input style={{
+                    width: 100,
+                    height: 40,
+                    position: "relative",
+                    left: 150,
+                    top: 100
+                }}
+                    value={value}
+                    onChange={handleChange}
+                /> */}
 
             </div>
             <div className={style.wrap_container_table} >
@@ -633,7 +699,7 @@ export default function Table() {
                                         e.stopPropagation(),
                                             setToogleCard(!toogleCard)
                                     }} />
-                                    <div className={toogleCard ? style.container_codigo : style.container_codigo_close} >
+                                    <div onClick={e => e.stopPropagation()} className={toogleCard ? style.container_codigo : style.container_codigo_close} >
                                         <CardCode list={listCode} />
                                     </div>
                                 </th>

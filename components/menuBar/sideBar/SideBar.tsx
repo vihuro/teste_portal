@@ -50,11 +50,10 @@ export default function SideBar() {
         setListMenus(newList);
     }
 
-
     return (
         <section className={
-            `${toogle ? 
-                style.side_bar:
+            `${toogle ?
+                style.side_bar :
                 style.side_bar_close
             }`} >
             <header className={style.header} >
@@ -71,7 +70,7 @@ export default function SideBar() {
                             key={index}
                         >
                             {item.icon}
-                            <a href={item.link} >{item.text}</a>
+                            <a  >{item.text}</a>
                         </li>
                     ))}
                     <div className={style.selector} style={{
