@@ -99,7 +99,7 @@ export function FilterUnidade({ list, lisColors }: { list: listUnidade[], lisCol
                             name="marcar_unidade"
                             onChange={DesmarcarTodos}
                             type="radio" />
-                        <label htmlFor="desmarcar_todos">Desmar Todos</label>
+                        <label htmlFor="desmarcar_todos">Desmarcar Todos</label>
                     </div>
                 </section>
                 <article className={style.container_list} >
