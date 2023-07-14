@@ -6,6 +6,7 @@ import { FiEdit } from "react-icons/fi";
 import { CiMenuKebab } from 'react-icons/ci';
 import { FilterCodigo } from "./filterCodigo/FilterCodigo";
 import { FilterUnidade } from "./filterUnidade/FilterUnidade";
+import { FilterTipo } from "./filterTipo/FilterTipo";
 
 interface TableProps {
     id: string,
@@ -155,6 +156,10 @@ const colorUnidade: colorsUnidade[] = [
         color: "#7b7b04"
     }
 ]
+interface listTipoVisible {
+    tipo: string,
+    visible: boolean
+}
 
 function getColor(text: string) {
     const color = colorUnidade.find(item => item.TIPO === text);
@@ -183,7 +188,8 @@ export default function Table() {
     const [data, setData] = useState<TableProps[]>();
     const [filter, setFilter] = useState<TableProps[]>([]);
     const [toogleCodigo, setToogleCodigo] = useState(false);
-    const [toogleUnidade, setToogleUnidade] = useState(true);
+    const [toogleUnidade, setToogleUnidade] = useState(false);
+    const [toogleTipo, setToogleTipo] = useState(false);
 
 
 
@@ -212,27 +218,48 @@ export default function Table() {
                 TIPO: item.TIPO
             }))
         })
+    const { List: ListTipo,
+        filter: dataFilterTipo,
+        setFilter: setDataFilterTipo } = FilterTipo({
+            list: data?.map(item => (
+                {
+                    tipo: item.tipoMaterial
+                }
+            )) ?? [],
+            lisColors: colorUnidade.map(item => (
+                {
+                    backgroundcolor: item.backgroundcolor,
+                    color: item.color,
+                    TIPO: item.TIPO
+                }
+            ))
+        })
 
     useEffect(() => {
         changeFilter(Mock as TableProps[],
             dataListCodigo as ListCodigoVisible[],
-            dataListUnidade as ListUnidadeVisible[]
+            dataListUnidade as ListUnidadeVisible[],
+            dataFilterTipo as listTipoVisible[]
         )
 
         setData(Mock as TableProps[]);
 
-    }, [dataListCodigo, dataListUnidade])
+    }, [dataListCodigo, dataListUnidade, dataFilterTipo])
 
     function changeFilter(list: TableProps[],
         listCodigo: ListCodigoVisible[],
-        listUnidade: ListUnidadeVisible[]) {
+        listUnidade: ListUnidadeVisible[],
+        listTipo: listTipoVisible[]) {
 
         let newList: TableProps[] = [];
         list.map(item => {
             const verifyCodigo = listCodigo.filter(codigo => item.codigo === codigo.codigo && codigo.visible);
             const verifyUnidade = listUnidade.filter(unidade => item.unidade === unidade.unidade && unidade.visible);
+            const verifyTipo = listTipo.filter(tipo => item.tipoMaterial === tipo.tipo && tipo.visible);
 
-            if (verifyCodigo.length > 0 && verifyUnidade.length > 0) newList.push(item)
+            if (verifyCodigo.length > 0 &&
+                verifyUnidade.length > 0 &&
+                verifyTipo.length > 0) newList.push(item)
 
         })
         setFilter(newList)
@@ -269,9 +296,18 @@ export default function Table() {
                                     </div>
                                     UND.
                                     <CiMenuKebab onClick={() => setToogleUnidade(!toogleUnidade)} />
-
                                 </th>
-                                <th>Tipo</th>
+                                <th>
+                                    <div className={
+                                        toogleTipo ?
+                                            style.cardTipo :
+                                            style.cardTipo_close
+                                    } >
+                                        <ListTipo />
+                                    </div>
+                                    Tipo
+                                    <CiMenuKebab onClick={() => setToogleTipo(!toogleTipo)} />
+                                </th>
                                 <th>MAX.</th>
                                 <th>SEG.</th>
                                 <th>MIN.</th>

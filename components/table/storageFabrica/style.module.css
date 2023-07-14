@@ -94,7 +94,8 @@
 }
 
 .cardFilter,
-.cardUnidade {
+.cardUnidade,
+.cardTipo {
     position: absolute;
     width: 150px;
     height: 200px;
@@ -111,7 +112,8 @@
 }
 
 .cardFilter_close,
-.cardUnidade_close {
+.cardUnidade_close,
+.cardTipo_close {
     position: absolute;
     width: 20px;
     height: 20px;

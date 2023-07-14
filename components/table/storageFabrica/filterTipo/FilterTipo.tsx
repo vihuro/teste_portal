@@ -1,47 +1,51 @@
 import { useEffect, useState } from "react";
 import style from "./style.module.css";
+import { randomUUID } from "crypto";
 import { v4 as uuidv4 } from "uuid";
 
-interface listUnidade {
-    unidade: string
+interface listTipo {
+    tipo: string
 }
-interface listUnidadeVisible {
+interface listTipoVisible {
     id: string,
-    unidade: string,
+    tipo: string,
     visible: boolean
 }
-interface colorsUnidade {
+interface colorsTipo {
     TIPO: string,
     backgroundcolor: string,
     color: string
 }
 
 
-export function FilterUnidade({ list, lisColors }: { list: listUnidade[], lisColors: colorsUnidade[] }) {
+export function FilterTipo({ list, lisColors }: { list: listTipo[], lisColors: colorsTipo[] }) {
 
-    const [data, setData] = useState<listUnidade[]>([]);
-    const [filter, setFilter] = useState<listUnidadeVisible[]>([]);
+    const [data, setData] = useState<listTipo[]>([]);
+    const [filter, setFilter] = useState<listTipoVisible[]>([]);
     const [marcarTodos, setDesmarcarTodos] = useState({
         marcar: true,
         demarcar: false
     })
 
+
     useEffect(() => {
         if (filter.length === 0) {
-            const filterList: listUnidadeVisible[] = list.map(item => ({
+
+            const filterList: listTipoVisible[] = list.map(item => ({
                 id: uuidv4(),
-                unidade: item.unidade,
+                tipo: item.tipo,
                 visible: true
             }));
 
-            const secondList: listUnidadeVisible[] = filterList.filter(
+            const secondList: listTipoVisible[] = filterList.filter(
                 (item, index, self) => {
-                    return index === self.findIndex(i => i.unidade === item.unidade);
+                    return index === self.findIndex(i => i.tipo === item.tipo);
                 }
             );
             setFilter(secondList)
         }
-    }, [list, lisColors])
+    }, [list, lisColors]);
+
     function MarcarTodos() {
         setDesmarcarTodos({
             marcar: true,
@@ -88,21 +92,21 @@ export function FilterUnidade({ list, lisColors }: { list: listUnidade[], lisCol
                 <section className={style.container_radio} >
                     <div>
                         <input
-                            id="marcar_todos"
+                            id="radio_tipo_marcar"
                             checked={marcarTodos.marcar}
-                            name="marcar_unidade"
+                            name="marcar_tipo"
                             onChange={MarcarTodos}
                             type="radio" />
-                        <label htmlFor="marcar_todos">Marcar Todos</label>
+                        <label htmlFor="radio_tipo_marcar">Marcar Todos</label>
                     </div>
                     <div>
                         <input
-                            id="desmarcar_todos"
+                            id="radio_tipo_desmarcar"
                             checked={marcarTodos.demarcar}
-                            name="marcar_unidade"
+                            name="marcar_tipo"
                             onChange={DesmarcarTodos}
                             type="radio" />
-                        <label htmlFor="desmarcar_todos">Desmarcar Todos</label>
+                        <label htmlFor="radio_tipo_desmarcar">Desmarcar Todos</label>
                     </div>
                 </section>
                 <article className={style.container_list} >
@@ -121,9 +125,8 @@ export function FilterUnidade({ list, lisColors }: { list: listUnidade[], lisCol
                                     />
                                     <label
                                         htmlFor={item.id}>
-                                        <p style={getColor(item.unidade)} >
-                                            {item.unidade}
-
+                                        <p style={getColor(item.tipo)} >
+                                            {item.tipo}
                                         </p>
                                     </label>
                                 </li>
