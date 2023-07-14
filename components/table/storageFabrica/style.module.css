@@ -60,7 +60,6 @@
     position: sticky;
     top: 0;
     z-index: 1;
-    
 }   
 .table thead svg{
     position: absolute;
@@ -93,7 +92,7 @@
     transform: translateY(25px) scale(1);   
     border-radius: 7px;
     transition: .5s;
-    overflow: auto;
+    overflow: hidden;
     
 }
 .cardFilter_close{

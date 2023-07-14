@@ -179,6 +179,8 @@ export default function Table() {
     const [data, setData] = useState<TableProps[]>();
     const [filter, setFilter] = useState<TableProps[]>([]);
     const [toogleCodigo, setToogleCodigo] = useState(false);
+    
+    
 
     const { List,
         filter: dataListCodigo,
