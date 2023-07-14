@@ -7,6 +7,8 @@ import { CiMenuKebab } from 'react-icons/ci';
 import { FilterCodigo } from "./filterCodigo/FilterCodigo";
 import { FilterUnidade } from "./filterUnidade/FilterUnidade";
 import { FilterTipo } from "./filterTipo/FilterTipo";
+import { FilterFornecedor } from "./filterFornecedor/FilterFornecedor";
+import { FilterCategoria } from "./filterCategoria/FilterCategoria";
 
 interface TableProps {
     id: string,
@@ -47,13 +49,31 @@ interface ListUnidadeVisible {
     unidade: string,
     visible: boolean
 }
-
 interface colorsUnidade {
     TIPO: string,
     backgroundcolor: string,
     color: string
 }
-
+interface listFornecedorVisible {
+    id: string,
+    fornecedor: string,
+    visible: boolean
+}
+interface listTipoVisible {
+    tipo: string,
+    visible: boolean
+}
+interface listCategoriaVisible {
+    id: string,
+    categoria: string,
+    visible: boolean
+}
+interface statusQuantidade {
+    estoqueMaximo: number,
+    estoqueMinimo: number,
+    estoqueSegurança: number,
+    quantidadeEstoque: number
+}
 const colorUnidade: colorsUnidade[] = [
     {
         TIPO: "KG",
@@ -156,24 +176,12 @@ const colorUnidade: colorsUnidade[] = [
         color: "#7b7b04"
     }
 ]
-interface listTipoVisible {
-    tipo: string,
-    visible: boolean
-}
-
 function getColor(text: string) {
     const color = colorUnidade.find(item => item.TIPO === text);
     return {
         backgroundColor: color?.backgroundcolor,
         color: color?.color
     }
-
-}
-interface statusQuantidade {
-    estoqueMaximo: number,
-    estoqueMinimo: number,
-    estoqueSegurança: number,
-    quantidadeEstoque: number
 }
 function getStatusQUantidade(quantidade: statusQuantidade) {
     if (quantidade.quantidadeEstoque >= quantidade.estoqueMaximo) return "MÁXIMO"
@@ -183,14 +191,14 @@ function getStatusQUantidade(quantidade: statusQuantidade) {
 
 }
 
-
 export default function Table() {
     const [data, setData] = useState<TableProps[]>();
     const [filter, setFilter] = useState<TableProps[]>([]);
     const [toogleCodigo, setToogleCodigo] = useState(false);
     const [toogleUnidade, setToogleUnidade] = useState(false);
     const [toogleTipo, setToogleTipo] = useState(false);
-
+    const [toogleFornecedor, setToogleFornecedor] = useState(false);
+    const [toogleCategoria, setToogleCategoria] = useState(true);
 
 
     const { List,
@@ -234,33 +242,63 @@ export default function Table() {
                 }
             ))
         })
+    const { List: ListFornecedor,
+        filter: dataFilterFornecedor,
+        setFilter: setDataFilterFornecedor } = FilterFornecedor({
+            list: data?.map(item => ({
+                fornecedor: item.fornecedor
+            })) ?? []
+        })
+    const { List: LisCategoria,
+        setFilter: setDataFilterCategoria,
+        filter: dataFilterCategoria } = FilterCategoria({
+            list: data?.map(item => ({
+                categoria: item.categoriaMaterial
+            })) ?? [],
+            lisColors: colorUnidade.map(item => ({
+                backgroundcolor: item.backgroundcolor,
+                categoria: item.TIPO,
+                color: item.color
+            }))
+        })
 
     useEffect(() => {
         changeFilter(Mock as TableProps[],
             dataListCodigo as ListCodigoVisible[],
             dataListUnidade as ListUnidadeVisible[],
-            dataFilterTipo as listTipoVisible[]
+            dataFilterTipo as listTipoVisible[],
+            dataFilterFornecedor as listFornecedorVisible[],
+            dataFilterCategoria as listCategoriaVisible[]
         )
 
         setData(Mock as TableProps[]);
 
-    }, [dataListCodigo, dataListUnidade, dataFilterTipo])
+    }, [dataListCodigo,
+        dataListUnidade,
+        dataFilterTipo,
+        dataFilterFornecedor,
+        dataFilterCategoria])
 
     function changeFilter(list: TableProps[],
         listCodigo: ListCodigoVisible[],
         listUnidade: ListUnidadeVisible[],
-        listTipo: listTipoVisible[]) {
+        listTipo: listTipoVisible[],
+        listFornecedor: listFornecedorVisible[],
+        listCategoria: listCategoriaVisible[]) {
 
         let newList: TableProps[] = [];
         list.map(item => {
             const verifyCodigo = listCodigo.filter(codigo => item.codigo === codigo.codigo && codigo.visible);
             const verifyUnidade = listUnidade.filter(unidade => item.unidade === unidade.unidade && unidade.visible);
             const verifyTipo = listTipo.filter(tipo => item.tipoMaterial === tipo.tipo && tipo.visible);
+            const verifyFornecedor = listFornecedor.filter(tipo => item.fornecedor === tipo.fornecedor && tipo.visible);
+            const verifyCategoria= listCategoria.filter(tipo => item.categoriaMaterial === tipo.categoria && tipo.visible);
 
             if (verifyCodigo.length > 0 &&
                 verifyUnidade.length > 0 &&
-                verifyTipo.length > 0) newList.push(item)
-
+                verifyTipo.length > 0 && 
+                verifyFornecedor.length > 0 && 
+                verifyCategoria.length > 0) newList.push(item)
         })
         setFilter(newList)
     }
@@ -279,10 +317,11 @@ export default function Table() {
                                         {data && (
                                             <List />
                                         )}
-
                                     </div>
-                                    Código
-                                    <CiMenuKebab onClick={() => setToogleCodigo(!toogleCodigo)} />
+                                    <span>
+                                        Código
+                                        <CiMenuKebab onClick={() => setToogleCodigo(!toogleCodigo)} />
+                                    </span>
                                 </th>
                                 <th>Descrição</th>
                                 <th>QTD.</th>
@@ -294,8 +333,10 @@ export default function Table() {
                                     } >
                                         <ListUnidade />
                                     </div>
-                                    UND.
-                                    <CiMenuKebab onClick={() => setToogleUnidade(!toogleUnidade)} />
+                                    <span>
+                                        UND.
+                                        <CiMenuKebab onClick={() => setToogleUnidade(!toogleUnidade)} />
+                                    </span>
                                 </th>
                                 <th>
                                     <div className={
@@ -305,14 +346,41 @@ export default function Table() {
                                     } >
                                         <ListTipo />
                                     </div>
-                                    Tipo
-                                    <CiMenuKebab onClick={() => setToogleTipo(!toogleTipo)} />
+                                    <span>
+                                        Tipo
+                                        <CiMenuKebab onClick={() => setToogleTipo(!toogleTipo)} />
+                                    </span>
+
                                 </th>
                                 <th>MAX.</th>
                                 <th>SEG.</th>
                                 <th>MIN.</th>
-                                <th>Fornecedor</th>
-                                <th>Categoria</th>
+                                <th>
+                                    <div className={
+                                        toogleFornecedor ?
+                                            style.cardFornecedor :
+                                            style.cardFornecedor_close
+                                    } >
+                                        <ListFornecedor />
+                                    </div>
+                                    <span>
+                                        Fornecedor
+                                        <CiMenuKebab onClick={() => setToogleFornecedor(!toogleFornecedor)} />
+                                    </span>
+                                </th>
+                                <th>
+                                    <div className={
+                                        toogleCategoria ?
+                                            style.cardCategoria :
+                                            style.cardCategoria_close
+                                    } >
+                                        <LisCategoria />
+                                    </div>
+                                    <span>
+                                        Categoria
+                                        <CiMenuKebab onClick={() => setToogleCategoria(!toogleCategoria)} />
+                                    </span>
+                                </th>
                                 <th>Categoria 2</th>
                                 <th>Ativo</th>
                                 <th>Status</th>

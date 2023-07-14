@@ -84,18 +84,33 @@
     font-size: 22px;
 }
 
-.table thead th svg {
+.table thead th span svg {
     position: absolute;
     font-size: 24px;
+    right: -7px;
+    
+}
+.table thead th{
+    padding-right: 15px;
 }
 
-.table thead th {
-    min-width: 50px;
+.table thead th span{
+    
+    overflow: hidden;
+    width: 100%;
+    padding:5px;
+    position: relative;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
 }
 
 .cardFilter,
 .cardUnidade,
-.cardTipo {
+.cardTipo,
+.cardFornecedor,
+.cardCategoria {
     position: absolute;
     width: 150px;
     height: 200px;
@@ -113,7 +128,9 @@
 
 .cardFilter_close,
 .cardUnidade_close,
-.cardTipo_close {
+.cardTipo_close,
+.cardFornecedor_close,
+.cardCategoria_close {
     position: absolute;
     width: 20px;
     height: 20px;

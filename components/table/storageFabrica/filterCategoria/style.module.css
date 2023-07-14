@@ -1,0 +1,98 @@
+.card {
+    color: rgba(0, 0, 132, 0.823);
+    position: absolute;
+    width: 150px;
+    height: 100%;
+    display: grid;
+    grid-template-rows: 50px 1fr;
+    overflow: hidden;
+}
+
+.container_radio {
+    grid-area: 1/1/1/1;
+    position: relative;
+    display: grid;
+    padding-top: 3px;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.container_radio div {
+    width: 100%;
+    padding: 0 0 0 8px;
+    align-items: flex-start;
+    display: flex;
+    font-size: 12px;
+    position: relative;
+}
+
+.container_radio div input {
+    position: relative;
+    appearance: none;
+    width: 15px;
+    height: 15px;
+    border: 1px solid rgba(0, 0, 132, 0.823);
+    border-radius: 50%;
+}
+
+.container_radio input[type="radio"]:checked {
+    background-image: radial-gradient(rgba(255, 255, 255, 0.904) 35%, rgb(9, 0, 134) 45%);
+    border: 1px solid rgb(17, 0, 255);
+}
+
+.container_radio div label {
+    position: relative;
+    padding-left: 10px;
+}
+
+.card li {
+    padding: 5px;
+}
+
+.container_list {
+    grid-area: 2/1/2/1;
+    overflow: auto;
+}
+
+.container_list li {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+
+}
+
+.container_list input {
+    position: absolute;
+    left: 8px;
+}
+
+.container_list label {
+    width: 100%;
+    text-align: left;
+    padding-left: 30px;
+}
+.container_list label p{
+    border-radius: 7px;
+    width: 90px;
+    padding: 3px;
+    text-align: center;
+}
+
+.container_list input[type="checkbox"] {
+    appearance: none;
+    border: 1px solid rgba(0, 0, 132, 0.823);
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    border-radius: 3px;
+}
+
+.container_list input[type="checkbox"]:checked::before {
+    content: "✔";
+    position: absolute;
+    color: rgb(15, 39, 255);
+    top: -3px;
+    left: 2px;
+}
