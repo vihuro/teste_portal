@@ -80,12 +80,6 @@ export function FilterCodigo({ codigo }: { codigo: item[] }) {
         })
     }
 
-    // let data = codigo && (
-    //     codigo.map(item => ({
-    //         codigo: item.codigo,
-    //         visible: true
-    //     }))
-    // )
 
     const List = () => {
         return (

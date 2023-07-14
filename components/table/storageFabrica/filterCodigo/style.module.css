@@ -41,6 +41,9 @@
 .container_input svg{
     position: relative;
     right: 8px;
+    background-color: rgba(0, 0, 132, 0.823);
+    color: white;
+    border-radius: 50%;
 }
 
 .container_input label {

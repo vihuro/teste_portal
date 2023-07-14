@@ -5,7 +5,7 @@ import Mock from "./mock";
 import { FiEdit } from "react-icons/fi";
 import { CiMenuKebab } from 'react-icons/ci';
 import { FilterCodigo } from "./filterCodigo/FilterCodigo";
-
+import { FilterUnidade } from "./filterUnidade/FilterUnidade";
 
 interface TableProps {
     id: string,
@@ -41,6 +41,10 @@ interface ListCodigoVisible {
     codigo: string,
     visible: boolean
 
+}
+interface ListUnidadeVisible {
+    unidade: string,
+    visible: boolean
 }
 
 interface colorsUnidade {
@@ -179,8 +183,9 @@ export default function Table() {
     const [data, setData] = useState<TableProps[]>();
     const [filter, setFilter] = useState<TableProps[]>([]);
     const [toogleCodigo, setToogleCodigo] = useState(false);
-    
-    
+    const [toogleUnidade, setToogleUnidade] = useState(true);
+
+
 
     const { List,
         filter: dataListCodigo,
@@ -193,20 +198,41 @@ export default function Table() {
             }
         );
 
+    const { List: ListUnidade,
+        filter: dataListUnidade,
+        setFilter: setDataListUnidade } = FilterUnidade({
+            list: data?.map(item => (
+                {
+                    unidade: item.unidade
+                }
+            )) ?? [],
+            lisColors: colorUnidade.map(item => ({
+                backgroundcolor: item.backgroundcolor,
+                color: item.color,
+                TIPO: item.TIPO
+            }))
+        })
+
     useEffect(() => {
-        changeFilter(Mock as TableProps[], dataListCodigo as ListCodigoVisible[])
+        changeFilter(Mock as TableProps[],
+            dataListCodigo as ListCodigoVisible[],
+            dataListUnidade as ListUnidadeVisible[]
+        )
 
         setData(Mock as TableProps[]);
 
-    }, [dataListCodigo])
+    }, [dataListCodigo, dataListUnidade])
 
     function changeFilter(list: TableProps[],
-        listCodigo: ListCodigoVisible[]) {
+        listCodigo: ListCodigoVisible[],
+        listUnidade: ListUnidadeVisible[]) {
 
         let newList: TableProps[] = [];
         list.map(item => {
-            const verify = listCodigo.filter(codigo => item.codigo === codigo.codigo && codigo.visible);
-            if (verify.length > 0) newList.push(item)
+            const verifyCodigo = listCodigo.filter(codigo => item.codigo === codigo.codigo && codigo.visible);
+            const verifyUnidade = listUnidade.filter(unidade => item.unidade === unidade.unidade && unidade.visible);
+
+            if (verifyCodigo.length > 0 && verifyUnidade.length > 0) newList.push(item)
 
         })
         setFilter(newList)
@@ -233,7 +259,18 @@ export default function Table() {
                                 </th>
                                 <th>Descrição</th>
                                 <th>QTD.</th>
-                                <th>UND.</th>
+                                <th>
+                                    <div className={
+                                        toogleUnidade ?
+                                            style.cardUnidade :
+                                            style.cardUnidade_close
+                                    } >
+                                        <ListUnidade />
+                                    </div>
+                                    UND.
+                                    <CiMenuKebab onClick={() => setToogleUnidade(!toogleUnidade)} />
+
+                                </th>
                                 <th>Tipo</th>
                                 <th>MAX.</th>
                                 <th>SEG.</th>

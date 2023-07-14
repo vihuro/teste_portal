@@ -37,7 +37,8 @@
     z-index: 2;
     text-align: center;
 }
-.table th:not(:last-child){
+
+.table th:not(:last-child) {
     border-right: 1px solid white;
 
 }
@@ -60,11 +61,8 @@
     position: sticky;
     top: 0;
     z-index: 1;
-}   
-.table thead svg{
-    position: absolute;
-    font-size: 24px;
 }
+
 
 .table_body {
     background-color: rgba(219, 233, 240, .5);
@@ -73,29 +71,47 @@
     color: var(--text-color-blue-600);
     text-align: center;
 }
-.table_body p{
+
+.table_body p {
     font-size: 12px;
     background-color: rgb(52, 52, 52);
     padding: 3px;
     color: white;
     border-radius: 7px;
 }
-.table_body svg{
+
+.table_body svg {
     font-size: 22px;
 }
 
-.cardFilter{
+.table thead th svg {
+    position: absolute;
+    font-size: 24px;
+}
+
+.table thead th {
+    min-width: 50px;
+}
+
+.cardFilter,
+.cardUnidade {
     position: absolute;
     width: 150px;
     height: 200px;
     background-color: white;
-    transform: translateY(25px) scale(1);   
+    transform: translateY(25px) scale(1);
     border-radius: 7px;
     transition: .5s;
     overflow: hidden;
-    
+
 }
-.cardFilter_close{
+
+.cardUnidade {
+    height: 150px;
+}
+
+.cardFilter_close,
+.cardUnidade_close {
     position: absolute;
     width: 20px;
     height: 20px;
@@ -106,4 +122,3 @@
     transition: 0.5s;
     overflow: hidden;
 }
-
