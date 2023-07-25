@@ -9,6 +9,8 @@ import { FilterUnidade } from "./filterUnidade/FilterUnidade";
 import { FilterTipo } from "./filterTipo/FilterTipo";
 import { FilterFornecedor } from "./filterFornecedor/FilterFornecedor";
 import { FilterCategoria } from "./filterCategoria/FilterCategoria";
+import { FilterStatus } from "./filterStatus/FilterStatus";
+import { FilterStatusQuantidade } from "./filterStatusQuantidade/FilterStatusQuantidade";
 
 interface TableProps {
     id: string,
@@ -68,12 +70,23 @@ interface listCategoriaVisible {
     categoria: string,
     visible: boolean
 }
+interface listStatusVisible {
+    id: string,
+    status: string,
+    visible: boolean
+}
+interface listStatusQuantidadeVisible {
+    id: string,
+    statusQuantidade: string,
+    visible: boolean
+}
 interface statusQuantidade {
     estoqueMaximo: number,
     estoqueMinimo: number,
     estoqueSegurança: number,
     quantidadeEstoque: number
 }
+
 const colorUnidade: colorsUnidade[] = [
     {
         TIPO: "KG",
@@ -198,7 +211,9 @@ export default function Table() {
     const [toogleUnidade, setToogleUnidade] = useState(false);
     const [toogleTipo, setToogleTipo] = useState(false);
     const [toogleFornecedor, setToogleFornecedor] = useState(false);
-    const [toogleCategoria, setToogleCategoria] = useState(true);
+    const [toogleCategoria, setToogleCategoria] = useState(false);
+    const [toogleStatus, setToogleStatus] = useState(false);
+    const [toogleStatusQuantidade, setToogleStatusQuantidade] = useState(true);
 
 
     const { List,
@@ -212,55 +227,96 @@ export default function Table() {
             }
         );
 
-    const { List: ListUnidade,
+    const {
+        List: ListUnidade,
         filter: dataListUnidade,
-        setFilter: setDataListUnidade } = FilterUnidade({
-            list: data?.map(item => (
-                {
-                    unidade: item.unidade
-                }
-            )) ?? [],
-            lisColors: colorUnidade.map(item => ({
+        setFilter: setDataListUnidade
+    } = FilterUnidade({
+        list: data?.map(item => (
+            {
+                unidade: item.unidade
+            }
+        )) ?? [],
+        lisColors: colorUnidade.map(item => ({
+            backgroundcolor: item.backgroundcolor,
+            color: item.color,
+            TIPO: item.TIPO
+        }))
+    })
+    const {
+        List: ListTipo,
+        filter: dataFilterTipo,
+        setFilter: setDataFilterTipo
+    } = FilterTipo({
+        list: data?.map(item => (
+            {
+                tipo: item.tipoMaterial
+            }
+        )) ?? [],
+        lisColors: colorUnidade.map(item => (
+            {
                 backgroundcolor: item.backgroundcolor,
                 color: item.color,
                 TIPO: item.TIPO
-            }))
-        })
-    const { List: ListTipo,
-        filter: dataFilterTipo,
-        setFilter: setDataFilterTipo } = FilterTipo({
-            list: data?.map(item => (
-                {
-                    tipo: item.tipoMaterial
-                }
-            )) ?? [],
-            lisColors: colorUnidade.map(item => (
-                {
-                    backgroundcolor: item.backgroundcolor,
-                    color: item.color,
-                    TIPO: item.TIPO
-                }
-            ))
-        })
-    const { List: ListFornecedor,
+            }
+        ))
+    })
+    const {
+        List: ListFornecedor,
         filter: dataFilterFornecedor,
-        setFilter: setDataFilterFornecedor } = FilterFornecedor({
-            list: data?.map(item => ({
-                fornecedor: item.fornecedor
-            })) ?? []
-        })
-    const { List: LisCategoria,
+        setFilter: setDataFilterFornecedor
+    } = FilterFornecedor({
+        list: data?.map(item => ({
+            fornecedor: item.fornecedor
+        })) ?? []
+    })
+    const {
+        List: LisCategoria,
         setFilter: setDataFilterCategoria,
-        filter: dataFilterCategoria } = FilterCategoria({
-            list: data?.map(item => ({
-                categoria: item.categoriaMaterial
-            })) ?? [],
-            lisColors: colorUnidade.map(item => ({
-                backgroundcolor: item.backgroundcolor,
-                categoria: item.TIPO,
-                color: item.color
-            }))
-        })
+        filter: dataFilterCategoria
+    } = FilterCategoria({
+        list: data?.map(item => ({
+            categoria: item.categoriaMaterial
+        })) ?? [],
+        lisColors: colorUnidade.map(item => ({
+            backgroundcolor: item.backgroundcolor,
+            categoria: item.TIPO,
+            color: item.color
+        }))
+    })
+    const {
+        List: ListStatus,
+        filter: dataFilterStatus,
+        setFilter: setDataFilterStatus
+    } = FilterStatus({
+        list: data?.map(item => ({
+            Status: item.statusCodigo
+        })) ?? [],
+        lisColors: colorUnidade.map(item => ({
+            backgroundcolor: item.backgroundcolor,
+            color: item.color,
+            status: item.TIPO
+        }))
+    });
+    const {
+        List: ListStatusQuantidade,
+        filter: dataFilterStatusQuantidade,
+        setFilter: setDataFilterStatusQuantidade
+    } = FilterStatusQuantidade({
+        list: data?.map(item => ({
+            statusQuantidade: getStatusQUantidade({
+                estoqueMaximo: item.quantidadeMaxima,
+                estoqueMinimo: item.quantidadeMinima,
+                estoqueSegurança: item.quantidadeSeguranca,
+                quantidadeEstoque: item.quantidadeEmEstoque
+            })
+        })) ?? [],
+        lisColors: colorUnidade.map(item => ({
+            backgroundcolor: item.backgroundcolor,
+            color: item.color,
+            statusQuantidade: item.TIPO
+        }))
+    })
 
     useEffect(() => {
         changeFilter(Mock as TableProps[],
@@ -268,7 +324,9 @@ export default function Table() {
             dataListUnidade as ListUnidadeVisible[],
             dataFilterTipo as listTipoVisible[],
             dataFilterFornecedor as listFornecedorVisible[],
-            dataFilterCategoria as listCategoriaVisible[]
+            dataFilterCategoria as listCategoriaVisible[],
+            dataFilterStatus as listStatusVisible[],
+            dataFilterStatusQuantidade as listStatusQuantidadeVisible[]
         )
 
         setData(Mock as TableProps[]);
@@ -277,28 +335,55 @@ export default function Table() {
         dataListUnidade,
         dataFilterTipo,
         dataFilterFornecedor,
-        dataFilterCategoria])
+        dataFilterCategoria,
+        dataFilterStatus,
+        dataFilterStatusQuantidade])
 
     function changeFilter(list: TableProps[],
         listCodigo: ListCodigoVisible[],
         listUnidade: ListUnidadeVisible[],
         listTipo: listTipoVisible[],
         listFornecedor: listFornecedorVisible[],
-        listCategoria: listCategoriaVisible[]) {
+        listCategoria: listCategoriaVisible[],
+        listStatus: listStatusVisible[],
+        listStatusQuantidade: listStatusQuantidadeVisible[]) {
 
         let newList: TableProps[] = [];
         list.map(item => {
-            const verifyCodigo = listCodigo.filter(codigo => item.codigo === codigo.codigo && codigo.visible);
-            const verifyUnidade = listUnidade.filter(unidade => item.unidade === unidade.unidade && unidade.visible);
-            const verifyTipo = listTipo.filter(tipo => item.tipoMaterial === tipo.tipo && tipo.visible);
-            const verifyFornecedor = listFornecedor.filter(tipo => item.fornecedor === tipo.fornecedor && tipo.visible);
-            const verifyCategoria= listCategoria.filter(tipo => item.categoriaMaterial === tipo.categoria && tipo.visible);
+            const verifyCodigo = listCodigo
+                .filter(codigo =>
+                    item.codigo === codigo.codigo && codigo.visible);
+            const verifyUnidade = listUnidade
+                .filter(unidade =>
+                    item.unidade === unidade.unidade && unidade.visible);
+            const verifyTipo = listTipo
+                .filter(tipo =>
+                    item.tipoMaterial === tipo.tipo && tipo.visible);
+            const verifyFornecedor =
+                listFornecedor
+                    .filter(tipo => item.fornecedor === tipo.fornecedor && tipo.visible);
+            const verifyCategoria = listCategoria
+                .filter(tipo =>
+                    item.categoriaMaterial === tipo.categoria && tipo.visible);
+            const verifyStatus = listStatus
+                .filter(status => item.statusCodigo === status.status && status.visible)
+            const verifyStatusQuantidade = listStatusQuantidade
+                .filter(tipo =>
+                    getStatusQUantidade({
+                        estoqueMaximo: item.quantidadeMaxima,
+                        estoqueMinimo: item.quantidadeMinima,
+                        estoqueSegurança: item.quantidadeSeguranca,
+                        quantidadeEstoque: item.quantidadeEmEstoque
+                    }) === tipo.statusQuantidade && tipo.visible);
+
 
             if (verifyCodigo.length > 0 &&
                 verifyUnidade.length > 0 &&
-                verifyTipo.length > 0 && 
-                verifyFornecedor.length > 0 && 
-                verifyCategoria.length > 0) newList.push(item)
+                verifyTipo.length > 0 &&
+                verifyFornecedor.length > 0 &&
+                verifyCategoria.length > 0 &&
+                verifyStatus.length > 0 &&
+                verifyStatusQuantidade.length > 0) newList.push(item)
         })
         setFilter(newList)
     }
@@ -306,7 +391,12 @@ export default function Table() {
 
     return (
         <div className={style.container_table}>
-            <div className={style.container_button} ></div>
+            <div className={style.container_button} >
+                <div className={style.wrap_container_button} >
+
+                </div>
+                
+            </div>
             <div className={style.wrap_container_table} >
                 <section className={style.table_teste}>
                     <table className={style.table} >
@@ -382,8 +472,33 @@ export default function Table() {
                                     </span>
                                 </th>
                                 <th>Categoria 2</th>
-                                <th>Ativo</th>
-                                <th>Status</th>
+                                <th>
+                                    <div className={
+                                        toogleStatus ?
+                                            style.cardStatus :
+                                            style.cardStatus_close
+                                    } >
+                                        <ListStatus />
+                                    </div>
+                                    <span>
+                                        Ativo
+                                        <CiMenuKebab onClick={() => setToogleStatus(!toogleStatus)} />
+                                    </span>
+                                </th>
+                                <th>
+                                    <div className={
+                                        toogleStatusQuantidade ?
+                                            style.cardStatusQuantidade :
+                                            style.cardStatusQuantidade_close
+                                    } >
+                                        <ListStatusQuantidade />
+
+                                    </div>
+                                    <span>
+                                        Status
+                                        <CiMenuKebab onClick={() => setToogleStatusQuantidade(!toogleStatusQuantidade)} />
+                                    </span>
+                                </th>
                                 <th>EDIT.</th>
                             </tr>
                         </thead>
