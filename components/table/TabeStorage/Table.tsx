@@ -8,8 +8,20 @@ import { BiFilter } from "react-icons/bi";
 
 import CardStorageTeste from "./cardAdd/Card";
 
+import Api from "../../../service/api/matriz/estoque-grm";
+
 
 export default function Table() {
+
+    useEffect(() => {
+        async function api() {
+            await Api.get("")
+                .then(res => console.log(res.data))
+                .catch(err => console.log(err));
+        }
+        api();
+
+    }, [])
 
     const { CardStorage, toogle: toogleAdd, setToogle: changeToogleAdd } = CardStorageTeste()
 
@@ -616,7 +628,7 @@ export default function Table() {
         const dooble = parseFloat(string)
         const stringInput = dooble.toLocaleString("pt-Br", {
             style: "decimal",
-            maximumFractionDigits:2
+            maximumFractionDigits: 2
         })
 
 
