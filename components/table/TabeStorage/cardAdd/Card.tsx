@@ -4,6 +4,7 @@ import style from "./style.module.css";
 import Api from "../../../../service/api/matriz/estoque-grm";
 import Message from "../../../message/Message";
 import Loading from "../../../loading/Loading";
+import { Console } from "console";
 
 const CardStorage = ({
     toogle,
@@ -171,14 +172,17 @@ const CardStorage = ({
             materialEstoque.descricao === "" ||
             materialEstoque.unidade === "" ||
             materialEstoque.localEstoqueId === "" ||
-            materialEstoque.tipoMaterialId === "") {
+            materialEstoque.tipoMaterialId === "" ||
+            value === "") {
             setMessage({
                 message: "Campo(s) obrigatório(s) vazio(s)!",
                 type: "WARNING"
             })
+            setToogleLoading(false);
             setToogleMessage(true)
             return;
         }
+
         await Cadastrar();
 
     }
@@ -188,9 +192,11 @@ const CardStorage = ({
         const promises = checboxLocal
             .filter(item => item.active)
             .map(valueCheckBox => {
+                const formattedValue = value.replaceAll(".", "").replace(",", ".")
                 return Api.post("/", {
                     ...materialEstoque,
-                    localEstoqueId: valueCheckBox.id
+                    localEstoqueId: valueCheckBox.id,
+                    quantidade: parseFloat(formattedValue)
                 });
             });
         if (promises.length === 0) {
@@ -203,10 +209,13 @@ const CardStorage = ({
         } else {
 
             Promise.all(promises)
-                .then(res => setMessage({
-                    message: "Item(ns) cadastrado(s) com sucesso!",
-                    type: "SUCESS"
-                }))
+                .then(res => {
+                    setMessage({
+                        message: "Item(ns) cadastrado(s) com sucesso!",
+                        type: "SUCESS"
+                    })
+                    clearAll();
+                })
                 .catch(err => {
                     if (err.response.data) {
                         setMessage({
@@ -230,6 +239,26 @@ const CardStorage = ({
 
 
 
+    }
+
+    function clearAll() {
+        setMaterialEstoque({
+            ...materialEstoque,
+            codigo: "",
+            descricao: "",
+            tipoMaterialId: "",
+            unidade: "",
+            quantidade: 0,
+            localEstoqueId: "",
+            substitutos: []
+        })
+        setCheckboxLocal(checboxLocal.map(item => ({
+            ...item,
+            active: false
+        })))
+        setTextTipo("");
+        setTextUnidade("");
+        setValue("");
     }
 
     useEffect(() => {
@@ -392,7 +421,7 @@ const CardStorage = ({
                             <button
                                 className={style.button_cancelar}
                                 onClick={() => {
-                                    setToogleLoading(!toogleLoading)
+                                    changeToogle(false)
                                 }}
                             >
                                 <span>

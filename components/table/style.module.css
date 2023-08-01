@@ -6,3 +6,9 @@
     top: 100px;
     overflow: hidden;
 }
+@media(max-width:430px){
+    .body{
+        width: 100%;
+        left: 0;
+    }
+}

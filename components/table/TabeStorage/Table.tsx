@@ -5,6 +5,7 @@ import React, { use, useEffect, useState } from "react";
 import { CiMenuKebab } from "react-icons/ci";
 import { MdOutlineMapsHomeWork } from "react-icons/md";
 import { BiFilter } from "react-icons/bi";
+import { TbEdit } from "react-icons/tb";
 
 import CardStorageTeste from "./cardAdd/Card";
 
@@ -14,14 +15,17 @@ import Api from "../../../service/api/matriz/estoque-grm";
 export default function Table() {
 
     useEffect(() => {
-        async function api() {
-            await Api.get("")
-                .then(res => console.log(res.data))
-                .catch(err => console.log(err));
-        }
-        api();
+        FechData();
 
     }, [])
+    async function FechData() {
+        await Api.get("")
+            .then(res => {
+                setData(res.data)
+
+            })
+            .catch(err => console.log(err))
+    }
 
     const { CardStorage, toogle: toogleAdd, setToogle: changeToogleAdd } = CardStorageTeste()
 
@@ -63,17 +67,40 @@ export default function Table() {
     })
     const [dataFilterCode, setDataFilterCode] = useState([]);
 
+    const [data, setData] = useState<ItemsProps[]>([]);
+
     const [textCode, setTextCode] = useState("");
 
-    interface Item {
+    interface ItemsProps {
+        id: string,
         codigo: string,
         descricao: string,
+        quantidade: Number,
+        substitutos: [],
+        localEstocagem: {
+            guid: string,
+            localEstocagem: string
+        }
+        tipoMaterial: {
+            id: string,
+            tipo: string
+        },
         unidade: string,
-        quantidade: string,
-        localEstocagem: string,
-        dataEntrada: string,
-        tipo: string
+        cadastro: {
+            id: string,
+            apelido: string,
+            nome: string,
+            dataHora: Date
+        },
+        alteracao: {
+            id: string,
+            apelido: string,
+            nome: string,
+            dataHora: Date
+        }
     }
+
+
     interface PropsSub {
 
         codigo: string,
@@ -81,20 +108,19 @@ export default function Table() {
         quantidade: number,
         unidade: string,
         localEstocagem: string,
-        tipo: string
-
-
+        tipoMaterial: string
     }
+
     interface Color {
         background: string,
         color: string
     }
     const colors: Record<string, Color> = {
-        MATRIZ: {
+        "MATRIZ-GRM": {
             background: "#B40000",
             color: "white"
         },
-        FABRICA: {
+        "FABRICA-GRM": {
             background: "#5D60E9",
             color: "white"
         },
@@ -137,9 +163,10 @@ export default function Table() {
     }
     function getColorStyle(text: string) {
         const color = colors[text];
+
         return {
-            background: color ? color.background : "",
-            color: color ? color.color : ""
+            background: color ? color.background : "black",
+            color: color ? color.color : "white"
         };
     }
     const List = [
@@ -299,17 +326,7 @@ export default function Table() {
             "tipo": "PP-2"
         }
     ]
-    const ListUnidade = () => {
-        return (
-            <ul style={{
-                background: "red"
-            }} >
-                <li>KG</li>
-                <li>ROL</li>
-                <li>MI</li>
-            </ul>
-        )
-    }
+
 
     const filter = List.filter(item => {
         const text = item.codigo.toLowerCase().includes(textCode.toLowerCase());
@@ -570,6 +587,7 @@ export default function Table() {
 
 
         const Card = ({ list }: { list: PropsSub[] }) => {
+
             return (
                 <>
                     {list && list.length > 0 && (
@@ -590,7 +608,7 @@ export default function Table() {
                                             <p style={getColorStyle(item.localEstocagem)} > {item.localEstocagem}</p>
                                         </td>
                                         <td>
-                                            <p style={getColorStyle(item.tipo)} >{item.tipo}</p>
+                                            <p style={getColorStyle(item.tipoMaterial)} >{item.tipoMaterial}</p>
                                         </td>
                                     </tr>
                                 ))}
@@ -666,11 +684,6 @@ export default function Table() {
         // setValue(formattedNumber);
     };
 
-    const converText = (text: string) => {
-        const string = text.replace(".", ",");
-
-
-    }
 
     return (
         <div className={style.container_table} >
@@ -685,16 +698,6 @@ export default function Table() {
                         Adicionar Produto
                     </button>
                 </div>
-                {/* <input style={{
-                    width: 100,
-                    height: 40,
-                    position: "relative",
-                    left: 150,
-                    top: 100
-                }}
-                    value={value}
-                    onChange={handleChange}
-                /> */}
 
             </div>
             <div className={style.wrap_container_table} >
@@ -711,8 +714,13 @@ export default function Table() {
                                         e.stopPropagation(),
                                             setToogleCard(!toogleCard)
                                     }} />
-                                    <div onClick={e => e.stopPropagation()} className={toogleCard ? style.container_codigo : style.container_codigo_close} >
-                                        <CardCode list={listCode} />
+                                    <div onClick={e => e.stopPropagation()}
+                                        className={toogleCard ?
+                                            style.container_codigo :
+                                            style.container_codigo_close}
+                                    >
+
+                                        <CardCode list={data.map(item => item.codigo)} />
                                     </div>
                                 </th>
                                 <th>
@@ -733,7 +741,11 @@ export default function Table() {
                                         e.stopPropagation(),
                                             set_card_filter_Local(!card_filter_Local)
                                     }} />
-                                    <div onClick={e => e.stopPropagation()} className={card_filter_Local ? style.card_local : style.card_local_close} >
+                                    <div onClick={e => e.stopPropagation()}
+                                        className={card_filter_Local ? 
+                                            style.card_local : 
+                                            style.card_local_close}
+                                    >
                                         <CardLocal />
                                     </div>
                                 </th>
@@ -747,79 +759,136 @@ export default function Table() {
                                         <Card />
                                     </div>
                                 </th>
+                                <th>
+                                    EDIT
+                                </th>
                             </tr>
                         </thead>
                         <tbody className={style.table_body} >
-                            {filter && filter.length > 0 ?
-                                filter.map((item, index) => {
-                                    const isRowSelected = selectedRows.includes(index);
-                                    return (
-                                        <tr key={index} >
-                                            <td>{item.codigo}</td>
-                                            <td>{item.descricao}</td>
-                                            <td>{item.quantidade}</td>
-                                            <td className={`${style["table_button"]} ${style["--unidade"]}`}>
-                                                <p
-                                                    style={getColorStyle(item.unidade)}
+                            {
+                                data && data.length > 0 ?
+                                    data.map((item, index) => {
+                                        const isRowSelectd = selectedRows.includes(index);
+
+                                        return (
+                                            <tr key={index} >
+                                                <td>{item.codigo}</td>
+                                                <td>{item.descricao}</td>
+                                                <td>{item.quantidade.toLocaleString()}</td>
+                                                <td className={`${style["table_button"]} ${style["--unidade"]}`}>
+                                                    <p style={getColorStyle(item.unidade)} >
+                                                        {item.unidade}
+                                                    </p>
+                                                </td>
+                                                <td className={`${style["table_button"]} ${style["--substitutos"]}`}
+                                                    onClick={() => {
+                                                        if (isRowSelectd) {
+                                                            setSelectedRows(selectedRows.filter((row) => row !== index))
+                                                        } else {
+                                                            setSelectedRows([...selectedRows, index]);
+                                                        }
+                                                    }}
                                                 >
-                                                    {item.unidade}
-                                                </p>
-                                            </td>
-                                            <td className={`${style["table_button"]} ${style["--substitutos"]}`}
-                                                onClick={() => {
-                                                    if (isRowSelected) {
-                                                        setSelectedRows(selectedRows.filter((row) => row !== index));
-                                                    } else {
-                                                        setSelectedRows([...selectedRows, index]);
-                                                    }
-                                                }}
-                                            >
-                                                {item.substitutos && item.substitutos.length > 0 && (
-                                                    <div className={
-                                                        isRowSelected
-                                                            ? style.cardSubstituto
-                                                            : style.cardSubstituto_close
-                                                    } >
-                                                        <CardSubs list={item.substitutos} />
-                                                    </div>
-                                                )}
-                                                <p>
-                                                    {item.substitutos?.length}
-                                                </p>
-                                            </td>
-                                            <td className={`${style["table_button"]} ${style["--estocagem"]}`}>
-                                                <p
-                                                    style={getColorStyle(item.localEstocagem)}>
-                                                    {item.localEstocagem}
-                                                </p>
-                                            </td>
-                                            <td className={`${style["table_button"]} ${style["--tipo"]}`}>
-                                                <p style={getColorStyle(item.tipo)}>
-                                                    {item.tipo}
-                                                </p>
-                                            </td>
-                                        </tr>
+                                                    {item.substitutos && item.substitutos.length > 0 && (
+                                                        <div className={
+                                                            isRowSelectd ?
+                                                                style.cardSubstituto
+                                                                : style.cardSubstituto_close
+
+                                                        } >
+                                                            <CardSubs list={item.substitutos} />
+                                                        </div>
+                                                    )}
+                                                    <p>{item.substitutos.length}</p>
+                                                </td>
+                                                <td className={`${style["table_button"]} ${style["--estocagem"]}`}>
+                                                    <p style={getColorStyle(item.localEstocagem.localEstocagem)}>
+                                                        {item.localEstocagem.localEstocagem}
+                                                    </p>
+                                                </td>
+                                                <td className={`${style["table_button"]} ${style["--tipo"]}`}>
+                                                    <p style={getColorStyle(item.tipoMaterial.tipo)}>
+                                                        {item.tipoMaterial.tipo}
+                                                    </p>
+                                                </td>
+                                                <td style={{
+                                                    fontSize: 32
+                                                }} >
+                                                    <TbEdit />
+                                                </td>
+                                            </tr>
+                                        )
+                                    })
+                                    // filter && filter.length > 0 ?
+                                    //     filter.map((item, index) => {
+                                    //         const isRowSelected = selectedRows.includes(index);
+                                    //         return (
+                                    //             <tr key={index} >
+                                    //                 <td>{item.codigo}</td>
+                                    //                 <td>{item.descricao}</td>
+                                    //                 <td>{item.quantidade}</td>
+                                    //                 <td className={`${style["table_button"]} ${style["--unidade"]}`}>
+                                    //                     <p
+                                    //                         style={getColorStyle(item.unidade)}
+                                    //                     >
+                                    //                         {item.unidade}
+                                    //                     </p>
+                                    //                 </td>
+                                    //                 <td className={`${style["table_button"]} ${style["--substitutos"]}`}
+                                    //                     onClick={() => {
+                                    //                         if (isRowSelected) {
+                                    //                             setSelectedRows(selectedRows.filter((row) => row !== index));
+                                    //                         } else {
+                                    //                             setSelectedRows([...selectedRows, index]);
+                                    //                         }
+                                    //                     }}
+                                    //                 >
+                                    //                     {item.substitutos && item.substitutos.length > 0 && (
+                                    //                         <div className={
+                                    //                             isRowSelected
+                                    //                                 ? style.cardSubstituto
+                                    //                                 : style.cardSubstituto_close
+                                    //                         } >
+                                    //                             <CardSubs list={item.substitutos} />
+                                    //                         </div>
+                                    //                     )}
+                                    //                     <p>
+                                    //                         {item.substitutos?.length}
+                                    //                     </p>
+                                    //                 </td>
+                                    //                 <td className={`${style["table_button"]} ${style["--estocagem"]}`}>
+                                    //                     <p
+                                    //                         style={getColorStyle(item.localEstocagem)}>
+                                    //                         {item.localEstocagem}
+                                    //                     </p>
+                                    //                 </td>
+                                    //                 <td className={`${style["table_button"]} ${style["--tipo"]}`}>
+                                    //                     <p style={getColorStyle(item.tipo)}>
+                                    //                         {item.tipo}
+                                    //                     </p>
+                                    //                 </td>
+                                    //             </tr>
+                                    //         )
+                                    //     })
+                                    :
+                                    (
+                                        <>
+                                            <tr style={{
+                                                border: "none"
+                                            }}>
+                                                <td style={{
+                                                    border: 'none'
+                                                }} colSpan={7}>Nenhum item disponivel!</td>
+                                            </tr>
+                                            <tr>
+                                                <td style={{
+                                                    border: 'none'
+                                                }} colSpan={7}>
+                                                    <span className={style.span} >:(</span>
+                                                </td>
+                                            </tr>
+                                        </>
                                     )
-                                })
-                                :
-                                (
-                                    <>
-                                        <tr style={{
-                                            border: "none"
-                                        }}>
-                                            <td style={{
-                                                border: 'none'
-                                            }} colSpan={7}>Nenhum item disponivel!</td>
-                                        </tr>
-                                        <tr>
-                                            <td style={{
-                                                border: 'none'
-                                            }} colSpan={7}>
-                                                <span className={style.span} >:(</span>
-                                            </td>
-                                        </tr>
-                                    </>
-                                )
                             }
                         </tbody>
                     </table>
