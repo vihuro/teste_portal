@@ -10,6 +10,7 @@ import { TbEdit } from "react-icons/tb";
 import CardStorageTeste from "./cardAdd/Card";
 
 import Api from "../../../service/api/matriz/estoque-grm";
+import CardChange from "./cardChange/Card";
 
 
 export default function Table() {
@@ -632,6 +633,7 @@ export default function Table() {
     const { Card: CardLocal, set_card_filter_Local, card_filter_Local } = CardFilterLocal();
     const { Card: CardSubs, setToggle, toggle, selectedRows, setSelectedRows } = CardSubstituto();
     const { Card: CardCode, setToogleCard, toogleCard } = CardCodigo(setTextCode);
+    const { Card: CardAlteracao, setToogle: setToogleAlteracao, toogle: toogleAlteracao } = CardChange()
 
     const [value, setValue] = useState("");
 
@@ -691,6 +693,9 @@ export default function Table() {
             <div className={toogleAdd ? style.container_add : style.container_add_close} >
                 <CardStorage toogle={toogleAdd} changeToogle={changeToogleAdd} />
             </div>
+            <div className={toogleAlteracao ? style.container_alteracao : style.container_alteracao_close} >
+                <CardAlteracao toogle={toogleAlteracao} changeToogle={setToogleAlteracao} />
+            </div>
             <div className={style.container_button} >
 
                 <div className={style.wrap_containerButton} >
@@ -719,7 +724,6 @@ export default function Table() {
                                             style.container_codigo :
                                             style.container_codigo_close}
                                     >
-
                                         <CardCode list={data.map(item => item.codigo)} />
                                     </div>
                                 </th>
@@ -742,8 +746,8 @@ export default function Table() {
                                             set_card_filter_Local(!card_filter_Local)
                                     }} />
                                     <div onClick={e => e.stopPropagation()}
-                                        className={card_filter_Local ? 
-                                            style.card_local : 
+                                        className={card_filter_Local ?
+                                            style.card_local :
                                             style.card_local_close}
                                     >
                                         <CardLocal />
@@ -814,7 +818,9 @@ export default function Table() {
                                                 <td style={{
                                                     fontSize: 32
                                                 }} >
-                                                    <TbEdit />
+                                                    <p onClick={() => setToogleAlteracao(true)} >
+                                                        <TbEdit />
+                                                    </p>
                                                 </td>
                                             </tr>
                                         )
