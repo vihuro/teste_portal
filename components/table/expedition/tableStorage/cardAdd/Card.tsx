@@ -13,48 +13,7 @@ const CardStorage = ({
 }) => {
     const [testeText, setTesteText] = useState("");
     const [textUnidade, setTextUnidade] = useState("");
-    const [dataTipo, setDataTipo] = useState<dataTipo[]>([]);
-    const [dataLocal, setDataLocal] = useState<dataLocal[]>([]);
 
-    interface dataTipo{
-        id:string,
-        tipo:string,
-        cadastro:{
-            id:string,
-            nome:string,
-            apelido:string,
-            dataHora:Date
-        },        
-        alteracao:{
-            id:string,
-            nome:string,
-            apelido:string,
-            dataHora:Date
-        }
-
-    }
-    interface dataLocal{
-        totalItem:number,
-        data:[
-            {
-                id:string,
-                local:string,
-                ativo:boolean,
-                cadastro:{
-                    id:string,
-                    nome:string,
-                    apelido:string,
-                    dataHora:Date
-                },        
-                alteracao:{
-                    id:string,
-                    nome:string,
-                    apelido:string,
-                    dataHora:Date
-                }
-            }
-        ]
-    }
 
     const listUnidade = [
         {
@@ -90,20 +49,7 @@ const CardStorage = ({
         }
     ]
 
-    useEffect(() =>{
-        FechTipo();
-        FechLocal();
-    },[])
 
-     async function FechTipo() {
-        await Api.get("/tipo-material")
-        .then(res => res.data)
-        .catch(err => err)
-        
-    }
-    async function FechLocal() {
-        
-    }
 
     return (
         <div className={style.cardAdd_background} >

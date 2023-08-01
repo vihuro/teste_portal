@@ -1,0 +1,36 @@
+.card{
+    width: 300px;
+    height: 40px;
+    border-radius: 7px;
+    /* background-color: rgba(255, 136, 0, 0.822);
+    color: rgb(117, 67, 1); */
+    display: grid;
+    grid-template-columns: 30px 1fr 10px;
+}
+.section_icon{
+    grid-area: 1/1/1/1;
+    font-size: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.section_text{
+    grid-area: 1/2/1/2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    flex-wrap: wrap;
+    overflow: auto;
+    font-size: 14px;
+}
+.section_text span{
+    padding-top: 15px;
+}
+
+.button{
+    grid-area: 1/2/1/2;
+    border: none;
+    font-size: 18px;
+
+}
