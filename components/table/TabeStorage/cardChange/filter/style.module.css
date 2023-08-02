@@ -1,0 +1,44 @@
+.card{
+    width: 100%;
+    display: grid;
+    grid-template-rows: 40px 1fr 80px;
+    height: 400px;
+    border: 1px solid rgb(13, 0, 85);
+}
+
+.title{
+    grid-area: 1/1/1/1;
+    display: flex;
+    justify-content: center;
+
+}
+.container_table{
+    overflow: auto;
+
+    grid-area: 2/1/2/1;
+}
+.container_table table{
+    width: 600px;
+    border-collapse: collapse;
+}
+.container_table table td{
+    border: 1px solid rgb(2, 0, 95);
+}
+.container_table td svg{
+    font-size: 18px;
+    color: rgb(15, 224, 127);
+}
+
+.container_table td{
+    padding: 5px;
+    font-size: 14px;
+}
+.container_button{
+    display: grid;
+    padding: 20px;
+}
+.container_button button{
+    border: none;
+    border-radius: 7px;
+    background-color: rgb(255, 0, 0);
+}

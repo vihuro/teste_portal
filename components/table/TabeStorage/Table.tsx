@@ -32,6 +32,8 @@ export default function Table() {
 
     const [cardAdd, setCardAdd] = useState(false);
 
+    const [dataItemAlteracao, setDataItemAlteracao] = useState<ItemsProps>();
+
     const [dataFiltterTypes, setDataFilterTypes] = useState({
 
         "pet_virgem": true
@@ -694,7 +696,10 @@ export default function Table() {
                 <CardStorage toogle={toogleAdd} changeToogle={changeToogleAdd} />
             </div>
             <div className={toogleAlteracao ? style.container_alteracao : style.container_alteracao_close} >
-                <CardAlteracao toogle={toogleAlteracao} changeToogle={setToogleAlteracao} />
+                <CardAlteracao
+                    data={dataItemAlteracao}
+                    toogle={toogleAlteracao}
+                    changeToogle={setToogleAlteracao} />
             </div>
             <div className={style.container_button} >
 
@@ -818,7 +823,10 @@ export default function Table() {
                                                 <td style={{
                                                     fontSize: 32
                                                 }} >
-                                                    <p onClick={() => setToogleAlteracao(true)} >
+                                                    <p onClick={() => {
+                                                        setDataItemAlteracao(item);
+                                                        setToogleAlteracao(true)
+                                                    }} >
                                                         <TbEdit />
                                                     </p>
                                                 </td>

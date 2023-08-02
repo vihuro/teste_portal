@@ -17,7 +17,7 @@ const CardStorage = ({
     const [textUnidade, setTextUnidade] = useState("");
     const [textTipo, setTextTipo] = useState("");
     const [toogleMessage, setToogleMessage] = useState(false);
-    const [toogleLoading, setToogleLoading] = useState(true);
+    const [toogleLoading, setToogleLoading] = useState(false);
 
     const [dataTipo, setDataTipo] = useState<TipoPros[]>([]);
     const [checboxLocal, setCheckboxLocal] = useState<ListCheckBoxProps[]>([]);
@@ -160,18 +160,19 @@ const CardStorage = ({
         tipoMaterialId: "",
         unidade: "",
         substitutos: [],
-        localEstoqueId: "a8008341-fafd-4bc1-b79c-5e8cd8c42273",
-        quantidade: 20,
-        usuarioId: "f89f1da3-b1ce-4dba-8a39-a56ae54a774a"
+        localEstoqueId: "",
+        quantidade: 22,
+        usuarioId: "71ec31dc-57a6-4a53-b199-34157822f91b"
 
     })
 
     async function Verify() {
         setToogleLoading(true)
+        console.log(materialEstoque)
+        console.log(value)
         if (materialEstoque.codigo === "" ||
             materialEstoque.descricao === "" ||
             materialEstoque.unidade === "" ||
-            materialEstoque.localEstoqueId === "" ||
             materialEstoque.tipoMaterialId === "" ||
             value === "") {
             setMessage({
