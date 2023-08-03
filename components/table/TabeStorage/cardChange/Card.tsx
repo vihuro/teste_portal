@@ -17,7 +17,7 @@ interface ItemsProps {
     substitutos: [
         {
             produtoId: string,
-            substitutoId:string,
+            substitutoId: string,
             codigo: string,
             descricao: string,
             unidade: string,
@@ -57,7 +57,7 @@ const Card = ({
 }: {
     toogle: boolean,
     changeToogle: Function,
-    data: ItemsProps,
+    data?: ItemsProps,
     refreshTable: Function
 }) => {
     console.log(data)
@@ -75,11 +75,11 @@ const Card = ({
 
     useEffect(() => {
         setItem(data);
-        setValueQuantidade(data?.quantidade.toLocaleString())
+        setValueQuantidade(data?.quantidade.toLocaleString() ?? "")
     }, [data])
 
     async function Alterar() {
-        if (data.quantidade.toLocaleString() !== valueQuantidade) {
+        if (data?.quantidade.toLocaleString() !== valueQuantidade) {
             console.log("é diferente")
         } else {
             console.log("é igual")
@@ -89,7 +89,7 @@ const Card = ({
     async function RemoverSubstituto({ id }: { id: string }) {
         setToogleLoading(true)
         var teste = {
-            produtoId: data.id,
+            produtoId: data?.id,
             substitutoId: id,
             usuarioId: "71ec31dc-57a6-4a53-b199-34157822f91b"
         }
@@ -106,7 +106,7 @@ const Card = ({
             .finally(() => {
                 setToogleLoading(false)
                 setToogleMessage(true)
-                
+
             })
 
     }
