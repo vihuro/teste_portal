@@ -162,7 +162,7 @@ const CardStorage = ({
         substitutos: [],
         localEstoqueId: "",
         quantidade: 22,
-        usuarioId: "71ec31dc-57a6-4a53-b199-34157822f91b"
+        usuarioId: "97775694-ef8d-4b81-aadf-3354944b7891"
 
     })
 

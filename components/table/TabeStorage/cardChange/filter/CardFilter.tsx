@@ -37,7 +37,7 @@ export default function Card({
 
 
     async function FetchData() {
-        await Api.get("")
+        await Api.get("/without-substituto")
             .then(res => setData(res.data))
             .catch(err => console.log(err))
 
@@ -88,7 +88,7 @@ export default function Card({
                 </table>
             </div>
             <div className={style.container_button} >
-                <button>
+                <button onClick={() => changeToogle(false)}>
                     FECHAR
                 </button>
             </div>

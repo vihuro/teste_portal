@@ -79,8 +79,13 @@ const Card = ({
                         stateMessage={toogleMessage}
                     />
                 </div>
-                <div className={style.container_filter} >
-                    <CardFilter />
+                <div className={toogleFilter ?
+                    style.container_filter :
+                    style.container_filter_close} >
+                    <CardFilter
+                        changeToogle={setToogleFilter}
+                        toogle={toogleFilter}
+                    />
                 </div>
                 <div className={style.title} >
                     <span>PRODUTO</span>
@@ -181,7 +186,8 @@ const Card = ({
                             <label htmlFor=""></label>
                         </div>
                         <div className={style.wrap_filterSubstituto_button}>
-                            <button  >
+                            <button 
+                            onClick={() => setToogleFilter(true)} >
                                 <span>
                                     <BiFilterAlt />
                                 </span>
@@ -205,8 +211,8 @@ const Card = ({
                         <span>SALVAR</span>
                     </button>
                     <button onClick={() => {
-                        // changeToogle(false)
-                        setToogleMessage(true)
+                        changeToogle(false)
+                        // setToogleMessage(true)
                     }} >
                         <span>CANCELAR</span>
                     </button>
