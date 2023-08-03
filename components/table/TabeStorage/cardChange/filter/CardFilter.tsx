@@ -3,9 +3,11 @@ import style from "./style.module.css";
 import Api from "../../../../../service/api/matriz/estoque-grm";
 import { MdLibraryAdd } from "react-icons/md";
 import { CiMenuKebab } from "react-icons/ci";
+import Message from "../../../../message/Message";
+import Loading from "../../../../loading/Loading";
 
 
-interface itemProps {
+interface ItemsProps {
     id: string,
     codigo: string,
     descricao: string,
@@ -23,29 +25,99 @@ interface itemProps {
 
 export default function Card({
     toogle,
-    changeToogle
+    changeToogle,
+    idItem,
+    refreshTable
 }: {
     toogle: boolean,
-    changeToogle: Function
+    changeToogle: Function,
+    idItem?: string,
+    refreshTable: Function
 }) {
-    const [data, setData] = useState<itemProps[]>([]);
+    const [data, setData] = useState<ItemsProps[]>([]);
+
+    const [novoSubstituto, setNovoSubstituto] = useState({
+        produtoId: "",
+        substitutoId: "",
+        usuarioId: ""
+    })
 
     useEffect(() => {
         FetchData();
 
-    }, [])
+    }, [idItem])
+
 
 
     async function FetchData() {
-        await Api.get("/without-substituto")
+
+        await Api.get(`/withou-substituto/${idItem}`)
             .then(res => setData(res.data))
             .catch(err => console.log(err))
+
+    }
+    useEffect(() => {
+
+    }, [novoSubstituto])
+
+    const [toogleLoading, setLoadind] = useState(false);
+    const [toogleMessage, setToogleMessage] = useState(false);
+    const [dataMessage, setDataMessage] = useState({
+        message: "ERRO",
+        type: "WARNING"
+    })
+
+    async function AdicionarSubstituto({ id }: { id: string }) {
+        setLoadind(true)
+        setNovoSubstituto({
+            produtoId: idItem ? idItem : "",
+            substitutoId: id,
+            usuarioId: "71ec31dc-57a6-4a53-b199-34157822f91b"
+        });
+
+        const novoSubstituto = {
+            produtoId: idItem,
+            substitutoId: id,
+            usuarioId: "71ec31dc-57a6-4a53-b199-34157822f91b"
+        }
+
+        await Api.put("/substitutos", novoSubstituto)
+            .then(res => {
+                setDataMessage({
+                    message: "SUBSTITUTO ADICIONADO COM SUCESSO!",
+                    type: "SUCESS"
+                })
+                FetchData();
+                refreshTable();
+            })
+            .catch(err => console.log(err))
+            .finally(() => {
+                setLoadind(false)
+                setToogleMessage(true)
+            })
 
     }
 
 
     return (
         <div className={style.card} >
+            <div className={toogleMessage ?
+                style.container_message :
+                style.container_message_close} >
+                <Message
+                    stateMessage={toogleMessage}
+                    action={setToogleMessage}
+                    message={dataMessage.message}
+                    type={dataMessage.type}
+                />
+
+            </div>
+            <div className={toogleLoading ?
+                style.container_loading :
+                style.container_loading_close} >
+                <Loading />
+
+            </div>
             <div className={style.title} >
                 <span>
                     SUBSTITUTOS
@@ -80,7 +152,7 @@ export default function Card({
                                     <td>{item.quantidade}</td>
                                     <td>{item.tipoMaterial.tipo}</td>
                                     <td>{item.localEstocagem.localEstocagem}</td>
-                                    <td><MdLibraryAdd /></td>
+                                    <td onClick={() => AdicionarSubstituto({ id: item.id })} ><MdLibraryAdd /></td>
                                 </tr>
                             ))
                         )}

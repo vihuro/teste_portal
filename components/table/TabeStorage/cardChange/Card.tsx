@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import style from "./style.module.css";
 import {
     MdDelete,
@@ -7,15 +7,17 @@ import {
 import { BiFilterAlt } from "react-icons/bi"
 import Message from "../../../message/Message";
 import CardFilter from "./filter/CardFilter";
+import Api from "../../../../service/api/matriz/estoque-grm";
 
-interface itemProps {
+interface ItemsProps {
     id: string,
     codigo: string,
     descricao: string,
     quantidade: Number,
     substitutos: [
         {
-            id: string
+            produtoId: string,
+            substitutoId:string,
             codigo: string,
             descricao: string,
             unidade: string,
@@ -50,12 +52,15 @@ interface itemProps {
 const Card = ({
     toogle,
     changeToogle,
-    data
+    data,
+    refreshTable
 }: {
     toogle: boolean,
     changeToogle: Function,
-    data?: itemProps
+    data: ItemsProps,
+    refreshTable: Function
 }) => {
+    console.log(data)
 
     const [dataMessagem, setDataMessage] = useState({
         message: "ERRO",
@@ -64,6 +69,48 @@ const Card = ({
     const [toogleMessage, setToogleMessage] = useState(false);
     const [toogleFilter, setToogleFilter] = useState(true);
     const [toogleLoading, setToogleLoading] = useState(false);
+    const [valueQuantidade, setValueQuantidade] = useState("")
+
+    const [item, setItem] = useState<ItemsProps>();
+
+    useEffect(() => {
+        setItem(data);
+        setValueQuantidade(data?.quantidade.toLocaleString())
+    }, [data])
+
+    async function Alterar() {
+        if (data.quantidade.toLocaleString() !== valueQuantidade) {
+            console.log("é diferente")
+        } else {
+            console.log("é igual")
+        }
+    }
+
+    async function RemoverSubstituto({ id }: { id: string }) {
+        setToogleLoading(true)
+        var teste = {
+            produtoId: data.id,
+            substitutoId: id,
+            usuarioId: "71ec31dc-57a6-4a53-b199-34157822f91b"
+        }
+
+        await Api.delete(`substitutos/unico`, { data: teste })
+            .then(res => {
+                setDataMessage({
+                    message: "SUBSTITUTO DELETADO!",
+                    type: "SUCESS"
+                })
+                refreshTable()
+            })
+            .catch(err => console.log(err))
+            .finally(() => {
+                setToogleLoading(false)
+                setToogleMessage(true)
+                
+            })
+
+    }
+
 
     return (
         <div className={style.cardBackground} >
@@ -85,6 +132,8 @@ const Card = ({
                     <CardFilter
                         changeToogle={setToogleFilter}
                         toogle={toogleFilter}
+                        idItem={item?.id}
+                        refreshTable={() => refreshTable()}
                     />
                 </div>
                 <div className={style.title} >
@@ -95,7 +144,7 @@ const Card = ({
                         <input id="txtCodigo"
                             type="text"
                             required
-                            value={data?.codigo}
+                            value={item?.codigo ?? ''}
                             onChange={() => { }}
                         />
                         <label htmlFor="txtCodigo">CÓDIGO</label>
@@ -104,7 +153,7 @@ const Card = ({
                         <input id="txtDescricao"
                             type="text"
                             required
-                            value={data?.descricao}
+                            value={item?.descricao ?? ''}
                             onChange={() => { }}
                         />
                         <label htmlFor="txtDescricao">DESCRIÇÃO</label>
@@ -113,7 +162,7 @@ const Card = ({
                         <input id="txtUnidade"
                             type="text"
                             required
-                            value={data?.unidade}
+                            value={item?.unidade ?? ''}
                             onChange={() => { }}
                         />
                         <label htmlFor="txtUnidade">UND.</label>
@@ -122,8 +171,8 @@ const Card = ({
                         <input id="txtQuantidade"
                             type="text"
                             required
-                            value={data?.quantidade.toLocaleString()}
-                            onChange={() => { }}
+                            value={valueQuantidade ?? ''}
+                            onChange={(e) => { setValueQuantidade(e.target.value) }}
                         />
                         <label htmlFor="txtQuantidade">QTD.</label>
 
@@ -132,7 +181,7 @@ const Card = ({
                         <input id="txtTipo"
                             type="text"
                             required
-                            value={data?.tipoMaterial.tipo}
+                            value={item?.tipoMaterial.tipo ?? ''}
                             onChange={() => { }}
                         />
                         <label htmlFor="txtTipo">TIPO</label>
@@ -142,7 +191,7 @@ const Card = ({
                         <input id="txtLocal"
                             type="text"
                             required
-                            value={data?.localEstocagem.localEstocagem}
+                            value={item?.localEstocagem.localEstocagem ?? ''}
                             onChange={() => { }}
                         />
                         <label htmlFor="txtLocal">LOCAL</label>
@@ -163,7 +212,7 @@ const Card = ({
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {data?.substitutos.map((item, index) => (
+                                    {item?.substitutos.map((item, index) => (
                                         <tr key={index} >
                                             <td>{item.codigo}</td>
                                             <td>{item.descricao}</td>
@@ -172,7 +221,13 @@ const Card = ({
                                             <td>{item.localEstocagem}</td>
                                             <td>{item.tipoMaterial}</td>
                                             <td>
-                                                <MdDelete />
+                                                <p onClick={() => {
+                                                    RemoverSubstituto({
+                                                        id: item.substitutoId
+                                                    })
+                                                }} >
+                                                    <MdDelete />
+                                                </p>
                                             </td>
                                         </tr>
                                     ))}
@@ -181,33 +236,18 @@ const Card = ({
                         </div>
                     </div>
                     <div className={style.container_filterSubstituto} >
-                        <div className={style.wrap_filterSubstituto}>
-                            <input type="text" />
-                            <label htmlFor=""></label>
-                        </div>
                         <div className={style.wrap_filterSubstituto_button}>
-                            <button 
-                            onClick={() => setToogleFilter(true)} >
+                            <button
+                                onClick={() => setToogleFilter(true)} >
                                 <span>
                                     <BiFilterAlt />
-                                </span>
-                            </button>
-                            <button onClick={() => {
-                                setDataMessage({
-                                    message: "Substituto adicionado!",
-                                    type: "SUCESS"
-                                });
-                                setToogleMessage(true)
-                            }}>
-                                <span>
-                                    <MdLibraryAdd />
                                 </span>
                             </button>
                         </div>
                     </div>
                 </div>
                 <footer className={style.container_button} >
-                    <button>
+                    <button onClick={() => Alterar()} >
                         <span>SALVAR</span>
                     </button>
                     <button onClick={() => {

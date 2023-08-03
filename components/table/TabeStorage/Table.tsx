@@ -15,10 +15,7 @@ import CardChange from "./cardChange/Card";
 
 export default function Table() {
 
-    useEffect(() => {
-        FechData();
 
-    }, [])
     async function FechData() {
         await Api.get("")
             .then(res => {
@@ -27,6 +24,7 @@ export default function Table() {
             })
             .catch(err => console.log(err))
     }
+
 
     const { CardStorage, toogle: toogleAdd, setToogle: changeToogleAdd } = CardStorageTeste()
 
@@ -74,12 +72,25 @@ export default function Table() {
 
     const [textCode, setTextCode] = useState("");
 
+    useEffect(() => {
+        FechData();
+    }, [])
+
     interface ItemsProps {
         id: string,
         codigo: string,
         descricao: string,
         quantidade: Number,
-        substitutos: [],
+        substitutos: [{
+            codigo:string,
+            descricao:string,
+            localEstocagem:string,
+            produtoId:string,
+            quantidade:number,
+            substitutoId:string,
+            tipoMaterial:string,
+            unidade:string
+        }],
         localEstocagem: {
             guid: string,
             localEstocagem: string
@@ -637,9 +648,12 @@ export default function Table() {
     const { Card: CardCode, setToogleCard, toogleCard } = CardCodigo(setTextCode);
     const { Card: CardAlteracao, setToogle: setToogleAlteracao, toogle: toogleAlteracao } = CardChange()
 
+
     const [value, setValue] = useState("");
 
     const [valueDooble, setValueDooble] = useState(0);
+
+    const [dataItemString, setDataItemString] = useState("");
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
 
@@ -688,6 +702,18 @@ export default function Table() {
         // setValue(formattedNumber);
     };
 
+    useEffect(() => {
+        alteracao({ id: dataItemString })
+
+    }, [data])
+
+    function alteracao({ id }: { id: string }) {
+
+        var item = data.find(item => item.id === id);
+
+        return setDataItemAlteracao(item);
+    }
+
 
     return (
         <div className={style.container_table} >
@@ -699,7 +725,9 @@ export default function Table() {
                 <CardAlteracao
                     data={dataItemAlteracao}
                     toogle={toogleAlteracao}
-                    changeToogle={setToogleAlteracao} />
+                    changeToogle={setToogleAlteracao}
+                    refreshTable={() => FechData()}
+                />
             </div>
             <div className={style.container_button} >
 
@@ -824,7 +852,8 @@ export default function Table() {
                                                     fontSize: 32
                                                 }} >
                                                     <p onClick={() => {
-                                                        setDataItemAlteracao(item);
+                                                        alteracao({ id: item.id });
+                                                        setDataItemString(item.id)
                                                         setToogleAlteracao(true)
                                                     }} >
                                                         <TbEdit />
@@ -833,57 +862,6 @@ export default function Table() {
                                             </tr>
                                         )
                                     })
-                                    // filter && filter.length > 0 ?
-                                    //     filter.map((item, index) => {
-                                    //         const isRowSelected = selectedRows.includes(index);
-                                    //         return (
-                                    //             <tr key={index} >
-                                    //                 <td>{item.codigo}</td>
-                                    //                 <td>{item.descricao}</td>
-                                    //                 <td>{item.quantidade}</td>
-                                    //                 <td className={`${style["table_button"]} ${style["--unidade"]}`}>
-                                    //                     <p
-                                    //                         style={getColorStyle(item.unidade)}
-                                    //                     >
-                                    //                         {item.unidade}
-                                    //                     </p>
-                                    //                 </td>
-                                    //                 <td className={`${style["table_button"]} ${style["--substitutos"]}`}
-                                    //                     onClick={() => {
-                                    //                         if (isRowSelected) {
-                                    //                             setSelectedRows(selectedRows.filter((row) => row !== index));
-                                    //                         } else {
-                                    //                             setSelectedRows([...selectedRows, index]);
-                                    //                         }
-                                    //                     }}
-                                    //                 >
-                                    //                     {item.substitutos && item.substitutos.length > 0 && (
-                                    //                         <div className={
-                                    //                             isRowSelected
-                                    //                                 ? style.cardSubstituto
-                                    //                                 : style.cardSubstituto_close
-                                    //                         } >
-                                    //                             <CardSubs list={item.substitutos} />
-                                    //                         </div>
-                                    //                     )}
-                                    //                     <p>
-                                    //                         {item.substitutos?.length}
-                                    //                     </p>
-                                    //                 </td>
-                                    //                 <td className={`${style["table_button"]} ${style["--estocagem"]}`}>
-                                    //                     <p
-                                    //                         style={getColorStyle(item.localEstocagem)}>
-                                    //                         {item.localEstocagem}
-                                    //                     </p>
-                                    //                 </td>
-                                    //                 <td className={`${style["table_button"]} ${style["--tipo"]}`}>
-                                    //                     <p style={getColorStyle(item.tipo)}>
-                                    //                         {item.tipo}
-                                    //                     </p>
-                                    //                 </td>
-                                    //             </tr>
-                                    //         )
-                                    //     })
                                     :
                                     (
                                         <>
