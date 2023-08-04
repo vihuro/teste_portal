@@ -43,9 +43,12 @@ export default function Card({
     })
 
     useEffect(() => {
-        FetchData();
+        if(idItem){
 
-    }, [idItem])
+            FetchData();
+        }
+
+    }, [idItem, refreshTable])
 
 
 

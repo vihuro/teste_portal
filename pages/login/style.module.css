@@ -1,0 +1,82 @@
+.container_body {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.wrap_container_body {
+    width: 600px;
+    height: 500px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 5px;
+    padding: 10px;
+}
+
+.card {
+    border-radius: 7px;
+}
+
+.card:nth-child(1) {
+    grid-area: 1/1/1/1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: linear-gradient(to right bottom, rgba(0, 26, 255, .7), rgb(0, 194, 194, .5), rgb(10, 151, 207, .5), rgb(25, 0, 255, .7)),
+        linear-gradient(to right top, rgb(0, 26, 255), rgba(255, 0, 234, 0.5), rgb(25, 0, 255, .7)),
+        linear-gradient(to left bottom, rgba(243, 243, 243, 0.7), rgba(133, 0, 194, 0.8), rgba(234, 0, 255, 0.5), rgb(25, 0, 255, .7)),
+        linear-gradient(to left top, rgba(0, 247, 255, 0.7), rgba(13, 0, 194, 0.8), rgba(3, 70, 97, 0.5), rgba(255, 8, 0, 0.7))
+}
+
+.card:nth-child(2) {
+    grid-area: 1/2/1/2;
+    box-shadow: 1px 0 10px 1px rgba(13, 0, 194, 0.8);
+    display: grid;
+    grid-template-rows: 80px 1fr 50px;
+}
+
+.container_title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.containerInput {
+    align-content: center;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+
+}
+
+.containerInput div {
+    position: relative;
+    transition: .5s;
+}
+
+.containerInput div input {
+    padding: 10px;
+    border-radius: 7px;
+    border: 1px solid rgba(13, 0, 194, 0.8);
+    outline: none;
+}
+
+.containerInput div span {
+    position: absolute;
+    left: 5px;
+    bottom: 7px;
+    transition: .5s;
+}
+
+.containerInput div input:valid~span,
+.containerInput div input:focus~span {
+    transform: translateY(-20px);
+    font-size: 12px;
+    background-color: rgb(4, 0, 255);
+    padding: 3px;
+    color: white;
+    border-radius: 3px;
+}
