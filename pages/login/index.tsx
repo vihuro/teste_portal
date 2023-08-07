@@ -4,6 +4,7 @@ import Api from "../../service/api/login/login";
 import style from "./style.module.css";
 import { useState, useEffect } from "react";
 import { setCookie, parseCookies } from "nookies";
+import { useRouter } from "next/router";
 
 // import { Cookies } from "../../components/testeCookies";
 
@@ -60,6 +61,7 @@ export default function Login() {
         refreshToken: "",
         acessToken: ""
     })
+    const navigation = useRouter();
 
 
 
@@ -80,8 +82,10 @@ export default function Login() {
                     maxAge: 60 * 60 * 1
                 })
                 setCookie(null, "ACESS_TOKEN", res.data.accessToken, {
-                    path: "/"
+                    path: "/",
+                    maxAge: 60 * 60 * 1
                 })
+                navigation.push("/")
 
             })
             .catch(err => console.log(err))
