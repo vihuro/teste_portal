@@ -62,6 +62,7 @@
     border-radius: 7px;
     border: 1px solid rgba(13, 0, 194, 0.356);
     outline: none;
+
 }
 
 .containerInput div span {
@@ -69,6 +70,8 @@
     left: 5px;
     bottom: 7px;
     transition: .5s;
+    font-weight: 600;
+    color: rgba(12, 5, 75, 0.644);
 }
 
 .containerInput div input:valid~span,
@@ -95,6 +98,7 @@
     border-radius: 7px;
     padding: 10px;
     width: 150px;
+    transition: 1s;
 }
 
 .container_button button:hover {
@@ -102,5 +106,5 @@
     border: none;
     color: white;
     background-color: rgb(0, 26, 255);
-    transition: .5s;
+    transition: 1s;
 }

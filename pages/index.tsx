@@ -27,20 +27,21 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     }).then(res => { return res })
         .catch(err => { return err })
 
-    if (data.response.status === 401 || data.response.status === 403) return {
-        redirect: {
-            destination: "login",
-            permanent: false
+    if (data.response &&
+        (data.response.status === 401 ||
+            data.response.status === 403)
+    )
+        return {
+            redirect: {
+                destination: "login",
+                permanent: false
+            }
         }
-    }
 
 
     return {
         props: {}
     }
-
-
-
 
 }
 
