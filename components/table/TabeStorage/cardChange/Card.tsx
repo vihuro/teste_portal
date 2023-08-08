@@ -8,6 +8,8 @@ import { BiFilterAlt } from "react-icons/bi"
 import Message from "../../../message/Message";
 import CardFilter from "./filter/CardFilter";
 import Api from "../../../../service/api/matriz/estoque-grm";
+import { parseCookies } from "nookies";
+import TokenDrecriptor from "../../../../service/DecriptorToken";
 
 interface ItemsProps {
     id: string,
@@ -60,14 +62,14 @@ const Card = ({
     data?: ItemsProps,
     refreshTable: Function
 }) => {
-    console.log(data)
+
 
     const [dataMessagem, setDataMessage] = useState({
         message: "ERRO",
         type: "WARNING"
     });
     const [toogleMessage, setToogleMessage] = useState(false);
-    const [toogleFilter, setToogleFilter] = useState(true);
+    const [toogleFilter, setToogleFilter] = useState(false);
     const [toogleLoading, setToogleLoading] = useState(false);
     const [valueQuantidade, setValueQuantidade] = useState("")
 
@@ -88,10 +90,11 @@ const Card = ({
 
     async function RemoverSubstituto({ id }: { id: string }) {
         setToogleLoading(true)
+        const infoToken = TokenDrecriptor(parseCookies().ACCESS_TOKEN);
         var teste = {
             produtoId: data?.id,
             substitutoId: id,
-            usuarioId: "71ec31dc-57a6-4a53-b199-34157822f91b"
+            usuarioId: infoToken.idUser
         }
 
         await Api.delete(`substitutos/unico`, { data: teste })
@@ -263,7 +266,7 @@ const Card = ({
 }
 
 const toogleCard = () => {
-    const [toogle, setToogle] = useState(true);
+    const [toogle, setToogle] = useState(false);
 
     return {
         toogle,

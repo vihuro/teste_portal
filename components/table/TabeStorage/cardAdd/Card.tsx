@@ -5,6 +5,8 @@ import Api from "../../../../service/api/matriz/estoque-grm";
 import Message from "../../../message/Message";
 import Loading from "../../../loading/Loading";
 import { Console } from "console";
+import TokenDrecriptor from "../../../../service/DecriptorToken";
+import { parseCookies } from "nookies";
 
 const CardStorage = ({
     toogle,
@@ -21,6 +23,8 @@ const CardStorage = ({
 
     const [dataTipo, setDataTipo] = useState<TipoPros[]>([]);
     const [checboxLocal, setCheckboxLocal] = useState<ListCheckBoxProps[]>([]);
+
+    const tokenInfo = TokenDrecriptor(parseCookies().ACCESS_TOKEN)
 
 
     interface LocalProps {
@@ -161,8 +165,8 @@ const CardStorage = ({
         unidade: "",
         substitutos: [],
         localEstoqueId: "",
-        quantidade: 22,
-        usuarioId: "71ec31dc-57a6-4a53-b199-34157822f91b"
+        quantidade: 0,
+        usuarioId: ""
 
     })
 
@@ -194,13 +198,14 @@ const CardStorage = ({
                 const formattedValue = value.replaceAll(".", "").replace(",", ".")
                 return Api.post("/", {
                     ...materialEstoque,
+                    usuarioId:tokenInfo.idUser,
                     localEstoqueId: valueCheckBox.id,
                     quantidade: parseFloat(formattedValue)
                 });
             });
         if (promises.length === 0) {
             setMessage({
-                message: "Selecione pelo menos um local de vsvs fssfaf fskalkfsa jfsaio fnheio oasioqe foifja!",
+                message: "Selecione pelo menos um local de estocagem!",
                 type: "WARNING"
             });
             setToogleLoading(false);

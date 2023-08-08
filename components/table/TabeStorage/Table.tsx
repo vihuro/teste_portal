@@ -3,7 +3,6 @@
 import style from "./style.module.css";
 import React, { use, useEffect, useState } from "react";
 import { CiMenuKebab } from "react-icons/ci";
-import { MdOutlineMapsHomeWork } from "react-icons/md";
 import { BiFilter } from "react-icons/bi";
 import { TbEdit } from "react-icons/tb";
 
@@ -15,6 +14,14 @@ import CardChange from "./cardChange/Card";
 
 export default function Table() {
 
+    const [data, setData] = useState<ItemsProps[]>([]);
+    useEffect(() => {
+        FechData();
+    }, [])
+    useEffect(() => {
+        alteracao({ id: dataItemString })
+
+    }, [data])
 
     async function FechData() {
         await Api.get("")
@@ -52,7 +59,9 @@ export default function Table() {
         "stretch_eco": true
         ,
 
-        "shrink": true
+        "shrink": true,
+        "PET VIRGEM": true,
+        "PET-2": true
 
     })
     const [radioType, setRadioType] = useState({
@@ -61,20 +70,18 @@ export default function Table() {
     })
     const [dataFiltterlocale, setDataFilterLocale] = useState({
 
-        "fabrica": true
+        "FABRICA-GRM": true
         ,
 
-        "matriz": true
+        "MATRIZ-GRM": true
     })
     const [dataFilterCode, setDataFilterCode] = useState([]);
 
-    const [data, setData] = useState<ItemsProps[]>([]);
+
 
     const [textCode, setTextCode] = useState("");
 
-    useEffect(() => {
-        FechData();
-    }, [])
+
 
     interface ItemsProps {
         id: string,
@@ -82,14 +89,14 @@ export default function Table() {
         descricao: string,
         quantidade: Number,
         substitutos: [{
-            codigo:string,
-            descricao:string,
-            localEstocagem:string,
-            produtoId:string,
-            quantidade:number,
-            substitutoId:string,
-            tipoMaterial:string,
-            unidade:string
+            codigo: string,
+            descricao: string,
+            localEstocagem: string,
+            produtoId: string,
+            quantidade: number,
+            substitutoId: string,
+            tipoMaterial: string,
+            unidade: string
         }],
         localEstocagem: {
             guid: string,
@@ -342,26 +349,28 @@ export default function Table() {
     ]
 
 
-    const filter = List.filter(item => {
+    const filter = data.filter(item => {
+
         const text = item.codigo.toLowerCase().includes(textCode.toLowerCase());
         if (
-            (item.localEstocagem === "FABRICA" && dataFiltterlocale.fabrica) ||
-            (item.localEstocagem === "MATRIZ" && dataFiltterlocale.matriz)
+            (item.localEstocagem.localEstocagem === "FABRICA-GRM" && dataFiltterlocale["FABRICA-GRM"]) ||
+            (item.localEstocagem.localEstocagem === "MATRIZ-GRM" && dataFiltterlocale["MATRIZ-GRM"])
         ) {
             return (
-                (item.tipo === "PET VIRGEM" && dataFiltterTypes.pet_virgem) ||
-                (item.tipo === "PET-2" && dataFiltterTypes.pet_2) ||
-                (item.tipo === "PP VIRGEM" && dataFiltterTypes.pp_virgem) ||
-                (item.tipo === "PP-2" && dataFiltterTypes.pp_2) ||
-                (item.tipo === "STRETCH" && dataFiltterTypes.stretch) ||
-                (item.tipo === "STRETCH ECO" && dataFiltterTypes.stretch_eco) ||
-                (item.tipo === "SHRINK" && dataFiltterTypes.shrink)
+                (item.tipoMaterial.tipo === "PET VIRGEM" && dataFiltterTypes["PET VIRGEM"]) ||
+                (item.tipoMaterial.tipo === "PET-2" && dataFiltterTypes["PET-2"]) ||
+                (item.tipoMaterial.tipo === "PP VIRGEM" && dataFiltterTypes.pp_virgem) ||
+                (item.tipoMaterial.tipo === "PP-2" && dataFiltterTypes.pp_2) ||
+                (item.tipoMaterial.tipo === "STRETCH" && dataFiltterTypes.stretch) ||
+                (item.tipoMaterial.tipo === "STRETCH ECO" && dataFiltterTypes.stretch_eco) ||
+                (item.tipoMaterial.tipo === "SHRINK" && dataFiltterTypes.shrink)
             ) && text;
         }
 
         return false;
     });
-    const [listCode, setListCode] = useState(filter.map(item => item.codigo))
+
+    const [listCode, setListCode] = useState(data.map(item => item.codigo))
 
     const CardCodigo = (action: any) => {
 
@@ -405,6 +414,7 @@ export default function Table() {
                 setListVisible(newList);
             }
             const filter = listVisible.filter((item) => item.text.toLowerCase().includes(text.toLowerCase()))
+
 
             return (
                 <div className={style.card_codigo} >
@@ -458,7 +468,9 @@ export default function Table() {
                 pp_virgem: true,
                 shrink: true,
                 stretch: true,
-                stretch_eco: true
+                stretch_eco: true,
+                "PET VIRGEM": true,
+                "PET-2": true
             })
             setRadioType({
                 "desmarcar todos": false,
@@ -473,7 +485,9 @@ export default function Table() {
                 pp_virgem: false,
                 shrink: false,
                 stretch: false,
-                stretch_eco: false
+                stretch_eco: false,
+                "PET VIRGEM":true,
+                "PET-2":true
             })
             setRadioType({
                 "desmarcar todos": true,
@@ -569,19 +583,19 @@ export default function Table() {
                 <ul className={style.list} >
                     <li>
                         <input id="fabrica" type="checkbox"
-                            checked={dataFiltterlocale.fabrica}
+                            checked={dataFiltterlocale["FABRICA-GRM"]}
                             onChange={e =>
-                                setDataFilterLocale({ ...dataFiltterlocale, fabrica: e.target.checked })}
+                                setDataFilterLocale({ ...dataFiltterlocale, "FABRICA-GRM": e.target.checked })}
                         />
-                        <label htmlFor="fabrica" style={getColorStyle("FABRICA")} >
-                            FÁBRICA
+                        <label htmlFor="fabrica" style={getColorStyle("FABRICA-GRM")} >
+                            FABRICA-GRM
                         </label>
                     </li>
                     <li>
-                        <input id="matriz" type="checkbox" checked={dataFiltterlocale.matriz}
-                            onChange={e => setDataFilterLocale({ ...dataFiltterlocale, matriz: e.target.checked })} />
-                        <label htmlFor="matriz" style={getColorStyle("MATRIZ")} >
-                            MATRIZ
+                        <input id="matriz" type="checkbox" checked={dataFiltterlocale["MATRIZ-GRM"]}
+                            onChange={e => setDataFilterLocale({ ...dataFiltterlocale, "MATRIZ-GRM": e.target.checked })} />
+                        <label htmlFor="matriz" style={getColorStyle("MATRIZ-GRM")} >
+                            MATRIZ-GRM
                         </label>
                     </li>
                 </ul>
@@ -702,10 +716,6 @@ export default function Table() {
         // setValue(formattedNumber);
     };
 
-    useEffect(() => {
-        alteracao({ id: dataItemString })
-
-    }, [data])
 
     function alteracao({ id }: { id: string }) {
 
@@ -804,7 +814,7 @@ export default function Table() {
                         <tbody className={style.table_body} >
                             {
                                 data && data.length > 0 ?
-                                    data.map((item, index) => {
+                                    filter.map((item, index) => {
                                         const isRowSelectd = selectedRows.includes(index);
 
                                         return (

@@ -5,6 +5,8 @@ import { MdLibraryAdd } from "react-icons/md";
 import { CiMenuKebab } from "react-icons/ci";
 import Message from "../../../../message/Message";
 import Loading from "../../../../loading/Loading";
+import TokenDrecriptor from "../../../../../service/DecriptorToken";
+import { parseCookies } from "nookies";
 
 
 interface ItemsProps {
@@ -69,13 +71,16 @@ export default function Card({
         message: "ERRO",
         type: "WARNING"
     })
+    const infoToken = TokenDrecriptor(parseCookies().ACCESS_TOKEN);
+
 
     async function AdicionarSubstituto({ id }: { id: string }) {
         setLoadind(true)
+
         setNovoSubstituto({
             produtoId: idItem ? idItem : "",
             substitutoId: id,
-            usuarioId: "71ec31dc-57a6-4a53-b199-34157822f91b"
+            usuarioId: infoToken.idUser
         });
 
         const novoSubstituto = {
