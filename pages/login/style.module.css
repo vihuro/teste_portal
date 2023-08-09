@@ -65,7 +65,7 @@
 
 }
 
-.containerInput div span {
+.containerInput div label {
     position: absolute;
     font-size: 14px;
     left: 5px;
@@ -75,8 +75,8 @@
     color: rgba(12, 5, 75, 0.644);
 }
 
-.containerInput div input:valid~span,
-.containerInput div input:focus~span {
+.containerInput div input:valid~label,
+.containerInput div input:focus~label {
     transform: translateY(-20px);
     font-size: 12px;
     background-color: rgb(4, 0, 255);

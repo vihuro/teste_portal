@@ -21,9 +21,6 @@
 
 }
 
-.iconUser span {
-    pointer-events: none;
-}
 
 .iconUser svg {
     box-shadow: 1px 0 10px 1px rgb(255, 255, 255);
@@ -32,7 +29,7 @@
 }
 
 .iconUser:hover {
-    /* cursor: pointer; */
+    cursor: pointer;
 }
 
 .card {
@@ -85,11 +82,17 @@
     text-align: center;
     overflow: hidden;
 }
-.card ul li{
-    cursor: progress;
-}
+
 
 .card ul li:nth-child(2) {
     background-color: red;
     color: rgb(114, 0, 0);
+}
+.card ul li:nth-child(2):hover {
+    background-color: rgb(139, 7, 7);
+    color: rgb(230, 10, 10);
+}
+.card ul li:nth-child(1):hover {
+    background-color: rgb(161, 161, 161);
+
 }

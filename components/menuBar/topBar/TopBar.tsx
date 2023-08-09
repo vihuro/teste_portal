@@ -30,7 +30,7 @@ export default function TopBarSide() {
     function TopBar() {
         return (
             <div className={style.header} >
-                <div className={style.iconUser} onClick={e => { }} >
+                <div className={style.iconUser} onClick={e => { setToogleValue(!toogleValue)}} >
                     <div className={toogleValue ? style.card : style.card_close}
                     >
                         <ul  >

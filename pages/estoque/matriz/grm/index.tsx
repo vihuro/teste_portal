@@ -1,13 +1,22 @@
-"use client"
-import { destroyCookie, parseCookies, setCookie } from "nookies";
-import MenuBar from "../components/menuBar/MenuBar";
-import Body from "../components/table/Body";
-import Table from "../components/table/TabeStorage/Table";
-import { GetServerSideProps } from "next";
 import axios from "axios";
-import TokenDrecriptor from "../service/DecriptorToken";
-import { useEffect } from "react";
+import TokenDrecriptor from "../../../../service/DecriptorToken";
+import { destroyCookie, parseCookies, setCookie } from "nookies";
+import { GetServerSideProps } from "next";
+import MenuBar from "../../../../components/menuBar/MenuBar";
+import Body from "../../../../components/table/Body";
+import Table from "../../../../components/table/TabeStorage/Table";
 
+export default function Estoque() {
+    const { Page, setToogleValue, toogleValue } = MenuBar();
+    return (
+        <section >
+            <Page />
+            <Body changeToogleAlterarSenha={setToogleValue} toogleCardAlterarSenha={toogleValue ?? false}>
+                <Table />
+            </Body>
+        </section>
+    )
+}
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
     const acessToken = parseCookies(context).ACCESS_TOKEN;
@@ -71,7 +80,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
             destroyCookie(context, "ACCESS_TOKEN");
             return {
                 redirect: {
-                    destination: "login",
+                    destination: "/login",
                     permanent: false
                 }
             }
@@ -84,21 +93,3 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     }
 
 }
-
-export default function Home() {
-
-    const { Page,  setToogleValue, toogleValue } = MenuBar();
-
-
-    return (
-
-        <section >
-            <Page />
-            <Body changeToogleAlterarSenha={setToogleValue}  toogleCardAlterarSenha={toogleValue ?? false}>
-
-            </Body>
-        </section>
-    )
-
-}
-

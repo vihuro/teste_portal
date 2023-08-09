@@ -7,6 +7,9 @@
     display: grid;
     grid-template-columns: 30px 1fr 10px;
 }
+.card:hover{
+    cursor: default;
+}
 .section_icon{
     grid-area: 1/1/1/1;
     font-size: 2rem;
@@ -32,5 +35,7 @@
     grid-area: 1/2/1/2;
     border: none;
     font-size: 18px;
-
+}
+.button:hover{
+    cursor: pointer;
 }

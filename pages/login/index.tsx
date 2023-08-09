@@ -74,18 +74,21 @@ export default function Login() {
                     <div className={style.containerInput} >
                         <div>
                             <input
+                            id="txtUsuario"
                                 type="text"
                                 required
+                                autoComplete="off"
                                 value={data.apelido ?? ""}
                                 onChange={e => setData({
                                     ...data,
                                     apelido: e.target.value
                                 })}
                             />
-                            <span>USUÁRIO</span>
+                            <label htmlFor="txtUsuario" >USUÁRIO</label>
                         </div>
                         <div>
                             <input
+                            id="txtSenha"
                                 type="password"
                                 required
                                 value={data.senha ?? ""}
@@ -94,7 +97,7 @@ export default function Login() {
                                     senha: e.target.value
                                 })}
                             />
-                            <span>SENHA</span>
+                            <label htmlFor="txtSenha" >SENHA</label>
                         </div>
                     </div>
                     <div className={style.container_button} >

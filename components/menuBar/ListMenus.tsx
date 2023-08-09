@@ -2,18 +2,74 @@ import { BsBoxes } from "react-icons/bs";
 import { FaServer, FaTruck } from "react-icons/fa";
 import { MdOutlineEngineering } from "react-icons/md";
 
+interface RotasProps {
+  text: string;
+  link?: string;
+  visible: boolean;
+  rotas?: RotasProps[];
+}
+
+interface listMenusProps {
+  class: string;
+  icon: JSX.Element;
+  text: string;
+  visible: boolean;
+  link: string;
+  rotas: RotasProps[];
+}
+
+
+
 const List = [
     {
         class: "row_active",
         text: "ESTOQUE",
         link: "/#",
+        visible: false,
         icon: <BsBoxes />,
-        rotas: []
+        rotas: [
+            {
+                text: "Fábrica",
+                visible: false,
+                rotas: [
+                    {
+                        text: "Fábrica",
+                        visible: false,
+                        rotas: [
+                            {
+                                text: "",
+                                link: "/#",
+                            }
+                        ]
+                    }
+                ],
+                link: "/#"
+            },
+            {
+                text: "Matriz",
+                visible: false,
+                rotas: [
+                    {
+                        text: "Estoque grm",
+                        visible: false,
+                        rotas: [
+                            {
+                                text: "",
+                                link: "/estoque/matriz/grm",
+                                visible: false
+                            }
+                        ]
+                    }
+                ],
+                link: "/#"
+            },
+        ]
     },
     {
         class: "row",
         text: "EXPEDIÇÃO",
         link: "/#",
+        visible: false,
         icon: <FaTruck />,
         rotas: []
     },
@@ -21,6 +77,7 @@ const List = [
         class: "row",
         text: "PRODUÇÃO",
         link: "/#",
+        visible: false,
         icon: <FaServer />,
         rotas: []
     },
@@ -28,14 +85,21 @@ const List = [
         class: "row",
         text: "GERENCIAL",
         link: "/#",
+        visible: false,
         icon: <MdOutlineEngineering />,
-        rotas: []
+        rotas: [
+            {
+                text: "Usuários",
+                link: "/#"
+            },
+            {
+                text: "Regras",
+                link: "/#"
+            }
+        ]
     }
-]
+] as listMenusProps[]
 
-interface ListMenusProps {
-    id: number
-}
 
 
 export function ListMenus() {

@@ -14,11 +14,11 @@ export default function Body({ children, changeToogleAlterarSenha, toogleCardAlt
 
 
     return (
-        // <div className={style.body} onClick={() => changeToogleAlterarSenha()} >
+        <div className={style.body} onClick={() => changeToogleAlterarSenha()} >
+            {children}
+        </div>
+        // <div className={style.body} >
         //     {children}
         // </div>
-        <div className={style.body} >
-        {children}
-    </div>
     )
 }
