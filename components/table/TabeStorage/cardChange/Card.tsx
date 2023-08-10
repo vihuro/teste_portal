@@ -15,7 +15,7 @@ interface ItemsProps {
     id: string,
     codigo: string,
     descricao: string,
-    quantidade: Number,
+    quantidade: number,
     substitutos: [
         {
             produtoId: string,
@@ -51,6 +51,11 @@ interface ItemsProps {
     }
 }
 
+interface TipoProps {
+    id: string,
+    tipo: string
+}
+
 const Card = ({
     toogle,
     changeToogle,
@@ -59,7 +64,7 @@ const Card = ({
 }: {
     toogle: boolean,
     changeToogle: Function,
-    data?: ItemsProps,
+    data: ItemsProps,
     refreshTable: Function
 }) => {
 
@@ -72,19 +77,57 @@ const Card = ({
     const [toogleFilter, setToogleFilter] = useState(false);
     const [toogleLoading, setToogleLoading] = useState(false);
     const [valueQuantidade, setValueQuantidade] = useState("")
+    const infoToken = TokenDrecriptor(parseCookies().ACCESS_TOKEN);
+    const [dataTipo, setDataTipo] = useState<TipoProps[]>([]);
 
+    const [toogleTipo, setToogleTipo] = useState(false);
     const [item, setItem] = useState<ItemsProps>();
 
     useEffect(() => {
         setItem(data);
-        setValueQuantidade(data?.quantidade.toLocaleString() ?? "")
+        setValueQuantidade(data?.quantidade.toLocaleString())
+        fechDataTipo();
+
     }, [data])
+
+    async function fechDataTipo() {
+        await Api.get("/tipo-material")
+            .then(res => setDataTipo(res.data))
+            .catch(err => console.log(err))
+    }
+
 
     async function Alterar() {
         if (data?.quantidade.toLocaleString() !== valueQuantidade) {
-            console.log("é diferente")
-        } else {
-            console.log("é igual")
+
+            const valueNumber = Number(valueQuantidade);
+
+            const tipoMovimentacao = data.quantidade < valueNumber ? 0 : 1;
+
+            const quantidadeMovimentada = valueNumber - data.quantidade;
+
+            const alteracao = {
+                materialId: data?.id,
+                quantidadeMovimentada: quantidadeMovimentada,
+                usuarioId: infoToken.idUser,
+                tipoMovimentacao: tipoMovimentacao
+            }
+
+
+            await Api.post("/movimentacao", alteracao)
+                .then(res => res)
+                .catch(err => console.log(err))
+                .finally(() => {
+                    setDataMessage({
+                        message: "só vai",
+                        type: "SUCESS"
+                    })
+                    setToogleLoading(false);
+                    setToogleMessage(true)
+                    refreshTable()
+                })
+
+
         }
     }
 
@@ -117,7 +160,9 @@ const Card = ({
 
     return (
         <div className={style.cardBackground} >
-            <div className={style.card} >
+            <div className={style.card} onClick={() => {
+                setToogleTipo(false)
+            }} >
                 <div className={toogleMessage ?
                     style.container_message :
                     style.container_message_close}
@@ -176,18 +221,32 @@ const Card = ({
                             required
                             value={valueQuantidade ?? ''}
                             onChange={(e) => { setValueQuantidade(e.target.value) }}
+                            autoComplete="off"
                         />
                         <label htmlFor="txtQuantidade">QTD.</label>
 
                     </div>
-                    <div className={style.container_tipoMaterial}>
+                    <div className={style.container_tipoMaterial} onClick={(e) => e.stopPropagation()} >
                         <input id="txtTipo"
                             type="text"
                             required
                             value={item?.tipoMaterial.tipo ?? ''}
-                            onChange={() => { }}
+                            onChange={() => {}}
+                            onClick={() => setToogleTipo(!toogleTipo)}
+                            autoComplete="off"
                         />
                         <label htmlFor="txtTipo">TIPO</label>
+                        <ul className={toogleTipo ? style.listTipo : style.listTipo_close} >
+                            {dataTipo.map((item, index) => (
+                                <li onClick={(e) => {
+                                    item
+
+                                }} key={index} >
+                                    {item.tipo}
+
+                                </li>
+                            ))}
+                        </ul>
 
                     </div>
                     <div className={style.container_localEstocagem}>
@@ -255,7 +314,6 @@ const Card = ({
                     </button>
                     <button onClick={() => {
                         changeToogle(false)
-                        // setToogleMessage(true)
                     }} >
                         <span>CANCELAR</span>
                     </button>
