@@ -61,8 +61,9 @@ export default function Table() {
 
         "shrink": true,
         "PET VIRGEM": true,
-        "PET-2": true
-
+        "PET-2": true,
+        "FPA VIRGEM":true,
+        "FPA-2":true
     })
     const [radioType, setRadioType] = useState({
         "marcar todos": true,
@@ -87,7 +88,7 @@ export default function Table() {
         id: string,
         codigo: string,
         descricao: string,
-        quantidade: Number,
+        quantidade: number,
         substitutos: [{
             codigo: string,
             descricao: string,
@@ -161,11 +162,11 @@ export default function Table() {
             background: "#00923B",
             color: "white"
         },
-        "PP VIRGEM": {
+        "FPA VIRGEM": {
             background: "#8C9EF8",
             color: "white"
         },
-        "PP-2": {
+        "FPA-2": {
             background: "#0B28B9",
             color: "white"
         },
@@ -194,6 +195,7 @@ export default function Table() {
 
     const filter = data.filter(item => {
 
+
         const text = item.codigo.toLowerCase().includes(textCode.toLowerCase());
         if (
             (item.localEstocagem.localEstocagem === "FABRICA-GRM" && dataFiltterlocale["FABRICA-GRM"]) ||
@@ -202,6 +204,8 @@ export default function Table() {
             return (
                 (item.tipoMaterial.tipo === "PET VIRGEM" && dataFiltterTypes["PET VIRGEM"]) ||
                 (item.tipoMaterial.tipo === "PET-2" && dataFiltterTypes["PET-2"]) ||
+                (item.tipoMaterial.tipo === "FPA VIRGEM" && dataFiltterTypes["FPA VIRGEM"]) ||
+                (item.tipoMaterial.tipo === "FPA-2" && dataFiltterTypes["FPA-2"]) ||
                 (item.tipoMaterial.tipo === "PP VIRGEM" && dataFiltterTypes.pp_virgem) ||
                 (item.tipoMaterial.tipo === "PP-2" && dataFiltterTypes.pp_2) ||
                 (item.tipoMaterial.tipo === "STRETCH" && dataFiltterTypes.stretch) ||
@@ -313,7 +317,9 @@ export default function Table() {
                 stretch: true,
                 stretch_eco: true,
                 "PET VIRGEM": true,
-                "PET-2": true
+                "PET-2": true,
+                "FPA VIRGEM":true,
+                "FPA-2":true
             })
             setRadioType({
                 "desmarcar todos": false,
@@ -329,8 +335,10 @@ export default function Table() {
                 shrink: false,
                 stretch: false,
                 stretch_eco: false,
-                "PET VIRGEM":true,
-                "PET-2":true
+                "PET VIRGEM": true,
+                "PET-2": true,
+                "FPA VIRGEM":true,
+                "FPA-2":true
             })
             setRadioType({
                 "desmarcar todos": true,
@@ -539,6 +547,7 @@ export default function Table() {
     };
 
 
+
     function alteracao({ id }: { id: string }) {
 
         var item = data.find(item => item.id === id);
@@ -551,15 +560,18 @@ export default function Table() {
         <div className={style.container_table} >
 
             <div className={toogleAdd ? style.container_add : style.container_add_close} >
-                <CardStorage toogle={toogleAdd} changeToogle={changeToogleAdd} />
+                <CardStorage toogle={toogleAdd} changeToogle={changeToogleAdd} refreshTable={() => FechData()} />
             </div>
             <div className={toogleAlteracao ? style.container_alteracao : style.container_alteracao_close} >
-                <CardAlteracao
-                    data={dataItemAlteracao}
-                    toogle={toogleAlteracao}
-                    changeToogle={setToogleAlteracao}
-                    refreshTable={() => FechData()}
-                />
+                {dataItemAlteracao && (
+                    <CardAlteracao
+                        data={dataItemAlteracao}
+                        toogle={toogleAlteracao}
+                        changeToogle={setToogleAlteracao}
+                        refreshTable={() => FechData()}
+                    />
+                )}
+
             </div>
             <div className={style.container_button} >
 

@@ -10,10 +10,12 @@ import { parseCookies } from "nookies";
 
 const CardStorage = ({
     toogle,
-    changeToogle
+    changeToogle,
+    refreshTable
 }: {
     toogle: boolean,
-    changeToogle: Function
+    changeToogle: Function,
+    refreshTable:Function
 }) => {
 
     const [textUnidade, setTextUnidade] = useState("");
@@ -219,6 +221,7 @@ const CardStorage = ({
                         type: "SUCESS"
                     })
                     clearAll();
+                    refreshTable()
                 })
                 .catch(err => {
                     if (err.response.data) {

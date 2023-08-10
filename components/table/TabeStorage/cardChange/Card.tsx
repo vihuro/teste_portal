@@ -56,6 +56,8 @@ interface TipoProps {
     tipo: string
 }
 
+
+
 const Card = ({
     toogle,
     changeToogle,
@@ -73,19 +75,27 @@ const Card = ({
         message: "ERRO",
         type: "WARNING"
     });
-    const [toogleMessage, setToogleMessage] = useState(false);
-    const [toogleFilter, setToogleFilter] = useState(false);
-    const [toogleLoading, setToogleLoading] = useState(false);
-    const [valueQuantidade, setValueQuantidade] = useState("")
+    const [toogleMessage, setToogleMessage] = useState<boolean>(false);
+    const [toogleFilter, setToogleFilter] = useState<boolean>(false);
+    const [toogleLoading, setToogleLoading] = useState<boolean>(false);
     const infoToken = TokenDrecriptor(parseCookies().ACCESS_TOKEN);
+    const [valueTipo, setValueTipo] = useState<TipoProps>();
     const [dataTipo, setDataTipo] = useState<TipoProps[]>([]);
+    const [valueQuantidade, setValueQuantidade] = useState<string>("")
+    const [valueUnidade, setValueUnidade] = useState<string>("");
 
-    const [toogleTipo, setToogleTipo] = useState(false);
+    const [toogleTipo, setToogleTipo] = useState<boolean>(false);
+    const [toogleUnidade, setToogleUnidade] = useState<boolean>(true)
     const [item, setItem] = useState<ItemsProps>();
 
     useEffect(() => {
         setItem(data);
         setValueQuantidade(data?.quantidade.toLocaleString())
+        setValueTipo({
+            id: data?.tipoMaterial.id,
+            tipo: data?.tipoMaterial.tipo
+        })
+        setValueUnidade(data?.unidade)
         fechDataTipo();
 
     }, [data])
@@ -98,49 +108,120 @@ const Card = ({
 
 
     async function Alterar() {
-        if (data?.quantidade.toLocaleString() !== valueQuantidade) {
+        const validateQuantidade = data?.quantidade.toLocaleString() !== valueQuantidade;
+        const validateUnidadeOrTipoMaterial = data.unidade !== valueUnidade || data.tipoMaterial.id !== valueTipo?.id;
 
-            const valueNumber = Number(valueQuantidade);
+        const userId = infoToken.idUser;
+        const produtoId = data.id;
 
-            const tipoMovimentacao = data.quantidade < valueNumber ? 0 : 1;
+        if (validateQuantidade || validateUnidadeOrTipoMaterial) {
+            setToogleLoading(true);
 
-            const quantidadeMovimentada = valueNumber - data.quantidade;
+            const promises: Promise<any>[] = [];
 
-            const alteracao = {
-                materialId: data?.id,
-                quantidadeMovimentada: quantidadeMovimentada,
-                usuarioId: infoToken.idUser,
-                tipoMovimentacao: tipoMovimentacao
+            if (validateQuantidade) promises.push(AtualizarQuantidade({ idUser: userId, produtoId: produtoId }))
+
+            if(validateUnidadeOrTipoMaterial) promises.push(AtualizarTipoOrUnidade({idUser:userId, produtoId: produtoId}));
+
+            await Promise.all(promises)
+
+            let reponseAtuailizarQuantidade = Promise<any>;
+            let responseAtualizarTipoOrUnidade = Promise<any>;
+
+            if (validateQuantidade) {
+                reponseAtuailizarQuantidade = await AtualizarQuantidade({ idUser: userId, produtoId: produtoId })
+            }
+            if (validateUnidadeOrTipoMaterial) {
+                responseAtualizarTipoOrUnidade = await AtualizarTipoOrUnidade({ idUser: userId, produtoId: produtoId })
             }
 
+            const results = await Promise.all(promises);
 
-            await Api.post("/movimentacao", alteracao)
-                .then(res => res)
-                .catch(err => console.log(err))
-                .finally(() => {
-                    setDataMessage({
-                        message: "só vai",
-                        type: "SUCESS"
-                    })
-                    setToogleLoading(false);
-                    setToogleMessage(true)
-                    refreshTable()
+            const allPromisesSuccess = results.every(res => res.status === 200);
+            if(allPromisesSuccess){
+                setDataMessage({
+                    message:"Alterações feitas com sucesso!",
+                    type:"SUCESS"
                 })
+            }else{
+                setDataMessage({
+                    message:"ERRO no servidor!",
+                    type:"ERROR"
+                })
+            }
+            setToogleLoading(false);
+            setToogleMessage(true);
+            refreshTable()
 
 
         }
+
+
+
+
+    }
+
+    async function AtualizarTipoOrUnidade({
+        idUser,
+        produtoId
+    }: {
+        idUser: string,
+        produtoId: string
+    }) {
+        const alteracao = {
+            usuarioId: idUser,
+            produtoId: produtoId,
+            tipoId: valueTipo?.id,
+            unidade: valueUnidade
+        }
+        const reponse = await Api.put("", alteracao)
+            .then(res => res)
+            .catch(err => err)
+
+        return reponse
+
+    }
+    async function AtualizarQuantidade({
+        idUser,
+        produtoId
+    }: {
+        idUser: string,
+        produtoId: string
+    }) {
+
+        const valueNumber = Number(valueQuantidade);
+
+        const tipoMovimentacao = data.quantidade < valueNumber ? 0 : 1;
+
+        const quantidadeMovimentada = valueNumber - data.quantidade;
+
+        const alteracao = {
+            materialId: produtoId,
+            quantidadeMovimentada: quantidadeMovimentada,
+            usuarioId: idUser,
+            tipoMovimentacao: tipoMovimentacao
+        }
+
+
+        const response = await Api.post("/movimentacao", alteracao)
+            .then(res => res)
+            .catch(err => err)
+
+        return response;
+
+
     }
 
     async function RemoverSubstituto({ id }: { id: string }) {
         setToogleLoading(true)
         const infoToken = TokenDrecriptor(parseCookies().ACCESS_TOKEN);
-        var teste = {
+        var substituto = {
             produtoId: data?.id,
             substitutoId: id,
             usuarioId: infoToken.idUser
         }
 
-        await Api.delete(`substitutos/unico`, { data: teste })
+        await Api.delete(`substitutos/unico`, { data: substituto })
             .then(res => {
                 setDataMessage({
                     message: "SUBSTITUTO DELETADO!",
@@ -157,11 +238,24 @@ const Card = ({
 
     }
 
+    const listUnidade = [
+        {
+            "unidade": "KG"
+        },
+        {
+            "unidade": "ROL"
+        },
+        {
+            "unidade": "MI"
+        }
+    ]
+
 
     return (
         <div className={style.cardBackground} >
             <div className={style.card} onClick={() => {
                 setToogleTipo(false)
+                setToogleUnidade(false)
             }} >
                 <div className={toogleMessage ?
                     style.container_message :
@@ -206,14 +300,27 @@ const Card = ({
                         />
                         <label htmlFor="txtDescricao">DESCRIÇÃO</label>
                     </div>
-                    <div className={style.container_unidade}>
+                    <div className={style.container_unidade} onClick={e => e.stopPropagation()} >
                         <input id="txtUnidade"
                             type="text"
                             required
-                            value={item?.unidade ?? ''}
+                            value={valueUnidade}
                             onChange={() => { }}
+                            onClick={() => {
+                                setToogleUnidade(!toogleUnidade)
+                                setToogleTipo(false)
+                            }}
                         />
                         <label htmlFor="txtUnidade">UND.</label>
+                        <ul className={toogleUnidade ? style.listUnidade : style.listUnidade_close} >
+                            {listUnidade.map((item, index) => (
+                                <li onClick={() => {
+                                    setValueUnidade(item.unidade)
+                                    setToogleUnidade(false)
+                                }} key={index} >{item.unidade}</li>
+                            ))}
+
+                        </ul>
                     </div>
                     <div className={style.container_quantidade}>
                         <input id="txtQuantidade"
@@ -230,9 +337,12 @@ const Card = ({
                         <input id="txtTipo"
                             type="text"
                             required
-                            value={item?.tipoMaterial.tipo ?? ''}
-                            onChange={() => {}}
-                            onClick={() => setToogleTipo(!toogleTipo)}
+                            value={valueTipo?.tipo ?? ''}
+                            onChange={() => { }}
+                            onClick={() => {
+                                setToogleTipo(!toogleTipo)
+                                setToogleUnidade(false)
+                            }}
                             autoComplete="off"
                         />
                         <label htmlFor="txtTipo">TIPO</label>
@@ -240,6 +350,11 @@ const Card = ({
                             {dataTipo.map((item, index) => (
                                 <li onClick={(e) => {
                                     item
+                                    setValueTipo({
+                                        id: item.id,
+                                        tipo: item.tipo
+                                    })
+                                    setToogleTipo(false)
 
                                 }} key={index} >
                                     {item.tipo}
