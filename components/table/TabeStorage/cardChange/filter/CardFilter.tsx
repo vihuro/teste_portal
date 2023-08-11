@@ -37,6 +37,7 @@ export default function Card({
     refreshTable: Function
 }) {
     const [data, setData] = useState<ItemsProps[]>([]);
+    const [id, setId] = useState<string>();
 
     const [novoSubstituto, setNovoSubstituto] = useState({
         produtoId: "",
@@ -45,20 +46,24 @@ export default function Card({
     })
 
     useEffect(() => {
-        if(idItem){
+        if (idItem) {
+            setId(idItem);
+            console.log("Dentro de Card filter " + id)
 
             FetchData();
         }
 
-    }, [ ])
+    }, [toogle === true])
 
 
 
     async function FetchData() {
+        if (id !== "") {
 
-        await Api.get(`/withou-substituto/${idItem}`)
-            .then(res => setData(res.data))
-            .catch(err => console.log(err))
+            await Api.get(`/withou-substituto/${id}`)
+                .then(res => setData(res.data))
+                .catch(err => console.log(err))
+        }
 
     }
     useEffect(() => {
@@ -168,7 +173,10 @@ export default function Card({
                 </table>
             </div>
             <div className={style.container_button} >
-                <button onClick={() => changeToogle(false)}>
+                <button onClick={() => {
+                    setId("");
+                    changeToogle(false)
+                }}>
                     FECHAR
                 </button>
             </div>

@@ -16,7 +16,7 @@ interface tokenProps {
 
 export default function TopBarSide() {
     const [valueToken, setValueToken] = useState<tokenProps>();
-    const [toogleValue, setToogleValue] = useState<boolean>(true);
+    const [toogleValue, setToogleValue] = useState<boolean>(false);
 
 
     useEffect(() => {

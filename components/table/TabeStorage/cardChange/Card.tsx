@@ -49,7 +49,8 @@ interface ItemsProps {
         apelido: string,
         nome: string,
         dataHora: Date
-    }
+    },
+    ativo: boolean
 }
 
 interface TipoProps {
@@ -198,7 +199,6 @@ const Card = ({
             usuarioId: idUser,
             tipo: tipoMovimentacao
         }
-        console.log(tipoMovimentacao)
 
 
         const response = await Api.post("/movimentacao", alteracao)
@@ -274,18 +274,22 @@ const Card = ({
                 <div className={toogleFilter ?
                     style.container_filter :
                     style.container_filter_close} >
-                    <CardFilter
-                        changeToogle={setToogleFilter}
-                        toogle={toogleFilter}
-                        idItem={item?.id}
-                        refreshTable={() => refreshTable()}
-                    />
+                    {item && item.id && (
+                        <CardFilter
+                            changeToogle={setToogleFilter}
+                            toogle={toogleFilter}
+                            idItem={item.id}
+                            refreshTable={() => refreshTable()}
+                        />
+                    )}
+
                 </div>
                 <div className={style.title} >
                     <span>PRODUTO</span>
                 </div>
                 <div className={style.body} >
                     <div className={style.container_codigo} >
+
                         <input id="txtCodigo"
                             type="text"
                             required
@@ -293,6 +297,20 @@ const Card = ({
                             onChange={() => { }}
                         />
                         <label htmlFor="txtCodigo">CÓDIGO</label>
+                    </div>
+                    <div className={style.container_status} >
+                        {item?.ativo && (
+                            <>
+                                <label className={style.title_status} htmlFor="">STATUS</label>
+                                <div>
+                                    <input checked={item?.ativo} onChange={() => { }} id="rdbAtivo" type="radio" name="status" />
+                                    <label htmlFor="rdbAtivo">ATIVO</label>
+                                </div>
+                                <div>
+                                    <input checked={!item.ativo} onChange={() => { }} id="rdbInativo" type="radio" name="status" />
+                                    <label htmlFor="rdbInativo">INATIVO</label>
+                                </div></>
+                        )}
                     </div>
                     <div className={style.container_descricao}>
                         <input id="txtDescricao"

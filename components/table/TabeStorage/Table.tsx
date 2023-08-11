@@ -183,13 +183,13 @@ export default function Table() {
             background: "#EB5353",
             color: "white"
         },
-        true:{
-            background:"#3FFF8D",
-            color:"#15990B"
+        true: {
+            background: "#3FFF8D",
+            color: "#15990B"
         },
-        false:{
-            background:"#B40000",
-            color:"red"
+        false: {
+            background: "#B40000",
+            color: "red"
         }
     }
     function getColorStyle(text: string) {
@@ -705,7 +705,7 @@ export default function Table() {
                                                         {item.tipoMaterial.tipo}
                                                     </p>
                                                 </td>
-                                                <td  className={`${style["table_button"]} ${style["--tipo"]}`} >
+                                                <td className={`${style["table_button"]} ${style["--tipo"]}`} >
                                                     <p style={getColorStyle(item.ativo.toString())} >
                                                         {item.ativo === true ? "ATIVO" : "INATIVO"}
                                                     </p>
