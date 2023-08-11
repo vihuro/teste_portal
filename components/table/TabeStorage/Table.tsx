@@ -62,8 +62,8 @@ export default function Table() {
         "shrink": true,
         "PET VIRGEM": true,
         "PET-2": true,
-        "FPA VIRGEM":true,
-        "FPA-2":true
+        "FPA VIRGEM": true,
+        "FPA-2": true
     })
     const [radioType, setRadioType] = useState({
         "marcar todos": true,
@@ -120,6 +120,7 @@ export default function Table() {
             nome: string,
             dataHora: Date
         }
+        ativo: boolean
     }
 
 
@@ -181,6 +182,14 @@ export default function Table() {
         SHRINK: {
             background: "#EB5353",
             color: "white"
+        },
+        true:{
+            background:"#3FFF8D",
+            color:"#15990B"
+        },
+        false:{
+            background:"#B40000",
+            color:"red"
         }
     }
     function getColorStyle(text: string) {
@@ -318,8 +327,8 @@ export default function Table() {
                 stretch_eco: true,
                 "PET VIRGEM": true,
                 "PET-2": true,
-                "FPA VIRGEM":true,
-                "FPA-2":true
+                "FPA VIRGEM": true,
+                "FPA-2": true
             })
             setRadioType({
                 "desmarcar todos": false,
@@ -337,8 +346,8 @@ export default function Table() {
                 stretch_eco: false,
                 "PET VIRGEM": true,
                 "PET-2": true,
-                "FPA VIRGEM":true,
-                "FPA-2":true
+                "FPA VIRGEM": true,
+                "FPA-2": true
             })
             setRadioType({
                 "desmarcar todos": true,
@@ -554,6 +563,7 @@ export default function Table() {
 
         return setDataItemAlteracao(item);
     }
+    console.log(filter)
 
 
     return (
@@ -641,7 +651,10 @@ export default function Table() {
                                     </div>
                                 </th>
                                 <th>
-                                    EDIT
+                                    STATUS
+                                </th>
+                                <th>
+                                    EDIT.
                                 </th>
                             </tr>
                         </thead>
@@ -691,6 +704,12 @@ export default function Table() {
                                                     <p style={getColorStyle(item.tipoMaterial.tipo)}>
                                                         {item.tipoMaterial.tipo}
                                                     </p>
+                                                </td>
+                                                <td  className={`${style["table_button"]} ${style["--tipo"]}`} >
+                                                    <p style={getColorStyle(item.ativo.toString())} >
+                                                        {item.ativo === true ? "ATIVO" : "INATIVO"}
+                                                    </p>
+
                                                 </td>
                                                 <td style={{
                                                     fontSize: 32

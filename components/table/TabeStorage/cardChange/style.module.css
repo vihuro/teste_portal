@@ -13,24 +13,30 @@
     top: -5px;
 }
 
-.container_message {
+.container_message,
+.container_loading {
     position: absolute;
     height: 100%;
-    z-index: 1;
+    width: 100%;
+    z-index: 5;
     display: flex;
     transition: .5s;
     align-items: center;
+    justify-content: center;
 
 }
 
-.container_message_close {
+.container_message_close,
+.container_loading_close {
     position: absolute;
     height: 100%;
+    width: 100%;
     transform: translateY(-280px);
     transition: .5s;
     z-index: 1;
     display: flex;
     align-items: center;
+    justify-content: center;
     opacity: 0;
     pointer-events: none;
 }
@@ -460,7 +466,6 @@
         padding: 5px;
         gap: 3px;
     }
-    
 
 }
 

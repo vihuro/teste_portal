@@ -10,6 +10,7 @@ import CardFilter from "./filter/CardFilter";
 import Api from "../../../../service/api/matriz/estoque-grm";
 import { parseCookies } from "nookies";
 import TokenDrecriptor from "../../../../service/DecriptorToken";
+import Loading from "../../../loading/Loading";
 
 interface ItemsProps {
     id: string,
@@ -85,7 +86,7 @@ const Card = ({
     const [valueUnidade, setValueUnidade] = useState<string>("");
 
     const [toogleTipo, setToogleTipo] = useState<boolean>(false);
-    const [toogleUnidade, setToogleUnidade] = useState<boolean>(true)
+    const [toogleUnidade, setToogleUnidade] = useState<boolean>(false)
     const [item, setItem] = useState<ItemsProps>();
 
     useEffect(() => {
@@ -98,7 +99,7 @@ const Card = ({
         setValueUnidade(data?.unidade)
         fechDataTipo();
 
-    }, [data])
+    }, [data, toogleLoading])
 
     async function fechDataTipo() {
         await Api.get("/tipo-material")
@@ -117,36 +118,28 @@ const Card = ({
         if (validateQuantidade || validateUnidadeOrTipoMaterial) {
             setToogleLoading(true);
 
+
             const promises: Promise<any>[] = [];
 
             if (validateQuantidade) promises.push(AtualizarQuantidade({ idUser: userId, produtoId: produtoId }))
 
-            if(validateUnidadeOrTipoMaterial) promises.push(AtualizarTipoOrUnidade({idUser:userId, produtoId: produtoId}));
+            if (validateUnidadeOrTipoMaterial) promises.push(AtualizarTipoOrUnidade({ idUser: userId, produtoId: produtoId }));
 
             await Promise.all(promises)
 
-            let reponseAtuailizarQuantidade = Promise<any>;
-            let responseAtualizarTipoOrUnidade = Promise<any>;
-
-            if (validateQuantidade) {
-                reponseAtuailizarQuantidade = await AtualizarQuantidade({ idUser: userId, produtoId: produtoId })
-            }
-            if (validateUnidadeOrTipoMaterial) {
-                responseAtualizarTipoOrUnidade = await AtualizarTipoOrUnidade({ idUser: userId, produtoId: produtoId })
-            }
 
             const results = await Promise.all(promises);
 
             const allPromisesSuccess = results.every(res => res.status === 200);
-            if(allPromisesSuccess){
+            if (allPromisesSuccess) {
                 setDataMessage({
-                    message:"Alterações feitas com sucesso!",
-                    type:"SUCESS"
+                    message: "Alterações feitas com sucesso!",
+                    type: "SUCESS"
                 })
-            }else{
+            } else {
                 setDataMessage({
-                    message:"ERRO no servidor!",
-                    type:"ERROR"
+                    message: "ERRO no servidor!",
+                    type: "ERROR"
                 })
             }
             setToogleLoading(false);
@@ -154,11 +147,13 @@ const Card = ({
             refreshTable()
 
 
+        } else {
+            setDataMessage({
+                message: "Nenhuma mudança realizada!",
+                type: "WARNING"
+            })
+            setToogleMessage(true)
         }
-
-
-
-
     }
 
     async function AtualizarTipoOrUnidade({
@@ -191,16 +186,19 @@ const Card = ({
 
         const valueNumber = Number(valueQuantidade);
 
-        const tipoMovimentacao = data.quantidade < valueNumber ? 0 : 1;
+
 
         const quantidadeMovimentada = valueNumber - data.quantidade;
 
+        const tipoMovimentacao = quantidadeMovimentada < 0 ? 1 : 0;
+
         const alteracao = {
             materialId: produtoId,
-            quantidadeMovimentada: quantidadeMovimentada,
+            quantidadeMovimentada: tipoMovimentacao === 1 ? quantidadeMovimentada * -1 : quantidadeMovimentada,
             usuarioId: idUser,
-            tipoMovimentacao: tipoMovimentacao
+            tipo: tipoMovimentacao
         }
+        console.log(tipoMovimentacao)
 
 
         const response = await Api.post("/movimentacao", alteracao)
@@ -267,6 +265,11 @@ const Card = ({
                         action={setToogleMessage}
                         stateMessage={toogleMessage}
                     />
+                </div>
+                <div className={toogleLoading ?
+                    style.container_loading :
+                    style.container_loading_close} >
+                    <Loading />
                 </div>
                 <div className={toogleFilter ?
                     style.container_filter :

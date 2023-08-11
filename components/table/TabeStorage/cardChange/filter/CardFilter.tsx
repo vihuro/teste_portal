@@ -50,7 +50,7 @@ export default function Card({
             FetchData();
         }
 
-    }, [idItem, refreshTable])
+    }, [ ])
 
 
 
