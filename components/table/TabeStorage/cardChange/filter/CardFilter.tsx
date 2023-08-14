@@ -60,7 +60,7 @@ export default function Card({
     async function FetchData() {
         if (id !== "") {
 
-            await Api.get(`/withou-substituto/${id}`)
+            await Api.get(`/without-substituto/${id}`)
                 .then(res => setData(res.data))
                 .catch(err => console.log(err))
         }

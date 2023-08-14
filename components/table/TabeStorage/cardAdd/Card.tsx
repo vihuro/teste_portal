@@ -198,7 +198,7 @@ const CardStorage = ({
             .filter(item => item.active)
             .map(valueCheckBox => {
                 const formattedValue = value.replaceAll(".", "").replace(",", ".")
-                return Api.post("/", {
+                return Api.post("", {
                     ...materialEstoque,
                     usuarioId:tokenInfo.idUser,
                     localEstoqueId: valueCheckBox.id,
