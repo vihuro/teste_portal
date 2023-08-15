@@ -563,7 +563,6 @@ export default function Table() {
 
         return setDataItemAlteracao(item);
     }
-    console.log(filter)
 
 
     return (

@@ -28,7 +28,7 @@ export default function Table() {
     }, []);
 
     async function FetchData() {
-        Api.get("")
+        Api.get("/login")
             .then(res => setData(res.data))
             .catch(err => console.log(err))
     }

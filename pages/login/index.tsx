@@ -42,7 +42,7 @@ export default function Login() {
             console.log("campos obrigatorios")
             return;
         }
-        await Api.post("", data)
+        await Api.post("/login", data)
             .then(res => {
                 setCookie(null, "REFRESH_TOKEN", res.data.refreshToken, {
                     path: "/",

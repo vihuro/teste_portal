@@ -91,7 +91,7 @@ export default function Card({
         const novoSubstituto = {
             produtoId: idItem,
             substitutoId: id,
-            usuarioId: "71ec31dc-57a6-4a53-b199-34157822f91b"
+            usuarioId: infoToken.idUser
         }
 
         await Api.put("/substitutos", novoSubstituto)

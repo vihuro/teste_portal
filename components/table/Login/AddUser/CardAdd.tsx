@@ -1,5 +1,8 @@
 import style from "./style.module.css";
-import {BiFilterAlt} from "react-icons/bi";
+import { BiFilterAlt } from "react-icons/bi";
+import Loading from "../../../loading/Loading";
+import { useState } from "react";
+import CardFilter from "./FilterClaims/Filter";
 
 
 function Table() {
@@ -13,74 +16,68 @@ function Table() {
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>ESTOQUE</td>
-                    <td>ADMIN</td>
-                </tr>
-                <tr>
-                    <td>ESTOQUE</td>
-                    <td>ADMIN</td>
-                </tr>
-                <tr>
-                    <td>ESTOQUE</td>
-                    <td>ADMIN</td>
-                </tr>
-                <tr>
-                    <td>ESTOQUE</td>
-                    <td>ADMIN</td>
-                </tr>
-                <tr>
-                    <td>ESTOQUE</td>
-                    <td>ADMIN</td>
-                </tr>
-                <tr>
-                    <td>ESTOQUE</td>
-                    <td>ADMIN</td>
-                </tr>
-                <tr>
-                    <td>ESTOQUE</td>
-                    <td>ADMIN</td>
-                </tr>
-                <tr>
-                    <td>ESTOQUE</td>
-                    <td>ADMIN</td>
-                </tr>
-                <tr>
-                    <td>ESTOQUE</td>
-                    <td>ADMIN</td>
-                </tr>
-                <tr>
-                    <td>ESTOQUE</td>
-                    <td>ADMIN</td>
-                </tr>
-
-
             </tbody>
         </table>
     )
 }
+const { Filter } = CardFilter();
+
+interface claimsProps {
+    id: string,
+    value: string,
+    name: string
+}
+
 
 function Card() {
+    const [toogleLoading, setToogleLoading] = useState<boolean>(false);
+    const [toogleFilterClaims, setToogleFilterClaims] = useState<boolean>(true);
+    const [dataClaims, setDataClaims] = useState<claimsProps[]>([])
     return (
         <div className={style.card} >
+            <div className={toogleLoading ?
+                style.cardLoading :
+                style.cardLoading_close} >
+                <Loading />
+            </div>
+            <div className={toogleFilterClaims ?
+                style.filterClaims :
+                style.filterClaims_close} >
+                <Filter
+                    changeToogle={setToogleFilterClaims}
+                    toogle={toogleFilterClaims}
+                />
+            </div>
             <section className={style.title} >
                 <h2>Novo usuário</h2>
             </section>
             <section className={style.body} >
                 <div className={style.wrap_container_nome} >
-                    <input required type="text" id="txtNome" />
+                    <input required
+                        autoComplete="off"
+                        type="text"
+                        id="txtNome" />
                     <label htmlFor="txtNome">Nome</label>
                 </div>
                 <div className={style.wrap_container_apelido} >
-                    <input required type="text" id="txtApelido" />
+                    <input required
+                        autoComplete="off"
+                        type="text"
+                        id="txtApelido" />
                     <label htmlFor="txtApelido">Apelido</label>
                 </div>
                 <div className={style.wrap_container_senha} >
-                    <input required type="text" id="txtSenha" />
+                    <input required
+                        autoComplete="off"
+                        type="text"
+                        id="txtSenha" />
                     <label htmlFor="txtSenha">Senha</label>
                 </div>
                 <div className={style.wrap_container_confirmacao_senha} >
-                    <input required type="text" id="txtConfirmacaoSenha" />
+                    <input required
+                        autoComplete="off"
+                        type="text"
+                        id="txtConfirmacaoSenha" />
                     <label htmlFor="txtConfirmacaoSenha">Confirmação</label>
                 </div>
                 <div className={style.container_table_claims} >
@@ -89,7 +86,7 @@ function Card() {
                     </div>
                 </div>
                 <div className={style.container_button_filter} >
-                    <button>
+                    <button onClick={() => setToogleFilterClaims(true)} >
                         <BiFilterAlt />
                     </button>
                 </div>
@@ -102,7 +99,7 @@ function Card() {
                     </button>
                 </div>
                 <div>
-                    <button>
+                    <button onClick={() => setToogleLoading(!toogleLoading)} >
                         CANCELAR
                     </button>
                 </div>
