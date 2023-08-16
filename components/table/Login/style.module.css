@@ -1,4 +1,4 @@
-.container{
+.container {
     position: relative;
     width: 100%;
     height: 100%;
@@ -6,7 +6,23 @@
     display: grid;
     grid-template-rows: 80px 1fr;
 }
-.card_addUser{
+
+.card_addUser {
+    /* position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.336);
+    border-radius: 4px;
+    filter: blur(-10px);
+    z-index: 999;
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    transition: .5s; */
+}
+
+.card_addUser,
+.card_addUser_close {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -19,13 +35,40 @@
     justify-content: center;
     transition: .5s;
 }
+
+.card_addUser_close {
+    transform: translateY(-450px);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.containerButtonAdd {
+    grid-area: 1/1/1/1;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    padding-right: 40px;
+}
+
+.containerButtonAdd button {
+    height: 40px;
+    border-radius: 20px;
+    padding: 7px;
+    background-color: var(--background-color-blue-700);
+    color: white;
+    font-weight: 500;
+    border: none;
+
+}
+
 .wrap_container_table {
     grid-area: 2/1/2/1;
     padding: 20px;
     overflow: auto;
 
 }
-.container_table{
+
+.container_table {
     max-width: 100%;
     max-height: 100%;
     border-radius: 7px;
@@ -42,12 +85,14 @@
     width: 100%;
     z-index: 2;
 }
+
 .table table,
 .table th,
 .table td {
     border-collapse: collapse;
     padding: 16px;
 }
+
 .table thead {
     background-color: var(--background-color-blue-700);
     font-size: 15px;
@@ -56,9 +101,11 @@
     top: 0;
     z-index: 1;
 }
+
 .table th:not(:last-child) {
     border-right: 1px solid rgb(255, 255, 255);
 }
+
 .table_body {
     background-color: rgba(219, 233, 240, .5);
     font-weight: 700;
@@ -80,7 +127,11 @@
 
 }
 
+.table_body td svg {
+    color: rgb(21, 199, 146) !important;
+    font-size: 24px;
+}
+
 .table_body tr:not(:last-child) {
     border-bottom: 1px solid var(--background-color-blue-700);
 }
-

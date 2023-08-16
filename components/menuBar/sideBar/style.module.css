@@ -127,7 +127,6 @@
     left: 20px;
 }
 
-
 .side_bar .selector,
 .side_bar_close .selector {
 
@@ -183,13 +182,25 @@
 .subMenu {
     position: absolute;
     z-index: 1;
-    left: 110%;
+    transform: translateX(220%);
     background-color: var(--background-color-blue-200);
     width: 120px;
     height: auto;
     border-radius: 3px;
     list-style: none;
-
+    display: block;
+    transition: 1s;
+}
+.side_bar_close .subMenu{
+    transform: translateX(80%);
+    transition: 1s;
+}
+.side_bar_close .subMenu a,
+.side_bar .subMenu a{
+    transform: translateX(0);
+    text-align: center;
+    opacity: 1;
+    transition: 1s;
 }
 
 .subMenu li {

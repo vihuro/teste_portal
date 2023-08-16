@@ -1,38 +1,159 @@
 import style from "./style.module.css";
 import { BiFilterAlt } from "react-icons/bi";
 import Loading from "../../../loading/Loading";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CardFilter from "./FilterClaims/Filter";
+import { TbTrash } from "react-icons/tb";
+import { MdOutlineVisibility, MdOutlineVisibilityOff } from "react-icons/md"
+import Message from "../../../message/Message";
+import Api from "../../../../service/api/login/login";
 
 
-function Table() {
+interface claimsProps {
+    claimId: string,
+    claimName: string,
+    claimValue: string
+}
+
+interface userProps {
+    apelido: string,
+    nome: string,
+    senha: string,
+    confirmacaoSenha: string,
+    claims: claimsProps[]
+}
+
+
+
+
+function Table({ listClaims, changeListClaims }:
+    {
+        listClaims: claimsProps[],
+        changeListClaims: Function
+    }) {
+    const [thisList, setThisList] = useState<claimsProps[]>([]);
+    useEffect(() => {
+        setThisList(listClaims)
+    }, [listClaims])
+
+    function removeItem(id: string) {
+        const newList = thisList.filter(item =>
+            item.claimId !== id);
+
+        changeListClaims(newList);
+    }
+
     return (
         <table className={style.table} >
             <thead>
                 <tr>
                     <th>Name</th>
                     <th>Value</th>
-                    <th>Delete</th>
+                    <th>DEL.</th>
                 </tr>
             </thead>
             <tbody>
+                {thisList && thisList.length > 0 && (
+                    thisList.map(item => (
+                        <tr key={item.claimId} >
+                            <td>{item.claimName}</td>
+                            <td>{item.claimValue}</td>
+                            <td onClick={() => removeItem(item.claimId)} ><TbTrash /> </td>
+
+                        </tr>
+                    ))
+
+
+                )}
             </tbody>
         </table>
     )
 }
 const { Filter } = CardFilter();
 
-interface claimsProps {
-    id: string,
-    value: string,
-    name: string
-}
 
-
-function Card() {
+function Card({ toogle, changeToogle }: { toogle: boolean, changeToogle: Function }) {
     const [toogleLoading, setToogleLoading] = useState<boolean>(false);
-    const [toogleFilterClaims, setToogleFilterClaims] = useState<boolean>(true);
-    const [dataClaims, setDataClaims] = useState<claimsProps[]>([])
+    const [toogleFilterClaims, setToogleFilterClaims] = useState<boolean>(false);
+    const [toogleMessage, setToogleMessage] = useState<boolean>(false);
+    const [visiblePassword, setVissiblePassword] = useState<boolean>(false);
+    const [visibleConfirmPassword, setVissibleConfirmPassword] = useState<boolean>(false);
+    const [message, setMessage] = useState({
+        message: "",
+        type: "WARNING"
+    });
+    const [dataClaims, setDataClaims] = useState<claimsProps[]>([]);
+    const [listClaims, setListClaims] = useState<claimsProps[]>([]);
+
+    const [userData, setUserData] = useState<userProps>({
+        apelido: "",
+        claims: [],
+        confirmacaoSenha: "",
+        nome: "",
+        senha: ""
+    });
+
+    async function Validar() {
+        if (userData.apelido === "" ||
+            userData.nome === "" ||
+            userData.confirmacaoSenha === "" ||
+            userData.senha === "") {
+            setMessage({
+                message: "Campo(s) obrigatório(s) vazio(s)!",
+                type: "WARNING"
+            })
+            setToogleMessage(true)
+            return;
+        }
+        if (userData.confirmacaoSenha !== userData.senha) {
+            setMessage({
+                message: "Senha não correspondente!",
+                type: "WARNING"
+            })
+            setToogleMessage(true)
+            return;
+        }
+        Cadastrar();
+
+    }
+    async function Cadastrar() {
+        setToogleLoading(true);
+        const user = {
+            apelido: userData.apelido,
+            nome: userData.nome,
+            senha: userData.senha,
+            claims: listClaims.map(item => {
+                return {
+                    claimId: item.claimId
+                }
+            })
+        }
+        console.log(user)
+        Api.post("/login/created", user)
+            .then(res => setMessage({
+                message: "Usuário cadastrado com sucesso!",
+                type: "SUCESS"
+            }))
+            .catch(err => console.log(err))
+            .finally(() => {
+                setToogleLoading(false);
+                setToogleMessage(true)
+                ClearAll()
+            })
+    }
+    function ClearAll() {
+        setUserData({
+            apelido: "",
+            claims: [],
+            confirmacaoSenha: "",
+            nome: "",
+            senha: ""
+        })
+        setListClaims([]);
+    }
+
+
+
     return (
         <div className={style.card} >
             <div className={toogleLoading ?
@@ -40,12 +161,24 @@ function Card() {
                 style.cardLoading_close} >
                 <Loading />
             </div>
+            <div className={toogleMessage ?
+                style.cardMessage :
+                style.cardMessage_close} >
+                <Message
+                    stateMessage={toogleMessage}
+                    action={setToogleMessage}
+                    message={message.message}
+                    type={message.type}
+                />
+            </div>
             <div className={toogleFilterClaims ?
                 style.filterClaims :
                 style.filterClaims_close} >
                 <Filter
                     changeToogle={setToogleFilterClaims}
                     toogle={toogleFilterClaims}
+                    changeListClaims={setListClaims}
+                    listClaimsInCardAdd={listClaims}
                 />
             </div>
             <section className={style.title} >
@@ -56,33 +189,79 @@ function Card() {
                     <input required
                         autoComplete="off"
                         type="text"
-                        id="txtNome" />
+                        id="txtNome"
+                        value={userData?.nome}
+                        onChange={e =>
+                            setUserData({
+                                ...userData,
+                                nome: e.target.value
+                            })
+                        }
+                    />
                     <label htmlFor="txtNome">Nome</label>
                 </div>
                 <div className={style.wrap_container_apelido} >
                     <input required
                         autoComplete="off"
                         type="text"
-                        id="txtApelido" />
+                        id="txtApelido"
+                        value={userData.apelido}
+                        onChange={e =>
+                            setUserData({
+                                ...userData,
+                                apelido: e.target.value
+                            })
+                        }
+                    />
                     <label htmlFor="txtApelido">Apelido</label>
                 </div>
                 <div className={style.wrap_container_senha} >
                     <input required
                         autoComplete="off"
-                        type="text"
-                        id="txtSenha" />
+                        type={!visiblePassword ? "password" : "text"}
+                        id="txtSenha"
+                        value={userData.senha}
+                        onChange={e =>
+                            setUserData({
+                                ...userData,
+                                senha: e.target.value
+                            })
+                        }
+                    />
                     <label htmlFor="txtSenha">Senha</label>
+                    {!visiblePassword ?
+                        <MdOutlineVisibilityOff onClick={() =>
+                            setVissiblePassword(!visiblePassword)} /> :
+                        <MdOutlineVisibility onClick={() =>
+                            setVissiblePassword(!visiblePassword)} />}
                 </div>
                 <div className={style.wrap_container_confirmacao_senha} >
                     <input required
                         autoComplete="off"
-                        type="text"
-                        id="txtConfirmacaoSenha" />
+                        type={!visibleConfirmPassword ? "password" : "text"}
+                        id="txtConfirmacaoSenha"
+                        value={userData.confirmacaoSenha}
+                        onChange={e =>
+                            setUserData({
+                                ...userData,
+                                confirmacaoSenha: e.target.value
+                            })
+                        }
+                    />
                     <label htmlFor="txtConfirmacaoSenha">Confirmação</label>
+                    {!visibleConfirmPassword ?
+                        <MdOutlineVisibilityOff onClick={() =>
+                            setVissibleConfirmPassword(!visibleConfirmPassword)} /> :
+                        <MdOutlineVisibility onClick={() =>
+                            setVissibleConfirmPassword(!visibleConfirmPassword)} />}
                 </div>
                 <div className={style.container_table_claims} >
                     <div className={style.wrap_container_claims} >
-                        <Table />
+
+                        <Table
+                            listClaims={listClaims}
+                            changeListClaims={setListClaims}
+                        />
                     </div>
                 </div>
                 <div className={style.container_button_filter} >
@@ -94,12 +273,12 @@ function Card() {
             </section>
             <section className={style.footer} >
                 <div>
-                    <button>
+                    <button onClick={() => Validar()} >
                         CADASTRAR
                     </button>
                 </div>
                 <div>
-                    <button onClick={() => setToogleLoading(!toogleLoading)} >
+                    <button onClick={() => changeToogle(!toogle)} >
                         CANCELAR
                     </button>
                 </div>
@@ -115,3 +294,4 @@ export default function CardAdd() {
         Card
     }
 }
+

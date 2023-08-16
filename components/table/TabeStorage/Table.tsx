@@ -732,12 +732,12 @@ export default function Table() {
                                             }}>
                                                 <td style={{
                                                     border: 'none'
-                                                }} colSpan={7}>Nenhum item disponivel!</td>
+                                                }} colSpan={9}>Nenhum item disponivel!</td>
                                             </tr>
                                             <tr>
                                                 <td style={{
                                                     border: 'none'
-                                                }} colSpan={7}>
+                                                }} colSpan={9}>
                                                     <span className={style.span} >:(</span>
                                                 </td>
                                             </tr>

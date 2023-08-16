@@ -16,6 +16,9 @@ interface listItemsProps {
 }
 
 function FilterCardName({ list }: { list: listItemsProps[] }) {
+    const [items, setItems] = useState<itemsVisibleProps[]>([]);
+
+
     useEffect(() => {
         if (items.length === 0) {
             const novaLista = list.map((item) => {
@@ -35,7 +38,7 @@ function FilterCardName({ list }: { list: listItemsProps[] }) {
         claimValue: string,
         visible: boolean
     }
-    const [items, setItems] = useState<itemsVisibleProps[]>([])
+
 
 
     function changeVisivle({
@@ -89,14 +92,25 @@ function FilterCardName({ list }: { list: listItemsProps[] }) {
 
 }
 
-function Filter({ toogle, changeToogle }: { toogle: boolean, changeToogle: Function }) {
+function Filter({
+    toogle,
+    changeToogle,
+    changeListClaims,
+    listClaimsInCardAdd }:
+    {
+        toogle: boolean,
+        changeToogle: Function,
+        changeListClaims: Function,
+        listClaimsInCardAdd: claimsProps[]
+    }) {
     const [data, setData] = useState<claimsProps[]>([]);
-    const [toogleCardFilterValue, setToogleFilterValue] = useState<boolean>(true);
+
+    const [toogleCardFilterValue, setToogleFilterValue] = useState<boolean>(false);
     const [message, setDataMessage] = useState({
         message: "aqui",
         type: "SUCESS"
     })
-    const [toogleMessage, setToogleMessage] = useState<boolean>(true);
+    const [toogleMessage, setToogleMessage] = useState<boolean>(false);
 
     const { Card: CardFilterValue, items: itemFilterValue } = FilterCardName({
         list: data.map(item => ({
@@ -107,7 +121,7 @@ function Filter({ toogle, changeToogle }: { toogle: boolean, changeToogle: Funct
 
     useEffect(() => {
         FetchData()
-    }, [])
+    }, [toogle === true])
 
 
     async function FetchData() {
@@ -117,8 +131,13 @@ function Filter({ toogle, changeToogle }: { toogle: boolean, changeToogle: Funct
     }
     const filter = data.filter(item => {
         return itemFilterValue.some((name) =>
-            name.claimValue === item.claimValue && name.visible)
+            name.claimValue === item.claimValue && name.visible) &&
+            !listClaimsInCardAdd.some(selectdItem => selectdItem.claimId === item.claimId)
     })
+    function addItemInListClaims(claim: claimsProps) {
+
+        changeListClaims([...listClaimsInCardAdd, claim])
+    }
 
 
     return (
@@ -146,7 +165,8 @@ function Filter({ toogle, changeToogle }: { toogle: boolean, changeToogle: Funct
                             </th>
                             <th>
                                 Value
-                                <CiMenuKebab onClick={() => setToogleFilterValue(!toogleCardFilterValue)} />
+                                <CiMenuKebab onClick={() =>
+                                    setToogleFilterValue(!toogleCardFilterValue)} />
                                 <div className={toogleCardFilterValue ?
                                     style.card_filter_value :
                                     style.card_filter_value_close} >
@@ -167,7 +187,7 @@ function Filter({ toogle, changeToogle }: { toogle: boolean, changeToogle: Funct
                                         {item.claimValue}
                                     </td>
                                     <td>
-                                        <BiAddToQueue />
+                                        <BiAddToQueue onClick={() => addItemInListClaims(item)} />
                                     </td>
                                 </tr>
                             ))

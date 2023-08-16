@@ -5,6 +5,7 @@ import { GetServerSideProps } from "next";
 import MenuBar from "../../../../components/menuBar/MenuBar";
 import Body from "../../../../components/table/Body";
 import Table from "../../../../components/table/TabeStorage/Table";
+import Api from "../../../../service/api/login/login";
 
 export default function Estoque() {
     const { Page, setToogleValue, toogleValue } = MenuBar();
@@ -39,30 +40,35 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     })
 
 
-    const data = await axios.get("http://localhost:8080/api/token/validate-token", {
+    const data = await Api.get("/validate-token", {
         headers: {
             Authorization: `Bearer ${acessToken}`
         }
-    }).then(res => { return res })
+    })
+        .then(res => { return res })
         .catch(err => { return err })
+        console.log("validou o token")
 
-
-    if (data.response &&
-        (data.response.status === 401)) {
-
-        const user = TokenDrecriptor(acessToken);
-
-
-        const newToken = await axios.post(`http://localhost:8080/api/token/refresh-token/${user.idUser}`, {}, {
-            headers: {
-                Authorization: `Bearer ${refreshToken}`
+    if (data.response && data.response.status === 404) {
+        return {
+            redirect: {
+                permanent: false,
+                destination: "/login"
             }
         }
-        )
-            .then(res => { return res })
-            .catch(err => { return err })
+    }
+    if (data.response &&
+        (data.response.status === 401)) {
+        const user = TokenDrecriptor(acessToken);
 
-
+        const newToken = await Api.post(`/refresh-token/${user.idUser}`, {},{
+            headers:{
+                Authorization:`Bearer ${refreshToken}`
+            }
+        })
+        .then(res => { return res })
+        .catch(err => { return err })
+        
         if (newToken.status === 200) {
 
             setCookie(context, "ACCESS_TOKEN", newToken.data.accessToken, {

@@ -22,6 +22,7 @@ interface dataProps {
 
 export default function Table() {
     const [data, setData] = useState<dataUserProps>();
+    const [toogleCardAdd, setToogleCardAdd] = useState<boolean>(false);
 
     useEffect(() => {
         FetchData();
@@ -35,10 +36,21 @@ export default function Table() {
     const { Card } = CardAdd();
     return (
         <div className={style.container} >
-            <div className={style.card_addUser} >
-                <Card />
+            <div className={toogleCardAdd ?
+                style.card_addUser :
+                style.card_addUser_close} >
+                <Card
+                    changeToogle={setToogleCardAdd}
+                    toogle={toogleCardAdd}
+                />
+            </div>
+            <div className={style.containerButtonAdd} >
+                <button onClick={() => setToogleCardAdd(true)} >
+                    Adicionar Usuário
+                </button>
             </div>
             <section className={style.wrap_container_table} >
+
                 <section className={style.container_table} >
                     <table className={style.table} >
                         <thead>
@@ -79,7 +91,6 @@ export default function Table() {
                 </section>
 
             </section>
-
         </div>
     )
 

@@ -1,6 +1,7 @@
 import { BsBoxes } from "react-icons/bs";
 import { FaServer, FaTruck } from "react-icons/fa";
 import { MdOutlineEngineering } from "react-icons/md";
+import { AiOutlineShoppingCart } from "react-icons/ai";
 
 interface RotasProps {
   text: string;
@@ -118,6 +119,14 @@ const List = [
     },
     {
         class: "row",
+        text: "COMPRAS",
+        link: "/#",
+        visible: false,
+        icon: <AiOutlineShoppingCart />,
+        rotas: []
+    },
+    {
+        class: "row",
         text: "GERENCIAL",
         link: "/#",
         visible: false,
@@ -125,7 +134,7 @@ const List = [
         rotas: [
             {
                 text: "Usuários",
-                link: "/#"
+                link: "/gerencial/login"
             },
             {
                 text: "Regras",

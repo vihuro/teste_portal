@@ -5,20 +5,20 @@
     height: 100px;
     background-color: var(--background-color-blue-700);
     display: grid;
-    grid-template-columns: 1fr 80px 20px;
+    grid-template-columns: 1fr 100px 20px;
     z-index: 500;
 }
 
 .iconUser {
     grid-area: 1/2/1/2;
     color: white;
-    display: flex;
+    display: table-cell;
     justify-content: center;
     align-items: center;
+    text-align: center;
     flex-wrap: wrap;
-
     position: relative;
-
+    padding-top: 20px;
 }
 
 

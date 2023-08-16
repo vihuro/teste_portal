@@ -35,7 +35,8 @@
     pointer-events: none;
 
 }
-.filterClaims{
+
+.filterClaims {
     backdrop-filter: blur(2px);
     z-index: 5;
 }
@@ -73,6 +74,12 @@
     align-items: center;
     position: relative;
     transition: .5s;
+}
+
+.wrap_container_confirmacao_senha svg,
+.wrap_container_senha svg {
+    font-size: 18px;
+    color: var(--background-color-blue-400);
 }
 
 .wrap_container_nome label,
@@ -154,6 +161,21 @@
     border-collapse: collapse;
 }
 
+.table tbody tr:not(:last-child) {
+    border-bottom: 1px solid var(--background-color-blue-700);
+}
+
+.table tbody td {
+    padding: 5px;
+    color: var(--text-color-blue-700);
+    font-weight: 500;
+}
+
+.table tbody td svg {
+    font-size: 20px;
+    color: rgba(252, 0, 0, 0.795);
+}
+
 .wrap_container_claims thead {
     position: sticky;
     top: 0;
@@ -231,18 +253,38 @@
     color: white;
 }
 
-@media(min-width:430px){
-    .card{
-        width: 500px;
+.cardMessage,
+.cardMessage_close {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 5;
+    transition: .5s;
+}
+.cardMessage_close{
+    transform: translateY(-200px);
+    opacity: 0;
+    pointer-events: none;
+
+}
+
+@media(min-width:430px) {
+    .card {
+        width: 550px;
     }
+
     .footer {
         grid-template-rows: 1fr;
-    
+
     }
+
     .footer div:nth-child(1) {
         grid-area: 1/1/1/3;
     }
-    
+
     .footer div:nth-child(2) {
         grid-area: 1/3/1/5;
     }

@@ -14,16 +14,16 @@ interface RotasProps {
     link?: string;
     visible: boolean;
     rotas?: RotasProps[];
-  }
-  
-  interface listMenusProps {
+}
+
+interface listMenusProps {
     class: string;
     icon: JSX.Element;
     text: string;
     visible: boolean;
     link: string;
     rotas: RotasProps[];
-  }
+}
 
 export default function SideBar() {
     const { List } = ListMenus();
@@ -50,6 +50,9 @@ export default function SideBar() {
                         setMarginTop("110px");
                         break;
                     case "GERENCIAL":
+                        setMarginTop("220px");
+                        break;
+                    case "COMPRAS":
                         setMarginTop("165px");
                         break;
                     default:
@@ -123,7 +126,12 @@ export default function SideBar() {
                                                 <ul key={index}>
                                                     <li onClick={() => {
                                                         changeVisibleSegundaRota(index)
-                                                    }} >{primeiraRota.text}</li>
+                                                    }} >
+                                                        {primeiraRota.link !== "/#" ? 
+                                                            <a href={primeiraRota.link}>{primeiraRota.text}</a>
+                                                        :primeiraRota.text}
+
+                                                    </li>
 
                                                     {primeiraRota.visible && primeiraRota.rotas && primeiraRota.rotas.length > 0 && (
                                                         <>
