@@ -1,4 +1,5 @@
 import { ButtonHTMLAttributes } from "react";
+import style from "./style.module.css";
 
 
 type buttonProps = {
@@ -10,14 +11,30 @@ type buttonProps = {
 function Button({
     text = "",
     classUi,
-    color,
+    color = "",
     ...rest
 }: buttonProps) {
+    const containerClass = classUi === "glass" ?
+        `${style.container_button} ${style[`--${color}`] }` :
+        style.container_button;
 
     return (
-        <button  {...rest} >
-            {text}
-        </button>
+        <>
+            {classUi === "glass" ?
+                <section className={containerClass} >
+                    <button  {...rest} >
+                        <span>
+                            {text}
+                        </span>
+                    </button>
+                </section>
+                :
+                <button {...rest}>
+                    {text}
+                </button>
+            }
+
+        </>
     )
 }
 
