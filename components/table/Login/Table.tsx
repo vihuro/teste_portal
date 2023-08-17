@@ -5,6 +5,7 @@ import style from "./style.module.css";
 import { useState, useEffect } from "react";
 import { TbEdit } from "react-icons/tb";
 import CardAdd from "./AddUser/CardAdd";
+import CardEdit from "./EditUser/CardEdit";
 
 interface dataUserProps {
     dataUsers: dataProps[],
@@ -23,6 +24,7 @@ interface dataProps {
 export default function Table() {
     const [data, setData] = useState<dataUserProps>();
     const [toogleCardAdd, setToogleCardAdd] = useState<boolean>(false);
+    const [toogleEdit, setToogleEdit] = useState<boolean>(true);
 
     useEffect(() => {
         FetchData();
@@ -33,15 +35,24 @@ export default function Table() {
             .then(res => setData(res.data))
             .catch(err => console.log(err))
     }
-    const { Card } = CardAdd();
+    const { Card: CardAddUser } = CardAdd();
+    const { Card: CardEditUser } = CardEdit();
     return (
         <div className={style.container} >
             <div className={toogleCardAdd ?
                 style.card_addUser :
                 style.card_addUser_close} >
-                <Card
+                <CardAddUser
                     changeToogle={setToogleCardAdd}
                     toogle={toogleCardAdd}
+                />
+            </div>
+            <div className={toogleEdit ?
+                style.card_editUser :
+                style.card_editUser_close} >
+                <CardEditUser
+                    changeToogle={setToogleCardAdd}
+                    toogle={toogleEdit}
                 />
             </div>
             <div className={style.containerButtonAdd} >
@@ -91,7 +102,7 @@ export default function Table() {
                 </section>
 
             </section>
-        </div>
+        </div >
     )
 
 }
