@@ -14,24 +14,42 @@ interface dataUserProps {
 interface dataProps {
     apelido: string,
     ativo: boolean,
-    claims: [],
+    claims: claimsUserProps[],
     dataHoraAlteracao: Date,
     dataHoraCadastro: Date,
     nome: string,
     usuarioId: string
 }
+interface claimsUserProps {
+    id: string,
+    claimId: string,
+    claimValue: string,
+    claimName: string
+}
+
 
 export default function Table() {
     const [data, setData] = useState<dataUserProps>();
     const [toogleCardAdd, setToogleCardAdd] = useState<boolean>(false);
-    const [toogleEdit, setToogleEdit] = useState<boolean>(true);
+    const [toogleEdit, setToogleEdit] = useState<boolean>(false);
+    const [user, setUser] = useState<dataProps>({
+        apelido: "",
+        ativo: false,
+        claims: [],
+        dataHoraAlteracao: new Date(),
+        dataHoraCadastro: new Date(),
+        nome: "",
+        usuarioId: ""
+
+    });
+    const [userId, setUserId] = useState<string>("");
 
     useEffect(() => {
         FetchData();
     }, []);
 
     async function FetchData() {
-        Api.get("/login")
+        await Api.get("/login")
             .then(res => setData(res.data))
             .catch(err => console.log(err))
     }
@@ -50,10 +68,14 @@ export default function Table() {
             <div className={toogleEdit ?
                 style.card_editUser :
                 style.card_editUser_close} >
-                <CardEditUser
-                    changeToogle={setToogleCardAdd}
-                    toogle={toogleEdit}
-                />
+                {data && (
+                    <CardEditUser
+                        changeToogle={setToogleEdit}
+                        toogle={toogleEdit}
+                        user={data.dataUsers.filter(item => item.usuarioId === userId)[0]}
+                        fechDataUsers={FetchData}
+                    />
+                )}
             </div>
             <div className={style.containerButtonAdd} >
                 <button onClick={() => setToogleCardAdd(true)} >
@@ -91,7 +113,11 @@ export default function Table() {
                                             </p>
                                         </td>
                                         <td  >
-                                            <TbEdit color="red" />
+                                            <TbEdit color="red" onClick={() => {
+                                                setUserId(item.usuarioId)
+                                                setUser(item)
+                                                setToogleEdit(true)
+                                            }} />
                                         </td>
                                     </tr>
                                 ))

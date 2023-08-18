@@ -38,7 +38,8 @@
     transition: .5s;
 }
 
-.card_addUser_close {
+.card_addUser_close,
+.card_editUser_close {
     transform: translateY(-450px);
     opacity: 0;
     pointer-events: none;

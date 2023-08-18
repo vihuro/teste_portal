@@ -119,3 +119,15 @@
         0 0 30px #ff1f71,
         0 0 60px #ff1f71;
 }
+
+.button{
+    width: 100%;
+    padding: 5px;
+    border-radius: 5px;
+}
+.button.--blue{
+    background-color: var(--background-color-blue-700);
+    color: white;
+    border: none;
+    font-size: 20px;
+}

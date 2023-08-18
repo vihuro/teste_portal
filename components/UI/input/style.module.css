@@ -1,0 +1,32 @@
+.container_input{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: .5s;
+}
+
+.input{
+    position: relative;
+    padding: 7px;
+    width: 80%;
+    outline: none;
+    border-radius: 5px;
+    border: 1px solid var(--background-color-blue-700);
+}
+.input:valid+.label,
+.input:focus+.label{
+    transform: translateY(-20px);
+    background-color: var(--background-color-blue-700);
+    padding: 3px;
+    font-size: 12px;
+    border-radius: 5px;
+    color: white;
+}
+.label {
+    position: absolute;
+    color: rgb(131, 130, 130);
+    left: 1.2rem;
+    transition: .5s;
+    font-size: 14px;
+}

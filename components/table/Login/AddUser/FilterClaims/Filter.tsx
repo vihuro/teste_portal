@@ -121,11 +121,11 @@ function Filter({
 
     useEffect(() => {
         FetchData()
-    }, [toogle === true])
+    }, [changeListClaims])
 
 
     async function FetchData() {
-        Api.get("/claimstype")
+        await Api.get("/claimstype")
             .then(res => setData(res.data.dataClaims))
             .catch(err => console.log(err))
     }

@@ -7,6 +7,8 @@ import { TbTrash } from "react-icons/tb";
 import { MdOutlineVisibility, MdOutlineVisibilityOff } from "react-icons/md"
 import Message from "../../../message/Message";
 import Api from "../../../../service/api/login/login";
+import InputUi from "../../../UI/input/Input";
+import ButtonUi from "../../../UI/button/Button";
 
 
 interface claimsProps {
@@ -22,8 +24,6 @@ interface userProps {
     confirmacaoSenha: string,
     claims: claimsProps[]
 }
-
-
 
 
 function Table({ listClaims, changeListClaims }:
@@ -128,8 +128,7 @@ function Card({ toogle, changeToogle }: { toogle: boolean, changeToogle: Functio
                 }
             })
         }
-        console.log(user)
-        Api.post("/login/created", user)
+        await Api.post("/login/created", user)
             .then(res => setMessage({
                 message: "Usuário cadastrado com sucesso!",
                 type: "SUCESS"
@@ -151,6 +150,8 @@ function Card({ toogle, changeToogle }: { toogle: boolean, changeToogle: Functio
         })
         setListClaims([]);
     }
+    const { Input } = InputUi();
+    const { Button } = ButtonUi();
 
 
 
@@ -186,9 +187,9 @@ function Card({ toogle, changeToogle }: { toogle: boolean, changeToogle: Functio
             </section>
             <section className={style.body} >
                 <div className={style.wrap_container_nome} >
-                    <input required
+                    <Input
                         autoComplete="off"
-                        type="text"
+                        text="Nome"
                         id="txtNome"
                         value={userData?.nome}
                         onChange={e =>
@@ -198,12 +199,11 @@ function Card({ toogle, changeToogle }: { toogle: boolean, changeToogle: Functio
                             })
                         }
                     />
-                    <label htmlFor="txtNome">Nome</label>
                 </div>
                 <div className={style.wrap_container_apelido} >
-                    <input required
+                    <Input required
                         autoComplete="off"
-                        type="text"
+                        text="Apelido"
                         id="txtApelido"
                         value={userData.apelido}
                         onChange={e =>
@@ -213,13 +213,13 @@ function Card({ toogle, changeToogle }: { toogle: boolean, changeToogle: Functio
                             })
                         }
                     />
-                    <label htmlFor="txtApelido">Apelido</label>
                 </div>
                 <div className={style.wrap_container_senha} >
-                    <input required
+                    <Input required
                         autoComplete="off"
-                        type={!visiblePassword ? "password" : "text"}
                         id="txtSenha"
+                        type={!visiblePassword ? "password" : "text"}
+                        text="Senha"
                         value={userData.senha}
                         onChange={e =>
                             setUserData({
@@ -228,7 +228,7 @@ function Card({ toogle, changeToogle }: { toogle: boolean, changeToogle: Functio
                             })
                         }
                     />
-                    <label htmlFor="txtSenha">Senha</label>
+
                     {!visiblePassword ?
                         <MdOutlineVisibilityOff onClick={() =>
                             setVissiblePassword(!visiblePassword)} /> :
@@ -236,8 +236,9 @@ function Card({ toogle, changeToogle }: { toogle: boolean, changeToogle: Functio
                             setVissiblePassword(!visiblePassword)} />}
                 </div>
                 <div className={style.wrap_container_confirmacao_senha} >
-                    <input required
+                    <Input required
                         autoComplete="off"
+                        text="Confirmação"
                         type={!visibleConfirmPassword ? "password" : "text"}
                         id="txtConfirmacaoSenha"
                         value={userData.confirmacaoSenha}
@@ -248,7 +249,6 @@ function Card({ toogle, changeToogle }: { toogle: boolean, changeToogle: Functio
                             })
                         }
                     />
-                    <label htmlFor="txtConfirmacaoSenha">Confirmação</label>
                     {!visibleConfirmPassword ?
                         <MdOutlineVisibilityOff onClick={() =>
                             setVissibleConfirmPassword(!visibleConfirmPassword)} /> :
@@ -257,7 +257,6 @@ function Card({ toogle, changeToogle }: { toogle: boolean, changeToogle: Functio
                 </div>
                 <div className={style.container_table_claims} >
                     <div className={style.wrap_container_claims} >
-
                         <Table
                             listClaims={listClaims}
                             changeListClaims={setListClaims}
@@ -273,14 +272,21 @@ function Card({ toogle, changeToogle }: { toogle: boolean, changeToogle: Functio
             </section>
             <section className={style.footer} >
                 <div>
-                    <button onClick={() => Validar()} >
-                        CADASTRAR
-                    </button>
+                    <Button
+                        classUi="glass"
+                        color="green"
+                        text="Cadastrar"
+                        onClick={() => Validar()} />
+
                 </div>
                 <div>
-                    <button onClick={() => changeToogle(!toogle)} >
-                        CANCELAR
-                    </button>
+                    <Button
+                        classUi="glass"
+                        color="red"
+                        text="Cancelar"
+                        onClick={() => changeToogle(!toogle)}
+                    />
+
                 </div>
             </section>
 

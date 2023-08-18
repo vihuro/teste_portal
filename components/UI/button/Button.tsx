@@ -1,21 +1,25 @@
-import { ButtonHTMLAttributes } from "react";
+import { ButtonHTMLAttributes, ElementType } from "react";
 import style from "./style.module.css";
 
 
 type buttonProps = {
-    text: string,
+    text?: string,
     classUi: string,
     color: string,
+    theme?: string,
+    icon?: ElementType
 } & ButtonHTMLAttributes<HTMLButtonElement>
 
 function Button({
     text = "",
     classUi,
     color = "",
+    icon: Icon,
+    theme,
     ...rest
 }: buttonProps) {
     const containerClass = classUi === "glass" ?
-        `${style.container_button} ${style[`--${color}`] }` :
+        `${style.container_button} ${style[`--${color}`]}` :
         style.container_button;
 
     return (
@@ -29,7 +33,14 @@ function Button({
                     </button>
                 </section>
                 :
-                <button {...rest}>
+                <button
+                    className={`${style.button} 
+                               ${theme ?? style[`--${theme}`]}
+                                ${style[`--${color}`]}`}
+                    {...rest}>
+                    {Icon && (
+                        <Icon />
+                    )}
                     {text}
                 </button>
             }
