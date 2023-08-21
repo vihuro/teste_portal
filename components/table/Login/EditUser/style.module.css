@@ -213,6 +213,7 @@
     border-collapse: collapse;
     overflow: auto;
     text-align: center;
+    width: 100%;
 
 }
 .tableCardFilter thead{

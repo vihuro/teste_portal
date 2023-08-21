@@ -51,7 +51,7 @@ export default function TopBarSide() {
                     {valueToken && (
                         valueToken.Nome && (
                             <div>
-                                <label htmlFor="">{valueToken.Nome}</label>
+                                <label >{valueToken.Nome}</label>
                             </div>
                         )
 

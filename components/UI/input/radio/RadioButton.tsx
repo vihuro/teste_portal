@@ -11,12 +11,13 @@ function Radio({ text, id, color, ...res }: radioProps) {
     return (
         <section className={style.containerRadio} >
             <input type="radio"
-                className={`${style.input} ${style[`--${color}`] }`}
+                className={`${style.input} ${style[`--${color}`]}`}
                 id={id}
                 {...res} />
             {text && (
                 <label
-                    className={`${style.label} ${style[`--${color}`] }`}
+                    id={id}
+                    className={`${style.label} ${style[`--${color}`]}`}
                     htmlFor={id}>
                     {text}
                 </label>

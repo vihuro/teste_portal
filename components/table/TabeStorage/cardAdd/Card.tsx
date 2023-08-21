@@ -4,9 +4,9 @@ import style from "./style.module.css";
 import Api from "../../../../service/api/matriz/estoque-grm";
 import Message from "../../../message/Message";
 import Loading from "../../../loading/Loading";
-import { Console } from "console";
 import TokenDrecriptor from "../../../../service/DecriptorToken";
 import { parseCookies } from "nookies";
+import ButtonUi from "../../../UI/button/Button";
 
 const CardStorage = ({
     toogle,
@@ -15,7 +15,7 @@ const CardStorage = ({
 }: {
     toogle: boolean,
     changeToogle: Function,
-    refreshTable:Function
+    refreshTable: Function
 }) => {
 
     const [textUnidade, setTextUnidade] = useState("");
@@ -200,7 +200,7 @@ const CardStorage = ({
                 const formattedValue = value.replaceAll(".", "").replace(",", ".")
                 return Api.post("", {
                     ...materialEstoque,
-                    usuarioId:tokenInfo.idUser,
+                    usuarioId: tokenInfo.idUser,
                     localEstoqueId: valueCheckBox.id,
                     quantidade: parseFloat(formattedValue)
                 });
@@ -272,7 +272,7 @@ const CardStorage = ({
         FechTipo();
         FechLocal();
     }, [])
-
+    const { Button } = ButtonUi();
 
     return (
         <div className={style.cardAdd_background} >
@@ -413,28 +413,22 @@ const CardStorage = ({
                 <footer className={style.container_button} >
                     <div className={style.container_button_cadastrar}>
                         <div className={style.button} >
-                            <button
-                                className={style.button_cadastrar}
-                                onClick={() => { Verify() }}
-                            >
-                                <span>
-                                    CADASTRAR
-                                </span>
-                            </button>
+                            <Button
+                                classUi="glass"
+                                color="green"
+                                text="Cadastrar"
+                                onClick={() => Verify()}
+                            />
                         </div>
                     </div>
                     <div className={style.container_button_cancelar}>
                         <div className={style.button} >
-                            <button
-                                className={style.button_cancelar}
-                                onClick={() => {
-                                    changeToogle(false)
-                                }}
-                            >
-                                <span>
-                                    CANCELAR
-                                </span>
-                            </button>
+                            <Button
+                                classUi="glass"
+                                color="red"
+                                text="Cancelar"
+                                onClick={() => changeToogle(false)}
+                            />
                         </div>
                     </div>
                 </footer>

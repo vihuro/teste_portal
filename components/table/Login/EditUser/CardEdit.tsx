@@ -129,6 +129,12 @@ function CardFilter({
         claimValue: string
     }
     const [dataClaims, setDataClaims] = useState<responseClaimsProps>();
+    const [toogleLoading, setToogleLoading] = useState<boolean>(false);
+    const [toogleMessage, setToogleMessage] = useState<boolean>(false);
+    const [dataMessage, setDataMessage] = useState({
+        message: "CUIDADO",
+        type: "WARNIG"
+    })
 
     useEffect(() => {
         FecthData();
@@ -147,21 +153,50 @@ function CardFilter({
         }
     });
     async function adicionarClaims(claimId: string) {
+        setToogleLoading(true)
         const claims = {
             claimId: claimId,
             userClaimsId: userClaimId,
             userRegisterId: userClaimId
         }
         await Api.put("claimsTypeForUser", claims)
-            .then(res => console.log(res))
-            .catch(err => console.log(err))
-            .finally(() => fechDataTable())
+            .then(res => setDataMessage({
+                message: "Regra adicionada!",
+                type: "SUCESS"
+            }))
+            .catch(err => {
+                console.log(err)
+                setDataMessage({
+                    message:"ERRO NO SERVIDOR!",
+                    type:"ERROR"
+                })
+            })
+            .finally(() => {
+                fechDataTable()
+                setToogleLoading(false);
+                setToogleMessage(true)
+            })
 
     }
 
 
     return (
         <div className={style.cardFilter} >
+            <div className={toogleMessage ?
+                style.container_message :
+                style.container_message_close} >
+                <Message
+                    stateMessage={toogleMessage}
+                    action={setToogleMessage}
+                    message={dataMessage.message}
+                    type={dataMessage.type}
+                />
+            </div>
+            <div className={toogleLoading ?
+                style.container_loading :
+                style.container_loading_close} >
+                <Loading />
+            </div>
             <header className={style.headerCarFilter} >
                 <h4>FILTRO</h4>
             </header>
@@ -178,7 +213,7 @@ function CardFilter({
                         <tbody>
                             {filter && (
                                 filter.map((item, index) => (
-                                    <tr>
+                                    <tr key={index} >
                                         <td>{item.claimName}</td>
                                         <td>{item.claimValue}</td>
                                         <td><BiAddToQueue onClick={() => adicionarClaims(item.claimId)} /></td>
@@ -233,131 +268,134 @@ function Card({ toogle, changeToogle, user, fechDataUsers }: cardProps) {
 
 
     return (
-        <form className={style.card} >
-            <div className={toogleLoading ?
-                style.container_loading :
-                style.container_loading_close} >
-                <Loading />
+        data && (
+            <form className={style.card} >
+                <div className={toogleLoading ?
+                    style.container_loading :
+                    style.container_loading_close} >
+                    <Loading />
 
-            </div>
-            <div className={toogleMessage ?
-                style.container_message :
-                style.container_message_close}>
-                <Message
-                    action={setToogleMessage}
-                    stateMessage={toogleMessage}
-                    message={dataMessage.message}
-                    type={dataMessage.type}
-                />
-            </div>
-            <div className={toogleFilter ?
-                style.container_filter :
-                style.container_filter_close} >
-                <CardFilter
-                    changeToogle={setToogleFilter}
-                    fechDataTable={fechDataUsers}
-                    claimsId={data?.claims.map(item => item.claimId)}
-                    userClaimId={data?.usuarioId}
-                />
-            </div>
-            <header className={style.header} >
-                <h3>Editar usuário</h3>
-            </header>
-            <main className={style.body} >
-                <section className={style.container_radio} >
-                    <div className={style.wrapContainer_radio} >
-                        <label className={style.containerRadioTitle} >Status</label>
-                        <Radio
+                </div>
+                <div className={toogleMessage ?
+                    style.container_message :
+                    style.container_message_close}>
+                    <Message
+                        action={setToogleMessage}
+                        stateMessage={toogleMessage}
+                        message={dataMessage.message}
+                        type={dataMessage.type}
+                    />
+                </div>
+                <div className={toogleFilter ?
+                    style.container_filter :
+                    style.container_filter_close} >
+                    <CardFilter
+                        changeToogle={setToogleFilter}
+                        fechDataTable={fechDataUsers}
+                        claimsId={data?.claims.map(item => item.claimId)}
+                        userClaimId={data?.usuarioId}
+                    />
+                </div>
+                <header className={style.header} >
+                    <h3>Editar usuário</h3>
+                </header>
+                <main className={style.body} >
+                    <section className={style.container_radio} >
+                        <div className={style.wrapContainer_radio} >
+                            <label className={style.containerRadioTitle} >Status</label>
+                            <Radio
+                                color="green"
+                                text="ATIVO"
+                                id="rdbAtivo"
+                                name="radioStatus"
+                            />
+                            <Radio
+                                color="red"
+                                text="INATIVO"
+                                id="rdbInativo"
+                                name="radioStatus"
+                            />
+                        </div>
+                    </section>
+                    <section className={style.firstRow} >
+                        <Input
+                            id="txtNomeUsuario"
+                            text="Nome"
+                            value={data.nome}
+                            onChange={() => { }}
+                        />
+                    </section>
+                    <section className={style.secondRow} >
+                        <Input
+                            id="txtApelidoUsuario"
+                            text="Apelido"
+                            value={data.apelido}
+                            onChange={() => { }}
+                        />
+                    </section>
+                    <section className={style.containerPassword} >
+                        <Input
+                            id="txtAlterarSenha"
+                            text="Alterar Senha"
+                            value={senha}
+                            onChange={(e) => setSenha(e.target.value)}
+                        />
+                    </section>
+                    <section className={style.containerConfirmPassword} >
+                        <Input
+                            id="txtConfirmarPassword"
+                            text="Confirmar"
+                            value={senha}
+                            onChange={(e) => setSenha(e.target.value)}
+                        />
+                    </section>
+                    <section className={style.containerTableClaims} >
+                        <div className={style.wrapContainerTableClaims} >
+                            <TableClaims
+                                changeLoading={setToogleLoading}
+                                changeToogleMessage={setToogleMessage}
+                                claims={data?.claims}
+                                changeDataMessage={setDataMessage}
+                                fechDataUsers={fechDataUsers}
+                            />
+                        </div>
+                    </section>
+                    <section className={style.container_buttonFilter} >
+                        <Button
+                            classUi="background"
+                            color="blue"
+                            text=""
+                            type="button"
+                            icon={BiFilterAlt}
+                            onClick={() => setToogleFilter(true)}
+                        />
+
+                    </section>
+                </main>
+                <footer className={style.footer} >
+                    <div className={style.container_cadastrar} >
+                        <Button
                             color="green"
-                            text="ATIVO"
-                            id="rdbAtivo"
-                            name="radioStatus"
+                            classUi="glass"
+                            text="Salvar"
+                            type="button"
+                            onClick={() => setToogleMessage(true)}
                         />
-                        <Radio
+                    </div>
+                    <div className={style.container_fechar} >
+                        <Button
                             color="red"
-                            text="INATIVO"
-                            id="rdbInativo"
-                            name="radioStatus"
+                            classUi="glass"
+                            text="Fechar"
+                            type="button"
+                            onClick={() => changeToogle(false)}
                         />
                     </div>
-                </section>
-                <section className={style.firstRow} >
-                    <Input
-                        id="txtNomeUsuario"
-                        text="Nome"
-                        value={data?.nome}
-                        onChange={() => { }}
-                    />
-                </section>
-                <section className={style.secondRow} >
-                    <Input
-                        id="txtApelidoUsuario"
-                        text="Apelido"
-                        value={data?.apelido}
-                        onChange={() => { }}
-                    />
-                </section>
-                <section className={style.containerPassword} >
-                    <Input
-                        id="txtAlterarSenha"
-                        text="Alterar Senha"
-                        value={senha}
-                        onChange={(e) => setSenha(e.target.value)}
-                    />
-                </section>
-                <section className={style.containerConfirmPassword} >
-                    <Input
-                        id="txtConfirmarPassword"
-                        text="Confirmar"
-                        value={senha}
-                        onChange={(e) => setSenha(e.target.value)}
-                    />
-                </section>
-                <section className={style.containerTableClaims} >
-                    <div className={style.wrapContainerTableClaims} >
-                        <TableClaims
-                            changeLoading={setToogleLoading}
-                            changeToogleMessage={setToogleMessage}
-                            claims={data?.claims}
-                            changeDataMessage={setDataMessage}
-                            fechDataUsers={fechDataUsers}
-                        />
-                    </div>
-                </section>
-                <section className={style.container_buttonFilter} >
-                    <Button
-                        classUi="background"
-                        color="blue"
-                        text=""
-                        type="button"
-                        icon={BiFilterAlt}
-                        onClick={() => setToogleFilter(true)}
-                    />
 
-                </section>
-            </main>
-            <footer className={style.footer} >
-                <div className={style.container_cadastrar} >
-                    <Button
-                        color="green"
-                        classUi="glass"
-                        text="Salvar"
-                        type="button"
-                        onClick={() => setToogleMessage(true)}
-                    />
-                </div>
-                <div className={style.container_fechar} >
-                    <Button
-                        color="red"
-                        classUi="glass"
-                        text="Fechar"
-                        type="button"
-                        onClick={() => changeToogle(false)}
-                    />
-                </div>
+                </footer>
+            </form>
+        )
 
-            </footer>
-        </form>
     )
 }
 
