@@ -71,10 +71,10 @@ export default function Table() {
     })
     const [dataFiltterlocale, setDataFilterLocale] = useState({
 
-        "FABRICA-GRM": true
+        "FABRICA - GRM": true
         ,
 
-        "MATRIZ-GRM": true
+        "MATRIZ - GRM": true
     })
     const [dataFilterCode, setDataFilterCode] = useState([]);
 
@@ -139,7 +139,8 @@ export default function Table() {
         color: string
     }
     const colors: Record<string, Color> = {
-        "MATRIZ-GRM": {
+
+        "MATRIZ - GRM": {
             background: "#B40000",
             color: "white"
         },
@@ -203,12 +204,10 @@ export default function Table() {
 
 
     const filter = data.filter(item => {
-
-
         const text = item.codigo.toLowerCase().includes(textCode.toLowerCase());
         if (
-            (item.localEstocagem.localEstocagem === "FABRICA-GRM" && dataFiltterlocale["FABRICA-GRM"]) ||
-            (item.localEstocagem.localEstocagem === "MATRIZ-GRM" && dataFiltterlocale["MATRIZ-GRM"])
+            (item.localEstocagem.localEstocagem === "MATRIZ - GRM" && dataFiltterlocale["MATRIZ - GRM"]) ||
+            (item.localEstocagem.localEstocagem === "FABRICA - GRM" && dataFiltterlocale["FABRICA - GRM"])
         ) {
             return (
                 (item.tipoMaterial.tipo === "PET VIRGEM" && dataFiltterTypes["PET VIRGEM"]) ||
@@ -438,26 +437,63 @@ export default function Table() {
     const CardFilterLocal = () => {
         const [card_filter_Local, set_card_filter_Local] = useState(false);
 
-        const Card = () => {
+        interface localProps {
+            id: string,
+            localEstocagem: string
+        }
+        interface localVisibleProps {
+            id: string,
+            localEstocagem: string,
+            visible: boolean
+        }
+
+        const Card = ({ list }: { list: localProps[] }) => {
+            const [dataVisible, setDataVisible] = useState<localVisibleProps[]>([]);
+            useEffect(() => {
+                setDataVisible(list.map(item => {
+                    return {
+                        id: item.id,
+                        localEstocagem: item.localEstocagem,
+                        visible: true
+                    }
+                }))
+            }, [list])
             return (
                 <ul className={style.list} >
-                    <li>
+                    {dataVisible && (
+                        dataVisible.map((item, index) => (
+                            <li key={index} >
+                                <input
+                                    id={item.id}
+                                    type="checkbox"
+                                    onClick={(e) => setDataVisible(dataVisible.map(value => {
+                                        return {
+                                            ...value,
+                                            visible: item.id === value.id ? e.currentTarget.checked: value.visible
+                                    }
+                                    }))}
+                                    checked={item.visible} />
+                                <label style={getColorStyle(item.localEstocagem)} htmlFor={item.id}>{item.localEstocagem}</label>
+                            </li>
+                        ))
+                    )}
+                    {/* <li>
                         <input id="fabrica" type="checkbox"
-                            checked={dataFiltterlocale["FABRICA-GRM"]}
+                            checked={dataFiltterlocale["MATRIZ - GRM"]}
                             onChange={e =>
-                                setDataFilterLocale({ ...dataFiltterlocale, "FABRICA-GRM": e.target.checked })}
+                                setDataFilterLocale({ ...dataFiltterlocale, "FABRICA - GRM": e.target.checked })}
                         />
-                        <label htmlFor="fabrica" style={getColorStyle("FABRICA-GRM")} >
+                        <label htmlFor="fabrica" style={getColorStyle("f")} >
                             FABRICA-GRM
                         </label>
                     </li>
                     <li>
-                        <input id="matriz" type="checkbox" checked={dataFiltterlocale["MATRIZ-GRM"]}
-                            onChange={e => setDataFilterLocale({ ...dataFiltterlocale, "MATRIZ-GRM": e.target.checked })} />
+                        <input id="matriz" type="checkbox" checked={dataFiltterlocale["MATRIZ - GRM"]}
+                            onChange={e => setDataFilterLocale({ ...dataFiltterlocale, "FABRICA - GRM": e.target.checked })} />
                         <label htmlFor="matriz" style={getColorStyle("MATRIZ-GRM")} >
                             MATRIZ-GRM
                         </label>
-                    </li>
+                    </li> */}
                 </ul>
             )
 
@@ -636,7 +672,14 @@ export default function Table() {
                                             style.card_local :
                                             style.card_local_close}
                                     >
-                                        <CardLocal />
+                                        <CardLocal
+                                            list={data.map(item => {
+                                                return {
+                                                    id: item.localEstocagem.guid,
+                                                    localEstocagem: item.localEstocagem.localEstocagem
+                                                }
+                                            })}
+                                        />
                                     </div>
                                 </th>
                                 <th>

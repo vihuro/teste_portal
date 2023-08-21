@@ -167,8 +167,8 @@ function CardFilter({
             .catch(err => {
                 console.log(err)
                 setDataMessage({
-                    message:"ERRO NO SERVIDOR!",
-                    type:"ERROR"
+                    message: "ERRO NO SERVIDOR!",
+                    type: "ERROR"
                 })
             })
             .finally(() => {
@@ -216,16 +216,16 @@ function CardFilter({
                                     <tr key={index} >
                                         <td>{item.claimName}</td>
                                         <td>{item.claimValue}</td>
-                                        <td><BiAddToQueue onClick={() => adicionarClaims(item.claimId)} /></td>
+                                        <td>
+                                            <BiAddToQueue onClick={() =>
+                                                adicionarClaims(item.claimId)} />
+                                        </td>
                                     </tr>
                                 ))
                             )}
                         </tbody>
                     </table>
-
                 </div>
-
-
             </section>
             <footer className={style.footerCardFilter} >
                 <Button
@@ -245,7 +245,10 @@ function Card({ toogle, changeToogle, user, fechDataUsers }: cardProps) {
     const { Button } = ButtonUi();
     const { Input } = InputUi();
     const { Radio } = RadioButton();
-    const [senha, setSenha] = useState<string>("");
+    const [senha, setSenha] = useState({
+        senha: "",
+        confirmacao: ""
+    });
     const [data, setData] = useState<userProps>({
         apelido: "",
         ativo: true,
@@ -258,13 +261,57 @@ function Card({ toogle, changeToogle, user, fechDataUsers }: cardProps) {
     const [toogleLoading, setToogleLoading] = useState<boolean>(false);
     const [toogleMessage, setToogleMessage] = useState<boolean>(false);
     const [toogleFilter, setToogleFilter] = useState<boolean>(false);
+    const [statusUsuario, setStatusUsuario] = useState<boolean>(false);
     const [dataMessage, setDataMessage] = useState({
         message: "CUIDADO!",
         type: "WARNING"
     });
     useEffect(() => {
         setData(user)
+        setStatusUsuario(user?.ativo)
     }, [user])
+
+    async function SalvarAlteracao() {
+        if (senha.senha === "" && statusUsuario === user.ativo) {
+            setDataMessage({
+                message: "Nenhuma mudança encontrada!",
+                type: "WARNING"
+            });
+            setToogleMessage(true);
+            return;
+        }
+        if (senha.senha !== senha.confirmacao) {
+            setDataMessage({
+                message: "Senha não correspondente!",
+                type: "WARNING"
+            })
+            setToogleMessage(true);
+            return;
+        }
+        const change = {
+            userId: user.usuarioId,
+            ativo: statusUsuario !== user.ativo ? statusUsuario : null,
+            senha: senha.senha !== "" ? senha.senha : null,
+            usuarioAlteracaoId: user.usuarioId
+        }
+
+        setToogleLoading(true)
+
+        await Api.put("/login/changePasswordOrActive", change)
+            .then(res => {
+                setDataMessage({
+                    message: "Mudanças realizadas com sucesso!",
+                    type: "SUCESS"
+                })
+            })
+            .catch(err => console.log(err))
+            .finally(() => {
+                setToogleLoading(false);
+                setToogleMessage(true);
+                fechDataUsers()
+            })
+
+    }
 
 
     return (
@@ -308,12 +355,16 @@ function Card({ toogle, changeToogle, user, fechDataUsers }: cardProps) {
                                 text="ATIVO"
                                 id="rdbAtivo"
                                 name="radioStatus"
+                                checked={statusUsuario}
+                                onChange={() => setStatusUsuario(true)}
                             />
                             <Radio
                                 color="red"
                                 text="INATIVO"
                                 id="rdbInativo"
                                 name="radioStatus"
+                                checked={!statusUsuario}
+                                onChange={() => setStatusUsuario(false)}
                             />
                         </div>
                     </section>
@@ -337,16 +388,22 @@ function Card({ toogle, changeToogle, user, fechDataUsers }: cardProps) {
                         <Input
                             id="txtAlterarSenha"
                             text="Alterar Senha"
-                            value={senha}
-                            onChange={(e) => setSenha(e.target.value)}
+                            value={senha.senha}
+                            onChange={(e) => setSenha({
+                                ...senha,
+                                senha: e.target.value
+                            })}
                         />
                     </section>
                     <section className={style.containerConfirmPassword} >
                         <Input
                             id="txtConfirmarPassword"
                             text="Confirmar"
-                            value={senha}
-                            onChange={(e) => setSenha(e.target.value)}
+                            value={senha.confirmacao}
+                            onChange={(e) => setSenha({
+                                ...senha,
+                                confirmacao: e.target.value
+                            })}
                         />
                     </section>
                     <section className={style.containerTableClaims} >
@@ -379,7 +436,7 @@ function Card({ toogle, changeToogle, user, fechDataUsers }: cardProps) {
                             classUi="glass"
                             text="Salvar"
                             type="button"
-                            onClick={() => setToogleMessage(true)}
+                            onClick={() => SalvarAlteracao()}
                         />
                     </div>
                     <div className={style.container_fechar} >

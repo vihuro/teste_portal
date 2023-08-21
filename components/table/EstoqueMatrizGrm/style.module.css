@@ -1,0 +1,17 @@
+.containerBody{
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: grid;
+    grid-template-rows: 60px 1fr;
+}
+.container_selectTable{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+}
+.container_table{
+    grid-area: 2/1/2/1;
+    overflow: hidden;
+}

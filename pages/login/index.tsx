@@ -5,6 +5,8 @@ import style from "./style.module.css";
 import { useState, useEffect } from "react";
 import { setCookie, parseCookies, destroyCookie } from "nookies";
 import { useRouter } from "next/router";
+import Loading from "../../components/loading/Loading";
+import Message from "../../components/message/Message";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
     const acessToken = parseCookies(context).ACCESS_TOKEN;
@@ -34,6 +36,12 @@ export default function Login() {
         acessToken: ""
     })
     const navigation = useRouter();
+    const [toogleLoading, setToogleLoading] = useState<boolean>(false);
+    const [toogleMessage, setToogleMessage] = useState<boolean>(false);
+    const [dataMessge, setDataMessage] = useState({
+        message: "",
+        type: "WARNING"
+    })
 
 
 
@@ -42,6 +50,7 @@ export default function Login() {
             console.log("campos obrigatorios")
             return;
         }
+        setToogleLoading(true);
         await Api.post("/login", data)
             .then(res => {
                 setCookie(null, "REFRESH_TOKEN", res.data.refreshToken, {
@@ -55,7 +64,25 @@ export default function Login() {
                 navigation.push("/")
 
             })
-            .catch(err => console.log(err))
+            .catch(err => {
+                if (err.response && (err.response.data)) {
+                    setDataMessage({
+                        message: err.response.data,
+                        type: "ERROR"
+                    })
+                    setToogleMessage(true)
+                }else{
+                    setDataMessage({
+                        message: "erro no servidor",
+                        type: "ERROR"
+                    })
+                    setToogleMessage(true)
+                }
+
+            })
+            .finally(() => {
+                setToogleLoading(false);
+            })
     }
 
 
@@ -66,6 +93,21 @@ export default function Login() {
                     <img style={{ width: "100%" }} src="../logoMarcaSemFundo.png" />
                 </div>
                 <div className={style.card} >
+                    <div className={toogleMessage ?
+                        style.containerLoading :
+                        style.containerLoading_close} >
+                        <Loading />
+                    </div>
+                    <div className={toogleMessage ?
+                        style.containerMessage :
+                        style.containerMessage_close} >
+                        <Message
+                            stateMessage={toogleMessage}
+                            action={setToogleMessage}
+                            message={dataMessge.message}
+                            type={dataMessge.type}
+                        />
+                    </div>
                     <div className={style.container_title} >
                         <h3>
                             LOGIN
@@ -74,7 +116,7 @@ export default function Login() {
                     <div className={style.containerInput} >
                         <div>
                             <input
-                            id="txtUsuario"
+                                id="txtUsuario"
                                 type="text"
                                 required
                                 autoComplete="off"
@@ -88,7 +130,7 @@ export default function Login() {
                         </div>
                         <div>
                             <input
-                            id="txtSenha"
+                                id="txtSenha"
                                 type="password"
                                 required
                                 value={data.senha ?? ""}

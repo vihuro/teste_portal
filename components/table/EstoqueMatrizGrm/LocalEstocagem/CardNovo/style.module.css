@@ -1,0 +1,56 @@
+.card {
+    width: 300px;
+    height: 300px;
+    background-color: white;
+    border-radius: 7px;
+    box-shadow: 1px 0 10px 1px rgb(160, 160, 160);
+    display: grid;
+    grid-template-rows: 20px 1fr 120px;
+    grid-template-columns: repeat(5, 1fr);
+    position: relative;
+    overflow: hidden;
+}
+.title{
+    grid-area: 1/1/1/6;
+    color: black;
+    text-align: center;
+}
+.body{
+    grid-area: 2/1/2/7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.footer{
+    grid-area: 3/1/3/7;
+    padding-bottom: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
+    display: grid;
+    gap: 20px;
+}
+.containerLoading,
+.containerLoading_close,
+.containerMessage,
+.containerMessage_close{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 5;
+
+    transition: .5s;
+}
+.containerLoading,
+.containerLoading_close{
+    background-color: rgba(0, 0, 0, 0.438);
+}
+.containerLoading_close,
+.containerMessage_close{
+    transform: translateY(-200px);
+    opacity: 0;
+    pointer-events: none;
+}

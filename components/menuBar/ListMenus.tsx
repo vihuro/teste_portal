@@ -4,19 +4,19 @@ import { MdOutlineEngineering } from "react-icons/md";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 
 interface RotasProps {
-  text: string;
-  link?: string;
-  visible: boolean;
-  rotas?: RotasProps[];
+    text: string;
+    link?: string;
+    visible: boolean;
+    rotas?: RotasProps[];
 }
 
 interface listMenusProps {
-  class: string;
-  icon: JSX.Element;
-  text: string;
-  visible: boolean;
-  link: string;
-  rotas: RotasProps[];
+    class: string;
+    icon: JSX.Element;
+    text: string;
+    visible: boolean;
+    link: string;
+    rotas: RotasProps[];
 }
 
 
@@ -81,7 +81,7 @@ const List = [
                     }
                 ],
                 link: "/#"
-            },            {
+            }, {
                 text: "Matriz",
                 visible: false,
                 rotas: [
@@ -139,7 +139,25 @@ const List = [
             {
                 text: "Regras",
                 link: "/#"
-            }
+            },
+            {
+                text: "Estoque",
+                visible: false,
+                rotas: [
+                    {
+                        text: "Estoque Matriz grm",
+                        visible: false,
+                        rotas: [
+                            {
+                                text: "",
+                                link: "/gerencial/estoque/matriz/grm",
+                                visible: false
+                            }
+                        ]
+                    }
+                ],
+                link: "/#"
+            },
         ]
     }
 ] as listMenusProps[]
