@@ -8,20 +8,18 @@ import TokenDrecriptor from "../../../../service/DecriptorToken";
 import { parseCookies } from "nookies";
 import ButtonUi from "../../../UI/button/Button";
 
-const CardStorage = ({
-    toogle,
-    changeToogle,
-    refreshTable
-}: {
-    toogle: boolean,
+interface props {
     changeToogle: Function,
-    refreshTable: Function
-}) => {
+    refreshTable: Function,
+    searchColor: Function
+}
+
+const CardStorage = ({ changeToogle, refreshTable, searchColor }: props) => {
 
     const [textUnidade, setTextUnidade] = useState("");
     const [textTipo, setTextTipo] = useState("");
-    const [toogleMessage, setToogleMessage] = useState(false);
-    const [toogleLoading, setToogleLoading] = useState(false);
+    const [toogleMessage, setToogleMessage] = useState<boolean>(false);
+    const [toogleLoading, setToogleLoading] = useState<boolean>(false);
 
     const [dataTipo, setDataTipo] = useState<TipoPros[]>([]);
     const [checboxLocal, setCheckboxLocal] = useState<ListCheckBoxProps[]>([]);
@@ -87,7 +85,13 @@ const CardStorage = ({
     async function FechTipo() {
         await Api.get("/tipo-material")
             .then(res => setDataTipo(res.data))
-            .catch(err => err)
+            .catch(err => {
+                setMessage({
+                    message: "Erro ao buscar tipos",
+                    type: "ERROR"
+                })
+                setToogleMessage(true)
+            })
 
     }
     async function FechLocal() {
@@ -105,7 +109,6 @@ const CardStorage = ({
 
     }
 
-    const [dataLocal, setDataLocal] = useState<LocalProps[]>([]);
 
     interface propsColor {
         background: string,
@@ -310,7 +313,7 @@ const CardStorage = ({
                                                 })))
                                             }
                                         />
-                                        <label style={getColorLocal(item.local)} htmlFor={item.id}>{item.local}</label>
+                                        <label style={searchColor(item.local)} htmlFor={item.id}>{item.local}</label>
                                     </div>
                                 ))
                             ) : (<div>Carregando...</div>)}

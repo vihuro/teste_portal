@@ -20,6 +20,15 @@
     position: relative;
     padding-top: 20px;
 }
+.containerButton{
+    position: absolute;
+    color: white;
+    top: 30px;
+    left: 10px;
+    width: 40px;
+    height: 40px;
+    font-size: 32px;
+}
 
 
 .iconUser svg {

@@ -4,7 +4,7 @@ import { destroyCookie, parseCookies, setCookie } from "nookies";
 import { GetServerSideProps } from "next";
 import MenuBar from "../../../../components/menuBar/MenuBar";
 import Body from "../../../../components/table/Body";
-import Table from "../../../../components/table/TabeStorage/Table";
+import Table from "../../../../components/table/tabeStorageMatrizGrm/Table";
 import Api from "../../../../service/api/login/login";
 
 export default function Estoque() {

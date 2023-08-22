@@ -269,8 +269,8 @@
 .card_type_close label,
 .card_local label,
 .card_local_close label,
-.card_codigo label,
-.card_codigo_close label {
+.container_codigo label,
+.container_codigo_close label {
     width: 60%;
     top: -10px;
 }
@@ -279,8 +279,8 @@
 .card_type_close li,
 .card_local li,
 .card_local_close li,
-.card_codigo li,
-.card_codigo_close li {
+.container_codigo li,
+.container_codigo_close li {
     margin: 5px;
     display: flex;
 }
@@ -314,7 +314,8 @@
 .card_type_close input[type="checkbox"],
 .card_local input[type="checkbox"],
 .card_local_close input[type="checkbox"],
-.card_codigo input[type="checkbox"] {
+.container_codigo input[type="checkbox"],
+.container_codigo_close input[type="checkbox"] {
     appearance: none;
     margin-right: 7px;
     display: flex;
@@ -329,7 +330,8 @@
 .card_type_close input[type="checkbox"]:checked,
 .card_local input[type="checkbox"]:checked,
 .card_local_close input[type="checkbox"]:checked,
-.card_codigo input[type="checkbox"]:checked {
+.container_codigo input[type="checkbox"]:checked,
+.container_codigo_close input[type="checkbox"]:checked  {
     appearance: none;
 }
 
@@ -337,7 +339,8 @@
 .card_type_close input[type="checkbox"]:checked::before,
 .card_local input[type="checkbox"]:checked::before,
 .card_local_close input[type="checkbox"]:checked::before,
-.card_codigo input[type="checkbox"]:checked::before {
+.container_codigo input[type="checkbox"]:checked::before,
+.container_codigo_close input[type="checkbox"]:checked::before {
     appearance: none;
     content: "✔";
     position: relative;
@@ -393,7 +396,7 @@
     padding: 5px;
 }
 
-.filter {
+.container_codigo section div{
     position: relative;
     border: 1px solid rgba(128, 162, 255, 0.61);
     padding: 7px;
@@ -404,7 +407,7 @@
     margin-bottom: 15px;
 }
 
-.filter input {
+.container_codigo section div input {
     border: none;
     border-radius: 7px;
     margin-top: 5px;
@@ -413,7 +416,7 @@
     outline: none;
 }
 
-.filter span {
+.container_codigo section div span {
     position: absolute;
     background-color: rgb(0, 16, 88);
     color: white;
@@ -433,9 +436,10 @@
     display: grid;
 }
 
-.card_codigo .button_filter svg {
-    background-color: red;
-}
+/* .container_codigo section div svg {
+    position: absolute;
+    right: 0;
+} */
 
 .span {
     padding: 20px;

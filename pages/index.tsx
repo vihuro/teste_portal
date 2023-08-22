@@ -2,11 +2,9 @@
 import { destroyCookie, parseCookies, setCookie } from "nookies";
 import MenuBar from "../components/menuBar/MenuBar";
 import Body from "../components/table/Body";
-import Table from "../components/table/TabeStorage/Table";
 import { GetServerSideProps } from "next";
 import axios from "axios";
 import TokenDrecriptor from "../service/DecriptorToken";
-import { useEffect } from "react";
 
 
 export const getServerSideProps: GetServerSideProps = async (context) => {

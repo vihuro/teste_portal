@@ -43,6 +43,22 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
+}
+
+.container_title h3 {
+    position: relative;
+    color: var(--text-color-blue-00);
+}
+
+.container_title h3::before {
+    position: absolute;
+    content: "";
+    width: 200%;
+    height: 1px;
+    bottom: 0;
+    left: -50%;
+    background-image: linear-gradient(to right, rgba(0, 26, 255, .7), rgb(247, 0, 255))
 }
 
 .containerInput {

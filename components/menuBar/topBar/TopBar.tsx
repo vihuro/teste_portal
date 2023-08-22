@@ -1,11 +1,13 @@
 "use client"
 import TokenDrecriptor from "../../../service/DecriptorToken";
 import style from "./style.module.css";
-import { destroyCookie, parseCookies, setCookie } from "nookies";
+import { destroyCookie, parseCookies } from "nookies";
 import { BiUser } from "react-icons/bi";
-import { useState, useEffect, useRef } from "react";
+import { RxHamburgerMenu } from "react-icons/rx";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import path from "path";
+
+
 
 interface tokenProps {
     Nome: string,
@@ -30,14 +32,14 @@ export default function TopBarSide() {
     function TopBar() {
         return (
             <div className={style.header} >
-                <div className={style.iconUser} onClick={e => { setToogleValue(!toogleValue)}} >
+                <div className={style.iconUser} onClick={e => { setToogleValue(!toogleValue) }} >
                     <div className={toogleValue ? style.card : style.card_close}
                     >
                         <ul  >
                             <li onClickCapture={e => console.log("Alterar senha")} >Alterar senha</li>
                             <li onClickCapture={e => {
-                                destroyCookie(null,"ACCESS_TOKEN",{
-                                    path:"/"
+                                destroyCookie(null, "ACCESS_TOKEN", {
+                                    path: "/"
                                 })
                                 navigation.push("/login")
 

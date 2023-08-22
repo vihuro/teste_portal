@@ -1,5 +1,5 @@
 "use client"
-import { useEffect, useState } from "react";
+import { useEffect, useState, memo } from "react";
 import { ListMenus } from "../ListMenus";
 import style from "./style.module.css";
 import { FiSettings } from "react-icons/fi";
@@ -30,7 +30,8 @@ export default function SideBar() {
 
     const [listMenus, setListMenus] = useState<listMenusProps[]>([]);
     const [marginTop, setMarginTop] = useState("0px");
-    const [toogle, setToogle] = useState(false);
+    const [toogle, setToogle] = useState<boolean>(false);
+
 
     useEffect(() => {
         setListMenus(List as listMenusProps[]);
@@ -127,9 +128,9 @@ export default function SideBar() {
                                                     <li onClick={() => {
                                                         changeVisibleSegundaRota(index)
                                                     }} >
-                                                        {primeiraRota.link !== "/#" ? 
+                                                        {primeiraRota.link !== "/#" ?
                                                             <a href={primeiraRota.link}>{primeiraRota.text}</a>
-                                                        :primeiraRota.text}
+                                                            : primeiraRota.text}
 
                                                     </li>
 
