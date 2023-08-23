@@ -63,42 +63,7 @@ const List = [
                     }
                 ],
                 link: "/#"
-            },
-            {
-                text: "Matriz",
-                visible: false,
-                rotas: [
-                    {
-                        text: "Estoque grm",
-                        visible: false,
-                        rotas: [
-                            {
-                                text: "",
-                                link: "/estoque/matriz/grm",
-                                visible: false
-                            }
-                        ]
-                    }
-                ],
-                link: "/#"
-            }, {
-                text: "Matriz",
-                visible: false,
-                rotas: [
-                    {
-                        text: "Estoque grm",
-                        visible: false,
-                        rotas: [
-                            {
-                                text: "",
-                                link: "/estoque/matriz/grm",
-                                visible: false
-                            }
-                        ]
-                    }
-                ],
-                link: "/#"
-            },
+            }
         ]
     },
     {

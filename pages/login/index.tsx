@@ -46,11 +46,18 @@ export default function Login() {
 
 
     async function Logar() {
+        setToogleLoading(true);
         if (data.apelido === "" || data.senha === "") {
-            console.log("campos obrigatorios")
+            setDataMessage({
+                message:"Campos obrigatórios vazios!",
+                type:"WARNING"
+            })
+            setToogleLoading(false);
+            setToogleMessage(true)
+
             return;
         }
-        setToogleLoading(true);
+
         await Api.post("/login", data)
             .then(res => {
                 setCookie(null, "REFRESH_TOKEN", res.data.refreshToken, {
@@ -61,6 +68,14 @@ export default function Login() {
                     path: "/",
                     maxAge: 60 * 60 * 1
                 })
+                const url = parseCookies().PAGINA_PORTAL_THR;
+                
+                if(typeof url === "undefined"){
+                    navigation.push("/");
+                }else{
+                    destroyCookie(null, "PAGINA_PORTAL_THR")
+                    navigation.push(decodeURIComponent(url))
+                }
                 navigation.push("/")
 
             })

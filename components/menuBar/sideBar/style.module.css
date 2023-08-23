@@ -242,8 +242,10 @@
         width: 280px;
         height: calc(100% - 100px);
         top: 100px;
+        position: absolute;
 
     }
+
 
 
     .side_bar .header svg,
@@ -268,12 +270,13 @@
     }
 
     .side_bar_close {
-        height: 100vh;
+        height: calc(100% - 100px);
         width: 0;
         top: 100px;
     }
     .side_bar_close::after{
         transform: translateX(-100px);
+        height: 100%;
     }
     .side_bar_close .body {
         overflow: hidden;
@@ -281,6 +284,7 @@
     }
     .side_bar::after {
         transform: translateX(20px) ;
+        height: 100%;
     }
 
     .header svg {
@@ -293,6 +297,13 @@
         width: 100% !important;
         transform: translateX(-20px) !important;
     }
+    .side_bar .row_active {
+        position: relative;
+    }
+    .side_bar .row_active svg{
+        position: absolute;
+    }
+
 
     .subMenu{
         position: relative;
@@ -304,7 +315,7 @@
         list-style: none;
         transform: translateX(-50px);
         top: 40px;
-        margin-bottom: 40px;
+        margin-bottom: 15px;
     }
     .side_bar_close .subMenu{
         position: relative;
@@ -316,7 +327,7 @@
         list-style: none;
         transform: translateX(-300px);
         top: 40px;
-        margin-bottom: 40px;
+        /* margin-bottom: 40px; */
     }
 
     .segundoSubMenu {
