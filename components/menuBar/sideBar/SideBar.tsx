@@ -3,11 +3,9 @@ import { useEffect, useState, memo } from "react";
 import { ListMenus } from "../ListMenus";
 import style from "./style.module.css";
 import { FiSettings } from "react-icons/fi";
-import { json } from "stream/consumers";
-
-interface Props {
-    id: number
-}
+import { parseCookies } from "nookies";
+import TokenDrecriptor from "../../../service/DecriptorToken";
+import { tokenProps } from "../../utils/infoToken";
 
 interface RotasProps {
     text: string;
@@ -28,6 +26,7 @@ interface listMenusProps {
 export default function SideBar() {
     const { List } = ListMenus();
 
+    const [valueToken, setValueToken] = useState<tokenProps>();
     const [listMenus, setListMenus] = useState<listMenusProps[]>([]);
     const [marginTop, setMarginTop] = useState("0px");
     const [toogle, setToogle] = useState<boolean>(false);
@@ -35,6 +34,8 @@ export default function SideBar() {
 
     useEffect(() => {
         setListMenus(List as listMenusProps[]);
+        const token = parseCookies().ACCESS_TOKEN;
+        setValueToken(TokenDrecriptor(token));
     }, [])
 
     function changeList(id: number) {
@@ -93,6 +94,159 @@ export default function SideBar() {
         setListMenus(newList)
 
     }
+    interface RoleItem {
+        name: string;
+        value: string;
+    }
+
+    interface Role {
+        text: string;
+        role: RoleItem[];
+    }
+    const roles: Role[] = [
+        {
+            text: "ESTOQUE",
+            role: [
+                {
+                    name: "ESTOQUE - GRM - MATRIZ",
+                    value: "EXPEDIÇÃO - LEITURA"
+                },
+                {
+                    name: "ESTOQUE - GRM - MATRIZ",
+                    value: "EXPEDIÇÃO - GRAVAÇÃO"
+                },
+                {
+                    name: "ESTOQUE - GRM - MATRIZ",
+                    value: "COMUNICADOR - GRAVAÇÃO"
+                },
+                {
+                    name: "ESTOQUE - GRM - MATRIZ",
+                    value: "COMUNICADOR - LEITURA"
+                },
+                {
+                    name: "ESTOQUE - GRM - MATRIZ",
+                    value: "TI"
+                }
+            ]
+        },
+        {
+            text: "FÁBRICA",
+            role: [
+                {
+                    name: "ESTOQUE - FÁBRICA - TI",
+                    value: "ESTOQUE - FÁBRICA - APONTADOR"
+                },
+                {
+                    name: "ESTOQUE - FÁBRICA",
+                    value: "ESTOQUE - FÁBRICA - ESTOQUISTA"
+                },
+                {
+                    name: "ESTOQUE - FÁBRICA",
+                    value: "ESTOQUE - FÁBRICA - EMPILHADOR"
+                },
+                {
+                    name: "ESTOQUE - FÁBRICA",
+                    value: "ESTOQUE - FÁBRICA - CQ"
+                },
+                {
+                    name: "ESTOQUE - FÁBRICA - TI",
+                    value: "ESTOQUE - FÁBRICA - TI"
+                },
+            ]
+        },
+        {
+            text: "MATRIZ",
+            role: [
+                {
+                    name: "ESTOQUE - GRM - MATRIZ",
+                    value: "EXPEDIÇÃO - LEITURA"
+                },
+                {
+                    name: "ESTOQUE - GRM - MATRIZ",
+                    value: "EXPEDIÇÃO - GRAVAÇÃO"
+                },
+                {
+                    name: "ESTOQUE - GRM - MATRIZ",
+                    value: "COMUNICADOR - GRAVAÇÃO"
+                },
+                {
+                    name: "ESTOQUE - GRM - MATRIZ",
+                    value: "COMUNICADOR - LEITURA"
+                },
+                {
+                    name: "ESTOQUE - GRM - MATRIZ",
+                    value: "TI"
+                }
+            ]
+        },
+        {
+            text: "PRODUÇÃO",
+            role: [
+                {
+                    name: "PRODUCAO - FÁBRICA",
+                    value: "TI"
+                },
+            ]
+        },
+        {
+            text: "EXPEDIÇÃO",
+            role: [
+                {
+                    name: "EXPEDIÇÃO - FÁBRICA",
+                    value: "TI"
+                },
+                {
+                    name: "EXPEDIÇÃO - MATRIZ",
+                    value: "TI"
+                },
+            ]
+        },
+        {
+            text: "COMPRAS",
+            role: [
+                {
+                    name: "COMPRAS - FÁBRICA",
+                    value: "TI"
+                },
+                {
+                    name: "COMPRAS - MATRIZ",
+                    value: "TI"
+                },
+            ]
+        },
+        {
+            text: "GERENCIAL",
+            role: [
+                {
+                    name: "GERENCIAL",
+                    value: "TI"
+                },
+            ]
+        }
+    ]
+    function validateModulo({ text }: { text: string }) {
+
+        if (!valueToken) {
+            return false; // Não há informações de token, não permitir acesso
+        }
+        console.log(text)
+
+
+        const found = roles.find(item => item.text.toLowerCase() === text.toLowerCase());
+        const foundToken = found?.role.some(item =>
+            valueToken[item.name as keyof tokenProps])
+
+
+        if (foundToken) {
+            return true;
+
+        } else {
+            return false;
+        }
+
+
+    }
+
 
 
     return (
@@ -107,57 +261,67 @@ export default function SideBar() {
             <div className={style.body} >
                 <ul className={style.list} >
                     {listMenus && (
-                        listMenus.map((item, index) => (
-                            <li
-                                onClick={() => {
+                        listMenus.map((item, index) => {
+                            const visibleMenu = validateModulo({ text: item.text });
+                            return (
+                                <li
+                                    onClick={() => {
+                                        if (visibleMenu) {
+                                            changeList(index);
+                                        }
+                                    }}
+                                    style={{
+                                        color: visibleMenu ? "white" : "gray"
+                                    }}
+                                    className={style[item.class]}
+                                    key={index}
+                                >
+                                    {item.icon}
+                                    <a>{item.text}</a>
+                                    {item.visible && item.rotas.length > 0 && (
+                                        <ul className={style.subMenu} onClick={(e) => e.stopPropagation()} >
+                                            {item.rotas.map((primeiraRota, index) => {
+                                                const visibleSubMenu = validateModulo({ text: primeiraRota.text })
 
-                                    changeList(index);
+                                                return (
+                                                    <ul key={index}>
+                                                        <li onClick={() => {
+                                                            if (visibleSubMenu) {
+                                                                changeVisibleSegundaRota(index)
+                                                            }
+                                                        }} style={{
+                                                            color: visibleSubMenu ? "white" : "gray"
+                                                        }} >
+                                                            {primeiraRota.link !== "/#" ?
+                                                                <a href={primeiraRota.link}>{primeiraRota.text}</a>
+                                                                : primeiraRota.text}
 
-                                }}
-                                className={style[item.class]}
-                                key={index}
-                            >
-                                {item.icon}
-                                <a>{item.text}</a>
-                                {item.visible && item.rotas.length > 0 && (
-                                    <ul className={style.subMenu} onClick={(e) => e.stopPropagation()} >
-                                        {item.rotas.map((primeiraRota, index) => {
+                                                        </li>
 
-                                            return (
-                                                <ul key={index}>
-                                                    <li onClick={() => {
-                                                        changeVisibleSegundaRota(index)
-                                                    }} >
-                                                        {primeiraRota.link !== "/#" ?
-                                                            <a href={primeiraRota.link}>{primeiraRota.text}</a>
-                                                            : primeiraRota.text}
+                                                        {primeiraRota.visible && primeiraRota.rotas && primeiraRota.rotas.length > 0 && (
+                                                            <>
+                                                                <ul className={style.segundoSubMenu} >
+                                                                    {primeiraRota.rotas.map((segundaRota, index) => (
+                                                                        <li key={index} >
+                                                                            {segundaRota.rotas && (
+                                                                                <a href={segundaRota.rotas[0].link}>{segundaRota.text}</a>
+                                                                            )}
 
-                                                    </li>
+                                                                        </li>
+                                                                    ))}
+                                                                </ul>
+                                                            </>
+                                                        )}
 
-                                                    {primeiraRota.visible && primeiraRota.rotas && primeiraRota.rotas.length > 0 && (
-                                                        <>
-                                                            <ul className={style.segundoSubMenu} >
-                                                                {primeiraRota.rotas.map((segundaRota, index) => (
-                                                                    <li key={index} >
-                                                                        {segundaRota.rotas && (
-                                                                            <a href={segundaRota.rotas[0].link}>{segundaRota.text}</a>
-                                                                        )}
+                                                    </ul>
+                                                )
+                                            })}
+                                        </ul>
+                                    )}
 
-                                                                    </li>
-                                                                ))}
-                                                            </ul>
-                                                        </>
-                                                    )}
-
-                                                </ul>
-                                            )
-                                        })}
-                                    </ul>
-                                )}
-
-                            </li>
-                        ))
-
+                                </li>
+                            )
+                        })
                     )}
                     <div className={style.selector} style={{
                         marginTop: marginTop

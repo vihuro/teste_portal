@@ -72,7 +72,7 @@ function Table({ listClaims, changeListClaims }:
 const { Filter } = CardFilter();
 
 
-function Card({ toogle, changeToogle }: { toogle: boolean, changeToogle: Function }) {
+function Card({ toogle, changeToogle, refreshTable }: { toogle: boolean, changeToogle: Function, refreshTable: Function }) {
     const [toogleLoading, setToogleLoading] = useState<boolean>(false);
     const [toogleFilterClaims, setToogleFilterClaims] = useState<boolean>(false);
     const [toogleMessage, setToogleMessage] = useState<boolean>(false);
@@ -136,7 +136,8 @@ function Card({ toogle, changeToogle }: { toogle: boolean, changeToogle: Functio
             .catch(err => console.log(err))
             .finally(() => {
                 setToogleLoading(false);
-                setToogleMessage(true)
+                setToogleMessage(true);
+                refreshTable()
                 ClearAll()
             })
     }

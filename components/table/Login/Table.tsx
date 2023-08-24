@@ -63,6 +63,7 @@ export default function Table() {
                 <CardAddUser
                     changeToogle={setToogleCardAdd}
                     toogle={toogleCardAdd}
+                    refreshTable={FetchData}
                 />
             </div>
             <div className={toogleEdit ?

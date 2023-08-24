@@ -224,7 +224,7 @@ const CardStorage = ({ changeToogle, refreshTable, searchColor }: props) => {
                         type: "SUCESS"
                     })
                     clearAll();
-                    refreshTable()
+
                 })
                 .catch(err => {
                     if (err.response.data) {
@@ -243,6 +243,7 @@ const CardStorage = ({ changeToogle, refreshTable, searchColor }: props) => {
                 .finally(() => {
                     setToogleLoading(false);
                     setToogleMessage(true);
+                    refreshTable()
                 })
 
         }
