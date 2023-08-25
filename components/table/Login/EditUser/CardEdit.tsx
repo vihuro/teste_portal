@@ -10,6 +10,7 @@ import Message from "../../../message/Message";
 import TokenDrecriptor from "../../../../service/DecriptorToken";
 import { parseCookies } from "nookies";
 import { BiFilterAlt, BiAddToQueue } from "react-icons/bi";
+import FilterClaims from "./filter/FilterClaim";
 
 interface cardProps {
     toogle: boolean,
@@ -176,7 +177,6 @@ function CardFilter({
                 setToogleLoading(false);
                 setToogleMessage(true)
             })
-
     }
 
 
@@ -271,6 +271,7 @@ function Card({ toogle, changeToogle, user, fechDataUsers }: cardProps) {
         setStatusUsuario(user?.ativo)
     }, [user])
 
+
     async function SalvarAlteracao() {
         if (senha.senha === "" && statusUsuario === user.ativo) {
             setDataMessage({
@@ -336,12 +337,18 @@ function Card({ toogle, changeToogle, user, fechDataUsers }: cardProps) {
                 <div className={toogleFilter ?
                     style.container_filter :
                     style.container_filter_close} >
-                    <CardFilter
+                    <FilterClaims
+                        userClaimId={data.usuarioId}
+                        changeToogle={setToogleFilter}
+                        claimsId={data.claims.map(item => item.claimId)}
+                        fechDataTable={fechDataUsers}
+                    />
+                    {/* <CardFilter
                         changeToogle={setToogleFilter}
                         fechDataTable={fechDataUsers}
                         claimsId={data?.claims.map(item => item.claimId)}
                         userClaimId={data?.usuarioId}
-                    />
+                    /> */}
                 </div>
                 <header className={style.header} >
                     <h3>Editar usuário</h3>
@@ -386,7 +393,7 @@ function Card({ toogle, changeToogle, user, fechDataUsers }: cardProps) {
                     </section>
                     <section className={style.containerPassword} >
                         <Input
-                            id="txtAlterarSenha"
+                            id="txtAlterarSenhaEdit"
                             text="Alterar Senha"
                             value={senha.senha}
                             onChange={(e) => setSenha({

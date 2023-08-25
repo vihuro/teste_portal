@@ -32,7 +32,7 @@ export default function Filter({ listProps, searchColor }: props) {
                 visible: true
             })))
         }
-    }, [data])
+    }, [data, listProps])
 
     const filter = data
         .filter(item =>

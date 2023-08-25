@@ -142,6 +142,7 @@ export default function Table() {
         await Api.get("")
             .then(res => {
                 setData(res.data)
+                console.log("em table")
 
             })
             .catch(err => console.log(err))

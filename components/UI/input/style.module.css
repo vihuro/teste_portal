@@ -8,11 +8,11 @@
 
 .input{
     position: relative;
-    padding: 7px;
+    padding: 17px 10px 10px 10px;
     width: 80%;
     outline: none;
     border-radius: 5px;
-    border: 1px solid var(--background-color-blue-700);
+    border: 1px solid rgba(102, 102, 102, 0.555);
 }
 .input:valid+.label,
 .input:focus+.label{

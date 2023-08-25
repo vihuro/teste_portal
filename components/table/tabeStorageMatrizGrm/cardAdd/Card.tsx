@@ -244,6 +244,7 @@ const CardStorage = ({ changeToogle, refreshTable, searchColor }: props) => {
                     setToogleLoading(false);
                     setToogleMessage(true);
                     refreshTable()
+                    console.log("dentro do card")
                 })
 
         }

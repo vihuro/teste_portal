@@ -229,7 +229,6 @@ export default function SideBar() {
         if (!valueToken) {
             return false; // Não há informações de token, não permitir acesso
         }
-        console.log(text)
 
 
         const found = roles.find(item => item.text.toLowerCase() === text.toLowerCase());

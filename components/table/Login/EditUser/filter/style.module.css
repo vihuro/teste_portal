@@ -1,0 +1,112 @@
+.cardFilter {
+    width: 95%;
+    height: 80%;
+    background-color: white;
+    box-shadow: 1px 1px 15px 1px rgb(206, 206, 206);
+    padding: 2px;
+    border-radius: 5px;
+    display: grid;
+    grid-template-rows: 20px 1fr 40px;
+    grid-template-columns: repeat(2, 1fr);
+    position: relative;
+    gap: 10px;
+}
+
+.container_loading,
+.container_message,
+.container_filter,
+.container_loading_close,
+.container_message_close,
+.container_filter_close {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    transition: .5s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container_loading_close,
+.container_message_close {
+    transform: translateY(-500px);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.container_filter_close {
+    transform: translateY(-50px);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.headerCarFilter {
+    grid-area: 1/1/1/3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.bodyCardFilter {
+    grid-area: 2/1/2/3;
+    overflow: hidden;
+}
+
+.footerCardFilter {
+    grid-area: 3/1/3/3;
+}
+
+.wrapTableCardFilter {
+    border-radius: 5px;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+}
+
+.tableCardFilter {
+    border-collapse: collapse;
+    overflow: auto;
+    text-align: center;
+    width: 100%;
+
+}
+
+.tableCardFilter thead {
+    position: sticky;
+    top: 0;
+    background-color: var(--background-color-blue-700);
+    color: white;
+}
+
+.filterName {
+    position: absolute;
+    width: 120px;
+    height: 150px;
+    background-color: white;
+    color: black;
+    border-radius: 7px;
+    box-shadow: 1px 0 5px 1px rgb(194, 194, 194);
+    overflow: hidden;
+
+}
+
+.tableCardFilter tbody {
+    background-color: rgba(219, 233, 240, .5);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-color-blue-700);
+    overflow: auto;
+}
+
+.tableCardFilter tbody td {
+    padding: 5px;
+}
+
+.tableCardFilter tbody tr:not(:last-child) {
+    border-bottom: 1px solid var(--background-color-blue-700);
+}
+
+.tableCardFilter tbody td:not(:last-child) {
+    border-right: 1px solid rgba(0, 40, 151, 0.185);
+}
