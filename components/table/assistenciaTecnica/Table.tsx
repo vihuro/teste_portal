@@ -17,8 +17,8 @@ interface maquinaProps {
 export default function Table() {
     const [data, setData] = useState<ordemServicoProps[]>([]);
     useEffect(() => {
-        console.log("aqui")
-        Api.get("")
+
+        Api.get("/ordem-servico")
             .then(res => setData(res.data))
             .catch(err => console.log(err))
     }, [])
