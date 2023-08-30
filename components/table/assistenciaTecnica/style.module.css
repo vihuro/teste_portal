@@ -1,0 +1,34 @@
+.container_body{
+    width: 90%;
+    height: 100%;
+    display: grid;
+    padding: 7px;
+    grid-template-rows: 80px 1fr;
+}
+
+.container_table{
+    grid-area: 2/1/2/1;
+    width: 100%;
+    height: 100%;
+    border-radius: 7px;
+    position: relative;
+    overflow: auto;
+}
+
+.table{
+    border-collapse: collapse;
+    width: 400px;
+    text-align: center;
+}
+.table thead{
+    position: sticky;
+    top: 0;
+    background-color: var(--background-color-blue-700);
+    color: white;
+}
+.table tbody{
+    background-color: rgba(219, 233, 240, .5);
+}
+.table tbody tr td{
+    padding: 50px;
+}
