@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Api from "../../../../service/api/assistenciaTecnica/Assistencia";
+import style from "./style.module.css";
 
 interface dataProps {
     id: string,
@@ -35,42 +36,52 @@ export default function Table() {
         }
     }
     return (
-        <main>
-            <button onClick={() => searchImage("\\192.168.2.24\\api_assistencia_tecnica\\Imagens\\rolamento.jpg")} >
-                BUSCAR IMAGEM
-            </button>
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Peca</th>
-                        <th>Valor</th>
-                        <th>Img</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {data && (
-                        data.map((item, index) => (
-                            <tr key={index} >
-                                <td>{item.id}</td>
-                                <td>{item.nome}</td>
-                                <td>{item.preco}</td>
-                                <td>
-                                    {item.enderecoImagem.map((image, index) => {
-                                        const encodedCaminho = encodeURIComponent(`\\${image}`);
-                                        const apiUrl = `http://localhost:5184/assistencia-tecnica/pecas/image/${encodedCaminho}`;
-                                        console.log(apiUrl)
-                                        return (
-
-                                            <img src={apiUrl} alt={`Imagem teste`} />
-                                        )
-                                    })}
-                                </td>
-                            </tr>
-                        ))
-                    )}
-                </tbody>
-            </table>
+        <main className={style.container_body} >
+            <section className={style.wrap_table} >
+                <table className={style.table} >
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Peca</th>
+                            <th>Valor</th>
+                            <th>Img</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {data && (
+                            data.map((item, index) => (
+                                <tr key={index} >
+                                    <td>{item.id}</td>
+                                    <td>{item.nome}</td>
+                                    <td>{item.preco}</td>
+                                    <td>
+                                        {item.enderecoImagem.map((image, index) => {
+                                            const encodedCaminho = encodeURIComponent(`\\${image}`);
+                                            const apiUrl = `http://192.168.0.105:8081/api/v1/assistencia-tecnica/pecas/image/${encodedCaminho}`;
+                                            return (
+                                                <div style={{
+                                                    width: 40,
+                                                    height: 40,
+                                                    borderRadius: "50%",
+                                                    border: "1px solid black",
+                                                    position: "relative",
+                                                    padding: 2,
+                                                    overflow: "hidden"
+                                                }} >
+                                                    <img style={{
+                                                        maxWidth: "100%", // Define a largura máxima da imagem para 100% da div
+                                                        maxHeight: "100%", // Define a altura máxima da imagem para 100% da div
+                                                    }} src={apiUrl} alt={`Imagem teste`} />
+                                                </div>
+                                            )
+                                        })}
+                                    </td>
+                                </tr>
+                            ))
+                        )}
+                    </tbody>
+                </table>
+            </section>
 
         </main>
     )
