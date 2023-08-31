@@ -54,18 +54,21 @@ export default function Table() {
                                     <td>{item.id}</td>
                                     <td>{item.nome}</td>
                                     <td>{item.preco}</td>
-                                    <td>
-                                        {item.enderecoImagem.map((image, index) => {
+                                    <td >
+                                        {item.enderecoImagem.map((image, indexImage) => {
                                             const encodedCaminho = encodeURIComponent(`\\${image}`);
-                                            const apiUrl = `http://192.168.0.105:8081/api/v1/assistencia-tecnica/pecas/image/${encodedCaminho}`;
+                                            const apiUrl = `http://192.168.2.24:8081/api/v1/assistencia-tecnica/pecas/image/${encodedCaminho}`;
                                             return (
-                                                <div style={{
+                                                <div key={indexImage} style={{
                                                     width: 40,
                                                     height: 40,
+                                                    display:"flex",
+                                                    justifyContent:"center",
+                                                    alignItems:"center",
                                                     borderRadius: "50%",
                                                     border: "1px solid black",
                                                     position: "relative",
-                                                    padding: 2,
+                                                    left:7,
                                                     overflow: "hidden"
                                                 }} >
                                                     <img style={{

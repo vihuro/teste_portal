@@ -26,6 +26,9 @@
     background-color: var(--background-color-blue-700);
     color: white;
 }
+.table thead tr th:not(:last-child){
+    border-right: 1px solid white;
+}
 .table tbody{
     background-color: rgba(219, 233, 240, .5);
 }
