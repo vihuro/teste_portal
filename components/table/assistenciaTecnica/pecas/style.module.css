@@ -37,6 +37,7 @@
 }
 .table tbody{
     background-color: rgba(219, 233, 240, .5);
+    
 }
 .table tbody tr td:not(:last-child){
     border-right: 1px solid rgba(5, 0, 79, 0.256);

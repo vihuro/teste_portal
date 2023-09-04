@@ -1,9 +1,29 @@
 .container_body{
-    width: 90%;
+    width: 100%;
     height: 100%;
     display: grid;
     padding: 7px;
     grid-template-rows: 80px 1fr;
+    position: relative;
+}
+
+.cardAdd, .cardAdd_close,
+.cardTenico, .cardTecnico_close{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.27);
+    z-index: 1;
+    transition: .5s;
+}
+.cardAdd_close,
+.cardTecnico_close{
+    transform: translateY(-500px);
+    opacity: 0;
+    pointer-events: none;
 }
 
 .container_table{
@@ -13,11 +33,19 @@
     border-radius: 7px;
     position: relative;
     overflow: auto;
+   
+}
+.container_button{
+    grid-area: 1/1/1/1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
 }
 
 .table{
     border-collapse: collapse;
-    width: 400px;
+    width: 100%;
     text-align: center;
 }
 .table thead{
@@ -26,12 +54,21 @@
     background-color: var(--background-color-blue-700);
     color: white;
 }
+.table thead tr th{
+    padding: 15px;
+    font-size: 20px;
+}
 .table thead tr th:not(:last-child){
     border-right: 1px solid white;
 }
 .table tbody{
     background-color: rgba(219, 233, 240, .5);
+    font-weight: 700;
+    font-size: 22px;
 }
 .table tbody tr td{
     padding: 50px;
+}
+.table span:hover{
+    cursor: pointer;
 }

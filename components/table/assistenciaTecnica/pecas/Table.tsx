@@ -57,7 +57,7 @@ export default function Table() {
                                     <td >
                                         {item.enderecoImagem.map((image, indexImage) => {
                                             const encodedCaminho = encodeURIComponent(`\\${image}`);
-                                            const apiUrl = `http://192.168.2.24:8081/api/v1/assistencia-tecnica/pecas/image/${encodedCaminho}`;
+                                            const apiUrl = `http://192.168.0.187:8081/api/v1/assistencia-tecnica/pecas/image/${encodedCaminho}`;
                                             return (
                                                 <div key={indexImage} style={{
                                                     width: 40,
