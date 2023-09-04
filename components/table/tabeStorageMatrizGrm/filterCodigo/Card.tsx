@@ -21,27 +21,38 @@ export default function Filter({ listProps, searchColor }: props) {
     const [data, setData] = useState<listPropsVisible[]>([]);
 
     const [valueCodigo, setValueCodigo] = useState<string>("");
+    const [filteredData, setFilteredData] = useState<listPropsVisible[]>([]);
+
     useEffect(() => {
-        if (data.length === 0) {
-            const unique = listProps.filter((item, index, self) => {
-                const firstIndex = self.findIndex(otherItem => otherItem.codigo === item.codigo);
-                return index === firstIndex;
-            })
-            setData(unique.map(item => ({
+        const uniqueIndex = listProps.filter((item, index, self) => {
+            const firstIndex = self.findIndex(otherItem => otherItem.codigo === item.codigo);
+            return index === firstIndex;
+        })
+        if (data.length !== uniqueIndex.length) {
+
+            setData(uniqueIndex.map(item => ({
                 ...item,
                 visible: true
-            })))
+            })));
         }
-    }, [data, listProps])
+    }, [listProps]);
 
-    const filter = data
-        .filter(item =>
-            item.codigo
-                .toLowerCase()
-                .startsWith(valueCodigo.toLowerCase()))
+
+    useEffect(() => {
+        const filter = data.filter((item) =>
+            item.codigo.toLowerCase().startsWith(valueCodigo.toLowerCase())
+        );
+        setFilteredData(filter);
+    }, [data, valueCodigo])
 
     function Card() {
         const [text, setText] = useState<string>("");
+        const handleCheckboxChange = (item: listPropsVisible, checked: boolean) => {
+            const updatedData = data.map((value) =>
+                value.codigo === item.codigo ? { ...value, visible: checked } : value
+            );
+            setData(updatedData);
+        };
         return (
             <section>
                 <div className={style.container} >
@@ -51,7 +62,6 @@ export default function Filter({ listProps, searchColor }: props) {
                             if (e.key === "Enter") {
                                 setValueCodigo(text)
                             }
-
                         }}
                     />
                     <span>Filtro</span>
@@ -62,18 +72,16 @@ export default function Filter({ listProps, searchColor }: props) {
                         position: "absolute"
                     }} onClick={() => setValueCodigo(text)} />
                 </div>
-                {filter && (
-                    filter.map((item, index) => (
+                {filteredData && (
+                    filteredData.map((item, index) => (
                         <ul key={index} >
                             <li>
                                 <input
                                     id={item.id}
                                     checked={item.visible}
                                     type="checkbox"
-                                    onChange={e => setData(data.map(value => ({
-                                        ...value,
-                                        visible: value.codigo === item.codigo ? e.currentTarget.checked : value.visible
-                                    })))}
+                                    onChange={(e) => handleCheckboxChange(item, e.currentTarget.checked)}
+
                                 />
                                 <label htmlFor={item.id}>{item.codigo}</label>
                             </li>
@@ -86,6 +94,6 @@ export default function Filter({ listProps, searchColor }: props) {
     return {
         Card,
         data,
-        filter
+        filteredData
     }
 }

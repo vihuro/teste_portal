@@ -22,18 +22,22 @@ export default function Filter({ list, searchColors }: props) {
     const [data, setData] = useState<listPropsVisible[]>([]);
 
     useEffect(() => {
-        if (data.length === 0) {
-            const unique = list.filter((item, index, self) => {
-                const firstIndex = self.findIndex(otherItem => otherItem.id === item.id);
-                return index === firstIndex;
-            })
-            setData(unique.map(item => ({
+
+        const uniqueIndex = list.filter((item, index, self) => {
+            const firstIndex = self.findIndex(otherItem => otherItem.id === item.id);
+            return index === firstIndex;
+        })
+
+        if (uniqueIndex.length !== data.length) {
+
+            setData(uniqueIndex.map(item => ({
                 ...item,
                 visible: true
             })))
         }
 
-    }, [data])
+
+    }, [list])
 
 
 
@@ -52,13 +56,13 @@ export default function Filter({ list, searchColors }: props) {
                                     ...value,
                                     visible: value.id === item.id ? e.currentTarget.checked : value.visible
                                 })))} />
-                            <label 
-                            onClick={() => setData(data.map(value => ({
-                                ...value,
-                                visible: value.id === item.id ? !value.visible : value.visible
-                            })))}
-                            style={searchColors(item.localEstocagem)}
-                            htmlFor={item.id}>
+                            <label
+                                onClick={() => setData(data.map(value => ({
+                                    ...value,
+                                    visible: value.id === item.id ? !value.visible : value.visible
+                                })))}
+                                style={searchColors(item.localEstocagem)}
+                                htmlFor={item.id}>
                                 {item.localEstocagem}
                             </label>
 

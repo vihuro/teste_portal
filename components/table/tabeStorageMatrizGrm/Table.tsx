@@ -142,13 +142,9 @@ export default function Table() {
         await Api.get("")
             .then(res => {
                 setData(res.data)
-                console.log("em table")
-
             })
             .catch(err => console.log(err))
     }
-
-
 
     function getColorStyle(text: string) {
         const color = colors[text];
@@ -175,7 +171,7 @@ export default function Table() {
         searchColors: getColorStyle
     });
     const [toogleFilterlocal, setToogleLocal] = useState<boolean>(false);
-    const { Card: CardFilterCodigoCard, data: listFilterCodigo, filter: filterTextCodigo } = CardFilterCodigo({
+    const { Card: CardFilterCodigoCard, data: listFilterCodigo, filteredData: filterTextCodigo } = CardFilterCodigo({
         listProps: data.map(item => ({
             codigo: item.codigo,
             id: item.id
@@ -194,9 +190,6 @@ export default function Table() {
         }
 
     });
-
-
-
 
     const { CardStorage, toogle: toogleAdd, setToogle: changeToogleAdd } = CardStorageTeste()
 
@@ -301,6 +294,7 @@ export default function Table() {
         <div className={style.container_table} >
 
             <div className={toogleAdd ? style.container_add : style.container_add_close} >
+                
                 <CardStorage  changeToogle={changeToogleAdd} searchColor={getColorStyle} refreshTable={() => FechData()} />
             </div>
             <div className={toogleAlteracao ? style.container_alteracao : style.container_alteracao_close} >
@@ -317,7 +311,7 @@ export default function Table() {
             <div className={style.container_button} >
 
                 <div className={style.wrap_containerButton} >
-                    <button onClick={() => changeToogleAdd(!toogleAdd)}>
+                    <button onClick={() => {"changeToogleAdd(!toogleAdd)"}}>
                         Adicionar Produto
                     </button>
                 </div>

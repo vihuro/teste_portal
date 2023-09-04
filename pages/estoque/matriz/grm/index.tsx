@@ -2,6 +2,7 @@ import { GetServerSideProps } from "next";
 import MenuBar from "../../../../components/menuBar/MenuBar";
 import Body from "../../../../components/table/Body";
 import Table from "../../../../components/table/tabeStorageMatrizGrm/Table";
+import SecondTable from "../../../../components/table/tabeStorageMatrizGrm/SecondTable";
 import {validateToken} from "../../../../components/privatePage/PrivatePage";
 
 export default function Estoque() {
@@ -10,7 +11,7 @@ export default function Estoque() {
         <section >
             <Page />
             <Body changeToogleAlterarSenha={setToogleValue} toogleCardAlterarSenha={toogleValue ?? false}>
-                <Table />
+                <SecondTable />
             </Body>
         </section>
     )

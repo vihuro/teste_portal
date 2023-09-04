@@ -95,17 +95,30 @@ const CardStorage = ({ changeToogle, refreshTable, searchColor }: props) => {
 
     }
     async function FechLocal() {
-        try {
-            const response = await Api.get("/local");
-            const localData: LocalProps[] = response.data.data;
-            setCheckboxLocal(localData.map(item => ({
-                active: false,
-                id: item.id,
-                local: item.local
-            })));
-        } catch (error) {
-            console.log(error);
-        }
+
+        await Api.get("/local")
+            .then(res => {
+                if (res.data.data.length > 0) {
+                    const localData: LocalProps[] = res.data.data;
+                    setCheckboxLocal(localData.map(item => ({
+                        active: false,
+                        id: item.id,
+                        local: item.local
+                    })));
+                }
+            })
+            .catch(err => console.log(err));
+
+        // try {
+        //     const response = await Api.get("/local");
+        //     const localData: LocalProps[] = response.data.data;
+        //     if (localData.length > 0) {
+
+
+        //     }
+        // } catch (error) {
+        //     console.log(error);
+        // }
 
     }
 
@@ -301,7 +314,7 @@ const CardStorage = ({ changeToogle, refreshTable, searchColor }: props) => {
                             LOCAL / ESTOQUE
                         </label>
                         <div className={style.wrap_body_local} >
-                            {checboxLocal.length > 0 ? (
+                            {checboxLocal && checboxLocal.length > 0 ? (
                                 checboxLocal.map((item, index: number) => (
                                     <div key={index}>
                                         <input
@@ -387,17 +400,19 @@ const CardStorage = ({ changeToogle, refreshTable, searchColor }: props) => {
                             <div className={style.listTipo} >
                                 <ul>
                                     <li onClick={() => setTextTipo("")} >Selecione...</li>
-                                    {dataTipo.map((item) => (
-                                        <li key={item.id}
-                                            onClick={() => {
-                                                setMaterialEstoque({
-                                                    ...materialEstoque,
-                                                    tipoMaterialId: item.id
-                                                })
-                                                setTextTipo(item.tipo)
-                                            }}
-                                        >{item.tipo}</li>
-                                    ))}
+                                    {dataTipo && dataTipo.length > 0 && (
+                                        dataTipo.map((item) => (
+                                            <li key={item.id}
+                                                onClick={() => {
+                                                    setMaterialEstoque({
+                                                        ...materialEstoque,
+                                                        tipoMaterialId: item.id
+                                                    })
+                                                    setTextTipo(item.tipo)
+                                                }}
+                                            >{item.tipo}</li>
+                                        ))
+                                    )}
 
                                 </ul>
                             </div>
