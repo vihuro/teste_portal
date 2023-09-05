@@ -30,6 +30,8 @@ interface ItemsProps {
         tipoMaterial: string,
         unidade: string
     }],
+    dataFabricacao: Date,
+    preco: number,
     localEstocagem: {
         guid: string,
         localEstocagem: string
@@ -326,7 +328,7 @@ export default function Table() {
 
                                                 </td>
                                                 <td>
-                                                    {`R$ ${item.preço.toString().padStart(2, "0")}`}
+                                                    {`R$ ${item.preco.toString().padStart(2, "0")}`}
                                                 </td>
                                                 <td>
                                                     {YearAndMoth(item.dataFabricao)}

@@ -215,7 +215,7 @@ const CardStorage = ({ changeToogle, refreshTable, searchColor }: props) => {
                 return Api.post("", {
                     ...materialEstoque,
                     usuarioId: tokenInfo.idUser,
-                    dataFabricacao:new Date(stringDate),
+                    dataFabricacao: new Date(stringDate),
                     localEstoqueId: valueCheckBox.id,
                     quantidade: parseFloat(formattedValue)
                 });
@@ -274,6 +274,7 @@ const CardStorage = ({ changeToogle, refreshTable, searchColor }: props) => {
             unidade: "",
             quantidade: 0,
             localEstoqueId: "",
+            dataFabricacao: new Date(0),
             substitutos: []
         })
         setCheckboxLocal(checboxLocal.map(item => ({

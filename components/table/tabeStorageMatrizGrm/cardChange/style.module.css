@@ -139,7 +139,8 @@
 .container_quantidade,
 .container_tipoMaterial,
 .container_localEstocagem,
-.container_status {
+.container_status,
+.container_preco {
     position: relative;
     transition: .5s;
 }
@@ -147,7 +148,8 @@
 .container_codigo {
     grid-area: 1/1/1/6;
 }
-.container_status{
+
+.container_status {
     grid-area: 1/4/1/7;
     height: 60%;
     display: flex;
@@ -160,7 +162,8 @@
 .container_descricao {
     grid-area: 2/1/2/6;
 }
-.title_status{
+
+.title_status {
     position: absolute;
     font-size: 11px;
     transform: translateY(-28px) translateX(-120px);
@@ -169,18 +172,21 @@
     padding: 2px;
     border-radius: 3px;
 }
-.container_status div label{
+
+.container_status div label {
     font-size: 14px;
     margin-left: 10px;
     padding: 3px;
     border-radius: 5px;
 }
-.container_status div:nth-child(2) label{
+
+.container_status div:nth-child(2) label {
     background-color: #3FFF8D;
     color: #15990B;
 
 }
-.container_status div:nth-child(3) label{
+
+.container_status div:nth-child(3) label {
     background-color: #ff0000;
     color: rgb(255, 255, 255);
 
@@ -193,7 +199,9 @@
 .container_unidade input,
 .container_tipoMaterial input,
 .container_localEstocagem input,
-.container_filterSubstituto input {
+.container_filterSubstituto input,
+.container_preco input,
+.container_data input {
     padding: 7px;
     border-radius: 7px;
     border: 1px solid rgba(3, 0, 168, 0.5);
@@ -218,7 +226,12 @@
 .container_tipoMaterial input:valid~label,
 .container_tipoMaterial input:focus~label,
 .container_localEstocagem input:valid~label,
-.container_localEstocagem input:focus~label {
+.container_localEstocagem input:focus~label,
+.container_preco input:valid~label,
+.container_preco input:focus~label,
+.container_data input~label,
+.container_data input~label
+ {
     font-size: 11px;
     transform: translateY(-43px) translateX(10px);
     background-color: rgb(3, 0, 168);
@@ -232,7 +245,9 @@
 .container_unidade label,
 .container_quantidade label,
 .container_tipoMaterial label,
-.container_localEstocagem label {
+.container_localEstocagem label,
+.container_preco label,
+.container_data label {
     position: absolute;
     transform: translateX(5px) translateY(-22px);
     transition: .5s;
@@ -257,8 +272,9 @@
     position: relative;
     left: -7px;
 }
+
 .container_tipoMaterial input,
-.container_unidade input{
+.container_unidade input {
     cursor: default;
 }
 
@@ -276,7 +292,8 @@
     padding: 5px;
     transition: .5s;
 }
-.listUnidade{
+
+.listUnidade {
     width: 60%;
 }
 
@@ -307,13 +324,13 @@
 }
 
 .container_substituto {
-    grid-area: 5/1/5/6;
+    grid-area: 6/1/6/6;
     border: 1px solid rgb(3, 0, 168);
     border-radius: 5px;
 }
 
 .container_filterSubstituto {
-    grid-area: 6/1/6/5;
+    grid-area: 7/1/7/5;
     display: grid;
     padding-top: 20px;
     grid-template-columns: 200px 60px 1fr;
@@ -342,7 +359,8 @@
     background-color: var(--background-color-blue-700);
     color: white;
 }
-.wrap_filterSubstituto_button button svg{
+
+.wrap_filterSubstituto_button button svg {
     font-size: 22px;
 }
 
@@ -362,7 +380,8 @@
     .container_unidade,
     .container_quantidade,
     .container_tipoMaterial,
-    .container_localEstocagem {
+    .container_localEstocagem,
+    .container_data {
         position: relative;
         transition: .5s;
     }
@@ -373,7 +392,8 @@
     .container_unidade input,
     .container_tipoMaterial input,
     .container_localEstocagem input,
-    .container_filterSubstituto input {
+    .container_filterSubstituto input,
+    .container_data input {
         padding: 10px;
     }
 
@@ -458,17 +478,19 @@
         grid-template-columns: repeat(2, 1fr);
         padding: 20px 25px 10px 25px;
     }
-    .wrap_filterSubstituto_button button{
+
+    .wrap_filterSubstituto_button button {
         width: 60px;
         height: 60px;
         background-color: var(--background-color-blue-700);
         color: white;
     }
-    .wrap_filterSubstituto_button button:hover{
+
+    .wrap_filterSubstituto_button button:hover {
         background-color: var(--background-color-blue-600);
     }
 
-    .wrap_filterSubstituto_button button svg{
+    .wrap_filterSubstituto_button button svg {
         font-size: 28px;
     }
 
@@ -493,32 +515,46 @@
         grid-area: 2/1/2/1;
         padding-top: 30px;
         display: grid;
-        grid-template-rows: repeat(4, 50px) 100px 50px 1fr;
+        grid-template-rows: repeat(5, 50px) 100px 50px 1fr;
         grid-template-columns: repeat(5, 50px) 1fr;
         padding: 15px;
+        overflow: auto;
     }
 
     .container_button {
         padding: 5px;
         gap: 3px;
     }
-    .container_codigo{
+
+    .container_codigo {
         grid-area: 1/1/1/3;
     }
-    .container_status{
+
+    .container_status {
         grid-area: 1/4/1/7;
         width: 120%;
         left: -20px;
     }
-    .container_status label{
+
+    .container_status label {
         transform: translateX(-40px) translateY(-18px);
         transition: .5s;
     }
-    .container_status div{
+
+    .container_status div {
         padding: 0;
     }
-    .container_status div label{
+
+    .container_status div label {
         font-size: 11px;
+    }
+    .container_preco{
+        grid-area:5/1/5/3 ;
+    }
+    .container_data{
+        grid-area: 5/4/5/6;
+        position: relative;
+        left: -5px;
     }
 
 

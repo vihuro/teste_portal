@@ -38,6 +38,8 @@ interface ItemsProps {
         tipo: string
     },
     unidade: string,
+    dataFabricao: Date,
+    preco: number,
     cadastro: {
         id: string,
         apelido: string,
@@ -248,6 +250,16 @@ const Card = ({
         }
     ]
 
+    function NewDate(value: Date) {
+        const date = new Date(value);
+        const year = date.getFullYear().toString()
+        const month = date.getMonth().toString().padStart(2, "0")
+        const day = date.getDay().toString().padStart(2, "0")
+
+        return `${year}-${month}-${day}`
+
+    }
+
 
     return (
         <div className={style.cardBackground} >
@@ -394,6 +406,24 @@ const Card = ({
                         />
                         <label htmlFor="txtLocal">LOCAL</label>
 
+                    </div>
+                    <div className={style.container_preco} >
+                        <input
+                            id="txtPreco"
+                            required
+                            value={item?.preco}
+                            type="text" />
+                        <label htmlFor="txtPreco">PREÇO</label>
+                    </div>
+                    <div className={style.container_data} >
+                        <input
+                            id="txtData"
+                            required
+                            type="date"
+                            onChange={() => { }}
+                            value={NewDate(item ? item.dataFabricao : new Date)}
+                        />
+                        <label htmlFor="txtData">DATA / FABRI.</label>
                     </div>
                     <div className={style.container_substituto} >
                         <div className={style.wrap_container_list_substituto}>
