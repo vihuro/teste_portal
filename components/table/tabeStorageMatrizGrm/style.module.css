@@ -124,7 +124,7 @@
 
 }
 
-.table_body tr:not(:last-child) {
+.row:not(:last-child) {
     border-bottom: 1px solid var(--background-color-blue-700);
 }
 
@@ -146,6 +146,24 @@
     border-radius: 7px;
     padding: 3px;
     text-align: center;
+}
+
+.row_plus td{
+    border-bottom: none;
+    text-align: left;
+    position: relative;
+    margin-left: 100px;
+    padding: 7px;
+}
+.down, .top{
+    transition: .5s;
+    font-size: 22px;
+}
+.down{
+    transform: rotateX(180deg);
+}
+.top{
+    transform: rotateX(0);
 }
 
 

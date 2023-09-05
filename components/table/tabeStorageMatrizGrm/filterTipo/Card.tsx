@@ -21,18 +21,19 @@ export default function Filter({ list, searchColor }: { list: props[], searchCol
 
     const [data, setData] = useState<propsVisible[]>([]);
     useEffect(() => {
-        if (data.length === 0) {
-            const unique = list.filter((item, index, self) => {
-                const firstIndex = self.findIndex(otherItem => otherItem.id === item.id);
-                return index === firstIndex;
-            })
+        const unique = list.filter((item, index, self) => {
+            const firstIndex = self.findIndex(other => other.id === item.id);
+            return index === firstIndex
+        });
+        if (unique.length !== data.length) {
+
             setData(unique.map(item => ({
                 ...item,
                 visible: true
             })))
         }
 
-    }, [data])
+    }, [list])
 
 
     function Card() {

@@ -1,5 +1,5 @@
 "use client"
-import { useEffect, useState } from "react"
+import { use, useEffect, useState } from "react"
 import style from "./style.module.css";
 import Api from "../../../../service/api/matriz/estoque-grm";
 import Message from "../../../message/Message";
@@ -21,8 +21,13 @@ const CardStorage = ({ changeToogle, refreshTable, searchColor }: props) => {
     const [toogleMessage, setToogleMessage] = useState<boolean>(false);
     const [toogleLoading, setToogleLoading] = useState<boolean>(false);
 
+    const [toogleListUnidade, setToogleListUnidade] = useState<boolean>(false);
+    const [toogleListTipo, setToogleListTipo] = useState<boolean>(false);
+
     const [dataTipo, setDataTipo] = useState<TipoPros[]>([]);
     const [checboxLocal, setCheckboxLocal] = useState<ListCheckBoxProps[]>([]);
+    const [stringDate, setStringDate] = useState<string>("");
+    const [stringValuePreco, setStringValuePreco] = useState<string>("R$ 00,00");
 
     const tokenInfo = TokenDrecriptor(parseCookies().ACCESS_TOKEN)
 
@@ -109,17 +114,6 @@ const CardStorage = ({ changeToogle, refreshTable, searchColor }: props) => {
             })
             .catch(err => console.log(err));
 
-        // try {
-        //     const response = await Api.get("/local");
-        //     const localData: LocalProps[] = response.data.data;
-        //     if (localData.length > 0) {
-
-
-        //     }
-        // } catch (error) {
-        //     console.log(error);
-        // }
-
     }
 
 
@@ -184,17 +178,21 @@ const CardStorage = ({ changeToogle, refreshTable, searchColor }: props) => {
         substitutos: [],
         localEstoqueId: "",
         quantidade: 0,
+        preco: 0,
+        dataFabricacao: new Date(),
         usuarioId: ""
 
     })
 
     async function Verify() {
         setToogleLoading(true)
+
         if (materialEstoque.codigo === "" ||
             materialEstoque.descricao === "" ||
             materialEstoque.unidade === "" ||
             materialEstoque.tipoMaterialId === "" ||
-            value === "") {
+            value === "" ||
+            materialEstoque.dataFabricacao === null) {
             setMessage({
                 message: "Campo(s) obrigatório(s) vazio(s)!",
                 type: "WARNING"
@@ -217,6 +215,7 @@ const CardStorage = ({ changeToogle, refreshTable, searchColor }: props) => {
                 return Api.post("", {
                     ...materialEstoque,
                     usuarioId: tokenInfo.idUser,
+                    dataFabricacao:new Date(stringDate),
                     localEstoqueId: valueCheckBox.id,
                     quantidade: parseFloat(formattedValue)
                 });
@@ -294,7 +293,10 @@ const CardStorage = ({ changeToogle, refreshTable, searchColor }: props) => {
 
     return (
         <div className={style.cardAdd_background} >
-            <div className={style.cardAdd} >
+            <div className={style.cardAdd} onClick={() => {
+                setToogleListTipo(false),
+                    setToogleListUnidade(false)
+            }} >
                 <div className={toogleMessage ? style.card_message : style.card_message_close} >
                     <Message message={message.message}
                         type={message.type}
@@ -337,6 +339,7 @@ const CardStorage = ({ changeToogle, refreshTable, searchColor }: props) => {
                     <div className={style.column_codigo} >
                         <input autoComplete="off"
                             value={materialEstoque.codigo}
+                            maxLength={12}
                             onChange={e => setMaterialEstoque({
                                 ...materialEstoque,
                                 codigo: e.target.value
@@ -349,6 +352,7 @@ const CardStorage = ({ changeToogle, refreshTable, searchColor }: props) => {
                     <div className={style.column_description} >
                         <input autoComplete="off"
                             id="descricao"
+                            maxLength={100}
                             required
                             value={materialEstoque.descricao}
                             onChange={e => setMaterialEstoque({
@@ -359,75 +363,120 @@ const CardStorage = ({ changeToogle, refreshTable, searchColor }: props) => {
                         <label htmlFor="descricao" >DESCRIÇÃO</label>
                     </div>
                     <div className={style.column_unidade} >
-                        <div className={style.unidade} >
-                            <input id="unidade"
-                                value={textUnidade}
-                                autoComplete="off"
-                                onChange={() => { }}
-                                required
-                            />
-                            <label htmlFor="unidade" >UNIDADE</label>
-                            <div className={style.list} >
-                                <ul>
-                                    <li onClick={() => setTextUnidade("")} >Selecione...</li>
-                                    {listUnidade.map((item: any, index: number) => {
-                                        return (
-                                            <li key={index}
-                                                onClick={() => {
-                                                    setMaterialEstoque({
-                                                        ...materialEstoque,
-                                                        unidade: item.unidade
-                                                    })
-                                                    setTextUnidade(item.unidade)
-                                                }
-                                                }>
-                                                {item.unidade}
-                                            </li>
-                                        )
-                                    })}
-                                </ul>
-                            </div>
-                        </div>
+                        <input id="unidade"
+                            value={textUnidade}
+                            autoComplete="off"
+                            onClick={(e) => {
+                                e.stopPropagation()
+                                setToogleListUnidade(!toogleListUnidade),
+                                    setToogleListTipo(false)
+                            }}
+                            onChange={() => { }}
+                            required
+                        />
+                        <label htmlFor="unidade" >UNIDADE</label>
+                        <ul className={toogleListUnidade ?
+                            style.listUnidade :
+                            style.listUnidade_close} >
+                            <li onClick={() => {
+                                setTextUnidade(""),
+                                    setToogleListUnidade(false)
+                            }} >Selecione...</li>
+                            {listUnidade.map((item: any, index: number) => {
+                                return (
+                                    <li key={index}
+                                        onClick={() => {
+                                            setMaterialEstoque({
+                                                ...materialEstoque,
+                                                unidade: item.unidade
+                                            })
+                                            setTextUnidade(item.unidade),
+                                                setToogleListUnidade(false);
+                                        }
+                                        }>
+                                        {item.unidade}
+                                    </li>
+                                )
+                            })}
+                        </ul>
                     </div>
                     <div className={style.column_type} >
                         <div className={style.type} >
                             <input autoComplete="off"
                                 id="type"
                                 value={textTipo}
+                                onClick={(e) => {
+                                    e.stopPropagation(),
+                                        setToogleListTipo(!toogleListTipo),
+                                        setToogleListUnidade(false);
+                                }}
                                 onChange={() => { }}
                                 required />
                             <label htmlFor="type">TIPO</label>
-                            <div className={style.listTipo} >
-                                <ul>
-                                    <li onClick={() => setTextTipo("")} >Selecione...</li>
-                                    {dataTipo && dataTipo.length > 0 && (
-                                        dataTipo.map((item) => (
-                                            <li key={item.id}
-                                                onClick={() => {
-                                                    setMaterialEstoque({
-                                                        ...materialEstoque,
-                                                        tipoMaterialId: item.id
-                                                    })
-                                                    setTextTipo(item.tipo)
-                                                }}
-                                            >{item.tipo}</li>
-                                        ))
-                                    )}
 
-                                </ul>
-                            </div>
+                            <ul className={toogleListTipo ?
+                                style.listTipo :
+                                style.listTipo_close}>
+                                <li onClick={() => {
+                                    setTextTipo("")
+                                    setToogleListTipo(false);
+                                }} >Selecione...</li>
+                                {dataTipo && dataTipo.length > 0 && (
+                                    dataTipo.map((item) => (
+                                        <li key={item.id}
+                                            onClick={() => {
+                                                setMaterialEstoque({
+                                                    ...materialEstoque,
+                                                    tipoMaterialId: item.id
+                                                })
+                                                setTextTipo(item.tipo),
+                                                    setToogleListTipo(false);
+                                            }}
+                                        >{item.tipo}</li>
+                                    ))
+                                )}
+
+                            </ul>
+
                         </div>
                     </div>
                     <div className={style.column_quantidade} >
-                        <div className={style.quantidade} >
-                            <input autoComplete="off"
-                                id="quantidade"
-                                value={value}
-                                onChange={handleChange}
-                                required />
-                            <label htmlFor="quantidade">QUANTIDADE</label>
+                        <input autoComplete="off"
+                            id="quantidade"
+                            value={value}
+                            onChange={handleChange}
+                            required />
+                        <label htmlFor="quantidade">QUANTIDADE</label>
+                    </div>
+                    <div className={style.column_preco} >
+                        <div className={style.preco} >
+                            <input id="preco"
+                                autoComplete="off"
+                                required
+                                value={stringValuePreco}
+                                onChange={() => { }}
+                            />
+                            <label htmlFor="preco">PREÇO</label>
 
                         </div>
+
+                    </div>
+                    <div className={style.column_dataFabricacao} >
+
+                        <input id="dataFabricacao"
+                            type="date"
+                            autoComplete="off"
+                            placeholder=""
+                            value={stringDate}
+                            onChange={e => {
+                                setStringDate(e.target.value)
+                            }}
+                            required />
+                        <label htmlFor="dataFabricacao">
+                            Data / Fabri.
+                        </label>
+
+
                     </div>
                 </section>
                 <footer className={style.container_button} >

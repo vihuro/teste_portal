@@ -1,11 +1,16 @@
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import style from "./style.module.css";
 import Api from "../../../service/api/matriz/estoque-grm";
 import { TbEdit } from "react-icons/tb";
 import { CiMenuKebab } from "react-icons/ci";
+import { BiArrowFromTop } from "react-icons/bi";
 import CardAddComponent from "./cardAdd/Card";
+import CardChangeComponent from "./cardChange/Card";
 import FilterCodigo from "./filterCodigo/Card";
 import FilterLocal from "./filterLocal/Card";
+import FitlerTipo from "./filterTipo/Card";
+import CardSubstitutoComponent from "./cardSubstituto/Card";
+import { DateTimeStringFormat } from "../../utils/DateTimeString";
 
 
 interface ItemsProps {
@@ -13,6 +18,8 @@ interface ItemsProps {
     codigo: string,
     descricao: string,
     quantidade: number,
+    preço: number,
+    dataFabricao: Date,
     substitutos: [{
         codigo: string,
         descricao: string,
@@ -54,10 +61,17 @@ interface Color {
 
 export default function Table() {
     const [data, setData] = useState<ItemsProps[]>([]);
-    const [dataFiltered, setDataFiltered] = useState<ItemsProps[]>([]);
+    const [dataItemAlteracao, setDataItemAlteracao] = useState<ItemsProps>();
+    const [dataItemString, setDataItemString] = useState<string>("");
+
     const [toogleAdd, setToogleAdd] = useState<boolean>(false);
     const [toogleFilterCodigo, setToogleFilterCodigo] = useState<boolean>(false);
     const [toogleFilterLocal, setToogleFilterLocal] = useState<boolean>(false);
+    const [toogleFilterTipo, setToogleFilterTipo] = useState<boolean>(false);
+    const [toogleInfoPlus, setToogleInfoPlus] = useState<boolean>(false);
+    const [toogleSubstituto, setToogleSubstituto] = useState<boolean>(false);
+    const [indiceInfoPlus, setIndiceInfoPlus] = useState<number>();
+    const [colSpan, setColSpan] = useState<number>(11);
 
     const colors: Record<string, Color> = {
 
@@ -121,8 +135,13 @@ export default function Table() {
     useEffect(() => {
         FechData();
     }, [])
+    useEffect(() => {
+        alteracao({ id: dataItemString })
+
+    }, [data]);
 
     const { CardStorage: CardAdd } = CardAddComponent();
+    const { Card: CardChange, setToogle: setToogleCardChange, toogle: toogleCardChange } = CardChangeComponent();
     const { Card: CardFilterCodigo, filteredData: textCodigo } = FilterCodigo({
         listProps: data ? data.map(item => ({
             codigo: item.codigo,
@@ -137,6 +156,14 @@ export default function Table() {
         })) : [],
         searchColors: getColorStyle
     });
+    const { Card: CardFilterTipo, data: filterTipo } = FitlerTipo({
+        list: data.map(item => ({
+            id: item.tipoMaterial.id,
+            tipo: item.tipoMaterial.tipo
+        })),
+        searchColor: getColorStyle
+    })
+    const { Card: CardSubstituto } = CardSubstitutoComponent();
 
 
     function getColorStyle(text: string) {
@@ -155,15 +182,34 @@ export default function Table() {
             })
             .catch(err => console.log(err))
     }
+    function alteracao({ id }: { id: string }) {
+
+        var item = data.find(item => item.id === id);
+
+        return setDataItemAlteracao(item);
+    }
+
+
 
     const filter = data.filter(item => {
         if (textCodigo.some(codigo => codigo.codigo === item.codigo && codigo.visible)) {
 
             return (
-                filterLocal.some(local => local.localEstocagem === item.localEstocagem.localEstocagem && local.visible)
+                filterLocal.some(local => local.localEstocagem === item.localEstocagem.localEstocagem && local.visible) &&
+                filterTipo.some(tipo => tipo.tipo === item.tipoMaterial.tipo && tipo.visible)
             );
         }
     })
+
+    function YearAndMoth(value: Date) {
+        const date = new Date(value);
+
+        const moth = date.getMonth().toString().padStart(2, "0")
+        const year = date.getFullYear().toString().padStart(2, "0")
+
+        return `${moth}/${year}`
+
+    }
 
     return (
         <div className={style.container_table} >
@@ -175,6 +221,19 @@ export default function Table() {
                     refreshTable={FechData}
                     searchColor={getColorStyle}
                 />
+            </div>
+            <div className={toogleCardChange ?
+                style.container_alteracao :
+                style.container_alteracao_close} >
+                {dataItemAlteracao && (
+                    <CardChange
+                        data={dataItemAlteracao}
+                        toogle={toogleCardChange}
+                        changeToogle={setToogleCardChange}
+                        refreshTable={FechData}
+                    />
+                )}
+
             </div>
 
             <div className={style.container_button} >
@@ -193,6 +252,9 @@ export default function Table() {
                         <thead>
                             <tr>
                                 <th>
+                                    +
+                                </th>
+                                <th>
                                     CÓDIGO
                                     <CiMenuKebab onClick={(e) => {
                                         e.stopPropagation(),
@@ -208,7 +270,9 @@ export default function Table() {
                                 <th>Descrição</th>
                                 <th>QTD.</th>
                                 <th>UND.</th>
-                                <th>SUBST.</th>
+                                <th>PREÇO</th>
+                                <th>DATA / FABR.</th>
+                                {/* <th>SUBST.</th> */}
                                 <th>
                                     LOCAL/ EST.
                                     <CiMenuKebab onClick={e => {
@@ -223,7 +287,18 @@ export default function Table() {
                                         <CardFilterLocal />
                                     </div>
                                 </th>
-                                <th>TIPO</th>
+                                <th>
+                                    TIPO
+                                    <CiMenuKebab onClick={e => {
+                                        e.stopPropagation(),
+                                            setToogleFilterTipo(!toogleFilterTipo)
+                                    }} />
+                                    <div className={toogleFilterTipo ?
+                                        style.card_type :
+                                        style.card_type_close} >
+                                        <CardFilterTipo />
+                                    </div>
+                                </th>
                                 <th>STATUS</th>
                                 <th>EDIT.</th>
                             </tr>
@@ -232,21 +307,105 @@ export default function Table() {
                             {filter && filter.length > 0 ?
                                 filter.map((item, index) => {
                                     return (
-                                        <tr key={index} >
-                                            <td>{item.codigo}</td>
-                                            <td>{item.descricao}</td>
-                                            <td>{item.quantidade}</td>
-                                            <td>{item.unidade}</td>
-                                            <td>{item.substitutos.length}</td>
-                                            <td>{item.localEstocagem.localEstocagem}</td>
-                                            <td>{item.tipoMaterial.tipo}</td>
-                                            <td>{item.ativo ? "ATIVO" : "INATIVO"}</td>
-                                            <td>
-                                                <p>
-                                                    <TbEdit />
-                                                </p>
-                                            </td>
-                                        </tr>
+                                        <Fragment key={index} >
+                                            <tr className={style.row} >
+                                                <td onClick={() => {
+                                                    setIndiceInfoPlus(index)
+                                                    setToogleInfoPlus(!toogleInfoPlus)
+                                                }} >
+                                                    <BiArrowFromTop
+                                                        className={toogleInfoPlus && index === indiceInfoPlus ?
+                                                            style.down :
+                                                            style.top} />
+                                                </td>
+                                                <td>{item.codigo}</td>
+                                                <td>{item.descricao}</td>
+                                                <td>{item.quantidade}</td>
+                                                <td className={`${style["table_button"]} ${style["--unidade"]}`} >
+                                                    <p style={getColorStyle(item.unidade)} >{item.unidade}</p>
+
+                                                </td>
+                                                <td>
+                                                    {`R$ ${item.preço.toString().padStart(2, "0")}`}
+                                                </td>
+                                                <td>
+                                                    {YearAndMoth(item.dataFabricao)}
+                                                </td>
+                                                {/* <td className={`${style["table_button"]} ${style["--substitutos"]}`}
+                                                    onClick={() => {
+                                                        if (item.substitutos.length > 0) {
+
+                                                            setIndiceInfoPlus(index)
+                                                            setToogleSubstituto(!toogleSubstituto)
+                                                        }
+                                                    }}
+                                                >
+                                                    {item.substitutos && item.substitutos.length > 0 && (
+                                                        <div className={toogleSubstituto ?
+                                                            style.cardSubstituto :
+                                                            style.cardSubstituto_close} >
+                                                            <CardSubstituto
+                                                                list={item.substitutos}
+                                                                getColor={getColorStyle}
+                                                            />
+                                                        </div>
+                                                    )}
+                                                    <p>
+                                                        {item.substitutos.length}
+                                                    </p>
+                                                </td> */}
+                                                <td className={`${style["table_button"]} ${style["--estocagem"]}`} >
+                                                    <p style={getColorStyle(item.localEstocagem.localEstocagem)} >
+                                                        {item.localEstocagem.localEstocagem}
+                                                    </p>
+                                                </td>
+                                                <td className={`${style["table_button"]} ${style["--tipo"]}`} >
+                                                    <p style={getColorStyle(item.tipoMaterial.tipo)} >
+                                                        {item.tipoMaterial.tipo}
+                                                    </p>
+                                                </td>
+                                                <td className={`${style["table_button"]} ${style["--tipo"]}`} >
+                                                    <p style={getColorStyle(item.ativo.toString())} >
+                                                        {item.ativo === true ? "ATIVO" : "INATIVO"}
+                                                    </p>
+                                                </td>
+                                                <td>
+                                                    <p style={{
+                                                        fontSize: 22
+                                                    }} onClick={() => {
+                                                        alteracao({ id: item.id });
+                                                        setDataItemString(item.id)
+                                                        setToogleCardChange(true)
+                                                    }} >
+                                                        <TbEdit />
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                            {toogleInfoPlus && indiceInfoPlus === index && (
+                                                <>
+                                                    <tr className={style.row_plus} >
+                                                        <td colSpan={colSpan} >
+                                                            {`Data/Hora Cadastro : ${DateTimeStringFormat(item.cadastro.dataHora)}`}
+                                                        </td>
+                                                    </tr>
+                                                    <tr className={style.row_plus} >
+                                                        <td colSpan={colSpan} >
+                                                            {`Usuário Cadastro : ${item.cadastro.nome}`}
+                                                        </td>
+                                                    </tr>
+                                                    <tr className={style.row_plus} >
+                                                        <td colSpan={colSpan} >
+                                                            {`Data/Hora Alteração : ${DateTimeStringFormat(item.alteracao.dataHora)}`}
+                                                        </td>
+                                                    </tr>
+                                                    <tr className={style.row_plus} >
+                                                        <td colSpan={colSpan} >
+                                                            {`Usuário Alteração : ${item.alteracao.nome}`}
+                                                        </td>
+                                                    </tr>
+                                                </>
+                                            )}
+                                        </Fragment>
                                     )
                                 })
                                 :
@@ -256,12 +415,12 @@ export default function Table() {
                                     }}>
                                         <td style={{
                                             border: 'none'
-                                        }} colSpan={9}>Nenhum item disponivel!</td>
+                                        }} colSpan={colSpan}>Nenhum item disponivel!</td>
                                     </tr>
                                     <tr>
                                         <td style={{
                                             border: 'none'
-                                        }} colSpan={9}>
+                                        }} colSpan={colSpan}>
                                             <span className={style.span} >:(</span>
                                         </td>
                                     </tr>
