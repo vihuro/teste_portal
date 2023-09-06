@@ -34,6 +34,8 @@ export default function Table() {
             tipoMaterial: string,
             unidade: string
         }],
+        preco:number,
+        dataFabricao:Date,
         localEstocagem: {
             guid: string,
             localEstocagem: string
