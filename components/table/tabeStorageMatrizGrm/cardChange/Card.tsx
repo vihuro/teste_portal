@@ -1,9 +1,6 @@
 import { useEffect, useState } from "react";
 import style from "./style.module.css";
-import {
-    MdDelete,
-    MdLibraryAdd
-} from "react-icons/md";
+import { MdDelete, } from "react-icons/md";
 import { BiFilterAlt } from "react-icons/bi"
 import Message from "../../../message/Message";
 import CardFilter from "./filter/CardFilter";
@@ -11,6 +8,7 @@ import Api from "../../../../service/api/matriz/estoque-grm";
 import { parseCookies } from "nookies";
 import TokenDrecriptor from "../../../../service/DecriptorToken";
 import Loading from "../../../loading/Loading";
+import { tokenProps } from "../../../utils/infoToken";
 
 interface ItemsProps {
     id: string,
@@ -87,10 +85,14 @@ const Card = ({
     const [dataTipo, setDataTipo] = useState<TipoProps[]>([]);
     const [valueQuantidade, setValueQuantidade] = useState<string>("")
     const [valueUnidade, setValueUnidade] = useState<string>("");
+    const [valuePrecoDooble, setValuePrecoDooble] = useState<number>();
+    const [valuePrecoString, setValuePrecoString] = useState<string>("");
 
     const [toogleTipo, setToogleTipo] = useState<boolean>(false);
     const [toogleUnidade, setToogleUnidade] = useState<boolean>(false)
     const [item, setItem] = useState<ItemsProps>();
+
+    const [valueToken, setValueToken] = useState<tokenProps>();
 
     useEffect(() => {
         setItem(data);
@@ -100,6 +102,8 @@ const Card = ({
             tipo: data?.tipoMaterial.tipo
         })
         setValueUnidade(data?.unidade)
+        setValuePrecoDooble(data?.preco)
+        setValuePrecoString(data?.preco.toString())
         fechDataTipo();
 
     }, [data, toogleLoading])
@@ -115,10 +119,12 @@ const Card = ({
         const validateQuantidade = data?.quantidade.toLocaleString() !== valueQuantidade;
         const validateUnidadeOrTipoMaterial = data.unidade !== valueUnidade || data.tipoMaterial.id !== valueTipo?.id;
 
+        const validatePreco = data.preco !== valuePrecoDooble
+
         const userId = infoToken.idUser;
         const produtoId = data.id;
 
-        if (validateQuantidade || validateUnidadeOrTipoMaterial) {
+        if (validateQuantidade || validateUnidadeOrTipoMaterial || validatePreco) {
             setToogleLoading(true);
 
 
@@ -127,6 +133,11 @@ const Card = ({
             if (validateQuantidade) promises.push(AtualizarQuantidade({ idUser: userId, produtoId: produtoId }))
 
             if (validateUnidadeOrTipoMaterial) promises.push(AtualizarTipoOrUnidade({ idUser: userId, produtoId: produtoId }));
+
+            if (validatePreco) promises.push(AtualizarPreco({
+                idUser: userId,
+                produtoId: produtoId
+            }))
 
             await Promise.all(promises)
 
@@ -211,6 +222,23 @@ const Card = ({
 
 
     }
+    async function AtualizarPreco({
+        idUser,
+        produtoId
+    }: {
+        idUser: string,
+        produtoId: string
+    }) {
+        const alteracao = {
+            produtoId: produtoId,
+            usuarioId: idUser,
+            preco: valuePrecoDooble
+        }
+        const response = await Api.put("/preco", alteracao)
+            .then(res => res)
+            .catch(err => err)
+        return response;
+    }
 
     async function RemoverSubstituto({ id }: { id: string }) {
         setToogleLoading(true)
@@ -259,7 +287,47 @@ const Card = ({
         return `${year}-${month}-${day}`
 
     }
+    const handleChangePreco = (e: React.ChangeEvent<HTMLInputElement>): void => {
 
+        const text = e.target.value;
+
+        const string = text.replaceAll(".", "").replace(",", ".");
+
+        const dooble = parseFloat(string)
+        const stringInput = dooble.toLocaleString("pt-Br", {
+            style: "decimal",
+            maximumFractionDigits: 2
+        })
+
+
+        const caracteres = e.target.value.length;
+        const lastCharacter = e.target.value.charAt(caracteres - 1);
+
+
+        const testeInStringInput = lastCharacter === "," ? stringInput + "," : stringInput
+
+        setValuePrecoDooble(dooble);
+
+        if (Number.isNaN(dooble)) {
+            setValuePrecoString("0")
+        } else {
+
+            setValuePrecoString(testeInStringInput)
+        }
+
+
+    };
+    function ValidateUser() {
+        const infoToken: tokenProps = TokenDrecriptor(parseCookies().ACCESS_TOKEN);
+
+        if (infoToken["ESTOQUE - GRM - MATRIZ"] === "TI" ||
+            infoToken["ESTOQUE - GRM - MATRIZ"] === "DIRETORIA") {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
 
     return (
         <div className={style.cardBackground} >
@@ -407,11 +475,14 @@ const Card = ({
                         <label htmlFor="txtLocal">LOCAL</label>
 
                     </div>
-                    <div className={style.container_preco} >
+                    <div className={ValidateUser() ?
+                        style.container_preco :
+                        style.container_preco_false} >
                         <input
                             id="txtPreco"
                             required
-                            value={item?.preco}
+                            value={valuePrecoString}
+                            onChange={handleChangePreco}
                             type="text" />
                         <label htmlFor="txtPreco">PREÇO</label>
                     </div>
@@ -481,7 +552,7 @@ const Card = ({
                     <button onClick={() => {
                         changeToogle(false)
                     }} >
-                        <span>CANCELAR</span>
+                        <span>FECHAR</span>
                     </button>
                 </footer>
             </div>
