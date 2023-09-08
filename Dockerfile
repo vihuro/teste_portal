@@ -1,13 +1,11 @@
-FROM node:latest
+FROM node:current-alpine
 
-RUN mkdir -p /usr/app/
+WORKDIR /usr/src/app
 
-WORKDIR /usr/app
-
-COPY ./ ./
-
-RUN npm install
+COPY . .
+RUN npm install --production
 RUN npm run build
+
 
 EXPOSE 3000
 
