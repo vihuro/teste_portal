@@ -1,0 +1,169 @@
+.card {
+    width: 550px;
+    height: 500px;
+    background: white;
+    border-radius: 7px;
+    position: relative;
+    overflow: hidden;
+    display: grid;
+    grid-template-rows: 50px 1fr 100px;
+}
+.container_table{
+    border: 1px solid var(--background-color-blue-700);
+}
+.table{
+    border-collapse: collapse;
+    width: 100%;
+    z-index: 1;
+}
+.table th:not(:last-child) {
+    border-right: 1px solid rgb(255, 255, 255);
+}
+.table th{
+    padding: 5px;
+}
+
+.table thead{
+    background-color: var(--background-color-blue-700);
+    font-size: 15px;
+    color: rgba(255, 255, 255, 0.815);
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+.table_body {
+    background-color: rgba(219, 233, 240, .5);
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--text-color-blue-600);
+    text-align: center;
+}
+.table_body tr:not(:last-child){
+    border-bottom: 1px solid var(--background-color-blue-700);
+}
+
+@media(max-width:440px) {
+    .card {
+        width: 300px;
+        height: 500px;
+        display: grid;
+        grid-template-rows: 50px 1fr 100px;
+    }
+    .container_title{
+        grid-area: 1/1/1/1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: var(--text-color-blue-600);
+    }
+
+    .container_body {
+        grid-area: 2/1/2/1;
+        display: grid;
+        grid-template-rows: repeat(13, 1fr);
+        overflow: auto;
+        padding: 7px;
+        gap: 10px;
+    }
+    .container_codigoRadar {
+        grid-area: 1/1/1/11;
+        margin-top: 10px;
+    }
+    
+    .container_cnpj {
+        grid-area: 2/1/2/11;
+    }
+    .container_nomeCliente {
+        grid-area: 3/1/3/11;
+    }
+    .container_endereco{
+        grid-area:4/1/4/11 ;
+    }
+    .container_nomeContato {
+        grid-area: 5/1/5/11;
+    }
+
+    .container_telefoneContato {
+        grid-area: 6/1/6/11;
+    }
+    .container_filterMaquinas{
+        grid-area: 7/1/13/11;
+        display: grid;
+        grid-template-rows: 100px 1fr;
+    }
+    .container_table{
+        grid-area: 1/1/1/1;
+        border-radius: 7px;
+        overflow: auto;
+        position: relative;
+        top: 0;
+    }
+
+
+    .container_buttonFilter{
+        grid-area: 2/1/2/1;
+    }
+
+    .footer {
+        grid-area: 3/1/3/1;
+        display: grid;
+        grid-template-rows: repeat(2, 1fr);
+        gap: 20px;
+        padding: 7px;
+    }
+}
+
+@media(min-width:440px) {
+    .container_title {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: var(--text-color-blue-600);
+    }
+
+    .container_body {
+        grid-area: 2/1/2/1;
+        display: grid;
+        grid-template-rows: repeat(6, 1fr);
+        grid-template-columns: repeat(10, 1fr);
+        padding: 7px;
+        gap: 7px;
+    }
+
+    .container_codigoRadar {
+        grid-area: 1/1/1/4;
+    }
+
+    .container_cnpj {
+        grid-area: 1/4/1/7;
+    }
+
+    .container_nomeCliente {
+        grid-area: 1/7/1/11;
+    }
+
+    .container_endereco {
+        grid-area: 2/1/2/11;
+    }
+
+    .container_endereco input {
+        width: 99%;
+    }
+
+    .container_nomeContato {
+        grid-area: 3/1/3/7;
+    }
+
+    .container_telefoneContato {
+        grid-area: 3/7/3/11;
+    }
+
+    .footer {
+        grid-area: 3/1/3/1;
+        display: grid;
+        grid-template-rows: repeat(2, 1fr);
+        grid-template-columns: repeat(2, 1fr);
+        padding: 7px;
+        gap: 10px
+    }
+}

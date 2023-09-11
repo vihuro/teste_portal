@@ -3,6 +3,7 @@ import Api from "../../../../service/api/assistenciaTecnica/Assistencia";
 import style from "./style.module.css";
 import { BiArrowFromTop } from "react-icons/bi";
 import { CiMenuKebab } from "react-icons/ci";
+import FormAdd from "./add/Card";
 import FilterCodigo from "./filterCodigo/Card";
 import FilterNome from './filterNome/Card';
 
@@ -17,6 +18,7 @@ interface dataProps {
 
 export default function Table() {
     const [data, setData] = useState<dataProps[]>([]);
+    const [toogleFormAdd, setToogleFormAdd] = useState<boolean>(false);
     const [toogleInfoPlus, setToogleInfoPlus] = useState<boolean>(false);
     const [toogleFiterCodigo, setToogleFilterCodigo] = useState<boolean>(false);
     const [toogleFilterNome, setToogleFilterNome] = useState<boolean>(false);
@@ -46,7 +48,16 @@ export default function Table() {
     })
     return (
         <main className={style.container} >
-            <section></section>
+            <div className={toogleFormAdd ?
+                style.container_novoProduto :
+                style.container_novoProduto_close} >
+                <FormAdd changeToogleCard={setToogleFormAdd} refreshTable={FecthData} />
+            </div>
+            <section className={style.container_button} >
+                <button onClick={() => setToogleFormAdd(true)} >
+                    NOVO CLIENTE
+                </button>
+            </section>
             <section className={style.container_table} >
                 <div className={style.wrap_table} >
                     <table className={style.table} >
