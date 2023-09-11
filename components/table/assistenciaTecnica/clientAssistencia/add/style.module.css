@@ -10,6 +10,8 @@
 }
 .container_table{
     border: 1px solid var(--background-color-blue-700);
+    border-radius: 7px;
+    overflow: auto;
 }
 .table{
     border-collapse: collapse;
@@ -90,6 +92,7 @@
         grid-area: 7/1/13/11;
         display: grid;
         grid-template-rows: 100px 1fr;
+        gap: 5px;
     }
     .container_table{
         grid-area: 1/1/1/1;
@@ -128,6 +131,7 @@
         grid-template-columns: repeat(10, 1fr);
         padding: 7px;
         gap: 7px;
+        overflow: auto;
     }
 
     .container_codigoRadar {
@@ -156,6 +160,18 @@
 
     .container_telefoneContato {
         grid-area: 3/7/3/11;
+    }
+    .container_filterMaquinas{
+        grid-area: 4/1/7/11;
+        display: grid;
+        grid-template-rows: 100px 1fr;
+        gap: 5px;
+    }
+    .container_table{
+        grid-area: 1/1/1/1;
+    }
+    .container_buttonFilter{
+        grid-area: 2/1/2/1;
     }
 
     .footer {

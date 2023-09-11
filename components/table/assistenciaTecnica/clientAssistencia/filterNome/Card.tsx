@@ -1,5 +1,6 @@
 import { Fragment, useEffect, useState } from "react";
 import style from "./style.module.css";
+import { BiFilter } from "react-icons/bi";
 
 interface props {
     nomeCliente: string
@@ -11,19 +12,32 @@ interface propsVisible {
 
 export default function Card({ list }: { list: props[] }) {
     const [data, setData] = useState<propsVisible[]>([]);
+    const [filteredNomeCliente, setFilteredNomeCliente] = useState<propsVisible[]>([]);
+    const [valueNomeCliente, setValueNomeCliente] = useState<string>("");
 
     useEffect(() => {
-        if (list.length !== data.length)
-        ListData()
+        const uniqueIndex = list.filter((item, index, self) => {
+            const firstIndex = self.findIndex(other => other.nomeCliente === item.nomeCliente);
+            return firstIndex === index;
+        })
+        if (uniqueIndex.length !== data.length) {
+            setData(uniqueIndex.map(item => ({
+                nomeCliente: item.nomeCliente,
+                visible: true
+            })));
+        }
     }, [list])
 
-    function ListData() {
-        const newList = list.map(item => ({
-            ...item,
-            visible: true
-        }));
-        setData(newList);
-    }
+    useEffect(() => {
+        const filter = data.filter(item =>
+            item.nomeCliente
+                .toLocaleUpperCase()
+                .startsWith(valueNomeCliente.toLocaleUpperCase()));
+
+        setFilteredNomeCliente(filter);
+    }, [data, valueNomeCliente])
+
+
     function ChangeList({ codigo, visibility }:
         {
             codigo: string,
@@ -37,10 +51,21 @@ export default function Card({ list }: { list: props[] }) {
 
     }
     function CardFilterNome() {
+        const [text, setText] = useState<string>("");
+
         return (
             <ul className={style.list} >
                 <section className={style.container_filter} >
+                    <div className={style.wrap_container_filter} >
+                        <input type="text"
+                            onChange={e => setText(e.target.value)}
+                            value={text}
+                        />
+                        <label htmlFor="">FILTRO</label>
+                        <BiFilter
 
+                        />
+                    </div>
                 </section>
                 <section className={style.container_body} >
                     {data && (
@@ -70,7 +95,8 @@ export default function Card({ list }: { list: props[] }) {
 
     return {
         CardFilterNome,
-        data
+        data,
+        filteredNomeCliente
     }
 }
 

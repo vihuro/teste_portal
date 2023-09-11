@@ -13,17 +13,22 @@ export default function Card({ list }: { list: props[] }) {
     const [data, setData] = useState<propsVisible[]>([]);
 
     useEffect(() => {
-        if (data.length !== list.length)
-            ListData()
+        const uniqueIndex = list.filter((item, index, self) => {
+            const firstIndex = self.findIndex(other => other.codigo === item.codigo);
+            return index === firstIndex;
+        })
+        
+        if (data.length !== uniqueIndex.length)
+
+            setData(uniqueIndex.map(item => ({
+                codigo: item.codigo,
+                visible: true
+            })));
+
+
     }, [list])
 
-    function ListData() {
 
-        setData(list.map(item => ({
-            codigo: item.codigo,
-            visible: true
-        })));
-    }
 
     function ChangeList({ codigo, visibility }:
         {

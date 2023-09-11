@@ -58,7 +58,8 @@ export default function Card({ changeToogleCard, refreshTable }: props) {
             endereco: endereco,
             nome: nome,
             nomeContatoCliente: nomeContatoCliente,
-            cnpj: valueCnpj.replaceAll(".", "").replace("/", "").replace("-", "")
+            cnpj: valueCnpj.replaceAll(".", "").replace("/", "").replace("-", ""),
+            userId:"2cb75138-9232-454e-8784-d777e50f7547"
         }
         setNovoCliente({
             ...novoCliente,
@@ -80,33 +81,11 @@ export default function Card({ changeToogleCard, refreshTable }: props) {
             contatoTelefone: "",
             endereco: "",
             nome: "",
-            nomeContatoCliente: ""
+            nomeContatoCliente: "",
         })
         setValueCnpj("");
     }
 
-    const handleTakePhoto = async () => {
-        try {
-          const fileInput = document.createElement('input');
-          fileInput.setAttribute('type', 'file');
-          fileInput.setAttribute('capture', 'camera');
-    
-          // Adicione um evento 'change' ao input para lidar com a seleção da foto
-          fileInput.addEventListener('change', (e) => {
-            const file = e.target.files[0];
-            if (file) {
-              // Aqui você pode fazer algo com o arquivo, como exibi-lo em uma imagem ou enviá-lo para o servidor.
-              const imageUrl = URL.createObjectURL(file);
-              console.log('URL da imagem capturada:', imageUrl);
-            }
-          });
-    
-          // Clique no input programaticamente para abrir a câmera
-          fileInput.click();
-        } catch (error) {
-          console.error('Erro ao acessar a câmera:', error);
-        }
-      };
 
     return (
         <form className={style.card} action="">
@@ -118,6 +97,7 @@ export default function Card({ changeToogleCard, refreshTable }: props) {
                     <Input
                         id="txtCodigoRadar"
                         text="CÓDIGO RADAR"
+                        autoComplete="off"
                         maxLength={20}
                         value={novoCliente.codigoRadar}
                         onChange={e => setNovoCliente({
@@ -130,6 +110,7 @@ export default function Card({ changeToogleCard, refreshTable }: props) {
                     <Input
                         id="txtCnpj"
                         text="CNPJ"
+                        autoComplete="off"
                         maxLength={18}
                         value={valueCnpj}
                         onChange={e => handleCnpj(e.target)}
@@ -139,6 +120,7 @@ export default function Card({ changeToogleCard, refreshTable }: props) {
                     <Input
                         id="txtNomeCliente"
                         text="NOME CLIENTE"
+                        autoComplete="off"
                         maxLength={50}
                         value={novoCliente.nome}
                         onChange={e => setNovoCliente({
@@ -151,6 +133,7 @@ export default function Card({ changeToogleCard, refreshTable }: props) {
                     <Input
                         id="txtEndereco"
                         text="ENDEREÇO"
+                        autoComplete="off"
                         maxLength={150}
                         value={novoCliente.endereco}
                         onChange={e => setNovoCliente({
@@ -163,6 +146,7 @@ export default function Card({ changeToogleCard, refreshTable }: props) {
                     <Input
                         id="txtContantoNome"
                         text="CONT/CLIEN."
+                        autoComplete="off"
                         maxLength={150}
                         value={novoCliente.nomeContatoCliente}
                         onChange={e => setNovoCliente({
@@ -175,6 +159,7 @@ export default function Card({ changeToogleCard, refreshTable }: props) {
                     <Input
                         id="txtTelefoneContato"
                         text="TEL/CONT."
+                        autoComplete="off"
                         maxLength={11}
                         value={novoCliente.contatoTelefone}
                         onChange={e => setNovoCliente({
@@ -228,16 +213,12 @@ export default function Card({ changeToogleCard, refreshTable }: props) {
                         </table>
                     </section>
                     <section>
-                        <button onClick={() => {
-                            handleTakePhoto()
-                        }}>
-                            FOTO
-                        </button>
-                        {/* <Button
+
+                        <Button
                             classUi="default"
                             color="blue"
                             icon={BiFilterAlt}
-                        /> */}
+                        />
                     </section>
                 </div>
             </main>

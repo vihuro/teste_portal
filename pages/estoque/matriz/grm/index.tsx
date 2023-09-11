@@ -2,7 +2,7 @@ import { GetServerSideProps } from "next";
 import MenuBar from "../../../../components/menuBar/MenuBar";
 import Body from "../../../../components/table/Body";
 import Table from "../../../../components/table/tabeStorageMatrizGrm/Table";
-import SecondTable from "../../../../components/table/tabeStorageMatrizGrm/SecondTable";
+import SecondTable from "../../../../components/table/tabeStorageMatrizGrm/Table";
 import { validateToken } from "../../../../components/privatePage/PrivatePage";
 import Head from "next/head";
 

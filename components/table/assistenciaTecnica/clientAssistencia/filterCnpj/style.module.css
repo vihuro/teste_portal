@@ -43,8 +43,7 @@
     left: 25px;
     background-color: white;
 }
-
-.wrap_container_filter svg {
+.wrap_container_filter svg{
     font-size: 24px;
     color: var(--text-color-blue-600);
 }
