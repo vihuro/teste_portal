@@ -57,17 +57,18 @@
     max-height: 100%;
     border-radius: 7px;
     overflow: auto;
+    background-color: rgba(219, 233, 240, .5);
 
 }
 
 .table {
-    min-height: 250px;
-    max-height: 400px;
+    min-height: 300px;
     border-collapse: collapse;
     border-radius: 7px;
     position: relative;
     width: 100%;
     z-index: 2;
+    overflow: auto;
 }
 
 .table thead {
@@ -76,7 +77,7 @@
     color: rgba(255, 255, 255, 0.815);
     position: sticky;
     top: 0;
-    z-index: 1;
+    z-index: 2;
 }
 
 .table table,
@@ -101,10 +102,12 @@
     color: var(--text-color-blue-600);
     text-align: center;
 }
-.row{
+
+.row {
     text-align: center;
 }
-.row_plus td{
+
+.row_plus td {
     border-bottom: none;
     text-align: left;
     position: relative;
@@ -141,9 +144,51 @@
     transform: rotateX(0);
 }
 
+.row_maquinas {
+    position: relative;
+}
+
+.tag {
+    background-color: rgb(39, 39, 39);
+    border-radius: 7px;
+    padding: 3px;
+    color: white;
+    cursor: pointer;
+}
+
+.tag_maquina {
+    position: absolute;
+    background-color: white;
+    overflow: hidden;
+    box-shadow: 1px 0 10px 1px rgba(0, 0, 0, 0.247);
+    left: -300px;
+    border-radius: 7px;
+    width: 350px;
+    transform: scaleX(1);
+    /* width: 350px; */
+    height: 200px;
+    z-index: 1;
+    transition: .5s;
+}
+
+.tag_maquina_close {
+    position: absolute;
+    background-color: white;
+    overflow: hidden;
+    left: -300px;
+    box-shadow: 1px 0 10px 1px rgba(0, 0, 0, 0.247);
+    width: 350px;
+    border-radius: 7px;
+    transform-origin: right;
+    transform: scaleX(0);
+    height: 100px;
+    z-index: 1;
+    transition: .5s;
+}
+
 .container_codigo,
 .container_nome,
-.container_CNPJ{
+.container_CNPJ {
     position: absolute;
     right: 0;
     width: 100px;
@@ -153,7 +198,8 @@
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.247);
     transition: .5s;
 }
-.container_CNPJ{
+
+.container_CNPJ {
     width: 150px;
 }
 

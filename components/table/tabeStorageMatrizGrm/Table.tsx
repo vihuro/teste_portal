@@ -206,10 +206,13 @@ export default function Table() {
     function YearAndMoth(value: Date) {
         const date = new Date(value);
 
-        const moth = date.getMonth().toString().padStart(2, "0")
-        const year = date.getFullYear().toString().padStart(2, "0")
+        const day = (date.getDate() +1).toString().padStart(2, "0");
+        const month = (date.getMonth() + 1).toString().padStart(2,"0");
+        const year = date.getFullYear().toString();
+        const hour = date.getHours().toString().padStart(2,"0");
+        const minutes = date.getMinutes().toString().padStart(2,"0");
 
-        return `${moth}/${year}`
+        return `${month}/${year}`
 
     }
 

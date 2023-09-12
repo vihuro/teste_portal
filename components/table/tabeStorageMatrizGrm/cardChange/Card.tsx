@@ -108,6 +108,7 @@ const Card = ({
 
     }, [data, toogleLoading])
 
+
     async function fechDataTipo() {
         await Api.get("/tipo-material")
             .then(res => setDataTipo(res.data))
@@ -281,8 +282,8 @@ const Card = ({
     function NewDate(value: Date) {
         const date = new Date(value);
         const year = date.getFullYear().toString()
-        const month = date.getMonth().toString().padStart(2, "0")
-        const day = date.getDay().toString().padStart(2, "0")
+        const month = (date.getMonth() + 1).toString().padStart(2,"0");
+        const day = (date.getDate() +1).toString().padStart(2, "0");
 
         return `${year}-${month}-${day}`
 

@@ -48,8 +48,6 @@ export default function Card({
     useEffect(() => {
         if (idItem) {
             setId(idItem);
-            console.log("Dentro de Card filter " + id)
-
             FetchData();
         }
 

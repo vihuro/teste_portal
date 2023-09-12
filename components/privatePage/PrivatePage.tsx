@@ -47,7 +47,7 @@ export async function validateToken(context: GetServerSidePropsContext) {
                 path: "/",
             })
             setCookie(context, "REFRESH_TOKEN", newToken.data.refreshToken, {
-                maxAge: 60 * 60 * 1,
+                maxAge: 60 * 60 * 2,
                 path: "/",
                 httpOnly: true
             })
