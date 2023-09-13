@@ -4,11 +4,13 @@ import style from "./style.module.css";
 import { BiArrowFromTop } from "react-icons/bi";
 import { CiMenuKebab } from "react-icons/ci";
 import FormAdd from "./add/Card";
+import FormChange from "./change/Card";
 import FilterCodigo from "./filterCodigo/Card";
 import FilterNome from './filterNome/Card';
 import FilterCNPJ from "./filterCnpj/Card";
 import TagMaquina from "./tagMaquina/Card";
 import { DateTimeStringFormat } from "../../../utils/DateTimeString";
+import { TbEdit } from "react-icons/tb";
 
 interface dataProps {
     idCliente: string,
@@ -19,7 +21,14 @@ interface dataProps {
     nome: string,
     cadastro: userProps,
     alteracao: userProps,
-    maquinaCliente: maquinaClienteProps[]
+    maquinaCliente: maquinaClienteProps[],
+    cep:string,
+    estado:string,
+    cidade:string,
+    regiao:string,
+    rua:string,
+    complemento:string,
+    numeroEstabelecimento:string,
 }
 
 interface userProps {
@@ -38,6 +47,7 @@ interface maquinaClienteProps {
 export default function Table() {
     const [data, setData] = useState<dataProps[]>([]);
     const [toogleFormAdd, setToogleFormAdd] = useState<boolean>(false);
+    const [toogleFormChange, setToogleFormChange] = useState<boolean>(false);
     const [toogleInfoPlus, setToogleInfoPlus] = useState<boolean>(false);
     const [toogleFiterCodigo, setToogleFilterCodigo] = useState<boolean>(false);
     const [toogleFilterNome, setToogleFilterNome] = useState<boolean>(false);
@@ -86,6 +96,11 @@ export default function Table() {
                 style.container_novoProduto_close} >
                 <FormAdd changeToogleCard={setToogleFormAdd} refreshTable={FecthData} />
             </div>
+            {/* <div className={toogleFormChange ?
+                style.container_change :
+                style.container_change_close} >
+                <FormChange />
+            </div> */}
             <section className={style.container_button} >
                 <button onClick={() => setToogleFormAdd(true)} >
                     Novo Cliente
@@ -149,7 +164,7 @@ export default function Table() {
                                 <th>
                                     MAQ.
                                 </th>
-                                <th>ENDREÇO</th>
+                                <th>EDIT.</th>
                             </tr>
                         </thead>
                         <tbody className={style.table_body} >
@@ -198,32 +213,50 @@ export default function Table() {
                                                     />
                                                 </div>
                                             </td>
-                                            <td>{item.endereco}</td>
+                                            <td>
+                                                <p style={{
+                                                    fontSize: 22
+                                                }} >
+                                                    <TbEdit />
+                                                </p>
+                                            </td>
                                         </tr>
                                         {toogleInfoPlus && indiceInfoPlus === index && (
                                             <>
                                                 <tr className={style.row_plus}>
-                                                    <td colSpan={6} >
+                                                    <td colSpan={2} >
                                                         {`Data/Hora Cadastro: 
                                                         ${DateTimeStringFormat(item.cadastro.dataHora)}`}
                                                     </td>
+                                                    <td colSpan={4} >
+                                                        {`CEP: ${item.cep}`}
+                                                    </td>
                                                 </tr>
                                                 <tr className={style.row_plus}>
-                                                    <td colSpan={6} >
+                                                    <td colSpan={2} >
                                                         {`Usuário Cadastro: 
                                                         ${item.cadastro.nome}`}
                                                     </td>
-                                                </tr>
-                                                <tr className={style.row_plus}>
-                                                    <td colSpan={6} >
-                                                        {`Data/Hora Alteração: 
-                                                        ${DateTimeStringFormat(item.alteracao.dataHora)}`}
+                                                    <td colSpan={4} >
+                                                        {`RUA: ${item.rua} Nº ${item.numeroEstabelecimento} ${item.complemento ?? ""} `}
                                                     </td>
                                                 </tr>
                                                 <tr className={style.row_plus}>
-                                                    <td colSpan={6} >
+                                                    <td colSpan={2} >
+                                                        {`Data/Hora Alteração: 
+                                                        ${DateTimeStringFormat(item.alteracao.dataHora)}`}
+                                                    </td>
+                                                    <td colSpan={4} >
+                                                        {`${item.estado} / ${item.cidade}`}
+                                                    </td>
+                                                </tr>
+                                                <tr className={style.row_plus}>
+                                                    <td colSpan={2} >
                                                         {`Usuário Cadastro: 
                                                         ${item.alteracao.nome}`}
+                                                    </td>
+                                                    <td colSpan={4} >
+                                                        {`BAIRRO: ${item.regiao}`}
                                                     </td>
                                                 </tr>
                                             </>

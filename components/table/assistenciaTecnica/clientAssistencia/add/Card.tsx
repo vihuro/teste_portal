@@ -3,7 +3,8 @@ import ButtonUi from "../../../../UI/button/Button";
 import InputUi from "../../../../UI/input/Input";
 import { useRef, useState } from "react";
 import Api from "../../../../../service/api/assistenciaTecnica/Assistencia";
-import { BiFilterAlt } from "react-icons/bi";
+import { BiFilterAlt, BiSearchAlt2 } from "react-icons/bi";
+import Message from "../../../../message/Message";
 
 
 interface props {
@@ -19,11 +20,25 @@ export default function Card({ changeToogleCard, refreshTable }: props) {
         nome: "",
         codigoRadar: "",
         cnpj: "",
-        endereco: "",
+        cep: "",
+        estado: "",
+        cidade: "",
+        regiao: "",
+        rua: "",
+        numeroEstabelecimento: "",
+        complemento: "",
         nomeContatoCliente: "",
         contatoTelefone: ""
     })
+    const [textCep, setTextCep] = useState<string>("");
     const videoRef = useRef(null);
+    const [toogleMessage, setToogleMessage] = useState<boolean>(false);
+    const [toogleLoading, setToogleLoading] = useState<boolean>(false);
+
+    const [dataMessage, setDataMessage] = useState({
+        message: "",
+        type: "WARNING"
+    });
 
 
     function handleCnpj(text: HTMLInputElement) {
@@ -44,33 +59,81 @@ export default function Card({ changeToogleCard, refreshTable }: props) {
 
     }
     async function Cadastrar() {
-        const { cnpj, codigoRadar, contatoTelefone, endereco, nome, nomeContatoCliente } = novoCliente;
+        const { cnpj,
+            codigoRadar,
+            contatoTelefone,
+            cep,
+            cidade,
+            complemento,
+            estado,
+            numeroEstabelecimento,
+            rua,
+            nome,
+            nomeContatoCliente,
+            regiao,
+        } = novoCliente;
+
 
         if (valueCnpj === "" || codigoRadar === "" ||
-            contatoTelefone === "" || endereco === "" ||
+            contatoTelefone === "" || cep === "" ||
+            cidade === "" || estado === "" || numeroEstabelecimento === "" ||
+            rua === "" ||
             nome === "" || nomeContatoCliente === "") {
-            console.log("Campo(s) obrigatório(s) vazio(s)!");
+                setDataMessage({
+                    message:"Campo(s) obrigatório(s) vazio(s)!",
+                    type:"WARNING"
+                })
+                setToogleMessage(true);
+
             return;
         }
+
         const obj = {
             codigoRadar: codigoRadar,
             contatoTelefone: contatoTelefone,
-            endereco: endereco,
+            cep: cep,
+            estado: estado,
+            cidade: cidade,
+            rua: rua,
+            regiao: regiao,
+            numeroEstabelecimento: numeroEstabelecimento,
+            complemento: complemento,
             nome: nome,
             nomeContatoCliente: nomeContatoCliente,
             cnpj: valueCnpj.replaceAll(".", "").replace("/", "").replace("-", ""),
-            userId:"2cb75138-9232-454e-8784-d777e50f7547"
+            userId: "2cb75138-9232-454e-8784-d777e50f7547"
         }
         setNovoCliente({
             ...novoCliente,
             cnpj: valueCnpj
         })
         await Api.post("/cliente", obj)
-            .then(res => res.data)
-            .catch(err => console.log(err))
-            .finally(() => {
-                refreshTable()
+            .then(res => {
+                setDataMessage({
+                    message: "Cliente Cadastrado!",
+                    type: "SUCESS"
+                })
                 ClearAll()
+                refreshTable()
+            })
+            .catch(err => {
+                console.log(err)
+                if (err.response && (err.response.data)) {
+                    setDataMessage({
+                        message: err.response.data,
+                        type: "WARNING"
+                    })
+                    console.log(err)
+                }
+                else{
+                    setDataMessage({
+                        message:"ERRO NO SERVIDOR!",
+                        type:"ERROR"
+                    })
+                }
+            })
+            .finally(() => {
+                setToogleMessage(true)
             })
     }
     function ClearAll() {
@@ -79,16 +142,54 @@ export default function Card({ changeToogleCard, refreshTable }: props) {
             cnpj: "",
             codigoRadar: "",
             contatoTelefone: "",
-            endereco: "",
+            cep: "",
+            cidade: "",
+            regiao: "",
+            complemento: "",
+            estado: "",
+            numeroEstabelecimento: "",
+            rua: "",
             nome: "",
             nomeContatoCliente: "",
         })
+        setTextCep("");
         setValueCnpj("");
+    }
+    async function SearchCEP() {
+        const cep = parseInt(textCep)
+        console.log(cep)
+        const response = await Api.get(`/cep/${cep}`)
+            .then(res => res)
+            .catch(res => res)
+
+        if (response.status === 200) {
+            setNovoCliente({
+                ...novoCliente,
+                cidade: response.data.cidade,
+                estado: response.data.estado,
+                rua: response.data.rua,
+                cep: response.data.cep,
+                regiao: response.data.regiao
+            })
+        }
     }
 
 
     return (
         <form className={style.card} action="">
+            <div className={toogleMessage ?
+                style.container_message :
+                style.container_message_close} >
+                <Message
+                    stateMessage={toogleMessage}
+                    action={setToogleMessage}
+                    message={dataMessage.message}
+                    type={dataMessage.type}
+                />
+            </div>
+            <div>
+
+            </div>
             <header className={style.container_title} >
                 <h3>NOVO CLIENTE</h3>
             </header>
@@ -129,23 +230,93 @@ export default function Card({ changeToogleCard, refreshTable }: props) {
                         })}
                     />
                 </div>
-                <div className={style.container_endereco} >
+                <div className={style.container_cep} >
                     <Input
-                        id="txtEndereco"
-                        text="ENDEREÇO"
+                        id="txtCEP"
+                        text="CEP"
                         autoComplete="off"
+                        iconRight={{
+                            icon: BiSearchAlt2,
+                            action: () => SearchCEP(),
+                        }}
                         maxLength={150}
-                        value={novoCliente.endereco}
-                        onChange={e => setNovoCliente({
+                        value={textCep}
+                        onChange={(e) => setTextCep(e.target.value)}
+                    // onChange={e => setNovoCliente({
+                    //     ...novoCliente,
+                    //     endereco: e.target.value
+                    // })}
+                    />
+                </div>
+                <div className={style.container_rua} >
+                    <Input
+                        id="txtRua"
+                        text="RUA"
+                        blocked
+                        autoComplete="off"
+                        value={novoCliente.rua}
+                        onChange={() => { }}
+                    />
+                </div>
+                <div className={style.container_numeroEstabelecimento} >
+                    <Input
+                        id="txtNumeroEstabelecimento"
+                        text="Nº"
+                        autoComplete="off"
+                        value={novoCliente.numeroEstabelecimento}
+                        onChange={(e) => setNovoCliente({
                             ...novoCliente,
-                            endereco: e.target.value
+                            numeroEstabelecimento: e.target.value
                         })}
                     />
                 </div>
+                <div className={style.container_cidade} >
+                    <Input
+                        id="txtCidade"
+                        text="CIDADE"
+                        autoComplete="off"
+                        blocked
+                        value={novoCliente.cidade}
+                        onChange={() => { }}
+                    />
+                </div>
+                <div className={style.container_estado} >
+                    <Input
+                        id="txtEstado"
+                        text="EST."
+                        autoComplete="off"
+                        blocked
+                        value={novoCliente.estado}
+                        onChange={() => { }}
+                    />
+                </div>
+                <div className={style.container_bairro} >
+                    <Input
+                        id="txtBairro"
+                        text="BAIRRO"
+                        autoComplete="off"
+                        value={novoCliente.regiao}
+                        blocked
+                        onChange={() => { }}
+                    />
+                </div>
+                <div className={style.container_complemento} >
+                    <Input
+                        id="txtComplemento"
+                        text="COMPLEMENTO"
+                        autoComplete="off"
+                        value={novoCliente.complemento}
+                        onChange={(e) => setNovoCliente({
+                            ...novoCliente,
+                            complemento: e.target.value
+                        })}
+                    />
+                </div>
+
                 <div className={style.container_nomeContato} >
                     <Input
                         id="txtContantoNome"
-                        text="CONT/CLIEN."
+                        text="NOME/CONT."
                         autoComplete="off"
                         maxLength={150}
                         value={novoCliente.nomeContatoCliente}

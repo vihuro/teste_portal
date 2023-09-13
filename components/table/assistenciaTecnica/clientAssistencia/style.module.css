@@ -15,7 +15,9 @@
 }
 
 .container_novoProduto,
-.container_novoProduto_close {
+.container_novoProduto_close,
+.container_change,
+.container_change_close {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -55,6 +57,7 @@
 .wrap_table {
     max-width: 100%;
     max-height: 100%;
+
     border-radius: 7px;
     overflow: auto;
     background-color: rgba(219, 233, 240, .5);

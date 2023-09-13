@@ -51,6 +51,7 @@
 .container_table {
     grid-area: 2/1/2/1;
     overflow: auto;
+    margin-top: 5px;
 }
 
 .table {
@@ -62,11 +63,18 @@
 .table tr td {
     padding: 4px;
 }
-.table p{
+.table tr:not(:last-child){
+    border-bottom: 1px solid var(--background-color-blue-700);
+}
+.status{
     font-size: 12px;
     font-weight: 700;
-    /* background-color: rgb(0, 95, 0) ;
-    color: rgb(255, 255, 255) ; */
+    cursor: default;
+    border-radius: 5px;
+}
+.buttonAtalho{
+    font-size: 12px;
+    font-weight: 700;
     cursor: pointer;
     border-radius: 5px;
 }

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import style from "./style.module.css";
 
 interface props {
@@ -16,6 +17,7 @@ interface Color {
 }
 
 export default function Card({ maquina, abrirOrdemService }: props) {
+
     const color: Record<string, Color> = {
 
         "Liberada": {
@@ -48,7 +50,6 @@ export default function Card({ maquina, abrirOrdemService }: props) {
         }
     }
 
-
     function GetColor(text: string) {
         const getStyle = color[text];
 
@@ -58,16 +59,34 @@ export default function Card({ maquina, abrirOrdemService }: props) {
         }
 
     }
+
+    const [numeroSerie, setNumeroSerie] = useState<string>("");
+    const [tipo, setTipo] = useState<string>("");
+
+    const filter = maquina.filter(item =>
+        (
+            item.numeroSerie.toLocaleUpperCase().startsWith(numeroSerie.toLocaleUpperCase()) &&
+            item.tipoMaquina.toLocaleUpperCase().startsWith(tipo.toLocaleUpperCase())
+        )
+        
+    )
+
     return (
-        <section className={style.container} >
+        <section className={style.container} onClick={e => e.stopPropagation()} >
             <section className={style.container_inputFilter} >
                 <div className={style.container_inputNumeroSerie}>
-                    <input type="text" />
+                    <input type="text"
+                        value={numeroSerie}
+                        onChange={(e) => setNumeroSerie(e.target.value)}
+                    />
                     <label htmlFor="">Nº Série</label>
 
                 </div>
                 <div className={style.container_inputTipoMaquina}>
-                    <input type="text" />
+                    <input type="text"
+                        value={tipo}
+                        onChange={(e) => setTipo(e.target.value)}
+                    />
                     <label htmlFor="">Tipo</label>
                 </div>
             </section>
@@ -75,7 +94,7 @@ export default function Card({ maquina, abrirOrdemService }: props) {
                 {maquina && maquina.length > 0 && (
                     <table className={style.table} >
                         <tbody>
-                            {maquina.map((item, index) => (
+                            {filter.map((item, index) => (
                                 <tr key={index} >
                                     <td>
                                         {item.numeroSerie}
@@ -84,17 +103,17 @@ export default function Card({ maquina, abrirOrdemService }: props) {
                                         {item.tipoMaquina}
                                     </td>
                                     <td>
-                                        <p style={GetColor(item.status)}>
+                                        <p className={style.status} style={GetColor(item.status)}>
                                             {item.status}
                                         </p>
                                     </td>
                                     <td>
                                         {item.status === "Liberada" ?
-                                            <p style={GetColor("Abrir Ordem de Serviço")}>
+                                            <p className={style.buttonAtalho} style={GetColor("Abrir Ordem de Serviço")}>
                                                 Abrir Ordem de Serviço
                                             </p>
                                             :
-                                            <p style={GetColor("Pesquisar Ordem")}>
+                                            <p className={style.buttonAtalho} style={GetColor("Pesquisar Ordem")}>
                                                 Pesquisar Ordem
                                             </p>
                                         }

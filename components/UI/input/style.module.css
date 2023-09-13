@@ -1,4 +1,4 @@
-.container_input{
+.container_input {
     position: relative;
     display: flex;
     justify-content: left;
@@ -6,17 +6,41 @@
     transition: .5s;
 }
 
+.container_input_icon {
+    position: relative;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    transition: .5s;
+    border: 1px solid rgba(102, 102, 102, 0.555);
+    border-radius: 5px;
+}
+
+.container_input_icon svg{
+    font-size: 22px;
+    color: rgb(131, 130, 130);
+}
+
+.container_input_icon .input{
+    border: none;
+    width: 100%;
+    padding: 17px 10px 10px 10px;
+}
 .input{
     position: relative;
     padding: 17px 10px 10px 10px;
-    width: 90%;
     outline: none;
-    left: 0 ;
     border-radius: 5px;
+}
+
+.container_input .input {
+    width: 90%;
+    left: 0;
     border: 1px solid rgba(102, 102, 102, 0.555);
 }
+
 .input:valid+.label,
-.input:focus+.label{
+.input:focus+.label {
     transform: translateY(-20px);
     background-color: var(--background-color-blue-700);
     padding: 3px;
@@ -24,10 +48,19 @@
     border-radius: 5px;
     color: white;
 }
+
 .label {
     position: absolute;
     color: rgb(131, 130, 130);
     left: 1.2rem;
     transition: .5s;
     font-size: 14px;
+}
+
+.button{
+    background-color: transparent;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
