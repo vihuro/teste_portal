@@ -1,6 +1,7 @@
 import style from "./style.module.css";
 import ButtonUi from "../../../../UI/button/Button";
 import InputUi from "../../../../UI/input/Input";
+import FilterMaquinaDisponivel from "../filterMaquinaDisponivel/Card";
 import { useRef, useState } from "react";
 import Api from "../../../../../service/api/assistenciaTecnica/Assistencia";
 import { BiFilterAlt, BiSearchAlt2 } from "react-icons/bi";
@@ -15,6 +16,8 @@ interface props {
 export default function Card({ changeToogleCard, refreshTable }: props) {
     const { Button } = ButtonUi();
     const { Input } = InputUi();
+
+
     const [valueCnpj, setValueCnpj] = useState<string>("");
     const [novoCliente, setNovoCliente] = useState({
         nome: "",
@@ -30,16 +33,18 @@ export default function Card({ changeToogleCard, refreshTable }: props) {
         nomeContatoCliente: "",
         contatoTelefone: ""
     })
+    const [listIdMaquinas, setListIdMaquinas] = useState<string[]>([]);
     const [textCep, setTextCep] = useState<string>("");
     const videoRef = useRef(null);
     const [toogleMessage, setToogleMessage] = useState<boolean>(false);
     const [toogleLoading, setToogleLoading] = useState<boolean>(false);
-
     const [dataMessage, setDataMessage] = useState({
         message: "",
         type: "WARNING"
     });
+    const [toogleFilterMaquina, setToogleFilterMaquina] = useState<boolean>(false);
 
+    const { CardFilterMaquinaDisponivel, listMaquina } = FilterMaquinaDisponivel({ changeToogle: setToogleFilterMaquina, list: listIdMaquinas });
 
     function handleCnpj(text: HTMLInputElement) {
         let cnpj = text.value.replace(/[^\d./-]/g, '');
@@ -79,11 +84,11 @@ export default function Card({ changeToogleCard, refreshTable }: props) {
             cidade === "" || estado === "" || numeroEstabelecimento === "" ||
             rua === "" ||
             nome === "" || nomeContatoCliente === "") {
-                setDataMessage({
-                    message:"Campo(s) obrigatório(s) vazio(s)!",
-                    type:"WARNING"
-                })
-                setToogleMessage(true);
+            setDataMessage({
+                message: "Campo(s) obrigatório(s) vazio(s)!",
+                type: "WARNING"
+            })
+            setToogleMessage(true);
 
             return;
         }
@@ -101,7 +106,7 @@ export default function Card({ changeToogleCard, refreshTable }: props) {
             nome: nome,
             nomeContatoCliente: nomeContatoCliente,
             cnpj: valueCnpj.replaceAll(".", "").replace("/", "").replace("-", ""),
-            userId: "2cb75138-9232-454e-8784-d777e50f7547"
+            userId: "96afb069-c572-4302-b631-8b6b16c825e7"
         }
         setNovoCliente({
             ...novoCliente,
@@ -125,10 +130,10 @@ export default function Card({ changeToogleCard, refreshTable }: props) {
                     })
                     console.log(err)
                 }
-                else{
+                else {
                     setDataMessage({
-                        message:"ERRO NO SERVIDOR!",
-                        type:"ERROR"
+                        message: "ERRO NO SERVIDOR!",
+                        type: "ERROR"
                     })
                 }
             })
@@ -186,6 +191,11 @@ export default function Card({ changeToogleCard, refreshTable }: props) {
                     message={dataMessage.message}
                     type={dataMessage.type}
                 />
+            </div>
+            <div className={toogleFilterMaquina ?
+                style.container_filterMaquina :
+                style.container_filterMaquina_close} >
+                <CardFilterMaquinaDisponivel />
             </div>
             <div>
 
@@ -347,39 +357,20 @@ export default function Card({ changeToogleCard, refreshTable }: props) {
                                     <th>CÓD/MAQ</th>
                                     <th>DESCRIÇÃO</th>
                                     <th>Nº SÉRIE</th>
+                                    <th>DEL.</th>
                                 </tr>
                             </thead>
                             <tbody className={style.table_body} >
-                                <tr>
-                                    <td>teste</td>
-                                    <td>testeee</td>
-                                    <td>testetete</td>
-                                </tr>
-                                <tr>
-                                    <td>teste</td>
-                                    <td>testeee</td>
-                                    <td>testetetedmssmdldksljdkljsdk</td>
-                                </tr>
-                                <tr>
-                                    <td>teste</td>
-                                    <td>testeee</td>
-                                    <td>testetete</td>
-                                </tr>
-                                <tr>
-                                    <td>teste</td>
-                                    <td>testeee</td>
-                                    <td>testetete</td>
-                                </tr>
-                                <tr>
-                                    <td>teste</td>
-                                    <td>testeee</td>
-                                    <td>testetete</td>
-                                </tr>
-                                <tr>
-                                    <td>teste</td>
-                                    <td>testeee</td>
-                                    <td>testetete</td>
-                                </tr>
+                                {/* {listMaquina && (
+                                    listMaquina.map((item, index) => (
+                                        <tr>
+                                            <td>{item.codigo}</td>
+                                            <td>{item.tipoMaquina}</td>
+                                            <td>{item.numeroSerie}</td>
+                                            <td>D</td>
+                                        </tr>
+                                    ))
+                                )} */}
                             </tbody>
                         </table>
                     </section>

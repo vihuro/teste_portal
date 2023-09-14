@@ -96,11 +96,11 @@ export default function Table() {
                 style.container_novoProduto_close} >
                 <FormAdd changeToogleCard={setToogleFormAdd} refreshTable={FecthData} />
             </div>
-            {/* <div className={toogleFormChange ?
+            <div className={toogleFormChange ?
                 style.container_change :
                 style.container_change_close} >
-                <FormChange />
-            </div> */}
+                <FormChange changeToogle={setToogleFormChange} />
+            </div>
             <section className={style.container_button} >
                 <button onClick={() => setToogleFormAdd(true)} >
                     Novo Cliente
@@ -213,7 +213,7 @@ export default function Table() {
                                                     />
                                                 </div>
                                             </td>
-                                            <td>
+                                            <td onClick={() => setToogleFormChange(true)} >
                                                 <p style={{
                                                     fontSize: 22
                                                 }} >
@@ -238,7 +238,7 @@ export default function Table() {
                                                         ${item.cadastro.nome}`}
                                                     </td>
                                                     <td colSpan={4} >
-                                                        {`RUA: ${item.rua} Nº ${item.numeroEstabelecimento} ${item.complemento ?? ""} `}
+                                                        {`ENDEREÇO: ${item.rua} Nº ${item.numeroEstabelecimento} ${item.complemento ?? ""} `}
                                                     </td>
                                                 </tr>
                                                 <tr className={style.row_plus}>
@@ -252,7 +252,7 @@ export default function Table() {
                                                 </tr>
                                                 <tr className={style.row_plus}>
                                                     <td colSpan={2} >
-                                                        {`Usuário Cadastro: 
+                                                        {`Usuário Alteração: 
                                                         ${item.alteracao.nome}`}
                                                     </td>
                                                     <td colSpan={4} >

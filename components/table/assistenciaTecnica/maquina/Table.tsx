@@ -8,6 +8,8 @@ import { DateTimeStringFormat } from "../../../utils/DateTimeString";
 
 interface maquinaProps {
     ativo: boolean,
+    codigo: string,
+    atribuida: boolean,
     id: string,
     pecas: string[],
     tipoMaquina: string,
@@ -56,7 +58,9 @@ export default function Table() {
                                 <th>
                                     +
                                 </th>
+                                <th>CÓDIGO</th>
                                 <th>MÁQUINA</th>
+                                <th>ATRIBUIDA</th>
                                 <th>STATUS</th>
                                 <th>Nº SÉRIE</th>
                                 <th>EDIT.</th>
@@ -77,7 +81,9 @@ export default function Table() {
                                                         style.top}
                                                 />
                                             </td>
+                                            <td>{item.codigo}</td>
                                             <td>{item.tipoMaquina}</td>
+                                            <td>{item.atribuida ? "ATRIBUIDA" : "DISPONIVEL"}</td>
                                             <td>{
                                                 item.ativo ? "ATIVO" : "INATIVO"
                                             }</td>

@@ -30,7 +30,8 @@
 }
 
 
-.container_novoProduto_close {
+.container_novoProduto_close,
+.container_change_close {
     transform: translateY(-400px);
     opacity: 0;
     pointer-events: none;
