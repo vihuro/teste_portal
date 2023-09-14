@@ -1,0 +1,36 @@
+.container {
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+}
+
+.container li {
+    width: 100%;
+    display: flex;
+    margin: 3px;
+}
+
+.container li label {
+    margin-left: 10px;
+    padding: 1px;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.container li input[type="checkbox"] {
+    appearance: none;
+    display: flex;
+    width: 20px;
+    height: 20px;
+    border: 1px solid rgba(0, 3, 190, 0.329);
+    border-radius: 5px;
+}
+
+.container li input[type="checkbox"]:checked::before {
+    content: "✔";
+    position: relative;
+    left: 3px;
+    top: -2px;
+    font-size: medium;
+    color: rgb(0, 255, 98);
+}

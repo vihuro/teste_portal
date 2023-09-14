@@ -6,6 +6,7 @@ import { useRef, useState } from "react";
 import Api from "../../../../../service/api/assistenciaTecnica/Assistencia";
 import { BiFilterAlt, BiSearchAlt2 } from "react-icons/bi";
 import Message from "../../../../message/Message";
+import { AiOutlineDelete } from "react-icons/ai";
 
 
 interface props {
@@ -42,9 +43,15 @@ export default function Card({ changeToogleCard, refreshTable }: props) {
         message: "",
         type: "WARNING"
     });
+    const [thisListMaquinaId, setThisListMaquinaId] = useState<string[]>([])
     const [toogleFilterMaquina, setToogleFilterMaquina] = useState<boolean>(false);
 
-    const { CardFilterMaquinaDisponivel, listMaquina } = FilterMaquinaDisponivel({ changeToogle: setToogleFilterMaquina, list: listIdMaquinas });
+    const { CardFilterMaquinaDisponivel,
+        listMaquina,
+        setListMaquina,
+        FetchData: FetchDataMaquina } = FilterMaquinaDisponivel({
+            changeToogle: setToogleFilterMaquina
+        });
 
     function handleCnpj(text: HTMLInputElement) {
         let cnpj = text.value.replace(/[^\d./-]/g, '');
@@ -106,8 +113,12 @@ export default function Card({ changeToogleCard, refreshTable }: props) {
             nome: nome,
             nomeContatoCliente: nomeContatoCliente,
             cnpj: valueCnpj.replaceAll(".", "").replace("/", "").replace("-", ""),
-            userId: "96afb069-c572-4302-b631-8b6b16c825e7"
+            userId: "2cb75138-9232-454e-8784-d777e50f7547",
+            maquinas: listMaquina.map(item => ({
+                maquinaId: item.id
+            }))
         }
+
         setNovoCliente({
             ...novoCliente,
             cnpj: valueCnpj
@@ -179,6 +190,11 @@ export default function Card({ changeToogleCard, refreshTable }: props) {
         }
     }
 
+    function changeList(idMaquina: string) {
+        const list = listMaquina.filter(item => item.id !== idMaquina);
+
+        setListMaquina(list);
+    }
 
     return (
         <form className={style.card} action="">
@@ -354,23 +370,28 @@ export default function Card({ changeToogleCard, refreshTable }: props) {
                         <table className={style.table} >
                             <thead>
                                 <tr>
-                                    <th>CÓD/MAQ</th>
+                                    <th>
+                                        CÓD/MAQ
+
+                                    </th>
                                     <th>DESCRIÇÃO</th>
                                     <th>Nº SÉRIE</th>
                                     <th>DEL.</th>
                                 </tr>
                             </thead>
                             <tbody className={style.table_body} >
-                                {/* {listMaquina && (
+                                {listMaquina && (
                                     listMaquina.map((item, index) => (
-                                        <tr>
+                                        <tr key={index} >
                                             <td>{item.codigo}</td>
                                             <td>{item.tipoMaquina}</td>
                                             <td>{item.numeroSerie}</td>
-                                            <td>D</td>
+                                            <td onClick={() => changeList(item.id)} >
+                                                <AiOutlineDelete />
+                                            </td>
                                         </tr>
                                     ))
-                                )} */}
+                                )}
                             </tbody>
                         </table>
                     </section>
@@ -380,6 +401,11 @@ export default function Card({ changeToogleCard, refreshTable }: props) {
                             classUi="default"
                             color="blue"
                             icon={BiFilterAlt}
+                            type="button"
+                            onClick={() => {
+                                FetchDataMaquina()
+                                setToogleFilterMaquina(true)
+                            }}
                         />
                     </section>
                 </div>

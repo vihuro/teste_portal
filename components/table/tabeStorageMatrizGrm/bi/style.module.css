@@ -21,13 +21,32 @@
 }
 .table thead th{
     padding: 18px;
-    font-size: 24px;
+    font-size: 16px;
 }
 .table thead th:not(:last-child){
     border-right: 1px solid rgb(0, 0, 0);
 }
 .table tbody td{
-    padding: 32px;
+    padding: 16px;
     border: 1px solid rgb(0, 0, 0);
     text-align: center;
+}
+
+.container_filterTipo,
+.container_filterTipo_close{
+    position: absolute;
+    width: 200px;
+    height: 250px;
+    background-color: white;
+    border-radius: 7px;
+    transition: .5s;
+    box-shadow: 1px 0 10px 1px rgb(0, 0, 0)
+}
+.container_filterTipo_close{
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    overflow: hidden;
+    pointer-events: none;
+    opacity: 0;
 }

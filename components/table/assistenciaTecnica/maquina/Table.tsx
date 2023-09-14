@@ -97,25 +97,25 @@ export default function Table() {
                                         {toogleInfoPlus && indiceInfoPlus === index && (
                                             <>
                                                 <tr className={style.row_plus}>
-                                                    <td colSpan={5}>
+                                                    <td colSpan={7}>
                                                         {`Data/Hora Cadastro: 
                                                         ${DateTimeStringFormat(item.cadastro.dataHora)}`}
                                                     </td>
                                                 </tr>
                                                 <tr className={style.row_plus}>
-                                                    <td colSpan={5}>
+                                                    <td colSpan={7}>
                                                         {`Usuário Cadastro: 
                                                         ${item.cadastro.nome}`}
                                                     </td>
                                                 </tr>
                                                 <tr className={style.row_plus}>
-                                                    <td colSpan={5}>
+                                                    <td colSpan={7}>
                                                         {`Data/Hora Alteração: 
                                                         ${DateTimeStringFormat(item.alteracao.dataHora)}`}
                                                     </td>
                                                 </tr>
                                                 <tr className={style.row_plus}>
-                                                    <td colSpan={5}>
+                                                    <td colSpan={7}>
                                                         {`Usuário Alteração: 
                                                         ${item.alteracao.nome}`}
                                                     </td>

@@ -45,7 +45,7 @@ export default function Card({ changeToogle, refreshTable }: props) {
             codigoMaquina: codigoMaquina,
             tipoMaquina: tipoMaquina,
             numeroSerie: numeroSerie,
-            UserId: "96afb069-c572-4302-b631-8b6b16c825e7"
+            UserId: "2cb75138-9232-454e-8784-d777e50f7547"
         }
         await Api.post("/maquina", obj)
             .then(res => {
