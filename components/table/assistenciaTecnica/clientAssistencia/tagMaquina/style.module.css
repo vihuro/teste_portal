@@ -59,6 +59,10 @@
     font-size: 12px;
     text-align: center;
 }
+.table thead tr th{
+    padding: 2px;
+    font-size: 14px;
+}
 
 .table tr td {
     padding: 4px;

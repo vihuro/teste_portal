@@ -17,18 +17,19 @@ interface dataProps {
     cnpj: string,
     codigoRadar: string,
     contatoTelefone: string,
+    contatoNome: string,
     endereco: string,
     nome: string,
     cadastro: userProps,
     alteracao: userProps,
     maquinaCliente: maquinaClienteProps[],
-    cep:string,
-    estado:string,
-    cidade:string,
-    regiao:string,
-    rua:string,
-    complemento:string,
-    numeroEstabelecimento:string,
+    cep: string,
+    estado: string,
+    cidade: string,
+    regiao: string,
+    rua: string,
+    complemento: string,
+    numeroEstabelecimento: string,
 }
 
 interface userProps {
@@ -39,6 +40,7 @@ interface userProps {
 }
 interface maquinaClienteProps {
     maquinaId: string,
+    codigoMaquina: string,
     numeroSerie: string,
     tipoMaquina: string,
     status: string
@@ -46,6 +48,8 @@ interface maquinaClienteProps {
 
 export default function Table() {
     const [data, setData] = useState<dataProps[]>([]);
+    const [dataItemString, setDataItemString] = useState<string>("");
+    const [dataItemAlteracao, setDataItemAlteracao] = useState<dataProps>();
     const [toogleFormAdd, setToogleFormAdd] = useState<boolean>(false);
     const [toogleFormChange, setToogleFormChange] = useState<boolean>(false);
     const [toogleInfoPlus, setToogleInfoPlus] = useState<boolean>(false);
@@ -58,6 +62,14 @@ export default function Table() {
     useEffect(() => {
         FecthData()
     }, [])
+    useEffect(() => {
+        alteracao(dataItemString);
+    }, [])
+    function alteracao(id: string) {
+        const item = data.find(item => item.idCliente === id);
+
+        return setDataItemAlteracao(item);
+    }
 
     const { CardFilter, data: filterCodigoRadar } = FilterCodigo({
         list: data ? data.map(item => ({
@@ -99,7 +111,12 @@ export default function Table() {
             <div className={toogleFormChange ?
                 style.container_change :
                 style.container_change_close} >
-                <FormChange changeToogle={setToogleFormChange} />
+                {dataItemAlteracao && (
+                    <FormChange
+                        changeToogle={setToogleFormChange}
+                        dataProps={dataItemAlteracao}
+                    />
+                )}
             </div>
             <section className={style.container_button} >
                 <button onClick={() => setToogleFormAdd(true)} >
@@ -213,7 +230,11 @@ export default function Table() {
                                                     />
                                                 </div>
                                             </td>
-                                            <td onClick={() => setToogleFormChange(true)} >
+                                            <td onClick={() => {
+                                                alteracao(item.idCliente)
+                                                setDataItemString(item.idCliente)
+                                                setToogleFormChange(true)
+                                            }} >
                                                 <p style={{
                                                     fontSize: 22
                                                 }} >

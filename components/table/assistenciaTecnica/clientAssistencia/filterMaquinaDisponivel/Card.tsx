@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import style from "./style.module.css";
 import Api from "../../../../../service/api/assistenciaTecnica/Assistencia";
 import FilterCodigo from "./filterCodigo/FilterCodigo";
+import FilterColuna from "./filterDescricao/FilterDescricao";
 import { MdOutlineLibraryAdd } from "react-icons/md";
 
 interface props {
@@ -26,37 +27,58 @@ export default function Card({ changeToogle }: props) {
             .catch(err => console.log(err))
     }
 
-    const filter = data.filter(item => (
+    const filterMaquina = data.filter(item => (
         !listMaquina.some(maquinaId => item.id === maquinaId.id)
     ))
-    const { CardFilterCodigo, filteredData: listMaquinaVisible } = FilterCodigo(filter.map(item => ({
-        codigo: item.codigo,
-        id: item.id
-    })))
-    const newFilter = data.filter(item => {
-        return (
-            !listMaquina.some(listMaquina => listMaquina.id === item.id) &&
-            listMaquinaVisible.some(listMaquinaVisible => listMaquinaVisible.codigo === item.codigo && listMaquinaVisible.visible)
-        )
-    })
+
 
     function CardFilterMaquinaDisponivel() {
         const [toogleFilerCodigo, setToogleFilterCodigo] = useState<boolean>(false);
         const [toogleFilterDescricao, setToogleFilterDescricao] = useState<boolean>(false);
         const [toogleFilterNumeroSerie, setToogleFilterNumeroSerie] = useState<boolean>(false);
+
+        const { CardFilterCodigo, filteredData: listMaquinaVisible } = FilterCodigo(filterMaquina.map(item => ({
+            codigo: item.codigo,
+            id: item.id
+        })))
+        const { CardFilterColunaTable: CardFilterDescricao, filteredData: listDescricaoVisible } = FilterColuna(filterMaquina.map(item => ({
+            id: item.id,
+            text: item.tipoMaquina
+        })))
+        const { CardFilterColunaTable: CardFilterNumeroSerie, filteredData: listNumeroSerieVisible } = FilterColuna(filterMaquina.map(item => ({
+            id: item.id,
+            text: item.numeroSerie
+        })))
+
+
+        const filter = filterMaquina.filter(item => {
+            return (
+                !listMaquina.some(listMaquina => listMaquina.id === item.id) &&
+                listMaquinaVisible.some(listMaquinaVisible => listMaquinaVisible.codigo === item.codigo && listMaquinaVisible.visible) &&
+                listDescricaoVisible.some(descricao => descricao.text === item.tipoMaquina && descricao.visible) &&
+                listNumeroSerieVisible.some(numeroSerie => numeroSerie.text === item.numeroSerie && numeroSerie.visible)
+            )
+        })
+
         return (
             <section className={style.container} >
                 <section className={style.container_table} >
-                    <table className={style.table} >
-                        <thead>
+                    <table className={style.table} onClick={() => {
+                        setToogleFilterCodigo(false)
+                        setToogleFilterDescricao(false);
+                        setToogleFilterNumeroSerie(false);
+                    }} >
+                        <thead onClick={(e) => e.stopPropagation()} >
                             <tr>
-                                <th onClick={() => {
+                                <th onClick={(e) => {
+                                    e.stopPropagation()
                                     setToogleFilterCodigo(!toogleFilerCodigo)
                                     setToogleFilterDescricao(false);
                                     setToogleFilterNumeroSerie(false);
                                 }} >
                                     CÓDIGO
                                     <div
+                                        onClick={e => e.stopPropagation()}
                                         className={toogleFilerCodigo ?
                                             style.container_filterCodigo :
                                             style.container_filterCodigo_close} >
@@ -70,9 +92,11 @@ export default function Card({ changeToogle }: props) {
                                 }} >
                                     DESCRIÇÃO
                                     <div
+                                        onClick={(e) => e.stopPropagation()}
                                         className={toogleFilterDescricao ?
                                             style.container_filterDescricao :
                                             style.container_filterDescricao_close} >
+                                        <CardFilterDescricao />
                                     </div>
                                 </th>
                                 <th onClick={() => {
@@ -82,10 +106,11 @@ export default function Card({ changeToogle }: props) {
                                 }} >
                                     Nº SÉRIE
                                     <div
+                                        onClick={(e) => e.stopPropagation()}
                                         className={toogleFilterNumeroSerie ?
                                             style.container_filterNumeroSerie :
                                             style.container_filterNumeroSerie_close} >
-
+                                        <CardFilterNumeroSerie />
                                     </div>
                                 </th>
                                 <th>ADD.</th>
@@ -93,7 +118,7 @@ export default function Card({ changeToogle }: props) {
                         </thead>
                         <tbody>
                             {data && (
-                                newFilter.map((item, index) => (
+                                filter.map((item, index) => (
                                     <tr key={index} >
                                         <td>{item.codigo}</td>
                                         <td>{item.tipoMaquina}</td>

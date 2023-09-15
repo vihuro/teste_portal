@@ -1,5 +1,6 @@
 import { useState } from "react";
 import style from "./style.module.css";
+import Api from "../../../../../service/api/assistenciaTecnica/Assistencia";
 
 interface props {
     maquina: maquinaProps[],
@@ -71,6 +72,7 @@ export default function Card({ maquina, abrirOrdemService }: props) {
         
     )
 
+
     return (
         <section className={style.container} onClick={e => e.stopPropagation()} >
             <section className={style.container_inputFilter} >
@@ -93,6 +95,22 @@ export default function Card({ maquina, abrirOrdemService }: props) {
             <section className={style.container_table} >
                 {maquina && maquina.length > 0 && (
                     <table className={style.table} >
+                        <thead>
+                            <tr>
+                                <th>
+                                    Nº SÉRIE
+                                </th>
+                                <th>
+                                    DESCR.
+                                </th>
+                                <th>
+                                    STATUS
+                                </th>
+                                <th>
+                                    AÇÃO
+                                </th>
+                            </tr>
+                        </thead>
                         <tbody>
                             {filter.map((item, index) => (
                                 <tr key={index} >

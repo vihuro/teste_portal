@@ -26,6 +26,7 @@
 }
 .table thead tr th{
     padding: 5px;
+    position: relative;
 }
 .table thead tr th:not(:last-child){
     border-right: 1px solid white;

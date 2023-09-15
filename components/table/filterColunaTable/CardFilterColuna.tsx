@@ -1,18 +1,18 @@
 import { useEffect, useState } from "react";
 import style from "./style.module.css";
-import { BiFilterAlt, BiSearchAlt2 } from "react-icons/bi";
+import { BiSearchAlt2 } from "react-icons/bi";
 
 interface props {
     id: string,
-    codigo: string
+    text: string
 }
 interface propsVisible {
     id: string,
-    codigo: string,
+    text: string,
     visible: boolean
 }
 
-export default function FilterCodigo(list: props[]) {
+export default function FilterDescricao(list: props[]) {
 
 
     const [data, setData] = useState<propsVisible[]>([]);
@@ -20,13 +20,13 @@ export default function FilterCodigo(list: props[]) {
     const [filteredData, setFilteredData] = useState<propsVisible[]>([]);
 
     useEffect(() => {
-        const uniqueCodigo = list.filter((item, index, self) => {
-            const firstIndex = self.findIndex(other => other.codigo === item.codigo);
+        const uniqueText = list.filter((item, index, self) => {
+            const firstIndex = self.findIndex(other => other.text === item.text);
             return firstIndex === index;
         })
-        if (uniqueCodigo.length !== data.length) {
-            setData(uniqueCodigo.map(item => ({
-                codigo: item.codigo,
+        if (uniqueText.length !== data.length) {
+            setData(uniqueText.map(item => ({
+                text: item.text,
                 id: item.id,
                 visible: true
             })))
@@ -43,17 +43,17 @@ export default function FilterCodigo(list: props[]) {
 
     useEffect(() => {
         const filter = data.filter((item) =>
-            item.codigo.toLowerCase().startsWith(textFilter.toLowerCase()));
+            item.text.toLowerCase().startsWith(textFilter.toLowerCase()));
         setFilteredData(filter);
 
     }, [data, textFilter])
 
 
-    function CardFilterCodigo() {
+    function CardFilterColunaTable() {
         const [text, setText] = useState<string>("");
 
         return (
-            <section onClick={e => e.stopPropagation()} className={style.container} >
+            <section className={style.container} >
                 <div className={style.containerInput} >
                     <div className={style.wrapContainer_input} >
                         <input type="text"
@@ -78,15 +78,14 @@ export default function FilterCodigo(list: props[]) {
                             filteredData.map((item, index) => (
                                 <li key={index} >
                                     <input
-                                        id={item.id}
                                         type="checkbox"
                                         checked={item.visible}
                                         onChange={() => {
                                             ChangeListVisible(index)
                                         }}
                                     />
-                                    <label htmlFor={item.id}>
-                                        {item.codigo}
+                                    <label onClick={() => ChangeListVisible(index)}>
+                                        {item.text}
                                     </label>
                                 </li>
                             ))
@@ -98,7 +97,7 @@ export default function FilterCodigo(list: props[]) {
         )
     }
     return {
-        CardFilterCodigo,
+        CardFilterColunaTable,
         filteredData
     }
 }

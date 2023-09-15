@@ -7,6 +7,7 @@ import Api from "../../../../../service/api/assistenciaTecnica/Assistencia";
 import { BiFilterAlt, BiSearchAlt2 } from "react-icons/bi";
 import Message from "../../../../message/Message";
 import { AiOutlineDelete } from "react-icons/ai";
+import Loading from "../../../../loading/Loading";
 
 
 interface props {
@@ -43,7 +44,7 @@ export default function Card({ changeToogleCard, refreshTable }: props) {
         message: "",
         type: "WARNING"
     });
-    const [thisListMaquinaId, setThisListMaquinaId] = useState<string[]>([])
+
     const [toogleFilterMaquina, setToogleFilterMaquina] = useState<boolean>(false);
 
     const { CardFilterMaquinaDisponivel,
@@ -70,6 +71,11 @@ export default function Card({ changeToogleCard, refreshTable }: props) {
         setValueCnpj(cnpj)
 
     }
+    const handleChangeCEP = (text: string) => {
+        const cep = text.replace(/[^\d./-]/g, '');
+
+        setTextCep(cep);
+    }
     async function Cadastrar() {
         const { cnpj,
             codigoRadar,
@@ -86,11 +92,9 @@ export default function Card({ changeToogleCard, refreshTable }: props) {
         } = novoCliente;
 
 
-        if (valueCnpj === "" || codigoRadar === "" ||
-            contatoTelefone === "" || cep === "" ||
-            cidade === "" || estado === "" || numeroEstabelecimento === "" ||
-            rua === "" ||
-            nome === "" || nomeContatoCliente === "") {
+        if (codigoRadar === "" || valueCnpj === "" || nome === "" || cep === "" ||
+            rua === "" || numeroEstabelecimento === "" ||
+            cidade === "" || estado === "" || regiao === "") {
             setDataMessage({
                 message: "Campo(s) obrigatório(s) vazio(s)!",
                 type: "WARNING"
@@ -170,24 +174,44 @@ export default function Card({ changeToogleCard, refreshTable }: props) {
         })
         setTextCep("");
         setValueCnpj("");
+        setListMaquina([])
     }
     async function SearchCEP() {
         const cep = parseInt(textCep)
-        console.log(cep)
-        const response = await Api.get(`/cep/${cep}`)
-            .then(res => res)
-            .catch(res => res)
 
-        if (response.status === 200) {
-            setNovoCliente({
-                ...novoCliente,
-                cidade: response.data.cidade,
-                estado: response.data.estado,
-                rua: response.data.rua,
-                cep: response.data.cep,
-                regiao: response.data.regiao
+        await Api.get(`/cep/${cep}`)
+            .then(res => {
+                setNovoCliente({
+                    ...novoCliente,
+                    cidade: res.data.cidade,
+                    estado: res.data.estado,
+                    rua: res.data.rua,
+                    cep: res.data.cep,
+                    regiao: res.data.regiao
+                })
             })
-        }
+            .catch(res => {
+
+                if (res.response && (res.response.data)) {
+
+                    setDataMessage({
+                        message: res.response.data,
+                        type: "WARNING"
+                    })
+                    setToogleMessage(true);
+                    setNovoCliente({
+                        ...novoCliente,
+                        cidade: "",
+                        estado: "",
+                        rua: "",
+                        cep: "",
+                        regiao: ""
+                    })
+                }
+            })
+            .finally(() => {
+                setToogleLoading(false)
+            })
     }
 
     function changeList(idMaquina: string) {
@@ -207,6 +231,11 @@ export default function Card({ changeToogleCard, refreshTable }: props) {
                     message={dataMessage.message}
                     type={dataMessage.type}
                 />
+            </div>
+            <div className={toogleLoading ?
+                style.container_loading :
+                style.container_loading_close} >
+                <Loading />
             </div>
             <div className={toogleFilterMaquina ?
                 style.container_filterMaquina :
@@ -263,11 +292,20 @@ export default function Card({ changeToogleCard, refreshTable }: props) {
                         autoComplete="off"
                         iconRight={{
                             icon: BiSearchAlt2,
-                            action: () => SearchCEP(),
+                            action: () => {
+                                setToogleLoading(true);
+                                SearchCEP()
+                            },
                         }}
                         maxLength={150}
                         value={textCep}
-                        onChange={(e) => setTextCep(e.target.value)}
+                        onChange={(e) => handleChangeCEP(e.target.value)}
+                        onKeyDown={(e) => {
+                            if (e.key === "Enter" || e.key === "Tab")
+                                setToogleLoading(true),
+                                    SearchCEP()
+                        }}
+
                     // onChange={e => setNovoCliente({
                     //     ...novoCliente,
                     //     endereco: e.target.value
@@ -372,7 +410,6 @@ export default function Card({ changeToogleCard, refreshTable }: props) {
                                 <tr>
                                     <th>
                                         CÓD/MAQ
-
                                     </th>
                                     <th>DESCRIÇÃO</th>
                                     <th>Nº SÉRIE</th>
