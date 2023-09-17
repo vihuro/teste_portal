@@ -8,6 +8,7 @@ import FormChange from "./change/Card";
 import FilterCodigo from "./filterCodigo/Card";
 import FilterNome from './filterNome/Card';
 import FilterCNPJ from "./filterCnpj/Card";
+import FilterColuna from "../../filterColunaTable/CardFilterColuna";
 import TagMaquina from "./tagMaquina/Card";
 import { DateTimeStringFormat } from "../../../utils/DateTimeString";
 import { TbEdit } from "react-icons/tb";
@@ -18,7 +19,6 @@ interface dataProps {
     codigoRadar: string,
     contatoTelefone: string,
     contatoNome: string,
-    endereco: string,
     nome: string,
     cadastro: userProps,
     alteracao: userProps,
@@ -59,6 +59,7 @@ export default function Table() {
     const [indiceInfoPlus, setIndiceInfoPlus] = useState<number>();
     const [toogleTagMaquina, setToogleTagMquina] = useState<boolean>();
 
+
     useEffect(() => {
         FecthData()
     }, [])
@@ -71,35 +72,64 @@ export default function Table() {
         return setDataItemAlteracao(item);
     }
 
-    const { CardFilter, data: filterCodigoRadar } = FilterCodigo({
-        list: data ? data.map(item => ({
-            codigo: item.codigoRadar
-        })) : []
-    })
-    const { CardFilterNome, filteredNomeCliente } = FilterNome({
-        list: data ? data.map(item => ({
-            nomeCliente: item.nome
-        })) : []
-    })
-    const { CardFilterCNPJ, filterCNPJ } = FilterCNPJ({
+    const { CardFilterCNPJ, filterCNPJ, refreshList: refreshListCNPJ } = FilterCNPJ({
         list: data ? data.map(item => ({
             cnpj: item.cnpj
         })) : []
     })
+    const { CardFilterColunaTable: CardFilterCodigo,
+        filteredData: filteredCodigo, refresList: refreshListCodigo } = FilterColuna(data.map(item => ({
+            id: item.idCliente,
+            text: item.nome
+        })))
+    const { CardFilterColunaTable: CardFilterNome,
+        filteredData: filteredNome, refresList: refreshListNome } = FilterColuna(data.map(item => ({
+            id: item.idCliente,
+            text: item.nome
+        })))
+
+
+
 
     async function FecthData() {
         await Api.get("/cliente")
-            .then(res => setData(res.data))
+            .then(res => {
+                setData(res.data)
+                refreshListNome(res.data.map((item: any) => ({
+                    text: item.nome,
+                    id: item.idCliente
+                })))
+                refreshListCodigo(res.data.map((item: any) => ({
+                    text: item.codigoRadar,
+                    id: item.idCliente
+                })))
+                refreshListCNPJ(res.data.map((item: any) => ({
+                    cnpj: item.cnpj,
+
+                })))
+            })
             .catch(err => console.log(err));
     }
-    const filter = data.filter(item => {
-        return (
-            filterCodigoRadar.some(codigo => codigo.codigo === item.codigoRadar && codigo.visible) &&
-            filteredNomeCliente.some(nomeCliente => nomeCliente.nomeCliente === item.nome && nomeCliente.visible) &&
-            filterCNPJ.some(cnpj => cnpj.cnpj === item.cnpj && cnpj.visible)
-        )
 
-    })
+    const [filter, setFilter] = useState<dataProps[]>([])
+
+    useEffect(() => {
+        ChangeFiter();
+    }, [filteredCodigo, filterCNPJ, filteredNome])
+
+    function ChangeFiter() {
+        const filterTeste = data.filter(item => {
+            return (
+                filteredCodigo.some(codigo => codigo.text === item.codigoRadar && codigo.visible) &&
+                filteredNome.some(nomeCliente => nomeCliente.text === item.nome && nomeCliente.visible) &&
+                filterCNPJ.some(cnpj => cnpj.cnpj === item.cnpj && cnpj.visible)
+            )
+
+        })
+        setFilter(filterTeste)
+    }
+
+
 
     return (
         <main className={style.container} >
@@ -115,6 +145,7 @@ export default function Table() {
                     <FormChange
                         changeToogle={setToogleFormChange}
                         dataProps={dataItemAlteracao}
+                        refreshTable={FecthData}
                     />
                 )}
             </div>
@@ -144,7 +175,7 @@ export default function Table() {
                                             style.container_codigo :
                                             style.container_codigo_close}
                                     >
-                                        <CardFilter />
+                                        <CardFilterCodigo />
                                     </div>
                                 </th>
                                 <th>NOME/ CLIENTE

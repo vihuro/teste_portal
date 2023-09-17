@@ -27,6 +27,7 @@ export default function Card({ list }: { list: props[] }) {
 
 
     }, [list])
+    
 
 
 

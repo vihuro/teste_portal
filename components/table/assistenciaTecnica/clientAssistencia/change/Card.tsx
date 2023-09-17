@@ -6,9 +6,12 @@ import { useEffect, useState } from "react";
 import { AiOutlineDelete } from "react-icons/ai";
 import Api from "../../../../../service/api/assistenciaTecnica/Assistencia";
 import FilterMaquinaDisponivel from "../filterMaquinaDisponivel/Card";
+import Loading from "../../../../loading/Loading";
+import Message from "../../../../message/Message";
 
 interface props {
     changeToogle: Function,
+    refreshTable: Function,
     dataProps: dataProps
 }
 interface dataProps {
@@ -17,7 +20,6 @@ interface dataProps {
     codigoRadar: string,
     contatoTelefone: string,
     contatoNome: string,
-    endereco: string,
     nome: string,
     cadastro: userProps,
     alteracao: userProps,
@@ -45,16 +47,33 @@ interface maquinaClienteProps {
 }
 
 
-export default function Card({ changeToogle, dataProps }: props) {
+export default function Card({ changeToogle, dataProps, refreshTable }: props) {
     const { Input } = InputUi();
     const { Button } = ButtonUi();
 
     const [data, setData] = useState<dataProps>();
-    const [listMaquina, setListMaquina] = useState<maquinaClienteProps[]>([])
+    const [listMaquina, setListMaquina] = useState<maquinaClienteProps[]>([]);
+    const [toogleLoading, setToogleLoading] = useState<boolean>(false);
+    const [toogleMessage, setToogleMessage] = useState<boolean>(false);
+    const [dataMessage, setDataMessage] = useState({
+        message: "",
+        type: "WARNING"
+    });
+    const [valueCnpj, setValueCnpj] = useState<string>("");
+    const [textCep, setTextCep] = useState<string>("");
 
 
     useEffect(() => {
         setData(dataProps)
+
+        const cnpj = `${dataProps.cnpj.slice(0, 2)}
+                        .${dataProps.cnpj.slice(2, 5)}
+                        .${dataProps.cnpj.slice(5, 8)}
+                        /${dataProps.cnpj.slice(8, 12)}
+                        -${dataProps.cnpj.slice(12)}`
+        handleCnpj(cnpj);
+        setTextCep(dataProps.cep)
+
         setListMaquina(dataProps.maquinaCliente.map(item => ({
             codigoMaquina: item.codigoMaquina,
             maquinaId: item.maquinaId,
@@ -66,21 +85,18 @@ export default function Card({ changeToogle, dataProps }: props) {
 
     }, [dataProps])
 
-
-
     async function Altera() {
         const obj = {
             idCliente: data?.idCliente,
             nome: data?.nome,
             codigoRadar: data?.codigoRadar,
-            cnpj: data?.cnpj,
-            cep: data?.cep,
+            cnpj: valueCnpj.replaceAll(".", "").replace("/", "").replace("-", ""), cep: data?.cep,
             estado: data?.estado,
             cidade: data?.cidade,
             regiao: data?.regiao,
             rua: data?.rua,
             numeroEstabelecimento: data?.numeroEstabelecimento,
-            userId: "2cb75138-9232-454e-8784-d777e50f7547",
+            userId: "96afb069-c572-4302-b631-8b6b16c825e7",
             complemento: data?.complemento,
             nomeContatoCliente: data?.contatoNome,
             contatoTelefone: data?.contatoTelefone,
@@ -90,12 +106,26 @@ export default function Card({ changeToogle, dataProps }: props) {
 
         }
         Api.put("/cliente", obj)
-            .then(res => console.log(res))
-            .catch(err => console.log(err));
+            .then(res => {
+                setDataMessage({
+                    message: "Alteração realizada!",
+                    type: "SUCESS"
+                })
+                refreshTable()
+            })
+            .catch(err => {
+                if (err.response && (err.response.data)) {
+                    setDataMessage({
+                        message: err.response.data,
+                        type: "WARNING"
+                    })
+                }
+            })
+            .finally(() => {
+                setToogleMessage(true);
+                setToogleLoading(false)
+            });
     }
-
-
-
     const [toogleFilterMaquina, setToogleFilterMaquina] = useState<boolean>(false);
 
     const { CardFilterMaquinaDisponivel,
@@ -116,19 +146,78 @@ export default function Card({ changeToogle, dataProps }: props) {
                 tipoMaquina: item.tipoMaquina,
                 status: "PENDENTE"
             }));
-            
+
             setListMaquina([...listMaquina, ...list]);
         }
     }, [listMaquinaCard])
 
+    async function SearchCEP() {
+        const cep = parseInt(textCep);
+
+        await Api.get(`/cep/${textCep}`)
+            .then(res => {
+                if (data) {
+                    setData({
+                        ...data,
+                        cidade: res.data.cidade,
+                        estado: res.data.estado,
+                        rua: res.data.rua,
+                        cep: res.data.cep,
+                        regiao: res.data.regiao
+                    })
+                }
+
+            })
+            .catch(err => {
+                if (data && err.response && (err.response.data)) {
+                    setDataMessage({
+                        message: err.response.data,
+                        type: "WARNING"
+                    })
+                    setToogleMessage(true);
+                    setData({
+                        ...data,
+                        cidade: "",
+                        estado: "",
+                        rua: "",
+                        cep: "",
+                        regiao: ""
+                    })
+                }
+            })
+            .finally(() => {
+                setToogleLoading(false)
+            })
+    }
+
     function RemoveMaquina(idMaquina: string) {
         if (data) {
-            const list = data.maquinaCliente.filter(item => item.maquinaId !== idMaquina);
+            const list = listMaquina.filter(item => item.maquinaId !== idMaquina);
 
             setListMaquina(list);
         }
+    }
+    function handleCnpj(text: string) {
+        let cnpj = text.replace(/[^\d./-]/g, '');
+        switch (cnpj.length) {
+            case 2:
+            case 6:
+                cnpj += '.';
+                break;
+            case 10:
+                cnpj += '/';
+                break;
+            case 15:
+                cnpj += '-';
+                break;
+        }
+        setValueCnpj(cnpj)
 
+    }
+    const handleChangeCEP = (text: string) => {
+        const cep = text.replace(/[^\d./-]/g, '');
 
+        setTextCep(cep);
     }
 
 
@@ -140,6 +229,21 @@ export default function Card({ changeToogle, dataProps }: props) {
                     style.container_filterMaquina_close} >
                     <CardFilterMaquinaDisponivel />
                 </div>
+                <div className={toogleLoading ?
+                    style.container_loading :
+                    style.container_loading_close} >
+                    <Loading />
+                </div>
+                <div className={toogleMessage ?
+                    style.container_message :
+                    style.container_message_close} >
+                    <Message
+                        stateMessage={toogleMessage}
+                        action={setToogleMessage}
+                        message={dataMessage.message}
+                        type={dataMessage.type}
+                    />
+                </div>
                 <header className={style.container_title} >
                     <h3>CLIENTE</h3>
                 </header>
@@ -150,7 +254,10 @@ export default function Card({ changeToogle, dataProps }: props) {
                             text="CÓDIGO RADAR"
                             autoComplete="off"
                             value={data.codigoRadar}
-                            onChange={() => { }}
+                            onChange={(e) => setData({
+                                ...data,
+                                codigoRadar: e.target.value
+                            })}
                         />
                     </div>
                     <div className={style.container_cnpj}>
@@ -158,8 +265,9 @@ export default function Card({ changeToogle, dataProps }: props) {
                             id="txtCnpjChange"
                             text="CNPJ"
                             autoComplete="off"
-                            value={data.cnpj}
-                            onChange={() => { }}
+                            value={valueCnpj}
+                            onChange={(e) =>
+                                handleCnpj(e.target.value)}
                         />
                     </div>
                     <div className={style.container_nomeCliente} >
@@ -168,7 +276,10 @@ export default function Card({ changeToogle, dataProps }: props) {
                             text="NOME CLIENTE"
                             autoComplete="off"
                             value={data.nome}
-                            onChange={() => { }}
+                            onChange={(e) => setData({
+                                ...data,
+                                nome: e.target.value
+                            })}
                         />
 
                     </div>
@@ -178,11 +289,21 @@ export default function Card({ changeToogle, dataProps }: props) {
                             text="CEP"
                             autoComplete="off"
                             iconRight={{
-                                action: () => console.log("aqui"),
+                                action: () => {
+                                    setToogleLoading(true)
+                                    SearchCEP()
+                                },
                                 icon: BiSearchAlt2
                             }}
-                            value={data.cep}
-                            onChange={() => { }}
+                            maxLength={150}
+                            value={textCep}
+                            onChange={(e) => handleChangeCEP(e.target.value)}
+                            onKeyDown={(e) => {
+                                if (e.key === "Enter") {
+                                    setToogleLoading(true)
+                                    SearchCEP()
+                                }
+                            }}
                         />
                     </div>
                     <div className={style.container_rua} >
@@ -201,7 +322,10 @@ export default function Card({ changeToogle, dataProps }: props) {
                             text="Nº"
                             autoComplete="off"
                             value={data.numeroEstabelecimento}
-                            onChange={() => { }}
+                            onChange={(e) => setData({
+                                ...data,
+                                numeroEstabelecimento: e.target.value
+                            })}
                         />
                     </div>
                     <div className={style.container_cidade} >
@@ -242,7 +366,10 @@ export default function Card({ changeToogle, dataProps }: props) {
                             text="COMPLEMENTO"
                             autoComplete="off"
                             value={data.complemento}
-                            onChange={() => { }}
+                            onChange={(e) => setData({
+                                ...data,
+                                complemento: e.target.value
+                            })}
                         />
 
                     </div>
@@ -252,7 +379,10 @@ export default function Card({ changeToogle, dataProps }: props) {
                             text="NOME/CONT."
                             autoComplete="off"
                             value={data.contatoNome}
-                            onChange={() => { }}
+                            onChange={(e) => setData({
+                                ...data,
+                                contatoNome: e.target.value
+                            })}
                         />
 
                     </div>
@@ -263,7 +393,10 @@ export default function Card({ changeToogle, dataProps }: props) {
                             autoComplete="off"
                             maxLength={11}
                             value={data.contatoTelefone}
-                            onChange={() => { }}
+                            onChange={(e) => setData({
+                                ...data,
+                                contatoTelefone: e.target.value
+                            })}
                         />
                     </div>
                     <div className={style.container_filterMaquinas} >
@@ -341,7 +474,10 @@ export default function Card({ changeToogle, dataProps }: props) {
                             color="green"
                             text="ALTERAR"
                             type="button"
-                            onClick={() => { Altera() }}
+                            onClick={() => {
+                                setToogleLoading(true)
+                                Altera()
+                            }}
                         />
                     </div>
                     <div className={style.button_fechar} >

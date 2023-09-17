@@ -44,6 +44,16 @@ export default function Card({ list }: { list: listProps[] }) {
         })))
 
     }
+    function refreshList(list: listProps[]) {
+        const uniqueIndex = list.filter((item, index, self) => {
+            const firstIndex = self.findIndex(other => other.cnpj === item.cnpj);
+            return firstIndex === index;
+        });
+        setData(uniqueIndex.map(item => ({
+            cnpj: item.cnpj,
+            visible: true
+        })))
+    }
     function FormatedCNPJ(text: string) {
         return `${text.slice(0, 2)}
         .${text.slice(2, 5)}
@@ -127,6 +137,7 @@ export default function Card({ list }: { list: listProps[] }) {
     return {
         CardFilterCNPJ,
         data,
-        filterCNPJ
+        filterCNPJ,
+        refreshList
     }
 }

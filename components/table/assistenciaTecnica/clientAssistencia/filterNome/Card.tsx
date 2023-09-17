@@ -20,6 +20,7 @@ export default function Card({ list }: { list: props[] }) {
             const firstIndex = self.findIndex(other => other.nomeCliente === item.nomeCliente);
             return firstIndex === index;
         })
+
         if (uniqueIndex.length !== data.length) {
             setData(uniqueIndex.map(item => ({
                 nomeCliente: item.nomeCliente,
@@ -36,6 +37,17 @@ export default function Card({ list }: { list: props[] }) {
 
         setFilteredNomeCliente(filter);
     }, [data, valueNomeCliente])
+
+    function refreshList(list: props[]) {
+        const uniqueIndex = list.filter((item, index, self) => {
+            const firstIndex = self.findIndex(other => other.nomeCliente === item.nomeCliente);
+            return firstIndex === index;
+        })
+        setData(uniqueIndex.map(item => ({
+            nomeCliente: item.nomeCliente,
+            visible: true
+        })));
+    }
 
 
     function ChangeList({ codigo, visibility }:
@@ -96,7 +108,8 @@ export default function Card({ list }: { list: props[] }) {
     return {
         CardFilterNome,
         data,
-        filteredNomeCliente
+        filteredNomeCliente,
+        refreshList
     }
 }
 

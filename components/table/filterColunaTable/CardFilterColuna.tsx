@@ -31,7 +31,20 @@ export default function FilterDescricao(list: props[]) {
                 visible: true
             })))
         }
-    }, [list])
+    }, [list]);
+
+    function refresList(list: props[]) {
+        const uniqueText = list.filter((item, index, self) => {
+            const firstIndex = self.findIndex(other => other.text === item.text);
+            return firstIndex === index;
+        });
+        setData(uniqueText.map(item => ({
+            text: item.text,
+            visible: true,
+            id: item.id
+        })))
+
+    }
 
     function ChangeListVisible(idList: number) {
         const list = data.map((item, index) => ({
@@ -98,6 +111,7 @@ export default function FilterDescricao(list: props[]) {
     }
     return {
         CardFilterColunaTable,
-        filteredData
+        filteredData,
+        refresList
     }
 }

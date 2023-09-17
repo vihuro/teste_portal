@@ -46,11 +46,12 @@ export default function Login() {
 
 
     async function Logar() {
-        setToogleLoading(true);
+
         if (data.apelido === "" || data.senha === "") {
+            
             setDataMessage({
-                message:"Campos obrigatórios vazios!",
-                type:"WARNING"
+                message: "Campos obrigatórios vazios!",
+                type: "WARNING"
             })
             setToogleLoading(false);
             setToogleMessage(true)
@@ -69,10 +70,10 @@ export default function Login() {
                     maxAge: 60 * 60 * 1
                 })
                 const url = parseCookies().PAGINA_PORTAL_THR;
-                
-                if(typeof url === "undefined"){
+
+                if (typeof url === "undefined") {
                     navigation.push("/");
-                }else{
+                } else {
                     destroyCookie(null, "PAGINA_PORTAL_THR")
                     navigation.push(decodeURIComponent(url))
                 }
@@ -85,18 +86,19 @@ export default function Login() {
                         message: err.response.data,
                         type: "ERROR"
                     })
-                    setToogleMessage(true)
-                }else{
+
+                } else {
                     setDataMessage({
                         message: "erro no servidor",
                         type: "ERROR"
                     })
-                    setToogleMessage(true)
                 }
+                setToogleMessage(true)
+                setToogleLoading(false);
 
             })
             .finally(() => {
-                setToogleLoading(false);
+                
             })
     }
 
@@ -108,7 +110,7 @@ export default function Login() {
                     <img style={{ width: "100%" }} src="../logoMarcaSemFundo.png" />
                 </div>
                 <div className={style.card} >
-                    <div className={toogleMessage ?
+                    <div className={toogleLoading ?
                         style.containerLoading :
                         style.containerLoading_close} >
                         <Loading />
@@ -158,7 +160,10 @@ export default function Login() {
                         </div>
                     </div>
                     <div className={style.container_button} >
-                        <button onClick={() => Logar()} >
+                        <button onClick={() => {
+                            setToogleLoading(true);
+                            Logar()
+                        }} >
                             ENTRAR
                         </button>
                     </div>
