@@ -100,14 +100,14 @@ export default function Table() {
         },
         "PET VIRGEM": {
             background: "#3FFF8D",
-            color: "#15990B"
+            color: "#021800"
         },
         "PET-2": {
             background: "#00923B",
             color: "white"
         },
-        "PP VIRGEM": {
-            background: "#8C9EF8",
+        "FPA VIRGEM": {
+            background: "#001dff9c",
             color: "white"
         },
         "FPA-2": {
@@ -118,8 +118,10 @@ export default function Table() {
             background: "#E753DC",
             color: "white"
         },
-
-
+        ADESIVA:{
+            background: "#990000",
+            color: "white"
+        },
         "STRECH ECO": {
             background: "#94148B",
             color: "white"
@@ -137,6 +139,7 @@ export default function Table() {
             color: "red"
         }
     }
+
     const orderedData = data.slice().sort((a, b) => {
         const tipoA = a.tipoMaterial.tipo.toUpperCase();
         const tipoB = b.tipoMaterial.tipo.toUpperCase();
@@ -178,7 +181,7 @@ export default function Table() {
                 <table className={style.table} >
                     <thead>
                         <tr>
-                            <th>CÓDIGO</th>
+                            <th >CÓDIGO</th>
                             <th>MEDIDA</th>
                             <th>UND.</th>
                             <th>QTDE</th>

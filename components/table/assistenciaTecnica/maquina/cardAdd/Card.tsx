@@ -4,6 +4,7 @@ import { useState } from "react";
 import Api from "../../../../../service/api/assistenciaTecnica/Assistencia";
 import Message from "../../../../message/Message";
 import ButtonUi from "../../../../UI/button/Button";
+import { Icons } from "../../../../utils/IconDefault";
 
 interface props {
     changeToogle: Function,
@@ -12,6 +13,8 @@ interface props {
 }
 
 export default function Card({ changeToogle, refreshTable }: props) {
+
+
 
     const [novaMaquina, setNomaMaquina] = useState({
         codigoMaquina: "",
@@ -83,7 +86,7 @@ export default function Card({ changeToogle, refreshTable }: props) {
             </div>
             <section className={style.title} >
                 <h3>
-                    Nova máquina
+                    Nova Máquina
                 </h3>
 
             </section>
@@ -92,6 +95,7 @@ export default function Card({ changeToogle, refreshTable }: props) {
                     <Input
                         id="txtCodicoMaquina"
                         text="CÓDIGO"
+                        autoComplete="off"
                         value={novaMaquina.codigoMaquina}
                         maxLength={15}
                         onChange={(e) => setNomaMaquina({
@@ -104,6 +108,7 @@ export default function Card({ changeToogle, refreshTable }: props) {
                     <Input
                         id="txtNovaMaquina"
                         text="Descrição"
+                        autoComplete="off"
                         value={novaMaquina.tipoMaquina}
                         onChange={(e) => setNomaMaquina({
                             ...novaMaquina,
@@ -116,6 +121,7 @@ export default function Card({ changeToogle, refreshTable }: props) {
                     <Input
                         id="txtNumeroSerie"
                         text="SÉRIE"
+                        autoComplete="off"
                         value={novaMaquina.numeroSerie}
                         onChange={(e) => setNomaMaquina({
                             ...novaMaquina,
@@ -152,8 +158,14 @@ export default function Card({ changeToogle, refreshTable }: props) {
                                 </tr> */}
                             </tbody>
                         </table>
-
                     </div>
+                    <section>
+                        <Button
+                            classUi="default"
+                            color="blue"
+                            icon={Icons.Filter}
+                        />
+                    </section>
 
                 </div>
             </section>

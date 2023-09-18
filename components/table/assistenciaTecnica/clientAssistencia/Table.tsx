@@ -65,7 +65,7 @@ export default function Table() {
     }, [])
     useEffect(() => {
         alteracao(dataItemString);
-    }, [])
+    }, [data])
     function alteracao(id: string) {
         const item = data.find(item => item.idCliente === id);
 
@@ -78,15 +78,19 @@ export default function Table() {
         })) : []
     })
     const { CardFilterColunaTable: CardFilterCodigo,
-        filteredData: filteredCodigo, refresList: refreshListCodigo } = FilterColuna(data.map(item => ({
-            id: item.idCliente,
-            text: item.nome
-        })))
+        filteredData: filteredCodigo, refresList: refreshListCodigo } = FilterColuna({
+            list: data.map(item => ({
+                id: item.idCliente,
+                text: item.codigoRadar
+            }))
+        })
     const { CardFilterColunaTable: CardFilterNome,
-        filteredData: filteredNome, refresList: refreshListNome } = FilterColuna(data.map(item => ({
-            id: item.idCliente,
-            text: item.nome
-        })))
+        filteredData: filteredNome, refresList: refreshListNome } = FilterColuna({
+            list: data.map(item => ({
+                id: item.idCliente,
+                text: item.nome
+            }))
+        })
 
 
 
@@ -118,7 +122,7 @@ export default function Table() {
     }, [filteredCodigo, filterCNPJ, filteredNome])
 
     function ChangeFiter() {
-        const filterTeste = data.filter(item => {
+        const filtered = data.filter(item => {
             return (
                 filteredCodigo.some(codigo => codigo.text === item.codigoRadar && codigo.visible) &&
                 filteredNome.some(nomeCliente => nomeCliente.text === item.nome && nomeCliente.visible) &&
@@ -126,7 +130,7 @@ export default function Table() {
             )
 
         })
-        setFilter(filterTeste)
+        setFilter(filtered)
     }
 
 

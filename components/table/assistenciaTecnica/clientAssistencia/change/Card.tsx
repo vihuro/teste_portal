@@ -96,7 +96,7 @@ export default function Card({ changeToogle, dataProps, refreshTable }: props) {
             regiao: data?.regiao,
             rua: data?.rua,
             numeroEstabelecimento: data?.numeroEstabelecimento,
-            userId: "96afb069-c572-4302-b631-8b6b16c825e7",
+            userId: "2cb75138-9232-454e-8784-d777e50f7547",
             complemento: data?.complemento,
             nomeContatoCliente: data?.contatoNome,
             contatoTelefone: data?.contatoTelefone,
@@ -135,6 +135,7 @@ export default function Card({ changeToogle, dataProps, refreshTable }: props) {
             changeToogle: setToogleFilterMaquina
         });
 
+
     useEffect(() => {
 
         if (data) {
@@ -154,7 +155,7 @@ export default function Card({ changeToogle, dataProps, refreshTable }: props) {
     async function SearchCEP() {
         const cep = parseInt(textCep);
 
-        await Api.get(`/cep/${textCep}`)
+        await Api.get(`/cep/${cep}`)
             .then(res => {
                 if (data) {
                     setData({
@@ -195,7 +196,9 @@ export default function Card({ changeToogle, dataProps, refreshTable }: props) {
             const list = listMaquina.filter(item => item.maquinaId !== idMaquina);
 
             setListMaquina(list);
+            changeListMaquinaCard(listMaquinaCard.filter(item => item.id !== idMaquina))
         }
+
     }
     function handleCnpj(text: string) {
         let cnpj = text.replace(/[^\d./-]/g, '');
@@ -219,6 +222,7 @@ export default function Card({ changeToogle, dataProps, refreshTable }: props) {
 
         setTextCep(cep);
     }
+
 
 
     return (

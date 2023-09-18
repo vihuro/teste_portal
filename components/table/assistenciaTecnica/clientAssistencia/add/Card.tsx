@@ -117,7 +117,7 @@ export default function Card({ changeToogleCard, refreshTable }: props) {
             nome: nome,
             nomeContatoCliente: nomeContatoCliente,
             cnpj: valueCnpj.replaceAll(".", "").replace("/", "").replace("-", ""),
-            userId: "96afb069-c572-4302-b631-8b6b16c825e7",
+            userId: "2cb75138-9232-454e-8784-d777e50f7547",
             maquinas: listMaquina.map(item => ({
                 maquinaId: item.id
             }))

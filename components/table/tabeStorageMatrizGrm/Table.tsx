@@ -101,8 +101,8 @@ export default function Table() {
             background: "#00923B",
             color: "white"
         },
-        "PP VIRGEM": {
-            background: "#8C9EF8",
+        "FPA VIRGEM": {
+            background: "#001dff9c",
             color: "white"
         },
         "FPA-2": {
