@@ -1,23 +1,34 @@
 import { useEffect, useState } from "react";
 import Api from "../../../../service/api/assistenciaTecnica/Assistencia";
 import style from "./style.module.css";
+import { Icons } from "../../../utils/IconDefault";
+import CardAdd from "./add/Card";
 
 interface dataProps {
     id: string,
-    nome: string,
+    codigoRadar: string,
+    descricao: string,
     preco: number,
     enderecoImagem: string[];
 }
 
 export default function Table() {
     const [data, setData] = useState<dataProps[]>([]);
-    useEffect(() => {
+    const [toogleAdd, setToogleAdd] = useState<boolean>(false);
 
+
+    useEffect(() => {
+        FecthData();
+
+    }, [])
+    console.log(data)
+
+    async function FecthData() {
         Api.get("/assistencia-tecnica/pecas")
             .then(res => setData(res.data))
             .catch(err => console.log(err))
-    }, [])
-    console.log(data)
+    }
+
     async function searchImage(caminho: string) {
         try {
             const encodedCaminho = encodeURIComponent(`\\${caminho}`);
@@ -36,26 +47,39 @@ export default function Table() {
         }
     }
     return (
-        <main className={style.container_body} >
-            <section className={style.wrap_table} >
-                <table className={style.table} >
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Peca</th>
-                            <th>Valor</th>
-                            <th>Img</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {data && (
-                            data.map((item, index) => (
-                                <tr key={index} >
-                                    <td>{item.id}</td>
-                                    <td>{item.nome}</td>
-                                    <td>{item.preco}</td>
-                                    <td >
-                                        {item.enderecoImagem.map((image, indexImage) => {
+        <main className={style.container} >
+            <div className={toogleAdd ?
+                style.containerAdd :
+                style.containerAdd_close} >
+                <CardAdd changeToogle={setToogleAdd} refresTable={FecthData} />
+            </div>
+            <section className={style.container_button} >
+                <button onClick={() => { }} >
+                    Nova Peça
+                </button>
+            </section>
+            <section className={style.container_table} >
+                <div className={style.wrap_table} >
+                    <table className={style.table} >
+                        <thead>
+                            <tr>
+                                <th>+</th>
+                                <th>CÓDIGO RADAR</th>
+                                <th>DESCRIÇÃO</th>
+                                <th>PREÇO</th>
+                                <th>IMG</th>
+                            </tr>
+                        </thead>
+                        <tbody className={style.table_body} >
+                            {data && (
+                                data.map((item, index) => (
+                                    <tr key={index} >
+                                        <td><Icons.ArrowFromTop /></td>
+                                        <td>{item.codigoRadar}</td>
+                                        <td>{item.descricao}</td>
+                                        <td>{item.preco}</td>
+                                        <td >
+                                            {/* {item.enderecoImagem.map((image, indexImage) => {
                                             const encodedCaminho = encodeURIComponent(`\\${image}`);
                                             const apiUrl = `http://192.168.0.187:8081/api/v1/assistencia-tecnica/pecas/image/${encodedCaminho}`;
                                             return (
@@ -77,13 +101,14 @@ export default function Table() {
                                                     }} src={apiUrl} alt={`Imagem teste`} />
                                                 </div>
                                             )
-                                        })}
-                                    </td>
-                                </tr>
-                            ))
-                        )}
-                    </tbody>
-                </table>
+                                        })} */}
+                                        </td>
+                                    </tr>
+                                ))
+                            )}
+                        </tbody>
+                    </table>
+                </div>
             </section>
 
         </main>
