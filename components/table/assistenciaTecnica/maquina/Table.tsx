@@ -58,7 +58,7 @@ export default function Table() {
     const { CardFilterColunaTable: CardFilterAtribuida, filteredData: filteredAtribuida, refresList: refreshListAtribuida } = FilterColuna({
         list: data.map(item => ({
             id: item.id,
-            text: item.atribuida ? "DISPONÍVEL" : "ATRIBUÍDA"
+            text: item.atribuida ? "ATRIBUÍDA" : "DISPONÍVEL"
         })),
         searchColor: getColor
     })
@@ -85,10 +85,21 @@ export default function Table() {
         ChangeFilter();
     }, [filteredCodigo, filteredMaquina, filteredAtribuida, filteredStatus, filteredNumeroSerie])
 
+    // function ChangeFilter() {
+    //     const filtered = data.filter(item => (
+    //         filteredCodigo.some(codigo => codigo.text === item.codigo && codigo.visible) &&
+    //         filteredMaquina.some(maquina => maquina.text === item.tipoMaquina && maquina.visible) &&
+    //         filteredAtribuida.some(atribuida => atribuida.text === (item.atribuida ? "ATRIBUÍDA" : "DISPONÍVEL") && atribuida.visible) &&
+    //         filteredStatus.some(status => status.text === (item.ativo ? "ATIVO" : "INATIVO") && status.visible) &&
+    //         filteredNumeroSerie.some(numeroSerie => numeroSerie.text === item.numeroSerie && numeroSerie.visible)
+    //     ))
+
+    //     setFilter(filtered);
+    // }
     function ChangeFilter() {
         const filtered = data.filter(item => (
             filteredCodigo.some(codigo => codigo.text === item.codigo && codigo.visible) &&
-            filteredMaquina.some(maquina => maquina.text === item.tipoMaquina && maquina.visible) &&
+            filteredMaquina.some(descricao => descricao.text === item.tipoMaquina && descricao.visible) &&
             filteredAtribuida.some(atribuida => atribuida.text === (item.atribuida ? "ATRIBUÍDA" : "DISPONÍVEL") && atribuida.visible) &&
             filteredStatus.some(status => status.text === (item.ativo ? "ATIVO" : "INATIVO") && status.visible) &&
             filteredNumeroSerie.some(numeroSerie => numeroSerie.text === item.numeroSerie && numeroSerie.visible)
@@ -128,6 +139,7 @@ export default function Table() {
             color: style ? style.color : ""
         }
     }
+
 
 
 
@@ -225,8 +237,8 @@ export default function Table() {
                                         style.filterNumeroSerie :
                                         style.filterNumeroSerie_close} >
                                         <CardFilterNumeroSerie
-                                            input
                                             radioButton
+                                            input
                                             idRadioButton="rdbNumeroSerieMaquina"
                                         />
                                     </div>

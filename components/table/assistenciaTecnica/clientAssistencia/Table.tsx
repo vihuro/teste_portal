@@ -98,15 +98,24 @@ export default function Table() {
     async function FecthData() {
         await Api.get("/cliente")
             .then(res => {
-                setData(res.data)
-                refreshListNome(res.data.map((item: any) => ({
-                    text: item.nome,
-                    id: item.idCliente
-                })))
-                refreshListCodigo(res.data.map((item: any) => ({
-                    text: item.codigoRadar,
-                    id: item.idCliente
-                })))
+                const dataItem: dataProps[] = res.data;
+                setData(dataItem)
+                refreshListNome({
+                    list: dataItem.map((item) => ({
+                        id: item.idCliente,
+                        text: item.nome
+                    }))
+                })
+                // refreshListNome(dataItem.map((item) => ({
+                //     text: item.nome,
+                //     id: item.idCliente
+                // })))
+                refreshListCodigo({
+                    list: dataItem.map((item) => ({
+                        text: item.codigoRadar,
+                        id: item.idCliente
+                    }))
+                })
                 refreshListCNPJ(res.data.map((item: any) => ({
                     cnpj: item.cnpj,
 
@@ -121,18 +130,18 @@ export default function Table() {
         ChangeFiter();
     }, [filteredCodigo, filterCNPJ, filteredNome])
 
+
     function ChangeFiter() {
         const filtered = data.filter(item => {
             return (
                 filteredCodigo.some(codigo => codigo.text === item.codigoRadar && codigo.visible) &&
-                filteredNome.some(nomeCliente => nomeCliente.text === item.nome && nomeCliente.visible) &&
+                filteredNome.some(nome => nome.text === item.nome && nome.visible) &&
                 filterCNPJ.some(cnpj => cnpj.cnpj === item.cnpj && cnpj.visible)
             )
 
         })
         setFilter(filtered)
     }
-
 
 
     return (

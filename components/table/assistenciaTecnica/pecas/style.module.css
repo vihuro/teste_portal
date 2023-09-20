@@ -92,4 +92,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    transition: .5s;
+}
+.containerAdd_close{
+    transform: translateY(-300px);
+    opacity: 0;
+    pointer-events: none;
 }

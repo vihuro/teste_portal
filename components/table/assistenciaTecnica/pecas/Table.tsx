@@ -21,7 +21,6 @@ export default function Table() {
         FecthData();
 
     }, [])
-    console.log(data)
 
     async function FecthData() {
         Api.get("/assistencia-tecnica/pecas")
@@ -54,7 +53,7 @@ export default function Table() {
                 <CardAdd changeToogle={setToogleAdd} refresTable={FecthData} />
             </div>
             <section className={style.container_button} >
-                <button onClick={() => { }} >
+                <button onClick={() => setToogleAdd(true)} >
                     Nova Peça
                 </button>
             </section>
