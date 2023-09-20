@@ -2,6 +2,7 @@ import { TbEdit } from "react-icons/tb";
 import { AiOutlineDelete } from "react-icons/ai"
 import { BiFilterAlt, BiArrowFromTop, BiSearchAlt2 } from "react-icons/bi"
 import { CiMenuKebab } from "react-icons/ci";
+import { MdLibraryAdd } from "react-icons/md";
 
 
 
@@ -11,5 +12,6 @@ export const Icons = {
     Filter: BiFilterAlt,
     Menu: CiMenuKebab,
     ArrowFromTop: BiArrowFromTop,
-    Search: BiSearchAlt2
+    Search: BiSearchAlt2,
+    Add: MdLibraryAdd
 }

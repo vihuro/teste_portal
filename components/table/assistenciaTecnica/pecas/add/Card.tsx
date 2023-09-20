@@ -32,7 +32,7 @@ export default function Card({ changeToogle }: props) {
             usuarioId: "96afb069-c572-4302-b631-8b6b16c825e7",
             enderecoImagens: [image]
         }
-        console.log(newData)
+
         Api.post("assistencia-tecnica/pecas", newData)
             .then(res => console.log(res))
             .catch(err => console.log(err));

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import Api from "../../../../service/api/assistenciaTecnica/Assistencia";
 import style from "./style.module.css";
 import { Icons } from "../../../utils/IconDefault";
@@ -15,6 +15,10 @@ interface dataProps {
 export default function Table() {
     const [data, setData] = useState<dataProps[]>([]);
     const [toogleAdd, setToogleAdd] = useState<boolean>(false);
+    const [toogleInfoPlus, setToogleInfoPlus] = useState<boolean>(false);
+    const [indiceInfoPlus, setIndiceInfoPlus] = useState<number>();
+    const [colSpan, setColspan] = useState<number>(6);
+
 
 
     useEffect(() => {
@@ -67,42 +71,52 @@ export default function Table() {
                                 <th>DESCRIÇÃO</th>
                                 <th>PREÇO</th>
                                 <th>IMG</th>
+                                <th>EDIT.</th>
                             </tr>
                         </thead>
                         <tbody className={style.table_body} >
                             {data && (
                                 data.map((item, index) => (
-                                    <tr key={index} >
-                                        <td><Icons.ArrowFromTop /></td>
-                                        <td>{item.codigoRadar}</td>
-                                        <td>{item.descricao}</td>
-                                        <td>{item.preco}</td>
-                                        <td >
-                                            {/* {item.enderecoImagem.map((image, indexImage) => {
-                                            const encodedCaminho = encodeURIComponent(`\\${image}`);
-                                            const apiUrl = `http://192.168.0.187:8081/api/v1/assistencia-tecnica/pecas/image/${encodedCaminho}`;
-                                            return (
-                                                <div key={indexImage} style={{
-                                                    width: 40,
-                                                    height: 40,
-                                                    display:"flex",
-                                                    justifyContent:"center",
-                                                    alignItems:"center",
-                                                    borderRadius: "50%",
-                                                    border: "1px solid black",
-                                                    position: "relative",
-                                                    left:7,
-                                                    overflow: "hidden"
-                                                }} >
-                                                    <img style={{
-                                                        maxWidth: "100%", // Define a largura máxima da imagem para 100% da div
-                                                        maxHeight: "100%", // Define a altura máxima da imagem para 100% da div
-                                                    }} src={apiUrl} alt={`Imagem teste`} />
-                                                </div>
-                                            )
-                                        })} */}
-                                        </td>
-                                    </tr>
+                                    <Fragment key={index} >
+                                        <tr className={style.row} >
+                                            <td>
+                                                <Icons.ArrowFromTop />
+                                            </td>
+                                            <td>{item.codigoRadar}</td>
+                                            <td>{item.descricao}</td>
+                                            <td>{item.preco}</td>
+                                            <td >
+                                                <p className={style.visualizar}>
+                                                    VISUALIZAR
+                                                </p>
+                                            </td>
+                                            <td className={style.edit} >
+                                                <Icons.Edit />
+                                            </td>
+                                        </tr>
+                                        <>
+                                            <tr className={style.infoPlus} >
+                                                <td colSpan={colSpan} >
+                                                    {`USUÁRIO DO CADASTRO: ${item.codigoRadar}`}
+                                                </td>
+                                            </tr>
+                                            <tr className={style.infoPlus} >
+                                                <td colSpan={colSpan} >
+                                                    {`DATA E HORA DO CADASTRO: ${item.codigoRadar}`}
+                                                </td>
+                                            </tr>
+                                            <tr className={style.infoPlus} >
+                                                <td colSpan={colSpan} >
+                                                    {`USUÁRIO DA ALTERAÇÃO: ${item.codigoRadar}`}
+                                                </td>
+                                            </tr>
+                                            <tr className={style.infoPlus} >
+                                                <td colSpan={colSpan} >
+                                                    {`DATA E HORA DA ALTERAÇÃO: ${item.codigoRadar}`}
+                                                </td>
+                                            </tr>
+                                        </>
+                                    </Fragment>
                                 ))
                             )}
                         </tbody>

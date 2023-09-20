@@ -77,3 +77,11 @@
     opacity: 0;
     pointer-events: none;
 }
+.visualizar{
+    color: rgb(0, 8, 159);
+    font-weight: 600;
+    cursor: pointer;
+}
+.add svg{
+    color: rgb(12, 0, 102) !important;
+}

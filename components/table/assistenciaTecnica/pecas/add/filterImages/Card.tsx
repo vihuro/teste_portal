@@ -2,6 +2,7 @@ import { useState } from "react";
 import style from "./style.module.css";
 import Api from "../../../../../../service/api/assistenciaTecnica/Assistencia";
 import Vizualizador from "./vizualizadorImage/VizualizadorImage";
+import { Icons } from "../../../../../utils/IconDefault";
 
 
 interface props {
@@ -64,14 +65,17 @@ export default function FilterImagePeca({ changeToogle, changeText }: props) {
                                     <tr key={index} >
                                         <td>{item.codigo}</td>
                                         <td>{item.descricao}</td>
-                                        <td onClick={() => {
+                                        <td className={style.visualizar} onClick={() => {
                                             setToogleVizualizador(true)
                                             setTextImage(`${item.codigo}-${item.descricao}`)
                                         }} >
-                                            VIZUALIZAR
+                                            VISUALIZAR
                                         </td>
-                                        <td onClick={() => changeText(`${item.codigo}-${item.descricao}`)} >
-                                            +
+                                        <td className={style.add} onClick={() => {
+                                            changeText(`${item.codigo}-${item.descricao}`)
+                                            changeToogle(false)
+                                        }} >
+                                            <Icons.Add />
                                         </td>
                                     </tr>
                                 ))
