@@ -10,7 +10,7 @@ interface props {
     refresTable: Function
 }
 
-export default function Card({ changeToogle }: props) {
+export default function Card({ changeToogle, refresTable }: props) {
     const { Input } = InputUi();
     const { Button } = ButtonUi();
     const [image, setImage] = useState<string>("");
@@ -29,12 +29,14 @@ export default function Card({ changeToogle }: props) {
             codigoRadar: novaPeca.codigoRadar,
             descricao: novaPeca.descricao,
             preco: parseFloat(novaPeca.preco),
-            usuarioId: "96afb069-c572-4302-b631-8b6b16c825e7",
+            usuarioId: "2cb75138-9232-454e-8784-d777e50f7547",
             enderecoImagens: [image]
         }
 
         Api.post("assistencia-tecnica/pecas", newData)
-            .then(res => console.log(res))
+            .then(res => {
+                refresTable()
+            })
             .catch(err => console.log(err));
     }
 
