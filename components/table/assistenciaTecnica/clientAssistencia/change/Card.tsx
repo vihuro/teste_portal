@@ -144,7 +144,7 @@ export default function Card({ changeToogle, dataProps, refreshTable }: props) {
                 maquinaId: item.id,
                 codigoMaquina: item.codigo,
                 numeroSerie: item.numeroSerie,
-                tipoMaquina: item.tipoMaquina,
+                tipoMaquina: item.descricaoMaquina,
                 status: "PENDENTE"
             }));
 
