@@ -2,7 +2,8 @@ import { Fragment, useEffect, useState } from "react"
 import Api from "../../../../service/api/assistenciaTecnica/Assistencia";
 import style from "./style.module.css";
 import { FiEdit } from "react-icons/fi"
-import Card from "./cardAdd/Card";
+import CardAdd from "./cardAdd/Card";
+import CardChange from "./change/Card";
 import { BiArrowFromTop } from "react-icons/bi";
 import { DateTimeStringFormat } from "../../../utils/DateTimeString";
 import FilterColuna from "../../filterColunaTable/CardFilterColuna";
@@ -12,8 +13,8 @@ interface maquinaProps {
     codigo: string,
     atribuida: boolean,
     id: string,
-    pecas: string[],
-    tipoMaquina: string,
+    pecas: pecasProps[],
+    descricaoMaquina: string,
     numeroSerie: string,
     cadastro: userProps,
     alteracao: userProps
@@ -24,11 +25,21 @@ interface userProps {
     dataHora: Date,
     id: string
 }
+interface pecasProps {
+    pecaId: string,
+    codigoRadar: string,
+    descricaoPeca: string,
+    preco: number
+
+}
 
 export default function Table() {
     const [data, setData] = useState<maquinaProps[]>([]);
     const [filter, setFilter] = useState<maquinaProps[]>([]);
+    const [dataItemAlteracao, setDataItemAlteracao] = useState<maquinaProps>();
+    const [dataItemAlteracaoString, setDataItemAlteracaoString] = useState<string>("");
     const [toogleAdd, setToogleAdd] = useState<boolean>(false);
+    const [toogleChange, setToogleChange] = useState<boolean>(false);
 
     const [toogleInfoPlus, setToogleInfoPlus] = useState<boolean>(false);
     const [indiceInfoPlus, setIndiceInfoPlus] = useState<number>();
@@ -41,6 +52,9 @@ export default function Table() {
     useEffect(() => {
         FechData()
     }, [])
+    useEffect(() => {
+        alteracao(dataItemAlteracaoString)
+    }, [data])
 
 
     const { CardFilterColunaTable: CardFilterCodigo, filteredData: filteredCodigo, refresList: refreshListCodigo } = FilterColuna({
@@ -52,7 +66,7 @@ export default function Table() {
     const { CardFilterColunaTable: CardFilterMaquina, filteredData: filteredMaquina, refresList: refreshListMaquina } = FilterColuna({
         list: data.map(item => ({
             id: item.id,
-            text: item.tipoMaquina
+            text: item.descricaoMaquina
         }))
     })
     const { CardFilterColunaTable: CardFilterAtribuida, filteredData: filteredAtribuida, refresList: refreshListAtribuida } = FilterColuna({
@@ -85,21 +99,11 @@ export default function Table() {
         ChangeFilter();
     }, [filteredCodigo, filteredMaquina, filteredAtribuida, filteredStatus, filteredNumeroSerie])
 
-    // function ChangeFilter() {
-    //     const filtered = data.filter(item => (
-    //         filteredCodigo.some(codigo => codigo.text === item.codigo && codigo.visible) &&
-    //         filteredMaquina.some(maquina => maquina.text === item.tipoMaquina && maquina.visible) &&
-    //         filteredAtribuida.some(atribuida => atribuida.text === (item.atribuida ? "ATRIBUÍDA" : "DISPONÍVEL") && atribuida.visible) &&
-    //         filteredStatus.some(status => status.text === (item.ativo ? "ATIVO" : "INATIVO") && status.visible) &&
-    //         filteredNumeroSerie.some(numeroSerie => numeroSerie.text === item.numeroSerie && numeroSerie.visible)
-    //     ))
 
-    //     setFilter(filtered);
-    // }
     function ChangeFilter() {
         const filtered = data.filter(item => (
             filteredCodigo.some(codigo => codigo.text === item.codigo && codigo.visible) &&
-            filteredMaquina.some(descricao => descricao.text === item.tipoMaquina && descricao.visible) &&
+            filteredMaquina.some(descricao => descricao.text === item.descricaoMaquina && descricao.visible) &&
             filteredAtribuida.some(atribuida => atribuida.text === (item.atribuida ? "ATRIBUÍDA" : "DISPONÍVEL") && atribuida.visible) &&
             filteredStatus.some(status => status.text === (item.ativo ? "ATIVO" : "INATIVO") && status.visible) &&
             filteredNumeroSerie.some(numeroSerie => numeroSerie.text === item.numeroSerie && numeroSerie.visible)
@@ -139,6 +143,11 @@ export default function Table() {
             color: style ? style.color : ""
         }
     }
+    function alteracao(id: string) {
+        const item = data.find(item => item.id === id);
+
+        return setDataItemAlteracao(item);
+    }
 
 
 
@@ -151,7 +160,18 @@ export default function Table() {
                 </button>
             </section>
             <section className={toogleAdd ? style.cardAdd : style.cardAdd_close} >
-                <Card changeToogle={setToogleAdd} refreshTable={FechData} />
+                <CardAdd changeToogle={setToogleAdd} refreshTable={FechData} />
+            </section>
+            <section className={toogleChange ?
+                style.cardChange :
+                style.cardChange_close} >
+                {dataItemAlteracao && (
+                    <CardChange
+                        changeToogle={setToogleChange}
+                        refreshTable={FechData}
+                        data={dataItemAlteracao}
+                    />
+                )}
             </section>
             <section className={style.container_table} >
                 <section className={style.wrap_container_table} >
@@ -262,7 +282,7 @@ export default function Table() {
                                                 />
                                             </td>
                                             <td>{item.codigo}</td>
-                                            <td>{item.tipoMaquina}</td>
+                                            <td>{item.descricaoMaquina}</td>
                                             <td>
                                                 <p className={style.tagAtribuida} style={getColor((item.atribuida ? "ATRIBUÍDA" : "DISPONÍVEL"))} >
                                                     {item.atribuida ? "ATRIBUÍDA" : "DISPONÍVEL"}
@@ -278,7 +298,10 @@ export default function Table() {
                                             <td>
                                                 {item.numeroSerie}
                                             </td>
-                                            <td>
+                                            <td onClick={() => {
+                                                setDataItemAlteracao(item)
+                                                setToogleChange(true);
+                                            }} >
                                                 <FiEdit />
                                             </td>
                                         </tr>

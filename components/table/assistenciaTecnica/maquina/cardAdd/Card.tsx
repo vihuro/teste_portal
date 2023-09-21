@@ -4,7 +4,9 @@ import { useState } from "react";
 import Api from "../../../../../service/api/assistenciaTecnica/Assistencia";
 import Message from "../../../../message/Message";
 import ButtonUi from "../../../../UI/button/Button";
+import CardFilter from "../pecasDisponiveis/PecaDisponive";
 import { Icons } from "../../../../utils/IconDefault";
+import Loading from "../../../../loading/Loading";
 
 interface props {
     changeToogle: Function,
@@ -14,11 +16,9 @@ interface props {
 
 export default function Card({ changeToogle, refreshTable }: props) {
 
-
-
     const [novaMaquina, setNomaMaquina] = useState({
         codigoMaquina: "",
-        tipoMaquina: "",
+        descricaoMaquina: "",
         numeroSerie: ""
     })
     const [dataMessage, setDataMessage] = useState({
@@ -26,29 +26,38 @@ export default function Card({ changeToogle, refreshTable }: props) {
         type: "WARNING"
     })
     const [toogleMessage, setToogleMessage] = useState<boolean>(false);
+    const [tooglFilter, setToogleFilter] = useState<boolean>(false);
+    const [toogleLoading, setToogleLoading] = useState<boolean>(false);
 
 
     const { Input } = InputUi();
     const { Button } = ButtonUi();
+    const { CardPecas, FetchData: FetchDataPecas, listPecas, setListPecas } = CardFilter({
+        changeToogle: setToogleFilter
+    });
 
 
     async function AddMaquina() {
-        const { codigoMaquina, numeroSerie, tipoMaquina } = novaMaquina;
+        const { codigoMaquina, numeroSerie, descricaoMaquina } = novaMaquina;
         if (codigoMaquina === "" ||
-            tipoMaquina === "" ||
+            descricaoMaquina === "" ||
             numeroSerie === "") {
             setDataMessage({
                 message: "Campo(s) obrigatório(s) vazio(s)!",
                 type: "WARNIGN"
             })
+            setToogleLoading(false);
             setToogleMessage(true);
             return;
         }
         const obj = {
             codigoMaquina: codigoMaquina,
-            tipoMaquina: tipoMaquina,
+            descricaoMaquina: descricaoMaquina,
             numeroSerie: numeroSerie,
-            UserId: "96afb069-c572-4302-b631-8b6b16c825e7"
+            UserId: "2cb75138-9232-454e-8784-d777e50f7547",
+            pecas: listPecas.map(item => ({
+                idPeca: item.id
+            }))
         }
         await Api.post("/maquina", obj)
             .then(res => {
@@ -57,6 +66,12 @@ export default function Card({ changeToogle, refreshTable }: props) {
                     type: "SUCESS"
                 })
                 refreshTable()
+                setNomaMaquina({
+                    codigoMaquina: "",
+                    descricaoMaquina: "",
+                    numeroSerie: ""
+                })
+                setListPecas([])
             })
             .catch(err => {
                 if (err.response && (err.response.data)) {
@@ -69,6 +84,7 @@ export default function Card({ changeToogle, refreshTable }: props) {
             })
             .finally(() => {
                 setToogleMessage(true)
+                setToogleLoading(false);
             })
     }
     return (
@@ -82,7 +98,16 @@ export default function Card({ changeToogle, refreshTable }: props) {
                     message={dataMessage.message}
                     type={dataMessage.type}
                 />
-
+            </div>
+            <div className={toogleLoading ?
+                style.container_loading :
+                style.container_loading_close} >
+                <Loading />
+            </div>
+            <div className={tooglFilter ?
+                style.filterPeca :
+                style.filterPeca_close} >
+                <CardPecas />
             </div>
             <section className={style.title} >
                 <h3>
@@ -109,10 +134,10 @@ export default function Card({ changeToogle, refreshTable }: props) {
                         id="txtNovaMaquina"
                         text="Descrição"
                         autoComplete="off"
-                        value={novaMaquina.tipoMaquina}
+                        value={novaMaquina.descricaoMaquina}
                         onChange={(e) => setNomaMaquina({
                             ...novaMaquina,
-                            tipoMaquina: e.target.value
+                            descricaoMaquina: e.target.value
                         })}
                         maxLength={50}
                     />
@@ -137,14 +162,34 @@ export default function Card({ changeToogle, refreshTable }: props) {
                             <thead>
                                 <tr>
                                     <th>
-                                        PEÇA
+                                        CÓDIG
                                     </th>
                                     <th>
-                                        IMG.
+                                        DESCRIÇÃO
                                     </th>
+                                    <th>DEL.</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody className={style.table_body}>
+                                {listPecas && (
+                                    listPecas.map((item, index) => (
+                                        <tr key={index} >
+                                            <td>
+                                                {item.codigoRadar}
+                                            </td>
+                                            <td>
+                                                {item.descricao}
+                                            </td>
+                                            <td onClick={() =>
+                                                setListPecas(
+                                                    listPecas.filter(pecaId => pecaId.id !== item.id)
+                                                )
+                                            } >
+                                                <Icons.Delete />
+                                            </td>
+                                        </tr>
+                                    ))
+                                )}
                                 {/* <tr>
                                     <td>Rolamento</td>
                                     <td>
@@ -164,6 +209,11 @@ export default function Card({ changeToogle, refreshTable }: props) {
                             classUi="default"
                             color="blue"
                             icon={Icons.Filter}
+                            type="button"
+                            onClick={() => {
+                                FetchDataPecas()
+                                setToogleFilter(true)
+                            }}
                         />
                     </section>
 
@@ -176,7 +226,10 @@ export default function Card({ changeToogle, refreshTable }: props) {
                         color="green"
                         text="CADASTRAR"
                         type="button"
-                        onClick={() => AddMaquina()}
+                        onClick={() => {
+                            setToogleLoading(true)
+                            AddMaquina()
+                        }}
                     />
                 </div>
                 <div className={style.container_fechar} >

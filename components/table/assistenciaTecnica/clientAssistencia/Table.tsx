@@ -188,7 +188,11 @@ export default function Table() {
                                             style.container_codigo :
                                             style.container_codigo_close}
                                     >
-                                        <CardFilterCodigo />
+                                        <CardFilterCodigo
+                                            idRadioButton="rdbCodigoRadar"
+                                            input
+                                            radioButton
+                                        />
                                     </div>
                                 </th>
                                 <th>NOME/ CLIENTE
@@ -205,7 +209,11 @@ export default function Table() {
                                             style.container_nome :
                                             style.container_nome_close}
                                     >
-                                        <CardFilterNome />
+                                        <CardFilterNome
+                                            idRadioButton="rdbDescricaoRadar"
+                                            input
+                                            radioButton
+                                        />
                                     </div>
                                 </th>
                                 <th>

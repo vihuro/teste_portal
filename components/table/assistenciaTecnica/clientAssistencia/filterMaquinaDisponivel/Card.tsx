@@ -10,7 +10,7 @@ interface props {
 }
 interface maquinaProps {
     codigo: string,
-    tipoMaquina: string,
+    descricaoMaquina: string,
     numeroSerie: string,
     id: string
 }
@@ -43,7 +43,7 @@ export default function Card({ changeToogle }: props) {
         })))
         const { CardFilterColunaTable: CardFilterDescricao, filteredData: listDescricaoVisible } = FilterColuna(filterMaquina.map(item => ({
             id: item.id,
-            text: item.tipoMaquina
+            text: item.descricaoMaquina
         })))
         const { CardFilterColunaTable: CardFilterNumeroSerie, filteredData: listNumeroSerieVisible } = FilterColuna(filterMaquina.map(item => ({
             id: item.id,
@@ -55,7 +55,7 @@ export default function Card({ changeToogle }: props) {
             return (
                 !listMaquina.some(listMaquina => listMaquina.id === item.id) &&
                 listMaquinaVisible.some(listMaquinaVisible => listMaquinaVisible.codigo === item.codigo && listMaquinaVisible.visible) &&
-                listDescricaoVisible.some(descricao => descricao.text === item.tipoMaquina && descricao.visible) &&
+                listDescricaoVisible.some(descricao => descricao.text === item.descricaoMaquina && descricao.visible) &&
                 listNumeroSerieVisible.some(numeroSerie => numeroSerie.text === item.numeroSerie && numeroSerie.visible)
             )
         })
@@ -121,7 +121,7 @@ export default function Card({ changeToogle }: props) {
                                 filter.map((item, index) => (
                                     <tr key={index} >
                                         <td>{item.codigo}</td>
-                                        <td>{item.tipoMaquina}</td>
+                                        <td>{item.descricaoMaquina}</td>
                                         <td>{item.numeroSerie}</td>
                                         <td
                                             onClick={() => setListMaquina([
@@ -130,7 +130,7 @@ export default function Card({ changeToogle }: props) {
                                                     codigo: item.codigo,
                                                     id: item.id,
                                                     numeroSerie: item.numeroSerie,
-                                                    tipoMaquina: item.tipoMaquina
+                                                    descricaoMaquina: item.descricaoMaquina
                                                 }
                                             ])}
                                         >

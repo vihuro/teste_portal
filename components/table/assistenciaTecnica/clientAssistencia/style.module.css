@@ -192,31 +192,28 @@
 
 .container_codigo,
 .container_nome,
-.container_CNPJ {
+.container_CNPJ,
+.container_codigo_close,
+.container_nome_close,
+.container_CNPJ_close {
     position: absolute;
-    right: 0;
     width: 150px;
-    height: 150px;
+    height: 200px;
     background-color: white;
-    border-radius: 5px;
-    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.247);
     transition: .5s;
+    left: 0;
+    border-radius: 3px;
+    box-shadow: 1px 0 5px 1px rgba(0, 0, 0, 0.11);
+    transform-origin: top;
 }
 
 .container_CNPJ {
-    width: 150px;
+    width: 180px;
 }
 
 .container_codigo_close,
 .container_nome_close,
 .container_CNPJ_close {
-    position: absolute;
-    right: 0;
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-    transition: .5s;
-    overflow: hidden;
-    opacity: 0;
+    transform: scaleY(0);
     pointer-events: none;
 }

@@ -57,7 +57,8 @@
     top: 0;
     z-index: 1;
 }
-.table thead th{
+
+.table thead th {
     position: relative;
 }
 
@@ -79,16 +80,19 @@
     color: var(--text-color-blue-600);
     text-align: center;
 }
-.table_body tr:not(:last-child){
+
+.table_body tr:not(:last-child) {
     border-bottom: 1px solid var(--background-color-blue-700);
 }
+
 .table_body td {
     align-items: center;
     justify-content: center;
 }
+
 .tagAtribuida,
-.tagStatus{
-    background-color: rgb(41, 41, 41);   
+.tagStatus {
+    background-color: rgb(41, 41, 41);
     border-radius: 5px;
     padding: 5px;
     font-size: 12px;
@@ -125,7 +129,9 @@
 }
 
 .cardAdd,
-.cardAdd_close {
+.cardAdd_close,
+.cardChange,
+.cardChange_close {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -137,7 +143,8 @@
     transition: .5s;
 }
 
-.cardAdd_close {
+.cardAdd_close,
+.cardChange_close {
     transform: translateY(-350px);
     opacity: 0;
     pointer-events: none;
@@ -152,7 +159,7 @@
 .filterStatus,
 .filterStatus_close,
 .filterNumeroSerie,
-.filterNumeroSerie_close{
+.filterNumeroSerie_close {
     position: absolute;
     width: 150px;
     height: 200px;
@@ -163,11 +170,12 @@
     box-shadow: 1px 0 5px 1px rgba(0, 0, 0, 0.11);
     transform-origin: top;
 }
+
 .filterCodigo_close,
 .filterMaquina_close,
 .filterAtribuida_close,
 .filterStatus_close,
-.filterNumeroSerie_close{
+.filterNumeroSerie_close {
     transform: scaleY(0);
     pointer-events: none;
 }

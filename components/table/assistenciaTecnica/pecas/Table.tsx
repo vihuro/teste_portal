@@ -3,15 +3,18 @@ import Api from "../../../../service/api/assistenciaTecnica/Assistencia";
 import style from "./style.module.css";
 import { Icons } from "../../../utils/IconDefault";
 import CardAdd from "./add/Card";
+import CardChange from "./change/Card";
 
-import FilteredColuna from "../../filterColunaTable/CardFilterColuna"
+import FilteredColuna from "../../filterColunaTable/CardFilterColuna";
+import Visualizador from "./visualizadorImagem/Card";
+import { DateTimeStringFormat } from "../../../utils/DateTimeString";
 
 interface dataProps {
     id: string,
     codigoRadar: string,
     descricao: string,
     preco: number,
-    enderecoImagem: string[];
+    enderecoImagem: string;
     alteracao: userProps,
     cadastro: userProps
 }
@@ -27,19 +30,26 @@ interface userProps {
 export default function Table() {
     const [data, setData] = useState<dataProps[]>([]);
     const [filter, setFilter] = useState<dataProps[]>([]);
+    const [dataItemAlteracao, setDataItemAlteracao] = useState<dataProps>();
+    const [dataItemAlteracaoString, setDataItemAlteracaoString] = useState<string>("");
     const [toogleAdd, setToogleAdd] = useState<boolean>(false);
+    const [toogleChange, setToogleChange] = useState<boolean>(false);
     const [toogleInfoPlus, setToogleInfoPlus] = useState<boolean>(false);
     const [indiceInfoPlus, setIndiceInfoPlus] = useState<number>();
     const [colSpan, setColspan] = useState<number>(6);
     const [toogleFilterCodigo, setToogleFilterCodigo] = useState<boolean>(false);
     const [toogleFilterDescricao, setToogleFilterDescricao] = useState<boolean>(false);
-
+    const [toogleVisualizador, setToogleVisualizador] = useState<boolean>(false);
+    const [textImage, setTextImage] = useState<string>("");
 
 
     useEffect(() => {
         FecthData();
 
     }, [])
+    useEffect(() => {
+        alteracao(dataItemAlteracaoString);
+    }, [data])
 
     async function searchImage(caminho: string) {
         try {
@@ -67,7 +77,7 @@ export default function Table() {
     const { CardFilterColunaTable: CardFilterDescricao, filteredData: filteredDescricao, refresList: refresFiteredDescricao } = FilteredColuna({
         list: data.map(item => ({
             id: item.id,
-            text: item.codigoRadar
+            text: item.descricao
         }))
     })
     useEffect(() => {
@@ -100,6 +110,11 @@ export default function Table() {
         ))
         setFilter(filtered)
     }
+    function alteracao(id: string) {
+        const item = data.find(item => item.id === id);
+
+        return setDataItemAlteracao(item);
+    }
 
     return (
         <main className={style.container} >
@@ -108,9 +123,28 @@ export default function Table() {
                 style.containerAdd_close} >
                 <CardAdd changeToogle={setToogleAdd} refresTable={FecthData} />
             </div>
+            <div className={toogleChange ?
+                style.containerChange :
+                style.containerChange_close} >
+                {dataItemAlteracao && (
+                    <CardChange
+                        changeToogle={setToogleChange}
+                        data={dataItemAlteracao}
+                        refreshTable={FecthData}
+                    />
+                )}
+            </div>
+            <div className={toogleVisualizador ?
+                style.containerVisualizador :
+                style.containerVisualizador_close} >
+                <Visualizador
+                    changeToogle={setToogleVisualizador}
+                    image={textImage}
+                />
+            </div>
             <section className={style.container_button} >
                 <button onClick={() => setToogleAdd(true)} >
-                    Nova Peça
+                    NOVA PEÇA
                 </button>
             </section>
             <section className={style.container_table} >
@@ -177,11 +211,23 @@ export default function Table() {
                                             <td>{item.descricao}</td>
                                             <td>{item.preco}</td>
                                             <td >
-                                                <p className={style.visualizar}>
+                                                <p onClick={() => {
+                                                    if (item.enderecoImagem) {
+                                                        setTextImage(item.enderecoImagem)
+                                                        setToogleVisualizador(true)
+                                                    }
+                                                }} className={item.enderecoImagem ?
+                                                    style.visualizar :
+                                                    style.visualizar_disable}>
                                                     VISUALIZAR
                                                 </p>
                                             </td>
-                                            <td className={style.edit} >
+                                            <td onClick={() => {
+                                                alteracao(item.id)
+                                                setDataItemAlteracaoString(item.id)
+                                                
+                                                setToogleChange(true)
+                                            }} className={style.edit} >
                                                 <Icons.Edit />
                                             </td>
                                         </tr>
@@ -194,7 +240,7 @@ export default function Table() {
                                                 </tr>
                                                 <tr className={style.infoPlus} >
                                                     <td colSpan={colSpan} >
-                                                        {`DATA E HORA DO CADASTRO: ${item.cadastro.dataHora}`}
+                                                        {`DATA E HORA DO CADASTRO: ${DateTimeStringFormat(item.cadastro.dataHora)}`}
                                                     </td>
                                                 </tr>
                                                 <tr className={style.infoPlus} >
@@ -204,7 +250,7 @@ export default function Table() {
                                                 </tr>
                                                 <tr className={style.infoPlus} >
                                                     <td colSpan={colSpan} >
-                                                        {`DATA E HORA DA ALTERAÇÃO: ${item.alteracao.dataHora}`}
+                                                        {`DATA E HORA DA ALTERAÇÃO: ${DateTimeStringFormat(item.alteracao.dataHora)}`}
                                                     </td>
                                                 </tr>
                                             </>
