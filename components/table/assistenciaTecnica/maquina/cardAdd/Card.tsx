@@ -54,7 +54,7 @@ export default function Card({ changeToogle, refreshTable }: props) {
             codigoMaquina: codigoMaquina,
             descricaoMaquina: descricaoMaquina,
             numeroSerie: numeroSerie,
-            UserId: "2cb75138-9232-454e-8784-d777e50f7547",
+            UserId: "712565dd-913f-4927-bd65-99c3c7fcc8fe",
             pecas: listPecas.map(item => ({
                 idPeca: item.id
             }))

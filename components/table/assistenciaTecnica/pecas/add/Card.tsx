@@ -4,6 +4,8 @@ import ButtonUi from "../../../../UI/button/Button";
 import style from "./style.module.css";
 import FilterImages from "./filterImages/Card";
 import Api from "../../../../../service/api/assistenciaTecnica/Assistencia";
+import Message from "../../../../message/Message";
+import Loading from "../../../../loading/Loading";
 
 interface props {
     changeToogle: Function,
@@ -15,6 +17,12 @@ export default function Card({ changeToogle, refresTable }: props) {
     const { Button } = ButtonUi();
     const [image, setImage] = useState<string>("");
     const [toogleFilterImage, setToogleFilterImage] = useState<boolean>(false);
+    const [toogleLoading, setToogleLoading] = useState<boolean>(false);
+    const [toogleMessage, setToogleMessage] = useState<boolean>(false);
+    const [dataMessage, setDataMessage] = useState({
+        message: "",
+        type: "WARNING"
+    })
 
     const { CardFilterImage, FetchData: FetchDataImages } = FilterImages({ changeToogle: setToogleFilterImage, changeText: setImage });
 
@@ -28,17 +36,44 @@ export default function Card({ changeToogle, refresTable }: props) {
         const newData = {
             codigoRadar: novaPeca.codigoRadar,
             descricao: novaPeca.descricao,
-            preco: parseFloat(novaPeca.preco),
-            usuarioId: "2cb75138-9232-454e-8784-d777e50f7547",
+            preco: 0,
+            usuarioId: "712565dd-913f-4927-bd65-99c3c7fcc8fe",
             enderecoImagem: image
         }
 
-
-        Api.post("assistencia-tecnica/pecas", newData)
+        await Api.post("assistencia-tecnica/pecas", newData)
             .then(res => {
-                refresTable()
+                refresTable(),
+                    setDataMessage({
+                        message: "PEÇA CADASTRADA COM SUCESSO!",
+                        type: "SUCESS"
+                    }),
+                    setNovaPeca({
+                        codigoRadar: "",
+                        descricao: "",
+                        preco: ''
+                    })
             })
-            .catch(err => console.log(err));
+            .catch(err => {
+                console.log(err)
+                if (err && (err.response && err.response.data)) {
+                    
+                    setDataMessage({
+                        message: err.response.data,
+                        type: "WARNING"
+                    })
+                } else {
+                    setDataMessage({
+                        message: "ERRO NO SERVIDOR",
+                        type: "ERROR"
+                    })
+                }
+            })
+            .finally(() => {
+                setToogleMessage(true);
+                setToogleLoading(false);
+
+            });
     }
 
     return (
@@ -48,6 +83,21 @@ export default function Card({ changeToogle, refresTable }: props) {
                 style.containerFilterImage_close} >
 
                 <CardFilterImage />
+            </div>
+            <div className={toogleMessage ?
+                style.container_message :
+                style.container_message_close} >
+                <Message
+                    stateMessage={toogleMessage}
+                    action={setToogleMessage}
+                    message={dataMessage.message}
+                    type={dataMessage.type}
+                />
+            </div>
+            <div className={toogleLoading ?
+                style.container_loading :
+                style.container_loading_close} >
+                <Loading />
             </div>
             <header className={style.title}>
                 <h3>NOVA PEÇA</h3>
@@ -108,7 +158,10 @@ export default function Card({ changeToogle, refresTable }: props) {
                         color="green"
                         text="CADASTRAR"
                         type="button"
-                        onClick={() => Cadastrar()}
+                        onClick={() => {
+                            setToogleLoading(true),
+                                Cadastrar()
+                        }}
                     />
                 </div>
                 <div >

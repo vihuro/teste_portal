@@ -80,8 +80,10 @@ export default function Card({ changeToogle, refreshTable, data }: props) {
             pecas: dataItem?.pecas.map(item => ({
                 idPeca: item.pecaId
             })),
-            UserId:"2cb75138-9232-454e-8784-d777e50f7547"
+            UserId: "712565dd-913f-4927-bd65-99c3c7fcc8fe"
         }
+        console.log(toogleLoading)
+        console.log(obj)
         await Api.put("/maquina", obj)
             .then(res => {
                 setDataMessage({
@@ -208,8 +210,8 @@ export default function Card({ changeToogle, refreshTable, data }: props) {
                             icon={Icons.Filter}
                             type="button"
                             onClick={() => {
-                                setToogleLoading(true)
-                                Change()
+                                // setToogleLoading(true),
+                                //Change()
                             }}
                         />
                     </section>
@@ -223,7 +225,10 @@ export default function Card({ changeToogle, refreshTable, data }: props) {
                         color="green"
                         text="CADASTRAR"
                         type="button"
-                        onClick={() => Change()}
+                        onClick={() => {
+                            setToogleLoading(true),
+                                Change()
+                        }}
                     />
                 </div>
                 <div className={stye.container_fechar} >
