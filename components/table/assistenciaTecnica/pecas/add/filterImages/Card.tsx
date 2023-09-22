@@ -1,7 +1,7 @@
 import { useState } from "react";
 import style from "./style.module.css";
 import Api from "../../../../../../service/api/assistenciaTecnica/Assistencia";
-import Vizualizador from "./vizualizadorImage/VizualizadorImage";
+import Vizualizador from "../../visualizadorImagem/Card";
 import { Icons } from "../../../../../utils/IconDefault";
 
 
@@ -46,7 +46,7 @@ export default function FilterImagePeca({ changeToogle, changeText }: props) {
                         style.container_vizualizador_close} >
                     <Vizualizador
                         changeToogle={setToogleVizualizador}
-                        url={textImage}
+                        image={textImage}
                     />
                 </div>
                 <section className={style.container_table} >

@@ -180,8 +180,9 @@ const CardStorage = ({ changeToogle, refreshTable, searchColor }: props) => {
         quantidade: 0,
         preco: 0,
         dataFabricacao: new Date(),
+        nomeUltimoClienteCompra: "",
+        codigoUltimoClienteCompra: "",
         usuarioId: ""
-
     })
 
     async function Verify() {
@@ -192,6 +193,8 @@ const CardStorage = ({ changeToogle, refreshTable, searchColor }: props) => {
             materialEstoque.unidade === "" ||
             materialEstoque.tipoMaterialId === "" ||
             value === "" ||
+            materialEstoque.codigoUltimoClienteCompra === "" ||
+            materialEstoque.nomeUltimoClienteCompra === "" ||
             materialEstoque.dataFabricacao === null) {
             setMessage({
                 message: "Campo(s) obrigatório(s) vazio(s)!",
@@ -256,7 +259,6 @@ const CardStorage = ({ changeToogle, refreshTable, searchColor }: props) => {
                     setToogleLoading(false);
                     setToogleMessage(true);
                     refreshTable()
-                    console.log("dentro do card")
                 })
 
         }
@@ -463,7 +465,6 @@ const CardStorage = ({ changeToogle, refreshTable, searchColor }: props) => {
 
                     </div>
                     <div className={style.column_dataFabricacao} >
-
                         <input id="dataFabricacao"
                             type="date"
                             autoComplete="off"
@@ -476,8 +477,24 @@ const CardStorage = ({ changeToogle, refreshTable, searchColor }: props) => {
                         <label htmlFor="dataFabricacao">
                             Data / Fabri.
                         </label>
-
-
+                    </div>
+                    <div className={style.column_codigoUltimoClienteCompra} >
+                        <input id="txtCodigoUltimoClienteCompra"
+                            type="text"
+                            required
+                        />
+                        <label htmlFor="txtCodigoUltimoClienteCompra">
+                            CÓDIGO CLIENTE
+                        </label>
+                    </div>
+                    <div className={style.column_UltimoClienteCompra} >
+                        <input id="txtNomeUltimoClienteCompra"
+                            type="text"
+                            required
+                        />
+                        <label htmlFor="txtNomeUltimoClienteCompra">
+                            ÚTIMO CLIENTE COMPRA
+                        </label>
                     </div>
                 </section>
                 <footer className={style.container_button} >

@@ -37,7 +37,7 @@ export default function Card({ changeToogle, refresTable }: props) {
             codigoRadar: novaPeca.codigoRadar,
             descricao: novaPeca.descricao,
             preco: 0,
-            usuarioId: "712565dd-913f-4927-bd65-99c3c7fcc8fe",
+            usuarioId: "2cb75138-9232-454e-8784-d777e50f7547",
             enderecoImagem: image
         }
 

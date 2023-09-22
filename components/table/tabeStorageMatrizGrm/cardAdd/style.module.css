@@ -71,10 +71,11 @@
 
     .bodyCardAdd {
         display: grid;
-        grid-template-rows: 70px 60px 60px 60px 1fr;
-        grid-template-columns: 70px 70px 1fr;
+        grid-template-rows: 70px 60px 60px 60px 1fr !important;
+        grid-template-columns: repeat(4,1fr) !important;
         padding: 10px;
         overflow: auto;
+        gap: 10px;
 
     }
 
@@ -94,7 +95,7 @@
     }
 
     .column_description {
-        grid-area: 2/3/2/4 !important;
+        grid-area: 2/3/2/9 !important;
         position: relative !important;
         width: 90%;
     }
@@ -106,7 +107,7 @@
     }
 
     .column_type {
-        grid-area: 3/3/3/4 !important;
+        grid-area: 3/3/3/9 !important;
         position: relative !important;
         display: flex;
         width: 90%;
@@ -119,7 +120,7 @@
     }
 
     .column_preco {
-        grid-area: 4/3/4/4;
+        grid-area: 4/3/4/9;
         width: 90%;
         position: relative;
     }
@@ -128,6 +129,14 @@
         grid-area: 5/1/5/3;
         position: relative;
         width: 90%;
+    }
+    .column_codigoUltimoClienteCompra{
+        grid-area: 5/3/5/9;
+        position: relative;
+        width: 90%;
+    }
+    .column_UltimoClienteCompra{
+        grid-area: 6/1/6/9;
     }
 
     /* .dataFabricacao{
@@ -235,7 +244,7 @@
     .bodyCardAdd {
         display: grid;
         grid-template-rows: 100px 60px 60px 60px 1fr;
-        grid-template-columns: repeat(8,1fr);
+        grid-template-columns: repeat(8, 1fr);
         padding: 15px;
 
     }
@@ -245,34 +254,49 @@
         width: 90%;
         position: relative;
     }
+
     .column_description {
         grid-area: 2/4/3/9;
         position: relative;
     }
+
     .column_unidade {
         grid-area: 3/1/3/4;
         position: relative;
         width: 90%;
     }
+
     .column_type {
         grid-area: 3/4/3/6;
         position: relative;
         display: flex;
     }
+
     .column_quantidade {
         grid-area: 3/7/3/9;
         position: relative;
 
         left: -20px;
     }
-    .column_preco{
+
+    .column_preco {
         grid-area: 4/1/4/4;
         width: 90%;
     }
-    .column_dataFabricacao{
+
+    .column_dataFabricacao {
         grid-area: 4/4/4/9;
     }
-    
+
+    .column_codigoUltimoClienteCompra {
+        grid-area: 5/1/5/4;
+        width: 90%;
+    }
+
+    .column_UltimoClienteCompra {
+        grid-area: 5/4/5/9;
+    }
+
 
     .button {
         width: 155px;
@@ -444,7 +468,9 @@
 .column_quantidade input,
 .column_unidade input,
 .column_preco input,
-.column_dataFabricacao input {
+.column_dataFabricacao input,
+.column_codigoUltimoClienteCompra input,
+.column_UltimoClienteCompra input {
     width: 90%;
 
 }
@@ -455,7 +481,9 @@
 .column_type input,
 .column_quantidade input,
 .column_preco input,
-.column_dataFabricacao input {
+.column_dataFabricacao input,
+.column_codigoUltimoClienteCompra input,
+.column_UltimoClienteCompra input {
     padding: 17px 10px 10px 10px;
     border-radius: 4px;
     border: 1px solid rgba(102, 102, 102, 0.555);
@@ -483,22 +511,28 @@
 }
 
 
-.column_preco{
+.column_preco {
     position: relative;
 }
 
 
-.column_dataFabricacao{
+.column_dataFabricacao {
     position: relative;
 }
 
+.column_codigoUltimoClienteCompra,
+.column_UltimoClienteCompra {
+    position: relative;
+}
 
 
 .column_description label,
 .column_preco label,
 .column_dataFabricacao label,
 .column_quantidade label,
-.column_unidade label {
+.column_unidade label,
+.column_codigoUltimoClienteCompra label,
+.column_UltimoClienteCompra label {
     position: absolute;
     left: 7px;
     font-size: 14px;
@@ -516,7 +550,11 @@
 .column_dataFabricacao input~label,
 .column_dataFabricacao input:focus~label,
 .column_unidade input:focus~label,
-.column_unidade input:valid~label {
+.column_unidade input:valid~label,
+.column_codigoUltimoClienteCompra input:focus~label,
+.column_codigoUltimoClienteCompra input:valid~label,
+.column_UltimoClienteCompra input:focus~label,
+.column_UltimoClienteCompra input:valid~label {
     transform: translateY(-23px);
     background-color: rgb(10, 0, 146);
     color: white;
@@ -603,23 +641,24 @@
 } */
 
 .listTipo_close,
-.listUnidade_close  {
+.listUnidade_close {
     height: 1px;
     transition: .5s;
     opacity: 0;
     pointer-events: none;
 
 }
+
 .listTipo,
 .listUnidade {
     height: 100px;
     transition: .5s;
 }
 
-.listTipo ,
+.listTipo,
 .listTipo_close,
 .listUnidade,
-.listUnidade_close  {
+.listUnidade_close {
     width: 150px;
     overflow: auto;
     background-color: rgb(0, 10, 95);
@@ -630,8 +669,8 @@
     z-index: 1;
 }
 
-.listTipo  li,
-.listTipo_close  li,
+.listTipo li,
+.listTipo_close li,
 .listUnidade li,
 .listUnidade_close li {
     padding: 5px;

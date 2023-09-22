@@ -68,7 +68,7 @@ export default function Card({ changeToogle, refreshTable, data }: props) {
                 descricao: dataAlteracao.descricao,
                 preco: dataAlteracao.preco,
                 enderecoImagem: dataAlteracao.enderecoImagem,
-                usuarioId: "712565dd-913f-4927-bd65-99c3c7fcc8fe"
+                usuarioId: "2cb75138-9232-454e-8784-d777e50f7547"
             }
             await Api.put("/assistencia-tecnica/pecas", obj)
                 .then(res => {

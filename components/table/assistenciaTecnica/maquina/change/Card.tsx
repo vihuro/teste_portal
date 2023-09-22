@@ -80,7 +80,7 @@ export default function Card({ changeToogle, refreshTable, data }: props) {
             pecas: dataItem?.pecas.map(item => ({
                 idPeca: item.pecaId
             })),
-            UserId: "712565dd-913f-4927-bd65-99c3c7fcc8fe"
+            UserId: "2cb75138-9232-454e-8784-d777e50f7547"
         }
         console.log(toogleLoading)
         console.log(obj)
