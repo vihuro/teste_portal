@@ -17,7 +17,9 @@
 .container_novoProduto,
 .container_novoProduto_close,
 .container_change,
-.container_change_close {
+.container_change_close,
+.container_orcamento,
+.container_orcamento_close {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -31,7 +33,8 @@
 
 
 .container_novoProduto_close,
-.container_change_close {
+.container_change_close,
+.container_orcamento_close {
     transform: translateY(-400px);
     opacity: 0;
     pointer-events: none;

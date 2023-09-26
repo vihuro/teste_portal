@@ -6,6 +6,7 @@ export interface tokenProps {
     unique_name: string,
     "ESTOQUE - GRM - MATRIZ": string,
     "EXPEDICAO": string,
-    "PRODUÇÃO": string
+    "PRODUÇÃO": string,
+    "ASSISTÊNCIA TÉCNICA": string
 }
 

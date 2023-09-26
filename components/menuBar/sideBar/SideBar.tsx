@@ -52,7 +52,10 @@ export default function SideBar() {
                         setMarginTop("110px");
                         break;
                     case "GERENCIAL":
-                        setMarginTop("220px");
+                        setMarginTop("285px");
+                        break;
+                    case "ASSISTÊNCIA TÉCNICA":
+                        setMarginTop("225px");
                         break;
                     case "COMPRAS":
                         setMarginTop("165px");
@@ -205,7 +208,7 @@ export default function SideBar() {
             text: "COMPRAS",
             role: [
                 {
-                    name: "COMPRAS - FÁBRICA",
+                    name: "GERENCIAL",
                     value: "TI"
                 },
                 {
@@ -222,6 +225,15 @@ export default function SideBar() {
                     value: "TI"
                 },
             ]
+        },
+        {
+            text: "ASSISTÊNCIA TÉCNICA",
+            role: [
+                {
+                    name: "GERENCIAL",
+                    value: "TI"
+                },
+            ]
         }
     ]
     function validateModulo({ text }: { text: string }) {
@@ -229,9 +241,11 @@ export default function SideBar() {
         if (!valueToken) {
             return false; // Não há informações de token, não permitir acesso
         }
+        
 
 
         const found = roles.find(item => item.text.toLowerCase() === text.toLowerCase());
+        
         const foundToken = found?.role.some(item =>
             valueToken[item.name as keyof tokenProps])
 

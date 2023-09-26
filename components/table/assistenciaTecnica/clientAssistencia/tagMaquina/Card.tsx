@@ -127,7 +127,10 @@ export default function Card({ maquina, abrirOrdemService }: props) {
                                     </td>
                                     <td>
                                         {item.status === "Liberada" ?
-                                            <p className={style.buttonAtalho} style={GetColor("Abrir Ordem de Serviço")}>
+                                            <p className={style.buttonAtalho} 
+                                            style={GetColor("Abrir Ordem de Serviço")}
+                                            onClick={() => abrirOrdemService(true)}
+                                            >
                                                 Abrir Ordem de Serviço
                                             </p>
                                             :

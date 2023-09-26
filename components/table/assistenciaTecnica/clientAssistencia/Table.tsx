@@ -5,8 +5,7 @@ import { BiArrowFromTop } from "react-icons/bi";
 import { CiMenuKebab } from "react-icons/ci";
 import FormAdd from "./add/Card";
 import FormChange from "./change/Card";
-import FilterCodigo from "./filterCodigo/Card";
-import FilterNome from './filterNome/Card';
+import FormOrcamento from "./CardAddOrcameto/Card";
 import FilterCNPJ from "./filterCnpj/Card";
 import FilterColuna from "../../filterColunaTable/CardFilterColuna";
 import TagMaquina from "./tagMaquina/Card";
@@ -52,6 +51,7 @@ export default function Table() {
     const [dataItemAlteracao, setDataItemAlteracao] = useState<dataProps>();
     const [toogleFormAdd, setToogleFormAdd] = useState<boolean>(false);
     const [toogleFormChange, setToogleFormChange] = useState<boolean>(false);
+    const [toogleFormOrcamento, setToogleFormOrcamento] = useState<boolean>(false);
     const [toogleInfoPlus, setToogleInfoPlus] = useState<boolean>(false);
     const [toogleFiterCodigo, setToogleFilterCodigo] = useState<boolean>(false);
     const [toogleFilterNome, setToogleFilterNome] = useState<boolean>(false);
@@ -161,6 +161,14 @@ export default function Table() {
                         refreshTable={FecthData}
                     />
                 )}
+            </div>
+            <div className={toogleFormOrcamento ?
+                style.container_orcamento :
+                style.container_orcamento_close}>
+                <FormOrcamento
+                    changeToogle={setToogleFormOrcamento}
+                    cliente={dataItemAlteracao}
+                />
             </div>
             <section className={style.container_button} >
                 <button onClick={() => setToogleFormAdd(true)} >
@@ -273,7 +281,11 @@ export default function Table() {
                                                     style.tag_maquina :
                                                     style.tag_maquina_close} >
                                                     <TagMaquina
-                                                        abrirOrdemService={() => console.log("olá mundo")}
+                                                        abrirOrdemService={() => {
+                                                            alteracao(item.idCliente),
+                                                                setDataItemString(item.idCliente),
+                                                                setToogleFormOrcamento(true)
+                                                        }}
                                                         maquina={item.maquinaCliente.map(item => ({
                                                             tipoMaquina: item.tipoMaquina,
                                                             numeroSerie: item.numeroSerie,

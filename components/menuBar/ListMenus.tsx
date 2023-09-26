@@ -2,6 +2,7 @@ import { BsBoxes } from "react-icons/bs";
 import { FaServer, FaTruck } from "react-icons/fa";
 import { MdOutlineEngineering } from "react-icons/md";
 import { AiOutlineShoppingCart } from "react-icons/ai";
+import { BsTools } from "react-icons/bs";
 
 interface RotasProps {
     text: string;
@@ -89,6 +90,76 @@ const List = [
         visible: false,
         icon: <AiOutlineShoppingCart />,
         rotas: []
+    },
+    {
+        class: "row",
+        text: "ASSISTÊNCIA TÉCNICA",
+        link: "/#",
+        visible: false,
+        icon: <BsTools />,
+        rotas: [
+            {
+                text: "Fábrica",
+                link: "/#"
+            },
+            {
+                text: "Matriz",
+                visible: false,
+                rotas: [
+                    {
+                        text: "BI",
+                        rotas: [
+                            {
+                                text: "",
+                                visible: false,
+                                link: "/assistencia-tecnica/bi"
+                            }
+                        ]
+                    },
+                    {
+                        text: "ORÇAMENTOS",
+                        rotas: [
+                            {
+                                text: "",
+                                visible: false,
+                                link: "/assistencia-tecnica/orcamento"
+                            }
+                        ]
+                    },
+                    {
+                        text: "CLIENTE",
+                        rotas: [
+                            {
+                                text: "",
+                                visible: false,
+                                link: "/assistencia-tecnica/cliente"
+                            }
+                        ]
+                    },
+                    {
+                        text: "PEÇAS",
+                        rotas: [
+                            {
+                                text: "",
+                                visible: false,
+                                link: "/assistencia-tecnica/pecas"
+                            }
+                        ]
+                    },
+                    {
+                        text: "MÁQUINAS",
+                        rotas: [
+                            {
+                                text: "",
+                                visible: false,
+                                link: "/assistencia-tecnica/maquina"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+
     },
     {
         class: "row",

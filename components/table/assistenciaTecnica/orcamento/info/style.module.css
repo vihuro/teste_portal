@@ -1,0 +1,189 @@
+.container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: grid;
+    grid-template-rows: 60px 1fr;
+}
+
+.container_header {
+    grid-area: 1/1/1/1;
+    display: flex;
+    justify-content: left;
+    align-items: flex-end;
+}
+
+.container_header button {
+    margin-left: 50px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 22px;
+    background-color: var(--background-color-blue-700);
+    color: white;
+    border: 0;
+}
+
+.container_body {
+    grid-area: 2/1/2/1;
+    position: relative;
+    grid-template-rows: repeat(4, 20px) 1fr 1fr;
+    display: grid;
+    overflow: auto;
+}
+
+.checked {
+    appearance: none;
+    width: 22px;
+    height: 22px;
+    border: 1px solid rgba(97, 97, 97, 0.392);
+    border-radius: 50%;
+}
+
+.checked:checked {
+    background-image: radial-gradient(rgba(255, 255, 255, 0.904) 35%, rgb(6, 196, 133) 45%);
+}
+
+.containerTablePecas {
+    grid-area: 1/2/4/2;
+    overflow: hidden;
+    display: grid;
+
+    padding: 0 0 0 10px;
+}
+
+.wrapContainerTable,
+.wrapContainerStatus {
+    border-radius: 7px;
+    overflow: auto;
+}
+
+.table,
+.table_status {
+    border-collapse: collapse;
+    text-align: center;
+    width: 100%;
+
+}
+
+.table thead,
+.table_status thead {
+    background-color: var(--background-color-blue-700);
+    color: white;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.table thead tr th,
+.table_status thead tr th {
+    padding: 7px;
+}
+
+.container_tableBody tr td,
+.container_tableBody_status tr td {
+    padding: 20px;
+}
+
+.container_tableBody tr:not(:last-child),
+.container_tableBody_status tr:not(:last-child) {
+    border-bottom: 1px solid black;
+}
+
+.container_tableBody,
+.container_tableBody_status {
+    background-color: rgba(219, 233, 240, .5);
+    font-weight: 500;
+    color: var(--text-color-blue-400);
+}
+
+@media(min-width:440px) {
+    .wrapContainer_body {
+        margin: 20px 10px 0 10px;
+        display: grid;
+        gap: 20px;
+        grid-template-columns: repeat(8, 1fr);
+        grid-template-rows: repeat(8, 1fr);
+    }
+
+    .containerCodigoCliente {
+        grid-area: 1/1/1/3;
+    }
+
+    .containerNomeCliente {
+        grid-area: 1/3/1/5;
+    }
+
+    .containerCNPJCliente {
+        grid-area: 1/5/1/7;
+    }
+
+    .containerCEPCliente {
+        grid-area: 1/7/1/9;
+    }
+
+    .containerRuaCliente {
+        grid-area: 2/1/2/5;
+        width: 104%;
+    }
+
+    .containerNumeroEstabelecimento {
+        grid-area: 2/5/2/7;
+    }
+
+    .containerCidadeCliente {
+        grid-area: 2/7/2/9;
+    }
+
+    .containerRegiaoCliente {
+        grid-area: 3/1/3/3;
+    }
+
+    .containerComplementoCliente {
+        grid-area: 3/3/3/5;
+    }
+
+    .containerNomeContatoCliente {
+        grid-area: 3/5/3/7;
+    }
+
+    .containerTelefoneContatoCliente {
+        grid-area: 3/7/3/9;
+    }
+
+    .containerDescricaoServico {
+        grid-area: 4/1/4/9;
+    }
+
+    .containerDescricaoServico input {
+        width: 110% !important;
+    }
+
+    .containerMaquina {
+        grid-area: 5/1/9/9;
+        display: grid;
+        grid-template-columns: 200px 1fr;
+        grid-template-rows: repeat(5, 50px);
+    }
+
+    .container_infoMaquina {
+        display: 1/1/1/5;
+        display: grid;
+        gap: 10px;
+        grid-template-rows: 0.001fr;
+    }
+
+    .containerStatus {
+        grid-area: 9/1/13/9;
+        display: grid;
+        height: 200px;
+
+    }
+
+
+
+}

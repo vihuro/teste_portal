@@ -96,7 +96,7 @@ export default function Card({ changeToogle, dataProps, refreshTable }: props) {
             regiao: data?.regiao,
             rua: data?.rua,
             numeroEstabelecimento: data?.numeroEstabelecimento,
-            userId: "2cb75138-9232-454e-8784-d777e50f7547",
+            userId: "96afb069-c572-4302-b631-8b6b16c825e7",
             complemento: data?.complemento,
             nomeContatoCliente: data?.contatoNome,
             contatoTelefone: data?.contatoTelefone,
