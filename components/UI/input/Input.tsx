@@ -6,7 +6,7 @@ type inputProps = {
     id: string,
     iconLeft?: iconProps,
     iconRight?: iconProps,
-    blocked?: boolean
+    blocked?: boolean,
 } & InputHTMLAttributes<HTMLInputElement>
 
 interface iconProps {

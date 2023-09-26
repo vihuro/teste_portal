@@ -6,6 +6,9 @@ import { useEffect, useState } from "react";
 import Message from "../../../../message/Message";
 import Loading from "../../../../loading/Loading";
 import Api from "../../../../../service/api/assistenciaTecnica/Assistencia";
+import TokenDrecriptor from "../../../../../service/DecriptorToken";
+import { tokenProps } from "../../../../utils/infoToken";
+import { parseCookies } from "nookies";
 
 interface props {
     changeToogle: Function,
@@ -56,6 +59,7 @@ export default function Card({ changeToogle, refreshTable, data }: props) {
     useEffect(() => {
         setDataItem(data);
     }, [data])
+    const tokenInfo: tokenProps = TokenDrecriptor(parseCookies().ACCESS_TOKEN)
 
     async function Change() {
         if (dataItem &&
@@ -80,7 +84,7 @@ export default function Card({ changeToogle, refreshTable, data }: props) {
             pecas: dataItem?.pecas.map(item => ({
                 idPeca: item.pecaId
             })),
-            UserId: "96afb069-c572-4302-b631-8b6b16c825e7"
+            UserId: tokenInfo.idUser
         }
         console.log(toogleLoading)
         console.log(obj)

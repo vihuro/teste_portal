@@ -1,17 +1,13 @@
 import { useEffect, useState } from "react";
 import style from "./style.module.css";
 import Api from "../../../../service/api/assistenciaTecnica/Assistencia";
-import Info from "./info/Info";
-import { Icons } from "../../../utils/IconDefault";
-import Filter from "../../filterColunaTable/CardFilterColuna";
 
 
 interface dataProps {
     numeroOrcamento: number,
     descricaoServico: string,
     status: statusProps[],
-    cliente: clienteProps,
-    maquina: maquinaProps,
+    cliente: clienteProps
 }
 interface statusProps {
     dataHoraFim: Date
@@ -22,8 +18,6 @@ interface clienteProps {
     cep: string,
     cidade: string,
     cnpj: string,
-    contatoNomeCliente: string,
-    contatoTelefoneCliente: string,
     codigoRadar: string,
     estado: string,
     nomeCliente: string,
@@ -31,33 +25,10 @@ interface clienteProps {
     regiao: string,
     rua: string
 }
-interface maquinaProps {
-    maquinaId: string,
-    codigoMaquina: string,
-    descricaoMaquina: string,
-    numeroSerie: string,
-    pecas: pecasProps[]
-}
-interface pecasProps {
-    pecaId: string,
-    conserto: boolean,
-    descricaoPeca: string,
-    codigoPeca: string,
-    enderecoImagem: string,
-    preco: number,
-    troca: boolean
-}
-
 
 export default function Table() {
 
     const [data, setData] = useState<dataProps[]>([]);
-    const [dataInfo, setDataInfo] = useState<dataProps>();
-    const [toogleInfo, setToogleInfo] = useState<boolean>(false);
-    const [toogleFilterNumeroOrcamento, setToogleFilterNumeroOrcamento] = useState<boolean>(false);
-    const [toogleFilterCodigoCliente, setToogleFilterCodigoCliente] = useState<boolean>(false);
-    const [toogleFilterNomeCliente, setToogleFilterNomeCliente] = useState<boolean>(false);
-    const [toogleFilterNumeroSerie, setToogleFilterNumeroSerie] = useState<boolean>(false);
 
     useEffect(() => {
         Api.get("/orcamento")
@@ -67,148 +38,44 @@ export default function Table() {
             })
             .catch(err => console.log(err))
     }, [])
-    const { CardFilterColunaTable: FilterNumeroOrcamento, filteredData: filteredNumeroOrcamento, refresList: refreshListNumeroOrcamento } = Filter({
-        list: data.map(item => ({
-            id: item.numeroOrcamento.toString(),
-            text: item.numeroOrcamento.toString()
-        })),
-    })
-    const { CardFilterColunaTable: FilterCodigoCliente, filteredData: filteredCodigoCliente, refresList: refreshListCodigoCliente } = Filter({
-        list: data.map(item => ({
-            id: item.cliente.codigoRadar,
-            text: item.cliente.codigoRadar
-        }))
-    })
-    const { CardFilterColunaTable: FilterNomeCliente, filteredData: filteredNomeCliente } = Filter({
-        list: data.map(item => ({
-            id: item.cliente.nomeCliente,
-            text: item.cliente.nomeCliente
-        }))
-    })
-    const { CardFilterColunaTable: FilterNumeroSerie, filteredData: filteredNumeroSerie, refresList: refreshListNumeroSerie } = Filter({
-        list: data.map(item => ({
-            id: item.maquina.numeroSerie,
-            text: item.maquina.numeroSerie
-        }))
-    })
-
-    const filtered = data.filter(item => (
-        filteredNumeroOrcamento.some(numeroOrcamento => item.numeroOrcamento.toString() === numeroOrcamento.text && numeroOrcamento.visible) &&
-        filteredCodigoCliente.some(codigoCliente => item.cliente.codigoRadar === codigoCliente.text && codigoCliente.visible) &&
-        filteredNomeCliente.some(nomeCliente => item.cliente.nomeCliente === nomeCliente.text && nomeCliente.visible) &&
-        filteredNumeroSerie.some(numeroSerie => item.maquina.numeroSerie === numeroSerie.text && numeroSerie.visible)
-    ))
 
     return (
         <div className={style.container} >
             <section>
             </section>
-            {data && dataInfo && (
-
-                <div className={toogleInfo ?
-                    style.container_info :
-                    style.container_info_close} >
-                    <Info changeToogle={setToogleInfo} dataProps={dataInfo} />
-                </div>
-            )}
-            <section className={!toogleInfo ?
-                style.container_table :
-                style.container_table_close} >
+            <section className={style.container_table} >
                 <section className={style.wrap_container_table} >
                     <table className={style.table} >
                         <thead>
                             <tr>
-                                <th></th>
-                                <th onClick={() => {
-                                    setToogleFilterNumeroOrcamento(!toogleFilterNumeroOrcamento)
-                                    setToogleFilterCodigoCliente(false);
-                                    setToogleFilterNomeCliente(false);
-                                    setToogleFilterNumeroSerie(false);
-                                }} >
-                                    Nº ORÇAMENTO
-                                    <div onClick={e => e.stopPropagation()} className={toogleFilterNumeroOrcamento ?
-                                        style.containerFilterNumeroOrcamento :
-                                        style.containerFilterNumeroOrcamento_close} >
-                                        <FilterNumeroOrcamento
-                                            idRadioButton="rdbNumeroOrcamento"
-                                            input
-                                            radioButton
-                                        />
-                                    </div>
-                                </th>
-                                <th onClick={() => {
-                                    setToogleFilterNumeroOrcamento(false)
-                                    setToogleFilterCodigoCliente(!toogleFilterCodigoCliente);
-                                    setToogleFilterNomeCliente(false);
-                                    setToogleFilterNumeroSerie(false);
-                                }} >
-                                    CÓDIGO / CLIENTE
-                                    <div onClick={e => e.stopPropagation()} className={toogleFilterCodigoCliente ?
-                                        style.containerFilterCodigoCliente :
-                                        style.containerFilterCodigoCliente_close} >
-                                        <FilterCodigoCliente
-                                            idRadioButton="rdbCodigoCliente"
-                                            input
-                                            radioButton
-                                        />
-                                    </div>
-                                </th>
-                                <th onClick={() => {
-                                    setToogleFilterNumeroOrcamento(false)
-                                    setToogleFilterCodigoCliente(false);
-                                    setToogleFilterNomeCliente(!toogleFilterNomeCliente);
-                                    setToogleFilterNumeroSerie(false);
-                                }} >
-                                    NOME / CLIENTE
-                                    <div onClick={e => e.stopPropagation()} className={toogleFilterNomeCliente ?
-                                        style.containerFilterNomeCliente :
-                                        style.containerFilterNomeCliente_close} >
-                                        <FilterNomeCliente
-                                            idRadioButton="rdbNomeCliente"
-                                            input
-                                            radioButton
-                                        />
-                                    </div>
-                                </th>
-                                <th>STATUS</th>
-                                <th onClick={() => {
-                                    setToogleFilterNumeroOrcamento(false)
-                                    setToogleFilterCodigoCliente(false);
-                                    setToogleFilterNomeCliente(false);
-                                    setToogleFilterNumeroSerie(!toogleFilterNumeroSerie);
-                                }} >
-                                    Nº SÉRIE
-                                    <div onClick={e => e.stopPropagation()} className={toogleFilterNumeroSerie ?
-                                        style.containerFilterNumeroSerie :
-                                        style.containerFilterNumeroSerie_close} >
-                                        <FilterNumeroSerie
-                                            idRadioButton="rdbNumeroSerie"
-                                            input
-                                            radioButton
-                                        />
-                                    </div>
-                                </th>
-                                <th>INFO</th>
+                                <th>+</th>
+                                <th>Nº ORÇAMENTO</th>
+                                <th>CÓDIGO / CLIENTE</th>
+                                <th>NOME / CLIENTE</th>
+                                <th>DESCRIÇÃO SERVIÇO</th>
+                                <th>MÁQUINA</th>
+                                <th>DATA/HORA AGUARD. / ORÇ.</th>
+                                <th>DATA/HORA AGUARD. / APROV. ORÇ.</th>
+                                <th>DATA/HORA LIB. / APROV. ORÇ.</th>
+                                <th>DATA/HORA MANUT. / INI</th>
+                                <th>DATA/HORA MANUT. / FIM</th>
                             </tr>
                         </thead>
                         <tbody className={style.table_body} >
-                            {filtered && (
-                                filtered.map((item, index) => (
-                                    <tr key={index} >
-                                        <td className={style.containerInfoPlusRow} >
-                                            <Icons.ArrowFromTop />
-                                        </td>
+                            {data && (
+                                data.map((item, index) => (
+                                    <tr>
+                                        <td>+</td>
                                         <td>{item.numeroOrcamento}</td>
                                         <td>{item.cliente.codigoRadar}</td>
                                         <td>{item.cliente.nomeCliente}</td>
-                                        <td>AGUARDANDO ORÇAMENTO</td>
-                                        <td>{item.maquina.numeroSerie}</td>
-                                        <td className={style.infoPlus} onClick={() => {
-                                            setDataInfo(item)
-                                            setToogleInfo(true)
-                                        }} >
-                                            <Icons.Information />
-                                        </td>
+                                        <td>{item.descricaoServico}</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        A<td></td>
                                     </tr>
                                 ))
                             )}
@@ -217,6 +84,6 @@ export default function Table() {
                     </table>
                 </section>
             </section>
-        </div >
+        </div>
     )
 }

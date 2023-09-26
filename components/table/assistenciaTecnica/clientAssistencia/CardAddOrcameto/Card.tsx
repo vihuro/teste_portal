@@ -5,6 +5,9 @@ import style from "./style.module.css";
 import Message from "../../../../message/Message";
 import Loading from "../../../../loading/Loading";
 import Api from "../../../../../service/api/assistenciaTecnica/Assistencia";
+import { tokenProps } from "../../../../utils/infoToken";
+import TokenDrecriptor from "../../../../../service/DecriptorToken";
+import { parseCookies } from "nookies";
 
 interface props {
     changeToogle: Function,
@@ -56,12 +59,13 @@ export default function Card({ changeToogle, cliente }: props) {
     })
     const [toogleListTecnico, setToogleListTecnico] = useState<boolean>(false);
     const [descricaoServico, setDescricaoServico] = useState<string>("");
-    console.log(cliente)
+
+    const tokenInfo: tokenProps = TokenDrecriptor(parseCookies().ACCESS_TOKEN)
 
     async function InsertOrcamento() {
         const obj = {
             descricaoServico: descricaoServico,
-            userId: "96afb069-c572-4302-b631-8b6b16c825e7",
+            userId: tokenInfo.idUser,
             MaquinaId: cliente?.maquinaCliente[0].maquinaId
         }
         await Api.post("/orcamento", obj)
@@ -117,7 +121,8 @@ export default function Card({ changeToogle, cliente }: props) {
                     <Input
                         id="txtClienteOrcamento"
                         text="CLIENTE"
-                        value={cliente?.nome}
+                        value={cliente ? cliente.nome : ""}
+                        onChange={() => { }}
                         blocked
                     />
                 </div>
@@ -125,7 +130,8 @@ export default function Card({ changeToogle, cliente }: props) {
                     <Input
                         id="txtMaquinaOrcamento2"
                         text="Nº SÉRIE"
-                        value={cliente?.maquinaCliente[0].numeroSerie}
+                        value={cliente && (cliente.maquinaCliente.length > 0) ? cliente.maquinaCliente[0].numeroSerie : ""}
+                        onChange={() => { }}
                         blocked
                     />
                 </div>
@@ -133,7 +139,8 @@ export default function Card({ changeToogle, cliente }: props) {
                     <Input
                         id="txtCodigoMaquinaOrcamento"
                         text="CÓD. MAQ"
-                        value={cliente?.maquinaCliente[0].codigoMaquina}
+                        value={cliente && (cliente.maquinaCliente.length > 0) ? cliente.maquinaCliente[0].codigoMaquina : ""}
+                        onChange={() => { }}
                         blocked
                     />
                 </div>
@@ -141,7 +148,8 @@ export default function Card({ changeToogle, cliente }: props) {
                     <Input
                         id="txtMaquinaOrcamento"
                         text="MÁQUINA"
-                        value={cliente?.maquinaCliente[0].tipoMaquina}
+                        value={cliente && (cliente.maquinaCliente.length > 0) ? cliente.maquinaCliente[0].tipoMaquina : ""}
+                        onChange={() => { }}
                         blocked
                     />
                 </div>

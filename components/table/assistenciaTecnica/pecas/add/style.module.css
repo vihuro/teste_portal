@@ -55,6 +55,9 @@
         padding: 7px;
     }
 }
+.title h3{
+    color: var(--text-color-blue-600);
+}
 
 @media(min-width:430px) {
     .card {

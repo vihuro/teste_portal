@@ -8,6 +8,9 @@ import { BiFilterAlt, BiSearchAlt2 } from "react-icons/bi";
 import Message from "../../../../message/Message";
 import { AiOutlineDelete } from "react-icons/ai";
 import Loading from "../../../../loading/Loading";
+import { tokenProps } from "../../../../utils/infoToken";
+import TokenDrecriptor from "../../../../../service/DecriptorToken";
+import { parseCookies } from "nookies";
 
 
 interface props {
@@ -44,8 +47,9 @@ export default function Card({ changeToogleCard, refreshTable }: props) {
         message: "",
         type: "WARNING"
     });
-
     const [toogleFilterMaquina, setToogleFilterMaquina] = useState<boolean>(false);
+    const tokenInfo: tokenProps = TokenDrecriptor(parseCookies().ACCESS_TOKEN)
+
 
     const { CardFilterMaquinaDisponivel,
         listMaquina,
@@ -117,7 +121,7 @@ export default function Card({ changeToogleCard, refreshTable }: props) {
             nome: nome,
             nomeContatoCliente: nomeContatoCliente,
             cnpj: valueCnpj.replaceAll(".", "").replace("/", "").replace("-", ""),
-            userId: "96afb069-c572-4302-b631-8b6b16c825e7",
+            userId: tokenInfo.idUser,
             maquinas: listMaquina.map(item => ({
                 maquinaId: item.id
             }))
@@ -177,6 +181,15 @@ export default function Card({ changeToogleCard, refreshTable }: props) {
         setListMaquina([])
     }
     async function SearchCEP() {
+        if (textCep === "") {
+            setDataMessage({
+                message: "Digite um cep!",
+                type: "WARNING"
+            })
+            setToogleMessage(true);
+            setToogleLoading(false)
+            return;
+        }
         const cep = parseInt(textCep)
 
         await Api.get(`/cep/${cep}`)

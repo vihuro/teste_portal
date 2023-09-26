@@ -6,6 +6,9 @@ import FilterImages from "./filterImages/Card";
 import Api from "../../../../../service/api/assistenciaTecnica/Assistencia";
 import Message from "../../../../message/Message";
 import Loading from "../../../../loading/Loading";
+import { tokenProps } from "../../../../utils/infoToken";
+import TokenDrecriptor from "../../../../../service/DecriptorToken";
+import { parseCookies } from "nookies";
 
 interface props {
     changeToogle: Function,
@@ -23,6 +26,8 @@ export default function Card({ changeToogle, refresTable }: props) {
         message: "",
         type: "WARNING"
     })
+    const [valuePrecoDooble, setValuePrecoDooble] = useState<number>();
+    const [valuePrecoString, setValuePrecoString] = useState<string>("");
 
     const { CardFilterImage, FetchData: FetchDataImages } = FilterImages({ changeToogle: setToogleFilterImage, changeText: setImage });
 
@@ -31,15 +36,43 @@ export default function Card({ changeToogle, refresTable }: props) {
         descricao: "",
         preco: ""
     });
+    const handleChange = (text: string) => {
+
+        //const text = e.target.value;
+
+        const string = text.replaceAll(".", "").replace(",", ".");
+
+        const dooble = parseFloat(string)
+        const stringInput = dooble.toLocaleString("pt-Br", {
+            style: "decimal",
+            maximumFractionDigits: 2
+        })
+
+
+        const caracteres = text.length;
+        const lastCharacter = text.charAt(caracteres - 1);
+
+
+        const stringConvert = lastCharacter === "," ? stringInput + "," : stringInput
+
+        setValuePrecoDooble(valuePrecoDooble);
+
+        setValuePrecoString(stringConvert)
+
+    };
+    const tokenInfo: tokenProps = TokenDrecriptor(parseCookies().ACCESS_TOKEN)
 
     async function Cadastrar() {
+        const formattedValue = valuePrecoString.replaceAll(".", "").replace(",", ".")
+
         const newData = {
             codigoRadar: novaPeca.codigoRadar,
             descricao: novaPeca.descricao,
-            preco: 0,
-            usuarioId: "96afb069-c572-4302-b631-8b6b16c825e7",
+            preco: parseFloat(formattedValue),
+            usuarioId: tokenInfo.idUser,
             enderecoImagem: image
         }
+        console.log(newData)
 
         await Api.post("assistencia-tecnica/pecas", newData)
             .then(res => {
@@ -53,11 +86,13 @@ export default function Card({ changeToogle, refresTable }: props) {
                         descricao: "",
                         preco: ''
                     })
+                setImage("");
+                setValuePrecoString("");
             })
             .catch(err => {
                 console.log(err)
                 if (err && (err.response && err.response.data)) {
-                    
+
                     setDataMessage({
                         message: err.response.data,
                         type: "WARNING"
@@ -112,7 +147,7 @@ export default function Card({ changeToogle, refresTable }: props) {
                             ...novaPeca,
                             codigoRadar: e.target.value
                         })}
-
+                        autoComplete="off"
                     />
                 </div>
                 <div className={style.container_descricao} >
@@ -124,17 +159,18 @@ export default function Card({ changeToogle, refresTable }: props) {
                             ...novaPeca,
                             descricao: e.target.value
                         })}
+                        autoComplete="off"
                     />
                 </div>
                 <div className={style.container_preco} >
                     <Input
                         id="txtPreco"
                         text="PREÇO"
-                        value={novaPeca.preco}
-                        onChange={e => setNovaPeca({
-                            ...novaPeca,
-                            preco: e.target.value
-                        })}
+                        value={valuePrecoString}
+                        onChange={e => {
+                            handleChange(e.target.value)
+                        }}
+                        autoComplete="off"
                     />
                 </div>
                 <div className={style.container_image} >

@@ -7,6 +7,10 @@ import ButtonUi from "../../../../UI/button/Button";
 import CardFilter from "../pecasDisponiveis/PecaDisponive";
 import { Icons } from "../../../../utils/IconDefault";
 import Loading from "../../../../loading/Loading";
+import TokenDrecriptor from "../../../../../service/DecriptorToken";
+import { getCookieParser } from "next/dist/server/api-utils";
+import { parseCookies } from "nookies";
+import { tokenProps } from "../../../../utils/infoToken";
 
 interface props {
     changeToogle: Function,
@@ -35,6 +39,7 @@ export default function Card({ changeToogle, refreshTable }: props) {
     const { CardPecas, FetchData: FetchDataPecas, listPecas, setListPecas } = CardFilter({
         changeToogle: setToogleFilter
     });
+    const tokenInfo: tokenProps = TokenDrecriptor(parseCookies().ACCESS_TOKEN)
 
 
     async function AddMaquina() {
@@ -54,7 +59,7 @@ export default function Card({ changeToogle, refreshTable }: props) {
             codigoMaquina: codigoMaquina,
             descricaoMaquina: descricaoMaquina,
             numeroSerie: numeroSerie,
-            UserId: "96afb069-c572-4302-b631-8b6b16c825e7",
+            UserId: tokenInfo.idUser,
             pecas: listPecas.map(item => ({
                 idPeca: item.id
             }))

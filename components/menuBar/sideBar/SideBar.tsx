@@ -51,14 +51,14 @@ export default function SideBar() {
                     case "PRODUÇÃO":
                         setMarginTop("110px");
                         break;
-                    case "GERENCIAL":
-                        setMarginTop("285px");
-                        break;
-                    case "ASSISTÊNCIA TÉCNICA":
-                        setMarginTop("225px");
-                        break;
                     case "COMPRAS":
                         setMarginTop("165px");
+                        break;
+                    case "ASSISTÊNCIA TÉCNICA":
+                        setMarginTop("220px");
+                        break;
+                    case "GERENCIAL":
+                        setMarginTop("275px");
                         break;
                     default:
                         setMarginTop("0px");
@@ -241,11 +241,11 @@ export default function SideBar() {
         if (!valueToken) {
             return false; // Não há informações de token, não permitir acesso
         }
-        
+
 
 
         const found = roles.find(item => item.text.toLowerCase() === text.toLowerCase());
-        
+
         const foundToken = found?.role.some(item =>
             valueToken[item.name as keyof tokenProps])
 

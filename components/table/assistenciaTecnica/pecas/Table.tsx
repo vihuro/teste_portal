@@ -209,7 +209,11 @@ export default function Table() {
                                             </td>
                                             <td>{item.codigoRadar}</td>
                                             <td>{item.descricao}</td>
-                                            <td>{item.preco}</td>
+                                            <td>{`R$ ${item.preco.toLocaleString("pt-Br", {
+                                                style: "decimal",
+                                                maximumFractionDigits: 2
+                                            })}`}
+                                            </td>
                                             <td >
                                                 <p onClick={() => {
                                                     if (item.enderecoImagem) {
@@ -225,7 +229,7 @@ export default function Table() {
                                             <td onClick={() => {
                                                 alteracao(item.id)
                                                 setDataItemAlteracaoString(item.id)
-                                                
+
                                                 setToogleChange(true)
                                             }} className={style.edit} >
                                                 <Icons.Edit />

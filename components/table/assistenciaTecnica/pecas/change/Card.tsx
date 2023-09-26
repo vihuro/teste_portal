@@ -3,6 +3,9 @@ import ButtonUi from "../../../../UI/button/Button";
 import style from "./style.module.css";
 import { useEffect, useState } from "react";
 import Api from "../../../../../service/api/assistenciaTecnica/Assistencia";
+import { tokenProps } from "../../../../utils/infoToken";
+import TokenDrecriptor from "../../../../../service/DecriptorToken";
+import { parseCookies } from "nookies";
 
 interface props {
     changeToogle: Function,
@@ -59,7 +62,7 @@ export default function Card({ changeToogle, refreshTable, data }: props) {
     useEffect(() => {
         setDataAlteracao(data);
     }, [data])
-
+    const tokenInfo: tokenProps = TokenDrecriptor(parseCookies().ACCESS_TOKEN)
     async function Change() {
         if (dataAlteracao) {
             const obj = {
@@ -68,7 +71,7 @@ export default function Card({ changeToogle, refreshTable, data }: props) {
                 descricao: dataAlteracao.descricao,
                 preco: dataAlteracao.preco,
                 enderecoImagem: dataAlteracao.enderecoImagem,
-                usuarioId: "96afb069-c572-4302-b631-8b6b16c825e7"
+                usuarioId: tokenInfo.idUser
             }
             await Api.put("/assistencia-tecnica/pecas", obj)
                 .then(res => {

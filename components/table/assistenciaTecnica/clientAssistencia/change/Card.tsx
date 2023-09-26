@@ -8,6 +8,9 @@ import Api from "../../../../../service/api/assistenciaTecnica/Assistencia";
 import FilterMaquinaDisponivel from "../filterMaquinaDisponivel/Card";
 import Loading from "../../../../loading/Loading";
 import Message from "../../../../message/Message";
+import { tokenProps } from "../../../../utils/infoToken";
+import TokenDrecriptor from "../../../../../service/DecriptorToken";
+import { parseCookies } from "nookies";
 
 interface props {
     changeToogle: Function,
@@ -84,6 +87,7 @@ export default function Card({ changeToogle, dataProps, refreshTable }: props) {
 
 
     }, [dataProps])
+    const tokenInfo: tokenProps = TokenDrecriptor(parseCookies().ACCESS_TOKEN)
 
     async function Altera() {
         const obj = {
@@ -96,7 +100,7 @@ export default function Card({ changeToogle, dataProps, refreshTable }: props) {
             regiao: data?.regiao,
             rua: data?.rua,
             numeroEstabelecimento: data?.numeroEstabelecimento,
-            userId: "96afb069-c572-4302-b631-8b6b16c825e7",
+            userId: tokenInfo.idUser,
             complemento: data?.complemento,
             nomeContatoCliente: data?.contatoNome,
             contatoTelefone: data?.contatoTelefone,
