@@ -1,5 +1,5 @@
 import { TbEdit } from "react-icons/tb";
-import { AiOutlineDelete, AiOutlineArrowLeft } from "react-icons/ai"
+import { AiOutlineDelete, AiOutlineArrowLeft, AiOutlineBell } from "react-icons/ai"
 import { BiFilterAlt, BiArrowFromTop, BiSearchAlt2 } from "react-icons/bi"
 import { CiMenuKebab } from "react-icons/ci";
 import { MdLibraryAdd } from "react-icons/md";
@@ -16,5 +16,6 @@ export const Icons = {
     ArrowFromTop: BiArrowFromTop,
     ArrowLeft: AiOutlineArrowLeft,
     Search: BiSearchAlt2,
-    Add: MdLibraryAdd
+    Add: MdLibraryAdd,
+    BellNotification: AiOutlineBell
 }

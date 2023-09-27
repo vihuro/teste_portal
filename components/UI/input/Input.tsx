@@ -7,6 +7,7 @@ type inputProps = {
     iconLeft?: iconProps,
     iconRight?: iconProps,
     blocked?: boolean,
+    loading?: boolean
 } & InputHTMLAttributes<HTMLInputElement>
 
 interface iconProps {
@@ -20,6 +21,7 @@ function Input({
     iconLeft: IconLeft,
     iconRight: IconRight,
     blocked,
+    loading,
     ...rest }: inputProps) {
 
 

@@ -28,10 +28,11 @@
     border: 0;
 }
 
-.container_body {
+.container_body,
+.container_body_loading {
     grid-area: 2/1/2/1;
     position: relative;
-    grid-template-rows: repeat(4, 20px) 1fr 1fr;
+    grid-auto-rows: 20px;
     display: grid;
     overflow: auto;
 }
@@ -94,12 +95,95 @@
     border-bottom: 1px solid black;
 }
 
+.container_body_loading * {
+    position: relative;
+    display: flex;
+    justify-content: left;
+}
+
+.container_body_loading label {
+    width: 0;
+    height: 0;
+    color: transparent;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(10%);
+    }
+
+    to {
+        transform: translateX(0);
+    }
+}
+.container_notification{
+    position: relative;
+}
+.tag_notification{
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background-color: rgb(6, 196, 133);
+    color: rgb(6, 105, 72);
+    font-weight: 600;
+    font-size: 22px;
+}
+.descriptionNotification,
+.descriptionNotification_close{
+    position: absolute;
+    top: 0;
+    right:-300px;
+    width: 300px;
+    height: 100px;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0 0 5px 1px rgb(168, 168, 168);
+    border-radius: 3px;
+    transition: .5s;
+}
+.descriptionNotification_close{
+    transform: scaleX(0);
+    transform-origin: left;
+}
+
+.container_body_loading *::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-image: linear-gradient(to left, #8f8d8d, #adabab, #999999, #afaeae),
+        linear-gradient(to right, #afaeae, #999999, #adabab, #8f8d8d);
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    background-size: 400%;
+    animation: loading 3s infinite;
+    border-radius: 5px;
+}
+
+@keyframes loading {
+    0% {
+        background-position: 100%;
+    }
+
+    50% {
+        background-position: 50%;
+    }
+
+    100% {
+        background-position: 0%;
+    }
+}
+
 .container_tableBody,
 .container_tableBody_status {
     background-color: rgba(219, 233, 240, .5);
     font-weight: 500;
     color: var(--text-color-blue-400);
 }
+
 
 @media(min-width:440px) {
     .wrapContainer_body {
@@ -108,6 +192,20 @@
         gap: 20px;
         grid-template-columns: repeat(8, 1fr);
         grid-template-rows: repeat(8, 1fr);
+    }
+    .container_header {
+        grid-area: 1/1/1/1;
+        display: grid;
+        display: flex;
+        width: 100%;
+        height: 100%;
+        position: relative;
+    }
+    .containerNumeroOrcamento{
+        position: absolute;
+        right: 0;
+        margin-right: 25px;
+        padding: 5px;
     }
 
     .containerCodigoCliente {
@@ -173,15 +271,14 @@
     .container_infoMaquina {
         display: 1/1/1/5;
         display: grid;
-        gap: 10px;
+        gap: 20px;
         grid-template-rows: 0.001fr;
     }
 
     .containerStatus {
-        grid-area: 9/1/13/9;
+        grid-area: 5/1/12/9;
         display: grid;
-        height: 200px;
-
+        height: 300px;
     }
 
 
