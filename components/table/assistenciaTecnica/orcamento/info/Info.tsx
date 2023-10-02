@@ -61,11 +61,25 @@ interface pecasProps {
     troca: boolean
 }
 
+interface tecnicoProps {
+    apelido: string,
+    nome: string,
+    idTecnico: string,
+    idUsuario: string
+}
+
 export default function Info({ changeToogle, numeroOrcamento }: props) {
 
     const { Input } = InputUi();
     const [data, setData] = useState<dataProps>();
+    const [dataTecnico, setDataTecnico] = useState<tecnicoProps[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
+    const [tecnicoOrcamento, setTecnicoOrcamento] = useState<tecnicoProps>({
+        apelido: "",
+        idTecnico: "",
+        idUsuario: "",
+        nome: ""
+    });
     useEffect(() => {
         if (data) {
             setData(undefined);
@@ -75,12 +89,21 @@ export default function Info({ changeToogle, numeroOrcamento }: props) {
     const { Card, FetchDataPecas } = FilterPecas()
 
     async function FetchData(id: number) {
-        Api.get(`/orcamento/${id}`)
+        await Api.get(`/orcamento/${id}`)
             .then((res) => {
                 setLoading(false);
                 setData(res.data)
             })
             .catch(err => console.log(err))
+
+        await Api.get("/tecnico")
+            .then((res) => {
+                setDataTecnico(res.data)
+                console.log(res.data)
+            })
+            .catch(err => console.log(err))
+
+
     }
 
     function validadeUserApontamentoDiferenteNulo(usuarioApontamento: usuarioApontamentoSituacaoProps) {
@@ -106,11 +129,13 @@ export default function Info({ changeToogle, numeroOrcamento }: props) {
 
     function InfoForm() {
         const [toogleNotification, setToogleNotification] = useState<boolean>(false);
+        const [listTecnicoOrcamento, setListTecnicoOrcamento] = useState<boolean>(false)
+
 
         return (
             <main className={style.container} >
                 <div>
-                <Card />
+                    <Card />
                 </div>
                 <header className={style.container_header} >
                     <button onClick={() => {
@@ -128,6 +153,11 @@ export default function Info({ changeToogle, numeroOrcamento }: props) {
                             onChange={() => { }}
                             blocked
                         />
+                    </div>
+                    <div className={style.containerStatusOrcamento} >
+                        <p className={style.status} >
+                            {data ? data.status : ""}
+                        </p>
                     </div>
                 </header>
 
@@ -242,6 +272,50 @@ export default function Info({ changeToogle, numeroOrcamento }: props) {
                                 onChange={() => { }}
                                 blocked
                             />
+                        </div>
+                        <div className={style.containerTecnicoOrcamento} >
+                            <input type="text"
+                                required
+                                value={tecnicoOrcamento.nome}
+                                onChange={() => { }}
+                                onClick={() => {
+                                    setListTecnicoOrcamento(!listTecnicoOrcamento)
+                                }} />
+                            <label htmlFor="">TÉCNICO ORÇ.</label>
+                            <ul className={listTecnicoOrcamento ?
+                                style.listTecnicoOrcamento :
+                                style.listTecnicoOrcamento_close} >
+                                {dataTecnico && (
+                                    dataTecnico.map((item, index) => (
+                                        <li onClick={() => {
+                                            setListTecnicoOrcamento(false)
+                                            setTecnicoOrcamento(item);
+                                        }} key={index} >{item.nome}</li>
+                                    ))
+                                )}
+                            </ul>
+                        </div>
+                        <div className={style.containerTecnicoManutencao} >
+                            <input type="text"
+                                required
+                                value={tecnicoOrcamento.nome}
+                                onChange={() => { }}
+                                onClick={() => {
+                                    setListTecnicoOrcamento(!listTecnicoOrcamento)
+                                }} />
+                            <label htmlFor="">TÉCNICO MANUT.</label>
+                            <ul className={listTecnicoOrcamento ?
+                                style.listTecnicoOrcamento :
+                                style.listTecnicoOrcamento_close} >
+                                {dataTecnico && (
+                                    dataTecnico.map((item, index) => (
+                                        <li onClick={() => {
+                                            setListTecnicoOrcamento(false)
+                                            setTecnicoOrcamento(item);
+                                        }} key={index} >{item.nome}</li>
+                                    ))
+                                )}
+                            </ul>
                         </div>
                         <div className={style.containerMaquina} >
                             <div className={style.container_infoMaquina} >
