@@ -4,6 +4,7 @@ import InputUi from "../../../../UI/input/Input";
 import Api from "../../../../../service/api/assistenciaTecnica/Assistencia";
 import { useEffect, useState } from "react";
 import { DateTimeStringFormat } from "../../../../utils/DateTimeString";
+import FilterPecas from "./filterPecas/Pecas";
 
 interface props {
     changeToogle: Function,
@@ -16,11 +17,6 @@ interface dataProps {
     statusSituacao: statusSitucaoProps[],
     cliente: clienteProps,
     maquina: maquinaProps,
-}
-interface statusProps {
-    dataHoraFim: Date
-    dataHoraInicio: Date,
-    status: string
 }
 interface clienteProps {
     cep: string,
@@ -76,6 +72,7 @@ export default function Info({ changeToogle, numeroOrcamento }: props) {
             setLoading(true)
         }
     }, [numeroOrcamento])
+    const { Card, FetchDataPecas } = FilterPecas()
 
     async function FetchData(id: number) {
         Api.get(`/orcamento/${id}`)
@@ -113,7 +110,7 @@ export default function Info({ changeToogle, numeroOrcamento }: props) {
         return (
             <main className={style.container} >
                 <div>
-
+                <Card />
                 </div>
                 <header className={style.container_header} >
                     <button onClick={() => {

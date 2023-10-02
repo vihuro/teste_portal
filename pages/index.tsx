@@ -23,7 +23,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     }
     setCookie(context, "REFRESH_TOKEN", refreshToken, {
         httpOnly: true,
-        maxAge: 60 * 60 * 1,
+        maxAge: 60 * 60 * 2,
         path: "/"
     })
 
@@ -59,7 +59,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
                 path: "/",
             })
             setCookie(context, "REFRESH_TOKEN", newToken.data.refreshToken, {
-                maxAge: 60 * 60 * 1,
+                maxAge: 60 * 60 * 2,
                 path: "/",
                 httpOnly: true
             })
