@@ -1,9 +1,10 @@
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import styles from "./style.module.css";
 import { Manutencao } from "./fakeManutencao";
 import { Icons } from "../../utils/IconDefault";
 import Add from "./Add/addOrdemServico";
 import Info from "./info/Info";
+import { TableUi } from "../../UI/table/TableUi";
 
 interface dataProps {
     numeroOrdemServico: number,
@@ -19,26 +20,24 @@ interface dataProps {
     prioridade: string
 }
 
+
+
 export default function Table() {
-    const [data, setData] = useState<dataProps[]>();
-
-    const [toogleAdd, setToogleAdd] = useState<boolean>(false);
-    const [toogleInfo, setToogleInfo] = useState<boolean>(false);
-
-    useEffect(() => {
-        setData(Manutencao as unknown as dataProps[]);
-    }, [])
-    interface StyleData {
-        background: string;
-        color: string;
+    const [data, setData] = useState<dataProps[]>([])
+    const PRIORIDADE: StyleKey = {
+        "ALTA": {
+            background: "#ff0000",
+            color: "#7d0404"
+        },
+        "BAIXA": {
+            background: "#00ff50",
+            color: "#046d25"
+        },
+        "NORMAL": {
+            background: "#0035ff",
+            color: "#ffffff87"
+        }
     }
-
-    // Interface para representar o objeto de status
-    interface StyleKey {
-        [key: string]: StyleData;
-    }
-
-
     const STATUS: StyleKey = {
         "AGUARDANDO VERIFICAÇÃO": {
             background: "#feff00",
@@ -69,22 +68,44 @@ export default function Table() {
             color: "#7b0928"
         }
     };
-    const PRIORIDADE: StyleKey = {
-        "ALTA": {
-            background: "#ff0000",
-            color: "#7d0404"
+
+    const columnLabel = [
+        {
+            label: "+"
         },
-        "BAIXA": {
-            background: "#00ff50",
-            color: "#046d25"
+        {
+            label: "Nº ORDEM SERVIÇO"
         },
-        "NORMAL": {
-            background: "#0035ff",
-            color: "#ffffff87"
+        {
+            label: "EXECUÇÃO"
+        },
+        {
+            label: "TIPO/SERV."
+        },
+        {
+            label: "CATEGORIA"
+        },
+        {
+            label: "DATA/IDEAL"
+        },
+        {
+            label: "PRIORIDADE"
+        },
+        {
+            label: "STATUS"
+        },
+        {
+            label: "INFO"
+        }
+    ]
+    function searchColorPrioridade(text: string) {
+        const colors = PRIORIDADE[text]
+
+        return {
+            background: colors ? colors.background : "",
+            color: colors ? colors.color : ""
         }
     }
-
-
     function searchColorStatus(text: string) {
         const colors = STATUS[text];
 
@@ -94,102 +115,108 @@ export default function Table() {
             color: colors ? colors.color : ""
         };
     }
-    function searchColorPrioridade(text: string) {
-        const colors = PRIORIDADE[text]
 
-        return {
-            background: colors ? colors.background : "",
-            color: colors ? colors.color : ""
+    const rowData = data.map((item, index) => ({
+        id: index,
+        data: {
+            "col0": {
+                label: "",
+                icon: Icons.ArrowFromTop,
+                onClick: () => console.log("hahaha")
+            },
+            "col1": {
+                label: item.numeroOrdemServico.toString()
+            },
+            "col2": {
+                label: item.execucao
+            },
+            "col3": {
+                label: item.tipoServico
+            },
+            "col4": {
+                label: item.categoriaServico
+            },
+            "col5": {
+                label: item.dataIdeal
+            },
+
+            "col6": {
+                label: item.prioridade,
+                tag: searchColorPrioridade(item.prioridade)
+            },
+            "col7": {
+                label: item.statusOrdemServico,
+                tag: searchColorStatus(item.statusOrdemServico)
+            },
+            "col8": {
+                label: "",
+                icon: Icons.Information,
+                onClick: () => setToogleInfo(true)
+            }
         }
+    }))
+
+
+    const [toogleAdd, setToogleAdd] = useState<boolean>(false);
+    const [toogleInfo, setToogleInfo] = useState<boolean>(false);
+
+
+    useEffect(() => {
+        setData(Manutencao);
+    }, [])
+
+    interface StyleData {
+        background: string;
+        color: string;
     }
+
+
+    // Interface para representar o objeto de status
+    interface StyleKey {
+        [key: string]: StyleData;
+    }
+
+
 
     return (
         <main className={styles.container} >
-            <div className={toogleInfo ?
-                styles.containerInfo :
-                styles.containerInfo_close} >
-                <Info changeToogle={setToogleInfo} />
-            </div>
-            <div className={!toogleInfo ?
-                styles.containerTable :
-                styles.containerTable_close} >
-                <div className={toogleAdd ?
-                    styles.container_add :
-                    styles.container_add_close} >
-                    <div className={toogleAdd ?
-                        styles.form :
-                        styles.form_close} >
-                        <Add changeToogle={setToogleAdd} />
-                    </div>
+            <div className={styles.wrapContainer} >
+                <div className={toogleInfo ?
+                    styles.containerInfo :
+                    styles.containerInfo_close} >
+                    <Info changeToogle={setToogleInfo} />
                 </div>
-                <header className={styles.container_button} >
-                    <button onClick={() => setToogleAdd(!toogleAdd)}>
-                        NOVA OS
-                    </button>
-                </header>
-                <main className={styles.container_table} >
-                    <section className={styles.wrap_container_table} >
-                        <table className={styles.table} >
-                            <thead>
-                                <tr>
-                                    <th>+</th>
-                                    <th>Nº OS</th>
-                                    <th>EXECUÇÃO</th>
-                                    <th>TIPO/SERV.</th>
-                                    <th>CATEGORIA</th>
-                                    <th>DATA/ IDEAL</th>
-                                    <th>PRIORIDADE</th>
-                                    <th>STATUS</th>
-                                    <th>INFO</th>
-                                </tr>
-                            </thead>
-                            <tbody className={styles.table_body} >
-                                {data && (
-                                    data.map((item, index) => (
-                                        <Fragment key={index} >
-                                            <tr>
-                                                <td><Icons.ArrowFromTop /></td>
-                                                <td>{item.numeroOrdemServico}</td>
-                                                <td>{item.execucao}</td>
-                                                <td>{item.tipoServico}</td>
-                                                <td>{item.categoriaServico}</td>
-                                                <td>{item.dataIdeal}</td>
-                                                <td>
-                                                    <p
-                                                        style={searchColorPrioridade(item.prioridade)}
-                                                        className={styles.tagPrioridade}
-                                                    >
-                                                        {item.prioridade}
-                                                    </p>
-                                                </td>
-                                                <td>
-                                                    <p
-                                                        style={searchColorStatus(item.statusOrdemServico)}
-                                                        className={styles.tagStatus}
-                                                    >
-                                                        {item.statusOrdemServico}
-                                                    </p>
-                                                </td>
-                                                <td onClick={() => setToogleInfo(true)} className={styles.iconInfo} >
-                                                    <Icons.Information />
-                                                </td>
-                                            </tr>
-                                            <tr>
+                <div className={!toogleInfo ?
+                    styles.containerTable :
+                    styles.containerTable_close} >
+                    <div className={toogleAdd ?
+                        styles.container_add :
+                        styles.container_add_close} >
+                        <div className={toogleAdd ?
+                            styles.form :
+                            styles.form_close} >
+                            <Add changeToogle={setToogleAdd} />
+                        </div>
+                    </div>
+                    <div className={styles.containerColumnVisible} >
 
-                                            </tr>
-                                        </Fragment>
-                                    ))
-                                )}
-                                <tr>
+                    </div>
+                    <header className={styles.container_button} >
+                        <button onClick={() => setToogleAdd(!toogleAdd)}>
+                            NOVA OS
+                        </button>
+                    </header>
+                    <main className={styles.container_table} >
+                        <section className={styles.wrap_container_table} >
+                            <TableUi
+                                col={columnLabel}
+                                row={rowData}
+                                nameTable="tableManutencao"
+                            />
+                        </section>
 
-                                </tr>
-                            </tbody>
-
-                        </table>
-
-                    </section>
-
-                </main>
+                    </main>
+                </div>
             </div>
 
         </main>
