@@ -59,6 +59,11 @@
     z-index: 4;
     transition: .5s;
 }
+.containerTable{
+    overflow: auto;
+    height: 100%;
+    grid-area: 2/1/2/1;
+}
 .containerTable,
 .containerTable_close{
     transition: .5s;

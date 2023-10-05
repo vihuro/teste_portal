@@ -3,7 +3,7 @@
     height: 100%;
     z-index: 1;
     background-color: rgba(247, 247, 247, 0.507);
-    overflow: hidden;
+    overflow: auto;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -99,6 +99,14 @@
     color: white;
     font-weight: 500;
 }
+.columns{
+    grid-area: 1/1/1/1;
+    background-color: var(--background-color-blue-700);
+    color: white;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}
 
 .container_table {
     grid-area: 2/1/2/1;
@@ -121,6 +129,7 @@
     position: relative;
     width: 100%;
     z-index: 2;
+    border-top: 1px solid white;
 }
 
 .table thead {
@@ -191,28 +200,100 @@
     position: relative;
     width: 100%;
     height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    display: grid;
+    grid-template-rows: 80px 1fr;
+
 }
-.containerColumnVisible{
+.selectColumn{
+    border: 1px solid white;
+    margin-left: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: .5s;
+}
+.selectColumn label{
+    cursor: pointer;
+}
+.selectColumn:hover{
+    transform: scale(1.05);
+}
+.containerColumnVisible,
+.containerColumnVisible_close{
     width: 400px;
     height: 200px;
+    margin-left: 15px;
     background-color: white;
     position: absolute;
     z-index: 3;
     border-radius: 15px;
-    overflow: auto;
+    overflow: hidden;
+    margin-top: 100px;
+    transition: .5s;
+    transform-origin: top
+}
+.containerColumnVisible_close{
+    transform: scaleY(0);
 }
 .containerListVisible{
     list-style: none;
-    overflow: auto;
-    padding: 5px;
     background-color: white;
+    overflow: auto;
+}
+.wrapContainerColumnVisible{
+    overflow: auto;
+    width: 100%;
+    height: 100%;
+
+}
+.active{
+    box-shadow: 0 0 7px -2px rgba(22, 202, 142, 0.815);
+    color:rgb(4, 94, 64) ;
+}
+.noActive{
+    box-shadow: 0 0 10px -2px rgba(224, 224, 224, 0.815) ;
+    color: rgb(146, 146, 146);
 }
 .containerListVisible li{
-    padding: 5px;
-    margin-bottom: 5px;
+    padding: 7px;
+    width: 90%;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    margin-left: 10px;
     background-color: white;
-    box-shadow: 0 0 10px -1px rgba(224, 224, 224, 0.815);
+    border-radius: 10px;
+    /* box-shadow: 0 0 10px -1px rgba(224, 224, 224, 0.815); */
+    text-wrap: nowrap;
+    font-weight: 600;
+    display: flex;
+}
+.containerListVisible li label{
+    margin-left: 20px;
+}
+.containerListVisible li input[type="checkbox"]{
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: transparent;
+    border:1px solid rgb(146, 146, 146);
+    
+    position: relative;
+}
+.containerListVisible li input[type="checkbox"]:checked{
+    border: none;
+}
+.containerListVisible li input[type="checkbox"]:checked::before{
+    position: absolute;
+    content: "✔";
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    font-size: 16px;
+    background-color: rgb(25, 184, 117);
+    display: flex;
+    color: rgb(255, 255, 255);
+    justify-content: center;
+    align-items: center;
+    border: transparent;
 }

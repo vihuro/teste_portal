@@ -1,11 +1,12 @@
-.form{
+.form {
     width: 100%;
     height: 100%;
     position: relative;
     overflow: hidden;
     border-radius: 10px 50px;
 }
-.form::before{
+
+.form::before {
     content: "";
     position: absolute;
     width: 100%;
@@ -16,9 +17,10 @@
     transition: 1s;
     transform-origin: bottom right;
     animation: rotate infinite linear 8s;
-    
+
 }
-.form::after{
+
+.form::after {
     content: "";
     position: absolute;
     width: 100%;
@@ -30,20 +32,246 @@
     transform-origin: bottom right;
     animation: rotate infinite linear 8s;
     animation-delay: 4s;
-    
+
 }
-.container{
+
+/* .container {
     position: absolute;
     background-color: white;
     inset: 1px;
     z-index: 2;
     border-radius: 10px 50px;
-}
-@keyframes rotate{
-    0%{
+    display: grid;
+} */
+
+@keyframes rotate {
+    0% {
         transform: rotate(0deg);
     }
-    100%{
+
+    100% {
         transform: rotate(360deg);
+    }
+}
+
+@media(min-width:440px) {
+
+    /* .container {
+        position: absolute;
+        background-color: white;
+        inset: 1px;
+        z-index: 2;
+        border-radius: 10px 50px;
+        display: grid;
+    } */
+    .container {
+        position: absolute;
+        inset: 1px;
+        z-index: 2;
+        background-color: white;
+        border-radius: 10px 50px;
+        color: black;
+        display: grid;
+        grid-template-rows: 30px 1fr 80px;
+    }
+
+    .title {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: rgb(12, 43, 129);
+    }
+
+    .body {
+        grid-area: 2/1/2/1;
+        display: grid;
+        grid-auto-rows: 40px;
+        grid-template-columns: repeat(10, 1fr);
+        overflow: auto;
+
+        gap: 15px;
+
+        padding: 18px 5px 0 5px;
+    }
+
+    .containerAondeSeraExecutado {
+        grid-area: 1/1/1/6;
+
+    }
+
+    .containerTipoDeServico {
+        grid-area: 1/6/1/11;
+    }
+
+    .cotnainerCategoriaServico {
+        grid-area: 2/1/2/6;
+    }
+
+    .containerDataIdeal {
+        grid-area: 2/6/2/11;
+    }
+
+    .containerDescricaoServico {
+        grid-area: 3/1/7/11;
+    }
+
+    .containerDescricaoServico textarea {
+        resize: none;
+        border: none;
+        margin-top: 10px;
+        outline: none;
+    }
+
+    .containerCaracteres {
+        grid-area: 7/1/7/11;
+    }
+
+    .containerAondeSeraExecutado,
+    .containerTipoDeServico,
+    .cotnainerCategoriaServico,
+    .containerDataIdeal,
+    .containerDescricaoServico {
+        position: relative;
+        padding: 3px;
+        display: flex;
+        border-radius: 5px;
+        background-color: white;
+        border: 1px solid rgba(187, 187, 187, 0.575);
+        transition: 1s;
+
+    }
+
+    .containerListAondeSeraExecutado,
+    .containerListAondeSeraExecutado_close,
+    .containerListTipoServico,
+    .containerListTipoServico_close,
+    .containerListCategoriaServico,
+    .containerListCategoriaServico_close {
+        position: absolute;
+        top: 108%;
+        width: 85%;
+        background-color: var(--background-color-blue-700);
+        list-style: none;
+        color: white;
+        padding: 7px;
+        transition: .5s;
+        transform-origin: top;
+        z-index: 1;
+        border-radius: 3px;
+        height: 120px;
+        overflow: auto;
+        cursor: pointer;
+        transition: .5s;
+        transform-origin: top;
+    }
+
+    .containerListAondeSeraExecutado_close,
+    .containerListTipoServico_close,
+    .containerListCategoriaServico_close {
+        transform: scaleY(0);
+    }
+
+    .containerListAondeSeraExecutado li,
+    .containerListAondeSeraExecutado_close li,
+    .containerListTipoServico li,
+    .containerListTipoServico_close li,
+    .containerListCategoriaServico li,
+    .containerListCategoriaServico_close li {
+        margin-top: 5px;
+
+    }
+
+    .containerListAondeSeraExecutado li:hover,
+    .containerListAondeSeraExecutado_close li:hover,
+    .containerListTipoServico li:hover,
+    .containerListTipoServico_close li:hover,
+    .containerListCategoriaServico li:hover,
+    .containerListCategoriaServico_close li:hover {
+        background-color: rgb(24, 52, 211);
+    }
+
+    .containerAondeSeraExecutado label,
+    .containerTipoDeServico label,
+    .cotnainerCategoriaServico label,
+    .containerDataIdeal label,
+    .containerDescricaoServico label {
+        position: absolute;
+        left: 0;
+        transition: .8s;
+        transform: translateX(40px) translateY(10px);
+        font-weight: 600;
+        font-size: 12px;
+        color: rgba(117, 117, 117, 0.877);
+        pointer-events: none;
+    }
+
+    .containerAondeSeraExecutado input:valid~label,
+    .containerTipoDeServico input:valid~label,
+    .cotnainerCategoriaServico input:valid~label,
+    .containerDataIdeal input:valid~label,
+    .containerAondeSeraExecutado input:focus~label,
+    .containerTipoDeServico input:focus~label,
+    .cotnainerCategoriaServico input:focus~label,
+    .containerDataIdeal input~label,
+    .containerDescricaoServico label {
+        transform: translateX(10px) translateY(-15px);
+        background-color: var(--background-color-blue-700);
+        color: white;
+        padding: 3px;
+        border-radius: 5px;
+
+    }
+
+
+    .containerAondeSeraExecutado input,
+    .containerTipoDeServico input,
+    .cotnainerCategoriaServico input,
+    .containerDataIdeal input {
+        height: 100%;
+        width: 100%;
+        border: none;
+        outline: none;
+        cursor: default;
+    }
+
+    .containerAondeSeraExecutado::before,
+    .containerTipoDeServico::before,
+    .cotnainerCategoriaServico::before,
+    .containerDataIdeal::before,
+    .containerDescricaoServico::before {
+        position: absolute;
+        content: "";
+        width: 100%;
+        height: 2px;
+        background-image: linear-gradient(to right,
+                rgb(133, 167, 231),
+                rgb(77, 60, 231),
+                rgb(25, 100, 199));
+        bottom: 0;
+        left: 0;
+        transform: scaleX(0);
+        transition: .5s;
+        transform-origin: left;
+    }
+
+    .containerAondeSeraExecutado:focus-within::before,
+    .containerTipoDeServico:focus-within::before,
+    .cotnainerCategoriaServico:focus-within::before,
+    .containerDataIdeal:focus-within::before,
+    .containerDescricaoServico:focus-within::before {
+        transform: scaleX(1);
+    }
+
+    .footer {
+        grid-area: 3/1/3/1;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+        padding: 20px;
+
+    }
+    .containerButtonCadatrar{
+        grid-area: 1/1/1/1;
+        
     }
 }

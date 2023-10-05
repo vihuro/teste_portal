@@ -14,6 +14,7 @@ interface Row {
 interface CellData {
     label: string;
     tag?: TagData,
+    tagInfo?: Function,
     icon?: ElementType; // Pode ajustar o tipo de ícone conforme necessário
     onClick?: Function; // Pode ajustar o tipo de função conforme necessário
 }
@@ -35,6 +36,7 @@ export function TableUi({ col, row }: props) {
 
     const [column, setColumns] = useState<Column[]>([]);
     const [rowTable, setRowTable] = useState<Row[]>([]);
+    const [toogleColumns, setToogleColumns] = useState<boolean>(false);
 
     useEffect(() => {
         setColumns(col.map((item, index) => ({
@@ -45,8 +47,6 @@ export function TableUi({ col, row }: props) {
         setRowTable(row);
     }, [row])
 
-    console.log(column)
-    console.log(rowTable)
 
     const handleDragOver = (e: React.DragEvent, targetColId: string) => {
         e.preventDefault();
@@ -76,24 +76,49 @@ export function TableUi({ col, row }: props) {
 
 
     return (
-        <div className={styles.wrapTable} >
-            <div className={styles.containerColumnVisible} >
-                <ul className={styles.containerListVisible} >
-                    {column.map((colItem, indexColumn) => (
-                        <li key={indexColumn} >
-                            <input type="checkbox" checked={colItem.visible}
-                                onChange={(e) => {
-                                    console.log(e)
+        <div className={styles.wrapTable} onClick={() => {
+            setToogleColumns(false)
+        }} >
+            <div className={toogleColumns ?
+                styles.containerColumnVisible :
+                styles.containerColumnVisible_close}
+                onClick={(e) => {
+                    e.stopPropagation()
+                }}>
+                <div className={styles.wrapContainerColumnVisible} >
+                    <ul className={styles.containerListVisible} >
+                        {column.map((colItem, indexColumn) => (
+                            <li key={indexColumn} className={colItem.visible ? styles.active : styles.noActive} >
+                                <input type="checkbox" checked={colItem.visible}
+                                    onChange={(e) => {
+
+                                        setColumns(column.map((item, index) => ({
+                                            ...item,
+                                            visible: indexColumn === index ? !item.visible : item.visible
+                                        })))
+                                    }}
+                                />
+                                <label onClick={() => {
                                     setColumns(column.map((item, index) => ({
                                         ...item,
-                                        visible: indexColumn === index ? !item.visible: item.visible
+                                        visible: indexColumn === index ? !item.visible : item.visible
                                     })))
-                                }}
-                            />
-                            {colItem.label}
-                        </li>
-                    ))}
-                </ul>
+                                }}>
+                                    {colItem.label}
+                                </label>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            </div>
+            <div className={styles.columns} >
+                <div className={styles.selectColumn} onClick={(e) => {
+                    e.stopPropagation()
+                    setToogleColumns(!toogleColumns)
+                }} >
+                    <label htmlFor="">COLUNAS</label>
+                </div>
+
             </div>
             <table className={styles.table} >
                 <thead>
