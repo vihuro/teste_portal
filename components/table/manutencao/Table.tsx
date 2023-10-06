@@ -181,6 +181,7 @@ export default function Table() {
     return (
         <main className={styles.container} >
             <div className={styles.wrapContainer} >
+
                 <div className={toogleInfo ?
                     styles.containerInfo :
                     styles.containerInfo_close} >
@@ -197,9 +198,6 @@ export default function Table() {
                             styles.form_close} >
                             <Add changeToogle={setToogleAdd} />
                         </div>
-                    </div>
-                    <div className={styles.containerColumnVisible} >
-
                     </div>
                     <header className={styles.container_button} >
                         <button onClick={() => setToogleAdd(!toogleAdd)}>

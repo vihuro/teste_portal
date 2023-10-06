@@ -120,52 +120,54 @@ export function TableUi({ col, row }: props) {
                 </div>
 
             </div>
-            <table className={styles.table} >
-                <thead>
-                    <tr>
-                        {column.map((colItem, indexColumn) => {
-                            return (
-                                colItem.visible &&
-                                <th key={indexColumn}
-                                    draggable
-                                    onDragStart={(e) => handleDragStart(e, colItem.id)}
-                                    onDragOver={(e) => handleDragOver(e, colItem.id)}
-                                    onDrop={(e) => handleDrop(e, colItem.id)}
-                                >
-                                    {colItem.label}
-                                </th>
-                            )
-                        })}
-                    </tr>
-                </thead>
-                <tbody className={styles.table_body} >
-                    {rowTable.map((rowItem, indexRow) => (
-                        <tr key={indexRow} >
-                            {column.map((colItem) => {
-                                const Icon = rowItem.data[colItem.id].icon;
-                                const Function = rowItem.data[colItem.id].onClick;
-
+            <div className={styles.wrapTableFixed} >
+                <table className={styles.table} >
+                    <thead>
+                        <tr>
+                            {column.map((colItem, indexColumn) => {
                                 return (
                                     colItem.visible &&
-                                    <td
-                                        key={colItem.id}
-                                        onClick={() => {
-                                            if (Function) Function()
-                                        }}
+                                    <th key={indexColumn}
+                                        draggable
+                                        onDragStart={(e) => handleDragStart(e, colItem.id)}
+                                        onDragOver={(e) => handleDragOver(e, colItem.id)}
+                                        onDrop={(e) => handleDrop(e, colItem.id)}
                                     >
-                                        {rowItem.data[colItem.id].tag ?
-                                            <p style={rowItem.data[colItem.id].tag} >{rowItem.data[colItem.id].label}</p> :
-                                            rowItem.data[colItem.id] && rowItem.data[colItem.id].label
-                                        }
-
-                                        {Icon && <Icon />}
-                                    </td>
+                                        {colItem.label}
+                                    </th>
                                 )
                             })}
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody className={styles.table_body} >
+                        {rowTable.map((rowItem, indexRow) => (
+                            <tr key={indexRow} >
+                                {column.map((colItem) => {
+                                    const Icon = rowItem.data[colItem.id].icon;
+                                    const Function = rowItem.data[colItem.id].onClick;
+
+                                    return (
+                                        colItem.visible &&
+                                        <td
+                                            key={colItem.id}
+                                            onClick={() => {
+                                                if (Function) Function()
+                                            }}
+                                        >
+                                            {rowItem.data[colItem.id].tag ?
+                                                <p style={rowItem.data[colItem.id].tag} >{rowItem.data[colItem.id].label}</p> :
+                                                rowItem.data[colItem.id] && rowItem.data[colItem.id].label
+                                            }
+
+                                            {Icon && <Icon />}
+                                        </td>
+                                    )
+                                })}
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
         </div>
     )
 

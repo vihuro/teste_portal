@@ -52,6 +52,9 @@
     .containerTecnico label {
         position: absolute;
         left: 0;
+        color: rgb(131, 130, 130);
+        transition: .5s;
+        transform: translateY(15px) translateX(10px);
     }
 
 }
