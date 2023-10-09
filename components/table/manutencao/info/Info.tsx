@@ -1,7 +1,11 @@
+import { useState } from "react";
 import InputUi from "../../../UI/input/Input";
 import styles from "./style.module.css";
 
 export default function Info({ changeToogle }: { changeToogle: Function }) {
+
+    const [listTecnico, setListTecnico] = useState<boolean>(false);
+
 
     const { Input } = InputUi();
 
@@ -16,7 +20,7 @@ export default function Info({ changeToogle }: { changeToogle: Function }) {
                 <div className={styles.containerExecucao} >
                     <Input
                         id="txtExecucaoChange"
-                        text="EXECUÇÃO"
+                        text="LOCAL"
                         blocked
                     />
                 </div>
@@ -44,9 +48,19 @@ export default function Info({ changeToogle }: { changeToogle: Function }) {
                     <input type="text" />
                     <label htmlFor=""></label>
                 </div>
-                <div className={styles.containerTecnico}>
+                <div onClick={() =>{
+                    setListTecnico(!listTecnico)
+                }} className={styles.containerTecnico}>
                     <input type="text" />
                     <label htmlFor="">TÉCNICO</label>
+                    <ul className={listTecnico ?
+                        styles.containerListTecnico :
+                        styles.containerListTecnico_close} >
+                        <li>WILDEN SILVA</li>
+                        <li>JOÃO PLINIO</li>
+                        <li>JOÃO</li>
+                        <li>GEROLDI</li>
+                    </ul>
                 </div>
             </main>
         </main>

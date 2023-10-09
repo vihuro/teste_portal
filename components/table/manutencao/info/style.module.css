@@ -56,5 +56,34 @@
         transition: .5s;
         transform: translateY(15px) translateX(10px);
     }
+    .containerTecnico input:valid~label,
+    .containerTecnico input:focus~label{
+        transform: translateX(15px) translateY(-10px);
+        background-color: var(--background-color-blue-700);
+        color: white;
+        font-size: 12px;
+        padding: 3px;
+        border-radius: 5px;
+    }
+    .containerListTecnico,
+    .containerListTecnico_close{
+        position: absolute;
+        background-color: var(--background-color-blue-700);
+        border-radius: 3px;
+        color:white;
+        width: 90%;
+        transition: .5s;
+        padding: 5px;
+        height: 100px;
+        overflow: auto;
+        transform-origin: top;
+    }
+    .containerListTecnico_close{
+        transform: scaleY(0);
+    }
+    .containerListTecnico li,
+    .containerListTecnico_close li{
+
+    }
 
 }

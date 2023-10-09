@@ -12,6 +12,7 @@ export const Manutencao = [
         dataHoraAlteracao: "02-10-2023 10:00",
         usuarioAlteracao: "Vitor Hugo",
         prioridade: "NORMAL",
+        tecnicoResponsavel:"WILDEN SILVA",
         apontamentos: [
             {
                 apontamento: "VERIFICAÇÃO",
@@ -73,6 +74,7 @@ export const Manutencao = [
         dataHoraAlteracao: "02-10-2023 10:00",
         usuarioAlteracao: "Vitor Hugo",
         prioridade: "ALTA",
+        tecnicoResponsavel:"JOÃO PLINIO",
         apontamentos: [
             {
                 apontamento: "VERIFICAÇÃO",
@@ -129,6 +131,377 @@ export const Manutencao = [
         dataIdeal: "02-10-2023",
         descricaoServico: "máquina parou de funcionar",
         statusOrdemServico: "AGUARDANDO PEÇAS",
+        dataHoraGeracao: "02-10-2023 10:00",
+        usuarioGeracao: "Vitor Hugo",
+        dataHoraAlteracao: "02-10-2023 10:00",
+        usuarioAlteracao: "Vitor Hugo",
+        prioridade: "BAIXA",
+        tecnicoResponsavel:"JOÃO",
+        apontamentos: [
+            {
+                apontamento: "VERIFICAÇÃO",
+                dataHoraApontamento: "02-10-2023 11:00",
+                usuarioApontamento: "Vitor Hugo",
+                observao: ""
+            },
+            {
+                apontamento: "INÍCIO DE MANUTENÇÃO",
+                dataHoraApontamento: "02-10-2023 12:00",
+                usuarioApontamento: "Vitor Hugo",
+                obervacao: ""
+            },
+            {
+                apontamento: "SOLICITAÇÃO DE PEÇA",
+                dataHoraApontamento: "02-10-2023 13:00",
+                usuarioApontamento: "Vitor Hugo",
+                observacao: ""
+            },
+            {
+                apontamento: "AUTORIZAÇÃO DE PEÇA",
+                dataHoraApontamento: "02-10-2023 13:20",
+                usuarioApontamento: "Vitor Hugo",
+                observacao: ""
+            },
+            {
+                apontamento: "SOLICITAÇÃO DE COMPRA",
+                dataHoraApontamento: "02-10-2023 13:25",
+                usuarioApontamento: "Vitor Hugo",
+            },
+            {
+                apontamento: "CONCLUSÃO DE COMPRA",
+                dataHoraApontamento: "02-10-2023 13:40",
+                usuarioApontamento: "Vitor Hugo",
+            },
+            {
+                apontamento: "ENTRE DE PEÇA",
+                dataHoraApontamento: "02-10-2023 14:00",
+                usuarioApontamento: "Vitor Hugo"
+            },
+            {
+                apontamento: "FINALIZAÇÃO DA ORDEM",
+                dataHoraApontamento: "02-10-2023 14:00",
+                usuarioApontamento: "Vitor Hugo"
+            }
+        ]
+
+    },
+    {
+        numeroOrdemServico: 4,
+        execucao: "MÁQUINA PET 12",
+        tipoServico: "ELETRICO",
+        categoriaServico: "PREVENTIVA",
+        dataIdeal: "02-10-2023",
+        descricaoServico: "máquina parou de funcionar",
+        statusOrdemServico: "AGUARDANDO CHEGADA DE PEÇAS",
+        dataHoraGeracao: "02-10-2023 10:00",
+        usuarioGeracao: "Vitor Hugo",
+        dataHoraAlteracao: "02-10-2023 10:00",
+        usuarioAlteracao: "Vitor Hugo",
+        prioridade: "ALTA",
+        tecnicoResponsavel:"GEROLDI",
+        apontamentos: [
+            {
+                apontamento: "VERIFICAÇÃO",
+                dataHoraApontamento: "02-10-2023 11:00",
+                usuarioApontamento: "Vitor Hugo",
+                observao: ""
+            },
+            {
+                apontamento: "INÍCIO DE MANUTENÇÃO",
+                dataHoraApontamento: "02-10-2023 12:00",
+                usuarioApontamento: "Vitor Hugo",
+                obervacao: ""
+            },
+            {
+                apontamento: "SOLICITAÇÃO DE PEÇA",
+                dataHoraApontamento: "02-10-2023 13:00",
+                usuarioApontamento: "Vitor Hugo",
+                observacao: ""
+            },
+            {
+                apontamento: "AUTORIZAÇÃO DE PEÇA",
+                dataHoraApontamento: "02-10-2023 13:20",
+                usuarioApontamento: "Vitor Hugo",
+                observacao: ""
+            },
+            {
+                apontamento: "SOLICITAÇÃO DE COMPRA",
+                dataHoraApontamento: "02-10-2023 13:25",
+                usuarioApontamento: "Vitor Hugo",
+            },
+            {
+                apontamento: "CONCLUSÃO DE COMPRA",
+                dataHoraApontamento: "02-10-2023 13:40",
+                usuarioApontamento: "Vitor Hugo",
+            },
+            {
+                apontamento: "ENTRE DE PEÇA",
+                dataHoraApontamento: "02-10-2023 14:00",
+                usuarioApontamento: "Vitor Hugo"
+            },
+            {
+                apontamento: "FINALIZAÇÃO DA ORDEM",
+                dataHoraApontamento: "02-10-2023 14:00",
+                usuarioApontamento: "Vitor Hugo"
+            }
+        ]
+
+    },
+    {
+        numeroOrdemServico: 5,
+        execucao: "MÁQUINA PET 12",
+        tipoServico: "ELETRICO",
+        categoriaServico: "PREVENTIVA",
+        dataIdeal: "02-10-2023",
+        descricaoServico: "máquina parou de funcionar",
+        statusOrdemServico: "AGUARDANDO VERIFIÇÃO DE PEÇAS",
+        dataHoraGeracao: "02-10-2023 10:00",
+        usuarioGeracao: "Vitor Hugo",
+        dataHoraAlteracao: "02-10-2023 10:00",
+        usuarioAlteracao: "Vitor Hugo",
+        prioridade: "NORMAL",
+        tecnicoResponsavel:"WILDEN SILVA",
+        apontamentos: [
+            {
+                apontamento: "VERIFICAÇÃO",
+                dataHoraApontamento: "02-10-2023 11:00",
+                usuarioApontamento: "Vitor Hugo",
+                observao: ""
+            },
+            {
+                apontamento: "INÍCIO DE MANUTENÇÃO",
+                dataHoraApontamento: "02-10-2023 12:00",
+                usuarioApontamento: "Vitor Hugo",
+                obervacao: ""
+            },
+            {
+                apontamento: "SOLICITAÇÃO DE PEÇA",
+                dataHoraApontamento: "02-10-2023 13:00",
+                usuarioApontamento: "Vitor Hugo",
+                observacao: ""
+            },
+            {
+                apontamento: "AUTORIZAÇÃO DE PEÇA",
+                dataHoraApontamento: "02-10-2023 13:20",
+                usuarioApontamento: "Vitor Hugo",
+                observacao: ""
+            },
+            {
+                apontamento: "SOLICITAÇÃO DE COMPRA",
+                dataHoraApontamento: "02-10-2023 13:25",
+                usuarioApontamento: "Vitor Hugo",
+            },
+            {
+                apontamento: "CONCLUSÃO DE COMPRA",
+                dataHoraApontamento: "02-10-2023 13:40",
+                usuarioApontamento: "Vitor Hugo",
+            },
+            {
+                apontamento: "ENTRE DE PEÇA",
+                dataHoraApontamento: "02-10-2023 14:00",
+                usuarioApontamento: "Vitor Hugo"
+            },
+            {
+                apontamento: "FINALIZAÇÃO DA ORDEM",
+                dataHoraApontamento: "02-10-2023 14:00",
+                usuarioApontamento: "Vitor Hugo"
+            }
+        ]
+
+    },
+    {
+        numeroOrdemServico: 6,
+        execucao: "MÁQUINA PET 12",
+        tipoServico: "ELETRICO",
+        categoriaServico: "PREVENTIVA",
+        dataIdeal: "02-10-2023",
+        descricaoServico: "máquina parou de funcionar",
+        statusOrdemServico: "AGUARDANDO FINALIZAÇÃO DE MANUTENÇÃO",
+        dataHoraGeracao: "02-10-2023 10:00",
+        usuarioGeracao: "Vitor Hugo",
+        dataHoraAlteracao: "02-10-2023 10:00",
+        usuarioAlteracao: "Vitor Hugo",
+        prioridade: "BAIXA",
+        tecnicoResponsavel:"JOÃO PLINIO",
+        apontamentos: [
+            {
+                apontamento: "VERIFICAÇÃO",
+                dataHoraApontamento: "02-10-2023 11:00",
+                usuarioApontamento: "Vitor Hugo",
+                observao: ""
+            },
+            {
+                apontamento: "INÍCIO DE MANUTENÇÃO",
+                dataHoraApontamento: "02-10-2023 12:00",
+                usuarioApontamento: "Vitor Hugo",
+                obervacao: ""
+            },
+            {
+                apontamento: "SOLICITAÇÃO DE PEÇA",
+                dataHoraApontamento: "02-10-2023 13:00",
+                usuarioApontamento: "Vitor Hugo",
+                observacao: ""
+            },
+            {
+                apontamento: "AUTORIZAÇÃO DE PEÇA",
+                dataHoraApontamento: "02-10-2023 13:20",
+                usuarioApontamento: "Vitor Hugo",
+                observacao: ""
+            },
+            {
+                apontamento: "SOLICITAÇÃO DE COMPRA",
+                dataHoraApontamento: "02-10-2023 13:25",
+                usuarioApontamento: "Vitor Hugo",
+            },
+            {
+                apontamento: "CONCLUSÃO DE COMPRA",
+                dataHoraApontamento: "02-10-2023 13:40",
+                usuarioApontamento: "Vitor Hugo",
+            },
+            {
+                apontamento: "ENTRE DE PEÇA",
+                dataHoraApontamento: "02-10-2023 14:00",
+                usuarioApontamento: "Vitor Hugo"
+            },
+            {
+                apontamento: "FINALIZAÇÃO DA ORDEM",
+                dataHoraApontamento: "02-10-2023 14:00",
+                usuarioApontamento: "Vitor Hugo"
+            }
+        ]
+
+    },
+    {
+        numeroOrdemServico: 4,
+        execucao: "MÁQUINA PET 12",
+        tipoServico: "ELETRICO",
+        categoriaServico: "PREVENTIVA",
+        dataIdeal: "02-10-2023",
+        descricaoServico: "máquina parou de funcionar",
+        statusOrdemServico: "AGUARDANDO CHEGADA DE PEÇAS",
+        dataHoraGeracao: "02-10-2023 10:00",
+        usuarioGeracao: "Vitor Hugo",
+        dataHoraAlteracao: "02-10-2023 10:00",
+        usuarioAlteracao: "Vitor Hugo",
+        prioridade: "BAIXA",
+        tecnicoResponsavel:"JOÃO",
+        apontamentos: [
+            {
+                apontamento: "VERIFICAÇÃO",
+                dataHoraApontamento: "02-10-2023 11:00",
+                usuarioApontamento: "Vitor Hugo",
+                observao: ""
+            },
+            {
+                apontamento: "INÍCIO DE MANUTENÇÃO",
+                dataHoraApontamento: "02-10-2023 12:00",
+                usuarioApontamento: "Vitor Hugo",
+                obervacao: ""
+            },
+            {
+                apontamento: "SOLICITAÇÃO DE PEÇA",
+                dataHoraApontamento: "02-10-2023 13:00",
+                usuarioApontamento: "Vitor Hugo",
+                observacao: ""
+            },
+            {
+                apontamento: "AUTORIZAÇÃO DE PEÇA",
+                dataHoraApontamento: "02-10-2023 13:20",
+                usuarioApontamento: "Vitor Hugo",
+                observacao: ""
+            },
+            {
+                apontamento: "SOLICITAÇÃO DE COMPRA",
+                dataHoraApontamento: "02-10-2023 13:25",
+                usuarioApontamento: "Vitor Hugo",
+            },
+            {
+                apontamento: "CONCLUSÃO DE COMPRA",
+                dataHoraApontamento: "02-10-2023 13:40",
+                usuarioApontamento: "Vitor Hugo",
+            },
+            {
+                apontamento: "ENTRE DE PEÇA",
+                dataHoraApontamento: "02-10-2023 14:00",
+                usuarioApontamento: "Vitor Hugo"
+            },
+            {
+                apontamento: "FINALIZAÇÃO DA ORDEM",
+                dataHoraApontamento: "02-10-2023 14:00",
+                usuarioApontamento: "Vitor Hugo"
+            }
+        ]
+
+    },
+    {
+        numeroOrdemServico: 4,
+        execucao: "MÁQUINA PET 12",
+        tipoServico: "ELETRICO",
+        categoriaServico: "PREVENTIVA",
+        dataIdeal: "02-10-2023",
+        descricaoServico: "máquina parou de funcionar",
+        statusOrdemServico: "AGUARDANDO CHEGADA DE PEÇAS",
+        dataHoraGeracao: "02-10-2023 10:00",
+        usuarioGeracao: "Vitor Hugo",
+        dataHoraAlteracao: "02-10-2023 10:00",
+        usuarioAlteracao: "Vitor Hugo",
+        prioridade: "NORMAL",
+        apontamentos: [
+            {
+                apontamento: "VERIFICAÇÃO",
+                dataHoraApontamento: "02-10-2023 11:00",
+                usuarioApontamento: "Vitor Hugo",
+                observao: ""
+            },
+            {
+                apontamento: "INÍCIO DE MANUTENÇÃO",
+                dataHoraApontamento: "02-10-2023 12:00",
+                usuarioApontamento: "Vitor Hugo",
+                obervacao: ""
+            },
+            {
+                apontamento: "SOLICITAÇÃO DE PEÇA",
+                dataHoraApontamento: "02-10-2023 13:00",
+                usuarioApontamento: "Vitor Hugo",
+                observacao: ""
+            },
+            {
+                apontamento: "AUTORIZAÇÃO DE PEÇA",
+                dataHoraApontamento: "02-10-2023 13:20",
+                usuarioApontamento: "Vitor Hugo",
+                observacao: ""
+            },
+            {
+                apontamento: "SOLICITAÇÃO DE COMPRA",
+                dataHoraApontamento: "02-10-2023 13:25",
+                usuarioApontamento: "Vitor Hugo",
+            },
+            {
+                apontamento: "CONCLUSÃO DE COMPRA",
+                dataHoraApontamento: "02-10-2023 13:40",
+                usuarioApontamento: "Vitor Hugo",
+            },
+            {
+                apontamento: "ENTRE DE PEÇA",
+                dataHoraApontamento: "02-10-2023 14:00",
+                usuarioApontamento: "Vitor Hugo"
+            },
+            {
+                apontamento: "FINALIZAÇÃO DA ORDEM",
+                dataHoraApontamento: "02-10-2023 14:00",
+                usuarioApontamento: "Vitor Hugo"
+            }
+        ]
+
+    },
+    {
+        numeroOrdemServico: 4,
+        execucao: "MÁQUINA PET 12",
+        tipoServico: "ELETRICO",
+        categoriaServico: "PREVENTIVA",
+        dataIdeal: "02-10-2023",
+        descricaoServico: "máquina parou de funcionar",
+        statusOrdemServico: "AGUARDANDO CHEGADA DE PEÇAS",
         dataHoraGeracao: "02-10-2023 10:00",
         usuarioGeracao: "Vitor Hugo",
         dataHoraAlteracao: "02-10-2023 10:00",
@@ -194,7 +567,68 @@ export const Manutencao = [
         usuarioGeracao: "Vitor Hugo",
         dataHoraAlteracao: "02-10-2023 10:00",
         usuarioAlteracao: "Vitor Hugo",
-        prioridade: "ALTA",
+        prioridade: "NORMAL",
+        apontamentos: [
+            {
+                apontamento: "VERIFICAÇÃO",
+                dataHoraApontamento: "02-10-2023 11:00",
+                usuarioApontamento: "Vitor Hugo",
+                observao: ""
+            },
+            {
+                apontamento: "INÍCIO DE MANUTENÇÃO",
+                dataHoraApontamento: "02-10-2023 12:00",
+                usuarioApontamento: "Vitor Hugo",
+                obervacao: ""
+            },
+            {
+                apontamento: "SOLICITAÇÃO DE PEÇA",
+                dataHoraApontamento: "02-10-2023 13:00",
+                usuarioApontamento: "Vitor Hugo",
+                observacao: ""
+            },
+            {
+                apontamento: "AUTORIZAÇÃO DE PEÇA",
+                dataHoraApontamento: "02-10-2023 13:20",
+                usuarioApontamento: "Vitor Hugo",
+                observacao: ""
+            },
+            {
+                apontamento: "SOLICITAÇÃO DE COMPRA",
+                dataHoraApontamento: "02-10-2023 13:25",
+                usuarioApontamento: "Vitor Hugo",
+            },
+            {
+                apontamento: "CONCLUSÃO DE COMPRA",
+                dataHoraApontamento: "02-10-2023 13:40",
+                usuarioApontamento: "Vitor Hugo",
+            },
+            {
+                apontamento: "ENTRE DE PEÇA",
+                dataHoraApontamento: "02-10-2023 14:00",
+                usuarioApontamento: "Vitor Hugo"
+            },
+            {
+                apontamento: "FINALIZAÇÃO DA ORDEM",
+                dataHoraApontamento: "02-10-2023 14:00",
+                usuarioApontamento: "Vitor Hugo"
+            }
+        ]
+
+    },
+    {
+        numeroOrdemServico: 4,
+        execucao: "MÁQUINA PET 12",
+        tipoServico: "ELETRICO",
+        categoriaServico: "PREVENTIVA",
+        dataIdeal: "02-10-2023",
+        descricaoServico: "máquina parou de funcionar",
+        statusOrdemServico: "AGUARDANDO CHEGADA DE PEÇAS",
+        dataHoraGeracao: "02-10-2023 10:00",
+        usuarioGeracao: "Vitor Hugo",
+        dataHoraAlteracao: "02-10-2023 10:00",
+        usuarioAlteracao: "Vitor Hugo",
+        prioridade: "NORMAL",
         apontamentos: [
             {
                 apontamento: "VERIFICAÇÃO",
@@ -316,7 +750,7 @@ export const Manutencao = [
         usuarioGeracao: "Vitor Hugo",
         dataHoraAlteracao: "02-10-2023 10:00",
         usuarioAlteracao: "Vitor Hugo",
-        prioridade: "ALTA",
+        prioridade: "NORMAL",
         apontamentos: [
             {
                 apontamento: "VERIFICAÇÃO",
@@ -377,7 +811,7 @@ export const Manutencao = [
         usuarioGeracao: "Vitor Hugo",
         dataHoraAlteracao: "02-10-2023 10:00",
         usuarioAlteracao: "Vitor Hugo",
-        prioridade: "ALTA",
+        prioridade: "NORMAL",
         apontamentos: [
             {
                 apontamento: "VERIFICAÇÃO",
@@ -438,7 +872,7 @@ export const Manutencao = [
         usuarioGeracao: "Vitor Hugo",
         dataHoraAlteracao: "02-10-2023 10:00",
         usuarioAlteracao: "Vitor Hugo",
-        prioridade: "ALTA",
+        prioridade: "NORMAL",
         apontamentos: [
             {
                 apontamento: "VERIFICAÇÃO",
@@ -499,7 +933,7 @@ export const Manutencao = [
         usuarioGeracao: "Vitor Hugo",
         dataHoraAlteracao: "02-10-2023 10:00",
         usuarioAlteracao: "Vitor Hugo",
-        prioridade: "ALTA",
+        prioridade: "NORMAL",
         apontamentos: [
             {
                 apontamento: "VERIFICAÇÃO",
@@ -560,7 +994,7 @@ export const Manutencao = [
         usuarioGeracao: "Vitor Hugo",
         dataHoraAlteracao: "02-10-2023 10:00",
         usuarioAlteracao: "Vitor Hugo",
-        prioridade: "ALTA",
+        prioridade: "NORMAL",
         apontamentos: [
             {
                 apontamento: "VERIFICAÇÃO",
@@ -621,434 +1055,7 @@ export const Manutencao = [
         usuarioGeracao: "Vitor Hugo",
         dataHoraAlteracao: "02-10-2023 10:00",
         usuarioAlteracao: "Vitor Hugo",
-        prioridade: "ALTA",
-        apontamentos: [
-            {
-                apontamento: "VERIFICAÇÃO",
-                dataHoraApontamento: "02-10-2023 11:00",
-                usuarioApontamento: "Vitor Hugo",
-                observao: ""
-            },
-            {
-                apontamento: "INÍCIO DE MANUTENÇÃO",
-                dataHoraApontamento: "02-10-2023 12:00",
-                usuarioApontamento: "Vitor Hugo",
-                obervacao: ""
-            },
-            {
-                apontamento: "SOLICITAÇÃO DE PEÇA",
-                dataHoraApontamento: "02-10-2023 13:00",
-                usuarioApontamento: "Vitor Hugo",
-                observacao: ""
-            },
-            {
-                apontamento: "AUTORIZAÇÃO DE PEÇA",
-                dataHoraApontamento: "02-10-2023 13:20",
-                usuarioApontamento: "Vitor Hugo",
-                observacao: ""
-            },
-            {
-                apontamento: "SOLICITAÇÃO DE COMPRA",
-                dataHoraApontamento: "02-10-2023 13:25",
-                usuarioApontamento: "Vitor Hugo",
-            },
-            {
-                apontamento: "CONCLUSÃO DE COMPRA",
-                dataHoraApontamento: "02-10-2023 13:40",
-                usuarioApontamento: "Vitor Hugo",
-            },
-            {
-                apontamento: "ENTRE DE PEÇA",
-                dataHoraApontamento: "02-10-2023 14:00",
-                usuarioApontamento: "Vitor Hugo"
-            },
-            {
-                apontamento: "FINALIZAÇÃO DA ORDEM",
-                dataHoraApontamento: "02-10-2023 14:00",
-                usuarioApontamento: "Vitor Hugo"
-            }
-        ]
-
-    },
-    {
-        numeroOrdemServico: 4,
-        execucao: "MÁQUINA PET 12",
-        tipoServico: "ELETRICO",
-        categoriaServico: "PREVENTIVA",
-        dataIdeal: "02-10-2023",
-        descricaoServico: "máquina parou de funcionar",
-        statusOrdemServico: "AGUARDANDO CHEGADA DE PEÇAS",
-        dataHoraGeracao: "02-10-2023 10:00",
-        usuarioGeracao: "Vitor Hugo",
-        dataHoraAlteracao: "02-10-2023 10:00",
-        usuarioAlteracao: "Vitor Hugo",
-        prioridade: "ALTA",
-        apontamentos: [
-            {
-                apontamento: "VERIFICAÇÃO",
-                dataHoraApontamento: "02-10-2023 11:00",
-                usuarioApontamento: "Vitor Hugo",
-                observao: ""
-            },
-            {
-                apontamento: "INÍCIO DE MANUTENÇÃO",
-                dataHoraApontamento: "02-10-2023 12:00",
-                usuarioApontamento: "Vitor Hugo",
-                obervacao: ""
-            },
-            {
-                apontamento: "SOLICITAÇÃO DE PEÇA",
-                dataHoraApontamento: "02-10-2023 13:00",
-                usuarioApontamento: "Vitor Hugo",
-                observacao: ""
-            },
-            {
-                apontamento: "AUTORIZAÇÃO DE PEÇA",
-                dataHoraApontamento: "02-10-2023 13:20",
-                usuarioApontamento: "Vitor Hugo",
-                observacao: ""
-            },
-            {
-                apontamento: "SOLICITAÇÃO DE COMPRA",
-                dataHoraApontamento: "02-10-2023 13:25",
-                usuarioApontamento: "Vitor Hugo",
-            },
-            {
-                apontamento: "CONCLUSÃO DE COMPRA",
-                dataHoraApontamento: "02-10-2023 13:40",
-                usuarioApontamento: "Vitor Hugo",
-            },
-            {
-                apontamento: "ENTRE DE PEÇA",
-                dataHoraApontamento: "02-10-2023 14:00",
-                usuarioApontamento: "Vitor Hugo"
-            },
-            {
-                apontamento: "FINALIZAÇÃO DA ORDEM",
-                dataHoraApontamento: "02-10-2023 14:00",
-                usuarioApontamento: "Vitor Hugo"
-            }
-        ]
-
-    },
-    {
-        numeroOrdemServico: 4,
-        execucao: "MÁQUINA PET 12",
-        tipoServico: "ELETRICO",
-        categoriaServico: "PREVENTIVA",
-        dataIdeal: "02-10-2023",
-        descricaoServico: "máquina parou de funcionar",
-        statusOrdemServico: "AGUARDANDO CHEGADA DE PEÇAS",
-        dataHoraGeracao: "02-10-2023 10:00",
-        usuarioGeracao: "Vitor Hugo",
-        dataHoraAlteracao: "02-10-2023 10:00",
-        usuarioAlteracao: "Vitor Hugo",
-        prioridade: "ALTA",
-        apontamentos: [
-            {
-                apontamento: "VERIFICAÇÃO",
-                dataHoraApontamento: "02-10-2023 11:00",
-                usuarioApontamento: "Vitor Hugo",
-                observao: ""
-            },
-            {
-                apontamento: "INÍCIO DE MANUTENÇÃO",
-                dataHoraApontamento: "02-10-2023 12:00",
-                usuarioApontamento: "Vitor Hugo",
-                obervacao: ""
-            },
-            {
-                apontamento: "SOLICITAÇÃO DE PEÇA",
-                dataHoraApontamento: "02-10-2023 13:00",
-                usuarioApontamento: "Vitor Hugo",
-                observacao: ""
-            },
-            {
-                apontamento: "AUTORIZAÇÃO DE PEÇA",
-                dataHoraApontamento: "02-10-2023 13:20",
-                usuarioApontamento: "Vitor Hugo",
-                observacao: ""
-            },
-            {
-                apontamento: "SOLICITAÇÃO DE COMPRA",
-                dataHoraApontamento: "02-10-2023 13:25",
-                usuarioApontamento: "Vitor Hugo",
-            },
-            {
-                apontamento: "CONCLUSÃO DE COMPRA",
-                dataHoraApontamento: "02-10-2023 13:40",
-                usuarioApontamento: "Vitor Hugo",
-            },
-            {
-                apontamento: "ENTRE DE PEÇA",
-                dataHoraApontamento: "02-10-2023 14:00",
-                usuarioApontamento: "Vitor Hugo"
-            },
-            {
-                apontamento: "FINALIZAÇÃO DA ORDEM",
-                dataHoraApontamento: "02-10-2023 14:00",
-                usuarioApontamento: "Vitor Hugo"
-            }
-        ]
-
-    },
-    {
-        numeroOrdemServico: 4,
-        execucao: "MÁQUINA PET 12",
-        tipoServico: "ELETRICO",
-        categoriaServico: "PREVENTIVA",
-        dataIdeal: "02-10-2023",
-        descricaoServico: "máquina parou de funcionar",
-        statusOrdemServico: "AGUARDANDO CHEGADA DE PEÇAS",
-        dataHoraGeracao: "02-10-2023 10:00",
-        usuarioGeracao: "Vitor Hugo",
-        dataHoraAlteracao: "02-10-2023 10:00",
-        usuarioAlteracao: "Vitor Hugo",
-        prioridade: "ALTA",
-        apontamentos: [
-            {
-                apontamento: "VERIFICAÇÃO",
-                dataHoraApontamento: "02-10-2023 11:00",
-                usuarioApontamento: "Vitor Hugo",
-                observao: ""
-            },
-            {
-                apontamento: "INÍCIO DE MANUTENÇÃO",
-                dataHoraApontamento: "02-10-2023 12:00",
-                usuarioApontamento: "Vitor Hugo",
-                obervacao: ""
-            },
-            {
-                apontamento: "SOLICITAÇÃO DE PEÇA",
-                dataHoraApontamento: "02-10-2023 13:00",
-                usuarioApontamento: "Vitor Hugo",
-                observacao: ""
-            },
-            {
-                apontamento: "AUTORIZAÇÃO DE PEÇA",
-                dataHoraApontamento: "02-10-2023 13:20",
-                usuarioApontamento: "Vitor Hugo",
-                observacao: ""
-            },
-            {
-                apontamento: "SOLICITAÇÃO DE COMPRA",
-                dataHoraApontamento: "02-10-2023 13:25",
-                usuarioApontamento: "Vitor Hugo",
-            },
-            {
-                apontamento: "CONCLUSÃO DE COMPRA",
-                dataHoraApontamento: "02-10-2023 13:40",
-                usuarioApontamento: "Vitor Hugo",
-            },
-            {
-                apontamento: "ENTRE DE PEÇA",
-                dataHoraApontamento: "02-10-2023 14:00",
-                usuarioApontamento: "Vitor Hugo"
-            },
-            {
-                apontamento: "FINALIZAÇÃO DA ORDEM",
-                dataHoraApontamento: "02-10-2023 14:00",
-                usuarioApontamento: "Vitor Hugo"
-            }
-        ]
-
-    },
-    {
-        numeroOrdemServico: 4,
-        execucao: "MÁQUINA PET 12",
-        tipoServico: "ELETRICO",
-        categoriaServico: "PREVENTIVA",
-        dataIdeal: "02-10-2023",
-        descricaoServico: "máquina parou de funcionar",
-        statusOrdemServico: "AGUARDANDO CHEGADA DE PEÇAS",
-        dataHoraGeracao: "02-10-2023 10:00",
-        usuarioGeracao: "Vitor Hugo",
-        dataHoraAlteracao: "02-10-2023 10:00",
-        usuarioAlteracao: "Vitor Hugo",
-        prioridade: "ALTA",
-        apontamentos: [
-            {
-                apontamento: "VERIFICAÇÃO",
-                dataHoraApontamento: "02-10-2023 11:00",
-                usuarioApontamento: "Vitor Hugo",
-                observao: ""
-            },
-            {
-                apontamento: "INÍCIO DE MANUTENÇÃO",
-                dataHoraApontamento: "02-10-2023 12:00",
-                usuarioApontamento: "Vitor Hugo",
-                obervacao: ""
-            },
-            {
-                apontamento: "SOLICITAÇÃO DE PEÇA",
-                dataHoraApontamento: "02-10-2023 13:00",
-                usuarioApontamento: "Vitor Hugo",
-                observacao: ""
-            },
-            {
-                apontamento: "AUTORIZAÇÃO DE PEÇA",
-                dataHoraApontamento: "02-10-2023 13:20",
-                usuarioApontamento: "Vitor Hugo",
-                observacao: ""
-            },
-            {
-                apontamento: "SOLICITAÇÃO DE COMPRA",
-                dataHoraApontamento: "02-10-2023 13:25",
-                usuarioApontamento: "Vitor Hugo",
-            },
-            {
-                apontamento: "CONCLUSÃO DE COMPRA",
-                dataHoraApontamento: "02-10-2023 13:40",
-                usuarioApontamento: "Vitor Hugo",
-            },
-            {
-                apontamento: "ENTRE DE PEÇA",
-                dataHoraApontamento: "02-10-2023 14:00",
-                usuarioApontamento: "Vitor Hugo"
-            },
-            {
-                apontamento: "FINALIZAÇÃO DA ORDEM",
-                dataHoraApontamento: "02-10-2023 14:00",
-                usuarioApontamento: "Vitor Hugo"
-            }
-        ]
-
-    },
-    {
-        numeroOrdemServico: 4,
-        execucao: "MÁQUINA PET 12",
-        tipoServico: "ELETRICO",
-        categoriaServico: "PREVENTIVA",
-        dataIdeal: "02-10-2023",
-        descricaoServico: "máquina parou de funcionar",
-        statusOrdemServico: "AGUARDANDO CHEGADA DE PEÇAS",
-        dataHoraGeracao: "02-10-2023 10:00",
-        usuarioGeracao: "Vitor Hugo",
-        dataHoraAlteracao: "02-10-2023 10:00",
-        usuarioAlteracao: "Vitor Hugo",
-        prioridade: "ALTA",
-        apontamentos: [
-            {
-                apontamento: "VERIFICAÇÃO",
-                dataHoraApontamento: "02-10-2023 11:00",
-                usuarioApontamento: "Vitor Hugo",
-                observao: ""
-            },
-            {
-                apontamento: "INÍCIO DE MANUTENÇÃO",
-                dataHoraApontamento: "02-10-2023 12:00",
-                usuarioApontamento: "Vitor Hugo",
-                obervacao: ""
-            },
-            {
-                apontamento: "SOLICITAÇÃO DE PEÇA",
-                dataHoraApontamento: "02-10-2023 13:00",
-                usuarioApontamento: "Vitor Hugo",
-                observacao: ""
-            },
-            {
-                apontamento: "AUTORIZAÇÃO DE PEÇA",
-                dataHoraApontamento: "02-10-2023 13:20",
-                usuarioApontamento: "Vitor Hugo",
-                observacao: ""
-            },
-            {
-                apontamento: "SOLICITAÇÃO DE COMPRA",
-                dataHoraApontamento: "02-10-2023 13:25",
-                usuarioApontamento: "Vitor Hugo",
-            },
-            {
-                apontamento: "CONCLUSÃO DE COMPRA",
-                dataHoraApontamento: "02-10-2023 13:40",
-                usuarioApontamento: "Vitor Hugo",
-            },
-            {
-                apontamento: "ENTRE DE PEÇA",
-                dataHoraApontamento: "02-10-2023 14:00",
-                usuarioApontamento: "Vitor Hugo"
-            },
-            {
-                apontamento: "FINALIZAÇÃO DA ORDEM",
-                dataHoraApontamento: "02-10-2023 14:00",
-                usuarioApontamento: "Vitor Hugo"
-            }
-        ]
-
-    },
-    {
-        numeroOrdemServico: 4,
-        execucao: "MÁQUINA PET 12",
-        tipoServico: "ELETRICO",
-        categoriaServico: "PREVENTIVA",
-        dataIdeal: "02-10-2023",
-        descricaoServico: "máquina parou de funcionar",
-        statusOrdemServico: "AGUARDANDO CHEGADA DE PEÇAS",
-        dataHoraGeracao: "02-10-2023 10:00",
-        usuarioGeracao: "Vitor Hugo",
-        dataHoraAlteracao: "02-10-2023 10:00",
-        usuarioAlteracao: "Vitor Hugo",
-        prioridade: "ALTA",
-        apontamentos: [
-            {
-                apontamento: "VERIFICAÇÃO",
-                dataHoraApontamento: "02-10-2023 11:00",
-                usuarioApontamento: "Vitor Hugo",
-                observao: ""
-            },
-            {
-                apontamento: "INÍCIO DE MANUTENÇÃO",
-                dataHoraApontamento: "02-10-2023 12:00",
-                usuarioApontamento: "Vitor Hugo",
-                obervacao: ""
-            },
-            {
-                apontamento: "SOLICITAÇÃO DE PEÇA",
-                dataHoraApontamento: "02-10-2023 13:00",
-                usuarioApontamento: "Vitor Hugo",
-                observacao: ""
-            },
-            {
-                apontamento: "AUTORIZAÇÃO DE PEÇA",
-                dataHoraApontamento: "02-10-2023 13:20",
-                usuarioApontamento: "Vitor Hugo",
-                observacao: ""
-            },
-            {
-                apontamento: "SOLICITAÇÃO DE COMPRA",
-                dataHoraApontamento: "02-10-2023 13:25",
-                usuarioApontamento: "Vitor Hugo",
-            },
-            {
-                apontamento: "CONCLUSÃO DE COMPRA",
-                dataHoraApontamento: "02-10-2023 13:40",
-                usuarioApontamento: "Vitor Hugo",
-            },
-            {
-                apontamento: "ENTRE DE PEÇA",
-                dataHoraApontamento: "02-10-2023 14:00",
-                usuarioApontamento: "Vitor Hugo"
-            },
-            {
-                apontamento: "FINALIZAÇÃO DA ORDEM",
-                dataHoraApontamento: "02-10-2023 14:00",
-                usuarioApontamento: "Vitor Hugo"
-            }
-        ]
-
-    },
-    {
-        numeroOrdemServico: 4,
-        execucao: "MÁQUINA PET 12",
-        tipoServico: "ELETRICO",
-        categoriaServico: "PREVENTIVA",
-        dataIdeal: "02-10-2023",
-        descricaoServico: "máquina parou de funcionar",
-        statusOrdemServico: "AGUARDANDO CHEGADA DE PEÇAS",
-        dataHoraGeracao: "02-10-2023 10:00",
-        usuarioGeracao: "Vitor Hugo",
-        dataHoraAlteracao: "02-10-2023 10:00",
-        usuarioAlteracao: "Vitor Hugo",
-        prioridade: "ALTA",
+        prioridade: "NORMAL",
         apontamentos: [
             {
                 apontamento: "VERIFICAÇÃO",
