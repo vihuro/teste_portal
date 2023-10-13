@@ -11,10 +11,16 @@ import Loading from "../../../loading/Loading";
 import { tokenProps } from "../../../utils/infoToken";
 
 interface ItemsProps {
-    id: string,
+    id: number,
     codigo: string,
     descricao: string,
     quantidade: number,
+    clienteUltimaCompra1: string,
+    codigoClienteUltimaCompra1: string,
+    clienteUltimaCompra2: string,
+    codigoClienteUltimaCompra2: string,
+    clienteUltimaCompra3: string,
+    codigoClienteUltimaCompra3: string,
     substitutos: [
         {
             produtoId: string,
@@ -119,13 +125,21 @@ const Card = ({
     async function Alterar() {
         const validateQuantidade = data?.quantidade.toLocaleString() !== valueQuantidade;
         const validateUnidadeOrTipoMaterial = data.unidade !== valueUnidade || data.tipoMaterial.id !== valueTipo?.id;
-
         const validatePreco = data.preco !== valuePrecoDooble
+
+        const validateUltimoCliente = data.clienteUltimaCompra1 !== item?.clienteUltimaCompra1 ||
+            data.codigoClienteUltimaCompra1 !== item.codigoClienteUltimaCompra1 ||
+            data.clienteUltimaCompra2 !== item.clienteUltimaCompra2 ||
+            data.codigoClienteUltimaCompra2 !== item.codigoClienteUltimaCompra2 ||
+            data.clienteUltimaCompra3 !== item.clienteUltimaCompra3 ||
+            data.codigoClienteUltimaCompra3 !== item.codigoClienteUltimaCompra3
 
         const userId = infoToken.idUser;
         const produtoId = data.id;
 
-        if (validateQuantidade || validateUnidadeOrTipoMaterial || validatePreco) {
+
+
+        if (validateQuantidade || validateUnidadeOrTipoMaterial || validatePreco || validateUltimoCliente) {
             setToogleLoading(true);
 
 
@@ -136,6 +150,10 @@ const Card = ({
             if (validateUnidadeOrTipoMaterial) promises.push(AtualizarTipoOrUnidade({ idUser: userId, produtoId: produtoId }));
 
             if (validatePreco) promises.push(AtualizarPreco({
+                idUser: userId,
+                produtoId: produtoId
+            }))
+            if (validateUltimoCliente) promises.push(AtualizarUltimosCliente({
                 idUser: userId,
                 produtoId: produtoId
             }))
@@ -176,7 +194,7 @@ const Card = ({
         produtoId
     }: {
         idUser: string,
-        produtoId: string
+        produtoId: number
     }) {
         const alteracao = {
             usuarioId: idUser,
@@ -196,7 +214,7 @@ const Card = ({
         produtoId
     }: {
         idUser: string,
-        produtoId: string
+        produtoId: number
     }) {
 
         const valueNumber = Number(valueQuantidade);
@@ -228,7 +246,7 @@ const Card = ({
         produtoId
     }: {
         idUser: string,
-        produtoId: string
+        produtoId: number
     }) {
         const alteracao = {
             produtoId: produtoId,
@@ -238,6 +256,23 @@ const Card = ({
         const response = await Api.put("/preco", alteracao)
             .then(res => res)
             .catch(err => err)
+        return response;
+    }
+    async function AtualizarUltimosCliente({ idUser, produtoId }: { idUser: string, produtoId: number }) {
+        const alteracao = {
+            usuarioId: idUser,
+            materialId: produtoId,
+            clienteUltimaCompra1: item?.clienteUltimaCompra1,
+            codigoClienteUltimaCompra1: item?.codigoClienteUltimaCompra1,
+            clienteUltimaCompra2: item?.clienteUltimaCompra2,
+            CodigoClienteUltimaCompra2: item?.codigoClienteUltimaCompra2,
+            clienteUltimaCompra3: item?.clienteUltimaCompra3,
+            codigoClienteUltimaCompra3: item?.codigoClienteUltimaCompra3
+        }
+        const response = await Api.put("/cliente/ultima-compra", alteracao)
+            .then(res => res)
+            .catch(err => err)
+
         return response;
     }
 
@@ -282,8 +317,8 @@ const Card = ({
     function NewDate(value: Date) {
         const date = new Date(value);
         const year = date.getFullYear().toString()
-        const month = (date.getMonth() + 1).toString().padStart(2,"0");
-        const day = (date.getDate() +1).toString().padStart(2, "0");
+        const month = (date.getMonth() + 1).toString().padStart(2, "0");
+        const day = (date.getDate() + 1).toString().padStart(2, "0");
 
         return `${year}-${month}-${day}`
 
@@ -402,6 +437,17 @@ const Card = ({
                         />
                         <label htmlFor="txtDescricao">DESCRIÇÃO</label>
                     </div>
+                    <div className={style.container_quantidade}>
+                        <input id="txtQuantidade"
+                            type="text"
+                            required
+                            value={valueQuantidade ?? ''}
+                            onChange={(e) => { setValueQuantidade(e.target.value) }}
+                            autoComplete="off"
+                        />
+                        <label htmlFor="txtQuantidade">QTD.</label>
+
+                    </div>
                     <div className={style.container_unidade} onClick={e => e.stopPropagation()} >
                         <input id="txtUnidade"
                             type="text"
@@ -424,16 +470,36 @@ const Card = ({
 
                         </ul>
                     </div>
-                    <div className={style.container_quantidade}>
-                        <input id="txtQuantidade"
+                    <div className={style.container_localEstocagem}>
+                        <input id="txtLocal"
                             type="text"
                             required
-                            value={valueQuantidade ?? ''}
-                            onChange={(e) => { setValueQuantidade(e.target.value) }}
-                            autoComplete="off"
+                            value={item?.localEstocagem.localEstocagem ?? ''}
+                            onChange={() => { }}
                         />
-                        <label htmlFor="txtQuantidade">QTD.</label>
+                        <label htmlFor="txtLocal">LOCAL</label>
 
+                    </div>
+                    <div className={style.container_data} >
+                        <input
+                            id="txtData"
+                            required
+                            type="date"
+                            onChange={() => { }}
+                            value={NewDate(item ? item.dataFabricao : new Date)}
+                        />
+                        <label htmlFor="txtData">DATA / FABRI.</label>
+                    </div>
+                    <div className={ValidateUser() ?
+                        style.container_preco :
+                        style.container_preco_false} >
+                        <input
+                            id="txtPreco"
+                            required
+                            value={valuePrecoString}
+                            onChange={handleChangePreco}
+                            type="text" />
+                        <label htmlFor="txtPreco">PREÇO</label>
                     </div>
                     <div className={style.container_tipoMaterial} onClick={(e) => e.stopPropagation()} >
                         <input id="txtTipo"
@@ -466,37 +532,97 @@ const Card = ({
                         </ul>
 
                     </div>
-                    <div className={style.container_localEstocagem}>
-                        <input id="txtLocal"
-                            type="text"
+                    <div className={style.container_codigoClienteUltimaCompra1} >
+                        <input type="text"
                             required
-                            value={item?.localEstocagem.localEstocagem ?? ''}
-                            onChange={() => { }}
-                        />
-                        <label htmlFor="txtLocal">LOCAL</label>
+                            id="txtCodigoCLientUltimaCompra1"
+                            value={item ? item.codigoClienteUltimaCompra1 : ""}
+                            onChange={(e) => {
+                                if (item) {
+                                    setItem({
+                                        ...item,
+                                        codigoClienteUltimaCompra1: e.target.value
+                                    })
+                                }
+                            }} />
+                        <label htmlFor="txtCodigoCLientUltimaCompra1">CÓDIGO CLIENTE 1</label>
+                    </div>
+                    <div className={style.container_ultimoClienteCompra1} >
+                        <input type="text"
+                            required
+                            id="txtUltimoClienteCompra1"
+                            value={item ? item.clienteUltimaCompra1 : ""}
+                            onChange={(e) => {
+                                if (item) {
+                                    setItem({
+                                        ...item,
+                                        clienteUltimaCompra1: e.target.value
+                                    })
+                                }
+                            }} />
+                        <label htmlFor="txtUltimoClienteCompra1">ÚTIMO CLIENTE COMPRA 1</label>
+                    </div>
+                    <div className={style.container_codigoClienteUltimaCompra2} >
+                        <input type="text"
+                            required
+                            id="txtCodigoCLientUltimaCompra2"
+                            value={item ? item.codigoClienteUltimaCompra2 : ""}
+                            onChange={(e) => {
+                                if (item) {
+                                    setItem({
+                                        ...item,
+                                        codigoClienteUltimaCompra2: e.target.value
+                                    })
+                                }
+                            }} />
+                        <label htmlFor="txtCodigoCLientUltimaCompra2">CÓDIGO CLIENTE 2</label>
+                    </div>
+                    <div className={style.container_ultimoClienteCompra2} >
+                        <input type="text"
+                            required
+                            id="txtUltimoClienteCompra2"
+                            value={item ? item.clienteUltimaCompra2 : ""}
+                            onChange={(e) => {
+                                if (item) {
+                                    setItem({
+                                        ...item,
+                                        clienteUltimaCompra2: e.target.value
+                                    })
+                                }
+                            }} />
+                        <label htmlFor="txtUltimoClienteCompra2">ÚTIMO CLIENTE COMPRA 2</label>
+                    </div>
+                    <div className={style.container_codigoClienteUltimaCompra3} >
+                        <input type="text"
+                            required
+                            id="txtCodigoCLientUltimaCompra3"
+                            value={item ? item.codigoClienteUltimaCompra3 : ""}
+                            onChange={(e) => {
+                                if (item) {
+                                    setItem({
+                                        ...item,
+                                        codigoClienteUltimaCompra3: e.target.value
+                                    })
+                                }
+                            }} />
+                        <label htmlFor="txtCodigoCLientUltimaCompra3">CÓDIGO CLIENTE 3</label>
+                    </div>
+                    <div className={style.container_ultimoClienteCompra3} >
+                        <input type="text"
+                            required
+                            id="txtUltimoClienteCompra3"
+                            value={item ? item.clienteUltimaCompra3 : ""}
+                            onChange={(e) => {
+                                if (item) {
+                                    setItem({
+                                        ...item,
+                                        clienteUltimaCompra3: e.target.value
+                                    })
+                                }
+                            }} />
+                        <label htmlFor="txtUltimoClienteCompra3">ÚTIMO CLIENTE COMPRA 3</label>
+                    </div>
 
-                    </div>
-                    <div className={ValidateUser() ?
-                        style.container_preco :
-                        style.container_preco_false} >
-                        <input
-                            id="txtPreco"
-                            required
-                            value={valuePrecoString}
-                            onChange={handleChangePreco}
-                            type="text" />
-                        <label htmlFor="txtPreco">PREÇO</label>
-                    </div>
-                    <div className={style.container_data} >
-                        <input
-                            id="txtData"
-                            required
-                            type="date"
-                            onChange={() => { }}
-                            value={NewDate(item ? item.dataFabricao : new Date)}
-                        />
-                        <label htmlFor="txtData">DATA / FABRI.</label>
-                    </div>
                     <div className={style.container_substituto} >
                         <div className={style.wrap_container_list_substituto}>
                             <table>

@@ -72,7 +72,7 @@
     .bodyCardAdd {
         display: grid;
         grid-template-rows: 70px 60px 60px 60px 1fr !important;
-        grid-template-columns: repeat(4,1fr) !important;
+        grid-template-columns: repeat(4, 1fr) !important;
         padding: 10px;
         overflow: auto;
         gap: 10px;
@@ -130,13 +130,33 @@
         position: relative;
         width: 90%;
     }
-    .column_codigoUltimoClienteCompra{
+
+    .column_codigoUltimoClienteCompra {
         grid-area: 5/3/5/9;
         position: relative;
         width: 90%;
     }
-    .column_UltimoClienteCompra{
+
+    .column_UltimoClienteCompra {
         grid-area: 6/1/6/9;
+    }
+    .column_codigoUltimoClienteCompra2 {
+        grid-area: 7/1/7/9;
+        position: relative;
+        
+    }
+    .column_UltimoClienteCompra2 {
+        grid-area: 8/1/8/9;
+        position: relative;
+    }
+    .column_codigoUltimoClienteCompra3 {
+        grid-area: 9/1/9/9;
+        position: relative;
+        
+    }
+    .column_UltimoClienteCompra3 {
+        grid-area: 10/1/10/9;
+        position: relative;
     }
 
     /* .dataFabricacao{
@@ -243,9 +263,11 @@
 
     .bodyCardAdd {
         display: grid;
-        grid-template-rows: 100px 60px 60px 60px 1fr;
+        grid-template-rows: 100px repeat(5, 60px);
         grid-template-columns: repeat(8, 1fr);
         padding: 15px;
+
+        overflow: auto;
 
     }
 
@@ -293,8 +315,28 @@
         width: 90%;
     }
 
+    .column_codigoUltimoClienteCompra2 {
+        grid-area: 6/1/6/4;
+        width: 90%;
+        position: relative;
+    }
+    .column_codigoUltimoClienteCompra3 {
+        grid-area: 7/1/7/4;
+        width: 90%;
+        position: relative;
+    }
+
     .column_UltimoClienteCompra {
         grid-area: 5/4/5/9;
+    }
+
+    .column_UltimoClienteCompra2 {
+        grid-area: 6/4/6/9;
+        position: relative;
+    }
+    .column_UltimoClienteCompra3 {
+        grid-area: 7/4/7/9;
+        position: relative;
     }
 
 
@@ -470,7 +512,11 @@
 .column_preco input,
 .column_dataFabricacao input,
 .column_codigoUltimoClienteCompra input,
-.column_UltimoClienteCompra input {
+.column_codigoUltimoClienteCompra2 input,
+.column_codigoUltimoClienteCompra3 input,
+.column_UltimoClienteCompra input,
+.column_UltimoClienteCompra2 input,
+.column_UltimoClienteCompra3 input {
     width: 90%;
 
 }
@@ -483,7 +529,11 @@
 .column_preco input,
 .column_dataFabricacao input,
 .column_codigoUltimoClienteCompra input,
-.column_UltimoClienteCompra input {
+.column_codigoUltimoClienteCompra2 input,
+.column_codigoUltimoClienteCompra3 input,
+.column_UltimoClienteCompra input,
+.column_UltimoClienteCompra2 input,
+.column_UltimoClienteCompra3 input {
     padding: 17px 10px 10px 10px;
     border-radius: 4px;
     border: 1px solid rgba(102, 102, 102, 0.555);
@@ -532,7 +582,11 @@
 .column_quantidade label,
 .column_unidade label,
 .column_codigoUltimoClienteCompra label,
-.column_UltimoClienteCompra label {
+.column_codigoUltimoClienteCompra2 label,
+.column_codigoUltimoClienteCompra3 label,
+.column_UltimoClienteCompra label,
+.column_UltimoClienteCompra2 label,
+.column_UltimoClienteCompra3 label {
     position: absolute;
     left: 7px;
     font-size: 14px;
@@ -554,7 +608,15 @@
 .column_codigoUltimoClienteCompra input:focus~label,
 .column_codigoUltimoClienteCompra input:valid~label,
 .column_UltimoClienteCompra input:focus~label,
-.column_UltimoClienteCompra input:valid~label {
+.column_UltimoClienteCompra input:valid~label,
+.column_UltimoClienteCompra2 input:focus~label,
+.column_UltimoClienteCompra2 input:valid~label,
+.column_codigoUltimoClienteCompra2 input:focus~label,
+.column_codigoUltimoClienteCompra2 input:valid~label,
+.column_UltimoClienteCompra3 input:focus~label,
+.column_UltimoClienteCompra3 input:valid~label,
+.column_codigoUltimoClienteCompra3 input:focus~label,
+.column_codigoUltimoClienteCompra3 input:valid~label  {
     transform: translateY(-23px);
     background-color: rgb(10, 0, 146);
     color: white;

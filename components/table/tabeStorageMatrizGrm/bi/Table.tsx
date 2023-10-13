@@ -1,11 +1,11 @@
 "use cliente"
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import Api from "../../../../service/api/matriz/estoque-grm";
 import style from "./style.module.css";
 import FilterTipo from "./filterTipo/Card";
 
 interface ItemsProps {
-    id: string,
+    id: number,
     codigo: string,
     descricao: string,
     quantidade: number,
@@ -21,6 +21,12 @@ interface ItemsProps {
         tipoMaterial: string,
         unidade: string
     }],
+    clienteUltimaCompra1: string,
+    codigoClienteUltimaCompra1: string,
+    clienteUltimaCompra2: string,
+    codigoClienteUltimaCompra2: string,
+    clienteUltimaCompra3: string,
+    codigoClienteUltimaCompra3: string,
     dataFabricacao: Date,
     preco: number,
     localEstocagem: {
@@ -54,6 +60,8 @@ interface Color {
 export default function Table() {
     const [data, setData] = useState<ItemsProps[]>([]);
     const [toogleFilterTipo, setToogleFilterTipo] = useState<boolean>(false);
+    const [time, setTime] = useState(new Date());
+
 
     useEffect(() => {
         FetchData()
@@ -77,6 +85,22 @@ export default function Table() {
 
         return `${month}/${year}`
 
+    }
+    useEffect(() => {
+        const tick = setInterval(() => {
+            AtualizarDash();
+            setTime(new Date());
+
+        }, (1000 * 60) * 15);
+        return () => clearInterval(tick)
+    }, [])
+
+    async function AtualizarDash() {
+        await Api.get("")
+            .then(res => {
+                setData(res.data)
+            })
+            .catch(err => console.log(err))
     }
 
 
@@ -118,7 +142,7 @@ export default function Table() {
             background: "#E753DC",
             color: "white"
         },
-        ADESIVA:{
+        ADESIVA: {
             background: "#990000",
             color: "white"
         },
@@ -181,6 +205,7 @@ export default function Table() {
                 <table className={style.table} >
                     <thead>
                         <tr>
+                            <th>ID</th>
                             <th >CÓDIGO</th>
                             <th>MEDIDA</th>
                             <th>UND.</th>
@@ -188,17 +213,21 @@ export default function Table() {
                             <th onClick={() => setToogleFilterTipo(!toogleFilterTipo)} >
                                 TIPO
                                 <div onClick={e => e.stopPropagation()}
-                                    className={ toogleFilterTipo ? style.container_filterTipo:style.container_filterTipo_close} >
+                                    className={toogleFilterTipo ? style.container_filterTipo : style.container_filterTipo_close} >
                                     <CardFilterTipo />
                                 </div>
                             </th>
                             <th>DATA/FABR.</th>
+                            <th>CLIENTE-1</th>
+                            <th>CLIENTE-2</th>
+                            <th>CLIENTE-3</th>
                         </tr>
                     </thead>
                     <tbody>
                         {data && (
                             filter.map((item, index) => (
                                 <tr key={index}>
+                                    <td>{item.id.toString()}</td>
                                     <td>{item.codigo}</td>
                                     <td>{item.descricao}</td>
                                     <td>{item.unidade}</td>
@@ -207,6 +236,9 @@ export default function Table() {
                                     <td>
                                         {YearAndMoth(item.dataFabricao)}
                                     </td>
+                                    <td>{item.clienteUltimaCompra1}</td>
+                                    <td>{item.clienteUltimaCompra2}</td>
+                                    <td>{item.clienteUltimaCompra3}</td>
                                 </tr>
                             ))
                         )}

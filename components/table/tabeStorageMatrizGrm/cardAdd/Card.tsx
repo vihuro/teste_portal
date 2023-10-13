@@ -182,6 +182,10 @@ const CardStorage = ({ changeToogle, refreshTable, searchColor }: props) => {
         dataFabricacao: new Date(),
         clienteUltimaCompra1: "",
         codigoClienteUltimaCompra1: "",
+        clienteUltimaCompra2: "",
+        codigoClienteUltimaCompra2: "",
+        clienteUltimaCompra3: "",
+        codigoClienteUltimaCompra3: "",
         usuarioId: ""
     })
 
@@ -489,7 +493,7 @@ const CardStorage = ({ changeToogle, refreshTable, searchColor }: props) => {
                             }))}
                         />
                         <label htmlFor="txtCodigoUltimoClienteCompra">
-                            CÓDIGO CLIENTE
+                            CÓDIGO CLIENTE 1
                         </label>
                     </div>
                     <div className={style.column_UltimoClienteCompra} >
@@ -503,9 +507,66 @@ const CardStorage = ({ changeToogle, refreshTable, searchColor }: props) => {
                             })}
                         />
                         <label htmlFor="txtNomeUltimoClienteCompra">
-                            ÚTIMO CLIENTE COMPRA
+                            ÚTIMO CLIENTE COMPRA 1
                         </label>
                     </div>
+                    <div className={style.column_codigoUltimoClienteCompra2} >
+                        <input id="txtCodigoUltimoClienteCompra2"
+                            type="text"
+                            required
+                            value={materialEstoque.codigoClienteUltimaCompra2}
+                            onChange={(e) => setMaterialEstoque(mat => ({
+                                ...mat,
+                                codigoClienteUltimaCompra2: e.target.value
+                            }))}
+                        />
+                        <label htmlFor="txtCodigoUltimoClienteCompra2">
+                            CÓDIGO CLIENTE 2
+                        </label>
+                    </div>
+                    <div className={style.column_UltimoClienteCompra2} >
+                        <input id="txtNomeUltimoClienteCompra2"
+                            type="text"
+                            required
+                            value={materialEstoque.clienteUltimaCompra2}
+                            onChange={(e) => setMaterialEstoque({
+                                ...materialEstoque,
+                                clienteUltimaCompra2: e.target.value
+                            })}
+                        />
+                        <label htmlFor="txtNomeUltimoClienteCompra2">
+                            ÚTIMO CLIENTE COMPRA 2
+                        </label>
+                    </div>
+                    <div className={style.column_codigoUltimoClienteCompra3} >
+                        <input id="txtCodigoUltimoClienteCompra3"
+                            type="text"
+                            required
+                            value={materialEstoque.codigoClienteUltimaCompra3}
+                            onChange={(e) => setMaterialEstoque(mat => ({
+                                ...mat,
+                                codigoClienteUltimaCompra3: e.target.value
+                            }))}
+                        />
+                        <label htmlFor="txtCodigoUltimoClienteCompra3">
+                            CÓDIGO CLIENTE 3
+                        </label>
+                    </div>
+                    <div className={style.column_UltimoClienteCompra3} >
+                        <input id="txtNomeUltimoClienteCompra3"
+                            type="text"
+                            required
+                            value={materialEstoque.clienteUltimaCompra3}
+                            onChange={(e) => setMaterialEstoque({
+                                ...materialEstoque,
+                                clienteUltimaCompra3: e.target.value
+                            })}
+                        />
+                        <label htmlFor="txtNomeUltimoClienteCompra3">
+                            ÚTIMO CLIENTE COMPRA 3
+                        </label>
+                    </div>
+
                 </section>
                 <footer className={style.container_button} >
                     <div className={style.container_button_cadastrar}>

@@ -14,7 +14,7 @@ import { DateTimeStringFormat } from "../../utils/DateTimeString";
 
 
 interface ItemsProps {
-    id: string,
+    id: number,
     codigo: string,
     descricao: string,
     quantidade: number,
@@ -30,6 +30,12 @@ interface ItemsProps {
         tipoMaterial: string,
         unidade: string
     }],
+    clienteUltimaCompra1: string,
+    codigoClienteUltimaCompra1: string,
+    clienteUltimaCompra2: string,
+    codigoClienteUltimaCompra2: string,
+    clienteUltimaCompra3: string,
+    codigoClienteUltimaCompra3: string,
     dataFabricacao: Date,
     preco: number,
     localEstocagem: {
@@ -147,7 +153,7 @@ export default function Table() {
     const { Card: CardFilterCodigo, filteredData: textCodigo } = FilterCodigo({
         listProps: data ? data.map(item => ({
             codigo: item.codigo,
-            id: item.id
+            id: item.id.toString()
         })) : [],
         searchColor: getColorStyle
     })
@@ -186,7 +192,7 @@ export default function Table() {
     }
     function alteracao({ id }: { id: string }) {
 
-        var item = data.find(item => item.id === id);
+        var item = data.find(item => item.id.toString() === id);
 
         return setDataItemAlteracao(item);
     }
@@ -206,11 +212,11 @@ export default function Table() {
     function YearAndMoth(value: Date) {
         const date = new Date(value);
 
-        const day = (date.getDate() +1).toString().padStart(2, "0");
-        const month = (date.getMonth() + 1).toString().padStart(2,"0");
+        const day = (date.getDate() + 1).toString().padStart(2, "0");
+        const month = (date.getMonth() + 1).toString().padStart(2, "0");
         const year = date.getFullYear().toString();
-        const hour = date.getHours().toString().padStart(2,"0");
-        const minutes = date.getMinutes().toString().padStart(2,"0");
+        const hour = date.getHours().toString().padStart(2, "0");
+        const minutes = date.getMinutes().toString().padStart(2, "0");
 
         return `${month}/${year}`
 
@@ -305,6 +311,12 @@ export default function Table() {
                                     </div>
                                 </th>
                                 <th>STATUS</th>
+                                <th>COD./ CLIENT-1</th>
+                                <th>CLIET./ ULT/ COMP-1</th>
+                                <th>COD./ CLIENT-2</th>
+                                <th>CLIET./ ULT/ COMP-2</th>
+                                <th>COD./ CLIENT-3</th>
+                                <th>CLIET./ ULT/ COMP-3</th>
                                 <th>EDIT.</th>
                             </tr>
                         </thead>
@@ -374,12 +386,19 @@ export default function Table() {
                                                         {item.ativo === true ? "ATIVO" : "INATIVO"}
                                                     </p>
                                                 </td>
+
+                                                <td>{item.codigoClienteUltimaCompra1}</td>
+                                                <td>{item.clienteUltimaCompra1}</td>
+                                                <td>{item.codigoClienteUltimaCompra2}</td>
+                                                <td>{item.clienteUltimaCompra2}</td>
+                                                <td>{item.codigoClienteUltimaCompra3}</td>
+                                                <td>{item.clienteUltimaCompra3}</td>
                                                 <td>
                                                     <p style={{
                                                         fontSize: 22
                                                     }} onClick={() => {
-                                                        alteracao({ id: item.id });
-                                                        setDataItemString(item.id)
+                                                        alteracao({ id: item.id.toString() });
+                                                        setDataItemString(item.id.toString())
                                                         setToogleCardChange(true)
                                                     }} >
                                                         <TbEdit />

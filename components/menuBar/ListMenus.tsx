@@ -61,6 +61,17 @@ const List = [
                                 visible: false
                             }
                         ]
+                    },
+                    {
+                        text: "BI grm",
+                        visible: false,
+                        rotas: [
+                            {
+                                text: "",
+                                link: "/estoque/matriz/grm/bi",
+                                visible: false
+                            }
+                        ]
                     }
                 ],
                 link: "/#"

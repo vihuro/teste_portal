@@ -10,7 +10,7 @@ import { parseCookies } from "nookies";
 
 
 interface ItemsProps {
-    id: string,
+    id: number,
     codigo: string,
     descricao: string,
     unidade: string,
@@ -33,15 +33,15 @@ export default function Card({
 }: {
     toogle: boolean,
     changeToogle: Function,
-    idItem?: string,
+    idItem?: number,
     refreshTable: Function
 }) {
     const [data, setData] = useState<ItemsProps[]>([]);
-    const [id, setId] = useState<string>();
+    const [id, setId] = useState<number>();
 
     const [novoSubstituto, setNovoSubstituto] = useState({
-        produtoId: "",
-        substitutoId: "",
+        produtoId: 0,
+        substitutoId: 0,
         usuarioId: ""
     })
 
@@ -56,7 +56,7 @@ export default function Card({
 
 
     async function FetchData() {
-        if (id !== "") {
+        if (id !== 0) {
 
             await Api.get(`/without-substituto/${id}`)
                 .then(res => setData(res.data))
@@ -77,11 +77,11 @@ export default function Card({
     const infoToken = TokenDrecriptor(parseCookies().ACCESS_TOKEN);
 
 
-    async function AdicionarSubstituto({ id }: { id: string }) {
+    async function AdicionarSubstituto({ id }: { id: number }) {
         setLoadind(true)
 
         setNovoSubstituto({
-            produtoId: idItem ? idItem : "",
+            produtoId: idItem ? idItem : 0,
             substitutoId: id,
             usuarioId: infoToken.idUser
         });
@@ -172,7 +172,7 @@ export default function Card({
             </div>
             <div className={style.container_button} >
                 <button onClick={() => {
-                    setId("");
+                    setId(0);
                     changeToogle(false)
                 }}>
                     FECHAR

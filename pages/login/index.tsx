@@ -63,7 +63,7 @@ export default function Login() {
             .then(res => {
                 setCookie(null, "REFRESH_TOKEN", res.data.refreshToken, {
                     path: "/",
-                    maxAge: 60 * 60 * 1
+                    maxAge: 60 * 60 * 2
                 })
                 setCookie(null, "ACCESS_TOKEN", res.data.accessToken, {
                     path: "/",
