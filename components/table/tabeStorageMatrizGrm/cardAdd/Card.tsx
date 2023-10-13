@@ -180,8 +180,8 @@ const CardStorage = ({ changeToogle, refreshTable, searchColor }: props) => {
         quantidade: 0,
         preco: 0,
         dataFabricacao: new Date(),
-        nomeUltimoClienteCompra: "",
-        codigoUltimoClienteCompra: "",
+        clienteUltimaCompra1: "",
+        codigoClienteUltimaCompra1: "",
         usuarioId: ""
     })
 
@@ -193,8 +193,8 @@ const CardStorage = ({ changeToogle, refreshTable, searchColor }: props) => {
             materialEstoque.unidade === "" ||
             materialEstoque.tipoMaterialId === "" ||
             value === "" ||
-            materialEstoque.codigoUltimoClienteCompra === "" ||
-            materialEstoque.nomeUltimoClienteCompra === "" ||
+            materialEstoque.codigoClienteUltimaCompra1 === "" ||
+            materialEstoque.clienteUltimaCompra1 === "" ||
             materialEstoque.dataFabricacao === null) {
             setMessage({
                 message: "Campo(s) obrigatório(s) vazio(s)!",
@@ -482,6 +482,11 @@ const CardStorage = ({ changeToogle, refreshTable, searchColor }: props) => {
                         <input id="txtCodigoUltimoClienteCompra"
                             type="text"
                             required
+                            value={materialEstoque.codigoClienteUltimaCompra1}
+                            onChange={(e) => setMaterialEstoque(mat => ({
+                                ...mat,
+                                codigoClienteUltimaCompra1: e.target.value
+                            }))}
                         />
                         <label htmlFor="txtCodigoUltimoClienteCompra">
                             CÓDIGO CLIENTE
@@ -491,6 +496,11 @@ const CardStorage = ({ changeToogle, refreshTable, searchColor }: props) => {
                         <input id="txtNomeUltimoClienteCompra"
                             type="text"
                             required
+                            value={materialEstoque.clienteUltimaCompra1}
+                            onChange={(e) => setMaterialEstoque({
+                                ...materialEstoque,
+                                clienteUltimaCompra1: e.target.value
+                            })}
                         />
                         <label htmlFor="txtNomeUltimoClienteCompra">
                             ÚTIMO CLIENTE COMPRA
