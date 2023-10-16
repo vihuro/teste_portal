@@ -246,8 +246,8 @@ export default function Table() {
                             </tr>
                         </thead>
                         <tbody className={style.table_body} >
-                            {data && (
-                                data.map((item, index) => (
+                            {filter && (
+                                filter.map((item, index) => (
                                     <Fragment key={index} >
                                         <tr className={style.row} >
                                             <td onClick={() => {
