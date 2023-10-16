@@ -1,0 +1,58 @@
+@media(min-width:430px) {
+    .card {
+        width: 550px;
+        height: 500px;
+        background: white;
+        border-radius: 7px;
+        position: relative;
+        overflow: hidden;
+        display: grid;
+        grid-template-rows: 40px 1fr 70px;
+    }
+
+    .container_body {
+        grid-area: 2/1/2/1;
+        padding: 5px;
+        overflow: hidden;
+    }
+
+    .footer {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+        padding: 15px;
+    }
+}
+
+.container_table {
+    border-radius: 3px;
+    overflow: auto;
+    height: 100%;
+}
+
+.table {
+    border-collapse: collapse;
+    background-color: rgba(219, 233, 240, .5);
+}
+
+.table thead {
+    background-color: var(--background-color-blue-700);
+    color: white;
+    position: sticky;
+    top: 0;
+}
+
+.table tbody tr:not(:last-child) {
+    border-bottom: 1px solid rgba(117, 117, 117, 0.363);
+    color: var(--text-color-blue-600);
+}
+
+.table tbody {
+    text-align: center;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.table tbody tr td {
+    padding: 5px 10px 5px 10px;
+}

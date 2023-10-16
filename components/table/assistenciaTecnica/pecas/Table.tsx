@@ -4,6 +4,7 @@ import style from "./style.module.css";
 import { Icons } from "../../../utils/IconDefault";
 import CardAdd from "./add/Card";
 import CardChange from "./change/Card";
+import CardRadar from "./addForRadar/Card";
 
 import FilteredColuna from "../../filterColunaTable/CardFilterColuna";
 import Visualizador from "./visualizadorImagem/Card";
@@ -18,6 +19,8 @@ interface dataProps {
     alteracao: userProps,
     cadastro: userProps
 }
+
+
 
 interface userProps {
     idUsuario: string,
@@ -41,12 +44,37 @@ export default function Table() {
     const [toogleFilterDescricao, setToogleFilterDescricao] = useState<boolean>(false);
     const [toogleVisualizador, setToogleVisualizador] = useState<boolean>(false);
     const [textImage, setTextImage] = useState<string>("");
+    const [toogleAddRadar, setToogleRadar] = useState<boolean>(false);
+    const [currentPage, setCurrentPage] = useState<number>(0);
+    const [infoPage, setInfoPage] = useState({
+        currentPage: 0,
+        totalPages: 0,
+        itemForPage: 50,
+        totalItems: 0
+    })
+
+    useEffect(() => {
+        const intersectionObserver = new IntersectionObserver((entries) => {
+            entries.map(item => {
+                if (item.isIntersecting) {
+                    setCurrentPage((current) => current + 50)
+
+                }
+            })
+        })
+        const sentinelElement = document.querySelector("#sentinela");
+        if (sentinelElement) {
+            intersectionObserver.observe(sentinelElement);
+        }
+
+        return () => intersectionObserver.disconnect();
+    }, [])
 
 
     useEffect(() => {
         FecthData();
 
-    }, [])
+    }, [currentPage])
     useEffect(() => {
         alteracao(dataItemAlteracaoString);
     }, [data])
@@ -83,11 +111,28 @@ export default function Table() {
     useEffect(() => {
         ChangeFilter()
     }, [filteredDescricao, filteredCodigo])
+
     async function FecthData() {
-        Api.get("/assistencia-tecnica/pecas")
+        const stayItems = (infoPage.currentPage * infoPage.itemForPage - infoPage.totalItems) * -1;
+
+        const stayItemsTeste = (70 * 50 - 3543) * -1;
+        const teste = 3500
+
+        if (infoPage.currentPage === infoPage.totalPages) {
+
+        }
+        await Api.get(`/assistencia-tecnica/pecas/${0}/${3543}`)
             .then(res => {
-                const dataItem: dataProps[] = res.data;
-                setData(dataItem)
+
+                setInfoPage((info) => ({
+                    ...info,
+                    currentPage: res.data.currentPage,
+                    totalPages: res.data.quantityPages,
+                    totalItems: res.data.total
+                }));
+
+                const dataItem: dataProps[] = res.data.pecas;
+                setData((currentData) => [...currentData, ...dataItem])
                 refresFiteredCodigo({
                     list: dataItem.map(item => ({
                         text: item.codigoRadar,
@@ -102,7 +147,9 @@ export default function Table() {
                 })
             })
             .catch(err => console.log(err))
+
     }
+
     function ChangeFilter() {
         const filtered = data.filter(item => (
             filteredCodigo.some(codigo => codigo.text === item.codigoRadar && codigo.visible) &&
@@ -116,12 +163,15 @@ export default function Table() {
         return setDataItemAlteracao(item);
     }
 
+    const { FetchData: FetchPecasNaoCadastradas, Form: FormAddPeca } = CardRadar();
+
     return (
         <main className={style.container} >
             <div className={toogleAdd ?
                 style.containerAdd :
                 style.containerAdd_close} >
-                <CardAdd changeToogle={setToogleAdd} refresTable={FecthData} />
+                <FormAddPeca changeToogle={setToogleAdd} />
+                {/* <CardAdd changeToogle={setToogleAdd} refresTable={FecthData} /> */}
             </div>
             <div className={toogleChange ?
                 style.containerChange :
@@ -143,7 +193,10 @@ export default function Table() {
                 />
             </div>
             <section className={style.container_button} >
-                <button onClick={() => setToogleAdd(true)} >
+                <button onClick={() => {
+                    FetchPecasNaoCadastradas(),
+                        setToogleAdd(true)
+                }} >
                     NOVA PEÇA
                 </button>
             </section>
@@ -193,8 +246,8 @@ export default function Table() {
                             </tr>
                         </thead>
                         <tbody className={style.table_body} >
-                            {filter && (
-                                filter.map((item, index) => (
+                            {data && (
+                                data.map((item, index) => (
                                     <Fragment key={index} >
                                         <tr className={style.row} >
                                             <td onClick={() => {
@@ -263,6 +316,7 @@ export default function Table() {
                                     </Fragment>
                                 ))
                             )}
+                            <tr id="sentinela" ></tr>
                         </tbody>
                     </table>
                 </div>
