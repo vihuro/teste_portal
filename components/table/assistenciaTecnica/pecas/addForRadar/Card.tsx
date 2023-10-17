@@ -92,6 +92,7 @@ export default function Card() {
                             color="red"
                             text="FECHAR"
                             type="button"
+                            onClick={() => changeToogle(false)}
                         />
                     </div>
                 </footer>

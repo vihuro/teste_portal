@@ -44,6 +44,7 @@ export default function Card({ changeToogle, refreshTable }: props) {
 
     async function AddMaquina() {
         const { codigoMaquina, numeroSerie, descricaoMaquina } = novaMaquina;
+        console.log(novaMaquina)
         if (codigoMaquina === "" ||
             descricaoMaquina === "" ||
             numeroSerie === "") {
@@ -92,6 +93,18 @@ export default function Card({ changeToogle, refreshTable }: props) {
                 setToogleLoading(false);
             })
     }
+    async function searchMachine(codigo: string) {
+        await Api.get(`/maquina/${codigo}`)
+            .then(res => {
+                setNomaMaquina((current) => ({
+                    ...current,
+                    codigoMaquina: res.data.codigo,
+                    descricaoMaquina: res.data.descricaoMaquina
+                }))
+                console.log(res.data)
+            })
+            .catch(err => console.log(err))
+    }
     return (
         <form className={style.card} action="">
             <div className={toogleMessage ?
@@ -126,6 +139,11 @@ export default function Card({ changeToogle, refreshTable }: props) {
                         id="txtCodicoMaquina"
                         text="CÓDIGO"
                         autoComplete="off"
+                        onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                                searchMachine(novaMaquina.codigoMaquina)
+                            }
+                        }}
                         value={novaMaquina.codigoMaquina}
                         maxLength={15}
                         onChange={(e) => setNomaMaquina({

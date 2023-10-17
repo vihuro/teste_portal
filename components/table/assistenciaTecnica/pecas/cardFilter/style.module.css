@@ -1,0 +1,23 @@
+@media(min-width:430px) {
+    .form {
+        width: 100%;
+        height: 100%;
+        border-radius: 10px 50px;
+        display: grid;
+        grid-template-rows: 80px 1fr 80px;
+    }
+    .body{
+        display: grid;
+        padding: 10px;
+    }
+    .containerInput{
+        width: 105%;
+    }
+
+    .footer {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        padding: 20px;
+        gap: 15px;
+    }
+}

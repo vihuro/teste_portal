@@ -10,11 +10,15 @@ import FilteredColuna from "../../filterColunaTable/CardFilterColuna";
 import Visualizador from "./visualizadorImagem/Card";
 import { DateTimeStringFormat } from "../../../utils/DateTimeString";
 
+import CardFilter from "./cardFilter/Form";
+
 interface dataProps {
     id: string,
     codigoRadar: string,
     descricao: string,
     preco: number,
+    unidade: string,
+    familia: string,
     enderecoImagem: string;
     alteracao: userProps,
     cadastro: userProps
@@ -27,6 +31,13 @@ interface userProps {
     apelido: string,
     nome: string,
     dataHora: Date
+}
+
+interface FilterProps {
+    Unidade: string,
+    CodigoRadar: string,
+    Descricao: string,
+    Familia: string
 }
 
 
@@ -52,6 +63,20 @@ export default function Table() {
         itemForPage: 50,
         totalItems: 0
     })
+    const [infoPageFilter, setInfoPageFilter] = useState({
+        currentPage: 0,
+        totalPages: 0,
+        itemForPage: 50,
+        totalItems: 0
+    })
+    const [toogleLoading, setToogleLoading] = useState<boolean>(true);
+    const [filterFetch, setFilterFecth] = useState<FilterProps>({
+        CodigoRadar: "",
+        Descricao: "",
+        Familia: "",
+        Unidade: ""
+    })
+    const [toogleFilter, setToogleFilter] = useState<boolean>(false);
 
     useEffect(() => {
         const intersectionObserver = new IntersectionObserver((entries) => {
@@ -70,9 +95,15 @@ export default function Table() {
         return () => intersectionObserver.disconnect();
     }, [])
 
-
     useEffect(() => {
-        FecthData();
+        if (filterFetch.CodigoRadar !== "" ||
+            filterFetch.Descricao !== "" ||
+            filterFetch.Familia !== "" ||
+            filterFetch.Unidade !== "") {
+            FetchDataWithFilter(filterFetch)
+        } else {
+            FecthData();
+        }
 
     }, [currentPage])
     useEffect(() => {
@@ -113,15 +144,16 @@ export default function Table() {
     }, [filteredDescricao, filteredCodigo])
 
     async function FecthData() {
-        const stayItems = (infoPage.currentPage * infoPage.itemForPage - infoPage.totalItems) * -1;
 
-        const stayItemsTeste = (70 * 50 - 3543) * -1;
-        const teste = 3500
+        if (infoPage.currentPage === infoPage.totalPages && infoPage.totalPages > 0) {
+            const stayItemsTeste = (infoPage.itemForPage * infoPage.totalPages - infoPage.totalItems) * -1
 
-        if (infoPage.currentPage === infoPage.totalPages) {
-
+            setInfoPage((current) => ({
+                ...current,
+                itemForPage: stayItemsTeste
+            }))
         }
-        await Api.get(`/assistencia-tecnica/pecas/${0}/${3543}`)
+        await Api.get(`/assistencia-tecnica/pecas/${currentPage}/${infoPage.itemForPage}`)
             .then(res => {
 
                 setInfoPage((info) => ({
@@ -145,9 +177,53 @@ export default function Table() {
                         id: item.id
                     }))
                 })
+                setToogleLoading((current) => current = false)
             })
             .catch(err => console.log(err))
 
+    }
+    async function FetchDataWithFilter(filter: FilterProps) {
+        if (currentPage === 0) {
+            setToogleLoading((current) => current = true)
+        }
+        if (infoPageFilter.currentPage === infoPageFilter.totalPages && infoPageFilter.totalPages > 0) {
+            const stayItemsTeste = (infoPageFilter.itemForPage * infoPageFilter.totalPages - infoPageFilter.totalItems) * -1
+
+            setInfoPageFilter((current) => ({
+                ...current,
+                itemForPage: stayItemsTeste
+            }))
+
+        }
+        await Api.get(`/assistencia-tecnica/pecas/with-filter/${currentPage}/${infoPageFilter.itemForPage}`, {
+            params: filter
+        })
+            .then(res => {
+
+                setInfoPage((info) => ({
+                    ...info,
+                    currentPage: res.data.currentPage,
+                    totalPages: res.data.quantityPages,
+                    totalItems: res.data.total
+                }));
+
+                const dataItem: dataProps[] = res.data.pecas;
+                setData((currentData) => [...currentData, ...dataItem])
+                refresFiteredCodigo({
+                    list: dataItem.map(item => ({
+                        text: item.codigoRadar,
+                        id: item.id
+                    }))
+                })
+                refresFiteredDescricao({
+                    list: dataItem.map(item => ({
+                        text: item.descricao,
+                        id: item.id
+                    }))
+                })
+                setToogleLoading((current) => current = false)
+            })
+            .catch(err => console.log(err))
     }
 
     function ChangeFilter() {
@@ -165,8 +241,33 @@ export default function Table() {
 
     const { FetchData: FetchPecasNaoCadastradas, Form: FormAddPeca } = CardRadar();
 
+    function cleanFilter() {
+        setFilterFecth(() => ({
+            CodigoRadar: "",
+            Descricao: "",
+            Familia: "",
+            Unidade: ""
+        }))
+        setCurrentPage(() => 0)
+    }
+
     return (
         <main className={style.container} >
+            <div className={toogleFilter ?
+                style.container_filter :
+                style.container_filter_close} >
+                <div className={style.wrap_container_filter} >
+                    <CardFilter
+                        changeToogle={setToogleFilter}
+                        dataFilterProps={filterFetch}
+                        cleanFilter={cleanFilter}
+                        fetchDataFilter={FetchDataWithFilter}
+                        fetchDataWithoutFilter={FecthData}
+                        setFilterFecth={setFilterFecth}
+                        setDataTable={setData}
+                        changeCurrentPage={setCurrentPage} />
+                </div>
+            </div>
             <div className={toogleAdd ?
                 style.containerAdd :
                 style.containerAdd_close} >
@@ -194,14 +295,22 @@ export default function Table() {
             </div>
             <section className={style.container_button} >
                 <button onClick={() => {
+                    setToogleFilter(!toogleFilter)
+                }} >
+                    FILTRO
+                </button>
+                <button onClick={() => {
                     FetchPecasNaoCadastradas(),
                         setToogleAdd(true)
                 }} >
                     NOVA PEÇA
                 </button>
+
             </section>
             <section className={style.container_table} >
-                <div className={style.wrap_table} >
+                <div className={!toogleLoading ?
+                    style.wrap_table :
+                    style.wrap_table_loading} >
                     <table className={style.table} >
                         <thead>
                             <tr>
@@ -240,6 +349,8 @@ export default function Table() {
                                         />
                                     </div>
                                 </th>
+                                <th>UND.</th>
+                                <th>FAMÍ.</th>
                                 <th>PREÇO</th>
                                 <th>IMG</th>
                                 <th>EDIT.</th>
@@ -262,6 +373,8 @@ export default function Table() {
                                             </td>
                                             <td>{item.codigoRadar}</td>
                                             <td>{item.descricao}</td>
+                                            <td>{item.unidade}</td>
+                                            <td>{item.familia}</td>
                                             <td>{`R$ ${item.preco.toLocaleString("pt-Br", {
                                                 style: "decimal",
                                                 maximumFractionDigits: 2

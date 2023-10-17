@@ -22,7 +22,10 @@ export default function Card({ changeToogle, image }: props) {
                 }
 
             }} >
-            <img src={`${url}/${image}`} alt="" />
+            {image && (
+
+                <img src={`${url}/${image}`} alt="" />
+            )}
         </div>
     )
 }

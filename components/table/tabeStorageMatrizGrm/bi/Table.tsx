@@ -208,8 +208,8 @@ export default function Table() {
                             <th>ID</th>
                             <th >CÓDIGO</th>
                             <th>MEDIDA</th>
-                            <th>UND.</th>
                             <th>QTDE</th>
+                            <th>UND.</th>
                             <th onClick={() => setToogleFilterTipo(!toogleFilterTipo)} >
                                 TIPO
                                 <div onClick={e => e.stopPropagation()}
@@ -230,8 +230,8 @@ export default function Table() {
                                     <td>{item.id.toString()}</td>
                                     <td>{item.codigo}</td>
                                     <td>{item.descricao}</td>
-                                    <td>{item.unidade}</td>
                                     <td>{item.quantidade}</td>
+                                    <td>{item.unidade}</td>
                                     <td style={getColorStyle(item.tipoMaterial.tipo)} >{item.tipoMaterial.tipo}</td>
                                     <td>
                                         {YearAndMoth(item.dataFabricao)}
