@@ -153,6 +153,7 @@ export default function Table() {
                 itemForPage: stayItemsTeste
             }))
         }
+
         await Api.get(`/assistencia-tecnica/pecas/${currentPage}/${infoPage.itemForPage}`)
             .then(res => {
 
@@ -239,7 +240,7 @@ export default function Table() {
         return setDataItemAlteracao(item);
     }
 
-    const { FetchData: FetchPecasNaoCadastradas, Form: FormAddPeca } = CardRadar();
+    const { FetchData: FetchPecasNaoCadastradas, Form: FormAddPeca } = CardRadar({ fetchData: FecthData });
 
     function cleanFilter() {
         setFilterFecth(() => ({

@@ -158,11 +158,9 @@ export default function Card({ changeToogle, refreshTable }: props) {
                         text="Descrição"
                         autoComplete="off"
                         value={novaMaquina.descricaoMaquina}
-                        onChange={(e) => setNomaMaquina({
-                            ...novaMaquina,
-                            descricaoMaquina: e.target.value
-                        })}
+                        onChange={() => { }}
                         maxLength={50}
+                        blocked
                     />
                 </div>
                 <div className={style.container_numeroSerie} >

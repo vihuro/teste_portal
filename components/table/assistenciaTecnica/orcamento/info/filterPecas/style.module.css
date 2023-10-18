@@ -1,0 +1,104 @@
+.form {
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    position: absolute;
+    display: grid;
+}
+
+.containerBody {
+    padding: 5px;
+    overflow: hidden;
+}
+
+.containerTable {
+    border-radius: 7px;
+
+}
+.containerFilter{
+    display: flex;
+    gap: 15px;
+
+}
+.containerTypesFilter{
+    position: relative;
+}
+.containerFilter{
+    background-color: var(--background-color-blue-700);
+    padding: 10px;
+
+}
+.containerFilter input{
+    padding: 7px;
+    border-radius: 3px;
+    border: none;
+}
+.containerTypesFilter input{
+    background-color: rgb(224, 224, 224);
+}
+.containerTypesFilter ul{
+    position: absolute;
+    background-color: white;
+    z-index: 1;
+    border-radius: 10px;
+    width: 100%;
+    overflow: auto;
+    padding: 5px;
+    height: 80px;
+    box-shadow: 0 0 10px -2px rgb(201, 201, 201);
+    font-size: 14px;
+    cursor: default;
+    font-weight: 500;
+    list-style: none;
+    left: 5px;
+}
+.containerTypesFilter ul li {
+    padding: 5px;
+}
+.containerTypesFilter ul li:hover{
+    background-color: rgb(182, 182, 182);
+    transition: .2s;
+}
+
+.table {
+    border-collapse: collapse;
+    text-wrap: nowrap;
+}
+.table thead{
+    background-color: var(--background-color-blue-700);
+    color: white;
+    position: sticky;
+    top: 0;
+}
+.table thead th{
+    padding: 5px;
+}
+.table thead th:not(:last-child){
+    border-right: 1px solid white;
+}
+
+.tableBody {
+    background-color: rgba(219, 233, 240, .5);
+    color: var(--text-color-blue-400);
+    text-align: center;
+}
+
+.tableRow td {
+    padding: 5px 10px 5px 10px;
+}
+.tableRow:not(:last-child){
+    border-bottom: 1px solid rgba(0, 0, 0, 0.24);
+}
+
+@media(min-width:430px) {
+    .form {
+        grid-template-rows: 40px 1fr 80px;
+    }
+
+    .containerTable {
+        grid-area: 2/1/2/1;
+        height: 100%;
+        border-radius: 7px;
+        overflow: auto;
+    }
+}

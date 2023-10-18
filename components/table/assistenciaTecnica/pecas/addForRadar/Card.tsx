@@ -21,7 +21,7 @@ interface dataProps {
     unidade: string
 }
 
-export default function Card() {
+export default function Card({ fetchData }: { fetchData: Function }) {
 
 
     const [data, setData] = useState<ResponseProps>();
@@ -36,8 +36,8 @@ export default function Card() {
     async function AtualizarTabela() {
         await Api.post(`assistencia-tecnica/pecas/${tokenInfo.idUser}`)
             .then(res => {
-                console.log(res)
                 FetchData()
+                fetchData()
             })
             .catch(err => console.log(err))
     }

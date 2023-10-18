@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import style from "./style.module.css";
 import Api from "../../../../service/api/assistenciaTecnica/Assistencia";
-import Info from "./info/Info";
+import { InfoForm, Fetchdata } from "./info/Info";
 import { Icons } from "../../../utils/IconDefault";
 import Filter from "../../filterColunaTable/CardFilterColuna";
 
@@ -100,10 +100,10 @@ export default function Table() {
         filteredNumeroSerie.some(numeroSerie => item.maquina.numeroSerie === numeroSerie.text && numeroSerie.visible)
     ))
 
-    const { FetchData: FetchDataOrcamentoId, InfoForm } = Info({
-        changeToogle: setToogleInfo,
-        numeroOrcamento: dataInfo ? dataInfo.numeroOrcamento : 0
-    });
+    // const { FetchData: FetchDataOrcamentoId, InfoForm } = Info({
+    //     changeToogle: setToogleInfo,
+    //     numeroOrcamento: dataInfo ? dataInfo.numeroOrcamento : 0
+    // });
 
 
     return (
@@ -113,13 +113,14 @@ export default function Table() {
                 <div className={toogleInfo ?
                     style.container_info :
                     style.container_info_close} >
-                    <InfoForm />
+                    <InfoForm changeToogle={setToogleInfo} numeroOrcamento={dataInfo ? dataInfo.numeroOrcamento : 0} />
                 </div>
             )}
             <section className={!toogleInfo ?
                 style.container_table :
                 style.container_table_close} >
                 <section className={style.wrap_container_table} >
+
                     <table className={style.table} >
                         <thead>
                             <tr>
@@ -209,7 +210,7 @@ export default function Table() {
                                         <td>AGUARDANDO ORÇAMENTO</td>
                                         <td>{item.maquina.numeroSerie}</td>
                                         <td className={style.infoPlus} onClick={() => {
-                                            FetchDataOrcamentoId(item.numeroOrcamento)
+                                            // FetchDataOrcamentoId(item.numeroOrcamento)
                                             setDataInfo(item)
                                             setToogleInfo(true)
                                         }} >
