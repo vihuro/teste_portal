@@ -18,17 +18,17 @@ export default function FilterPecas() {
 
 
     function FetchDataPecas() {
-        // Api.get(`/assistencia-tecnica/pecas/${currentPage}/${infoPage.itemForPage}`)
-        //     .then(res => {
-        //         setInfoPage((current) => ({
-        //             ...current,
-        //             currentePage: res.data.currentPage,
-        //             totalPages: res.data.quantityPages,
-        //             totalItems: res.data.total
-        //         })),
-        //             setData((current) => [...current, ...res.data.pecas])
-        //     })
-        //     .catch(err => console.log(err))
+        Api.get(`/assistencia-tecnica/pecas/${currentPage}/${infoPage.itemForPage}`)
+            .then(res => {
+                setInfoPage((current) => ({
+                    ...current,
+                    currentePage: res.data.currentPage,
+                    totalPages: res.data.quantityPages,
+                    totalItems: res.data.total
+                })),
+                    setData((current) => [...current, ...res.data.pecas])
+            })
+            .catch(err => console.log(err))
     }
 
     function Card({ toogle, changeToogle }: { toogle: boolean, changeToogle: Function }) {
@@ -62,7 +62,6 @@ export default function FilterPecas() {
         useEffect(() => {
             ThisFetchDataPecas()
         }, [thisCurrentPage])
-
 
         async function ThisFetchDataPecas() {
             await Api.get(`/assistencia-tecnica/pecas/${thisCurrentPage}/${thisInfoPage.itemForPage}`)

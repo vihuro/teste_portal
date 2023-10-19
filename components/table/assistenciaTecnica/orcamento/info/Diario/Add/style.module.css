@@ -1,0 +1,97 @@
+.form {
+    position: absolute;
+    width: 52%;
+    height: 55%;
+    backdrop-filter: blur(2px);
+    display: grid;
+    grid-template-rows: 40px 1fr 50px;
+    background-color: white;
+    padding: 5px;
+    border-radius: 10px;
+
+}
+
+.header input {
+    padding: 5px;
+    width: 90%;
+    border: none;
+    outline: none;
+
+}
+
+.wrapInputToList {
+    border: 1px solid rgba(182, 182, 182, 0.795);
+    width: 150px;
+    position: relative;
+}
+
+.listColor,
+.listColor_close {
+    position: absolute;
+    z-index: 5;
+    left: 10px;
+    background-color: white;
+    width: 150px;
+    height: 100px;
+    list-style: none;
+    box-shadow: 0 0 5px -1px rgb(0, 0, 0);
+    padding: 5px;
+    overflow: auto;
+    cursor: default;
+    transition: .5s;
+    transform-origin: top;
+}
+
+.listColor_close {
+    transform: scaleY(0);
+}
+
+.listColor li,
+.listColor_close li {
+    margin-top: 5px;
+}
+
+.listColor li:hover,
+.listColor_close li:hover {
+    background-color: rgb(238, 238, 238);
+}
+
+.containerInput {
+    width: 100%;
+}
+
+.wrapInput textarea {
+    padding: 3px;
+    resize: none;
+    border: none;
+    outline: none;
+}
+
+.wrapInput {
+    box-shadow: 0 0 5px -1px rgb(0, 0, 0);
+    border-radius: 7px;
+}
+
+.wrapInput {
+    position: relative;
+}
+
+.wrapInput:focus-within::before,
+.wrapInputToList:focus-within::before {
+    transform: scaleX(1);
+}
+
+.wrapInput::before,
+.wrapInputToList::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    transform: scaleX(0);
+    background-image: linear-gradient(to right,
+            rgb(133, 167, 231),
+            rgb(77, 60, 231),
+            rgb(25, 100, 199));
+    bottom: 0;
+    transition: .5s;
+}

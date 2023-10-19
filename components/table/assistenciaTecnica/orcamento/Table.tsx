@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import style from "./style.module.css";
 import Api from "../../../../service/api/assistenciaTecnica/Assistencia";
-import { InfoForm, Fetchdata } from "./info/Info";
+import { InfoForm, Fetchdata as FetchDataByNumeroOrcamento } from "./info/Info";
 import { Icons } from "../../../utils/IconDefault";
 import Filter from "../../filterColunaTable/CardFilterColuna";
 
@@ -113,7 +113,7 @@ export default function Table() {
                 <div className={toogleInfo ?
                     style.container_info :
                     style.container_info_close} >
-                    <InfoForm changeToogle={setToogleInfo} numeroOrcamento={dataInfo ? dataInfo.numeroOrcamento : 0} />
+                    <InfoForm changeToogle={setToogleInfo} valueToogle={toogleInfo} numeroOrcamento={dataInfo ? dataInfo.numeroOrcamento : 0} />
                 </div>
             )}
             <section className={!toogleInfo ?
@@ -210,7 +210,7 @@ export default function Table() {
                                         <td>AGUARDANDO ORÇAMENTO</td>
                                         <td>{item.maquina.numeroSerie}</td>
                                         <td className={style.infoPlus} onClick={() => {
-                                            // FetchDataOrcamentoId(item.numeroOrcamento)
+                                            // FetchDataByNumeroOrcamento({ id: item.numeroOrcamento })
                                             setDataInfo(item)
                                             setToogleInfo(true)
                                         }} >
