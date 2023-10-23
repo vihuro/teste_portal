@@ -15,28 +15,35 @@
     border-radius: 7px;
 
 }
-.containerFilter{
+
+.containerFilter {
     display: flex;
     gap: 15px;
 
 }
-.containerTypesFilter{
+
+.containerTypesFilter {
     position: relative;
 }
-.containerFilter{
+
+.containerFilter {
     background-color: var(--background-color-blue-700);
     padding: 10px;
 
 }
-.containerFilter input{
+
+.containerFilter input {
     padding: 7px;
     border-radius: 3px;
     border: none;
 }
-.containerTypesFilter input{
+
+.containerTypesFilter input {
     background-color: rgb(224, 224, 224);
 }
-.containerTypesFilter ul{
+
+.listTypeFilter,
+.listTypeFilter_close {
     position: absolute;
     background-color: white;
     z-index: 1;
@@ -51,11 +58,20 @@
     font-weight: 500;
     list-style: none;
     left: 5px;
+    transition: .5s;
+    transform-origin: top;
 }
-.containerTypesFilter ul li {
+
+.listTypeFilter_close {
+    transform: scaleY(0);
+}
+
+.listTypeFilter,
+.listTypeFilter_close li {
     padding: 5px;
 }
-.containerTypesFilter ul li:hover{
+
+.containerTypesFilter ul li:hover {
     background-color: rgb(182, 182, 182);
     transition: .2s;
 }
@@ -64,16 +80,19 @@
     border-collapse: collapse;
     text-wrap: nowrap;
 }
-.table thead{
+
+.table thead {
     background-color: var(--background-color-blue-700);
     color: white;
     position: sticky;
     top: 0;
 }
-.table thead th{
+
+.table thead th {
     padding: 5px;
 }
-.table thead th:not(:last-child){
+
+.table thead th:not(:last-child) {
     border-right: 1px solid white;
 }
 
@@ -86,8 +105,17 @@
 .tableRow td {
     padding: 5px 10px 5px 10px;
 }
-.tableRow:not(:last-child){
+
+.tableRow:not(:last-child) {
     border-bottom: 1px solid rgba(0, 0, 0, 0.24);
+}
+.buttonAdd span{
+    font-size: 12px;
+    font-weight: 600;
+    background-color: rgb(17, 217, 160);
+    padding: 3px;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
 @media(min-width:430px) {
@@ -100,5 +128,10 @@
         height: 100%;
         border-radius: 7px;
         overflow: auto;
+    }
+
+    .footer {
+        display: grid;
+        padding: 20px;
     }
 }

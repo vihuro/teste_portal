@@ -168,11 +168,11 @@ function Form({ changeToogle }: Props) {
 
     return (
         <form className={styles.form} action="">
-            <div className={toogleCardInsert ?
+            {/* <div className={toogleCardInsert ?
                 styles.containerCardInsert :
                 styles.containerCardInsert_close} >
                 <FormAdd />
-            </div>
+            </div> */}
             <header className={styles.header} >
                 <h3>
                     DIÁRIO

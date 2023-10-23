@@ -42,6 +42,10 @@ export default function FilterPecas() {
             totalItems: 0,
             totalPages: 0
         });
+        const [typeFilter, setTypeFilter] = useState<string>("");
+        const [textFilter, setTextFilter] = useState<string>("");
+        const [toogleTypeFilterList, setToogleTypeFilterList] = useState<boolean>(false)
+
         useEffect(() => {
             const intersectionObserver = new IntersectionObserver(([entry]) => {
                 const ratio = entry.intersectionRatio;
@@ -87,16 +91,37 @@ export default function FilterPecas() {
                     <div className={styles.containerTable} >
                         <div className={styles.containerFilter} >
                             <div className={styles.containerTypesFilter} >
-                                <input type="text" />
-                                <ul>
-                                    <li>CÓDIGO</li>
-                                    <li>DESCRIÇÃO</li>
-                                    <li>UNIDADE</li>
-                                    <li>FAMÍLIA</li>
+                                <input
+                                    type="text"
+                                    value={typeFilter}
+                                    onChange={() => { }}
+                                    onClick={() => setToogleTypeFilterList(current => !current)} />
+                                <ul className={toogleTypeFilterList ?
+                                    styles.listTypeFilter :
+                                    styles.listTypeFilter_close} >
+                                    <li onClick={() => {
+                                        setTypeFilter((current) => current = "CÓDIGO")
+                                        setToogleTypeFilterList((current) => !current)
+                                    }} >CÓDIGO</li>
+                                    <li onClick={() => {
+                                        setTypeFilter((current) => current = "DESCRIÇÃO")
+                                        setToogleTypeFilterList((current) => !current)
+                                    }} >DESCRIÇÃO</li>
+                                    <li onClick={() => {
+                                        setTypeFilter((current) => current = "UNIDADE")
+                                        setToogleTypeFilterList((current) => !current)
+                                    }} >UNIDADE</li>
+                                    <li onClick={() => {
+                                        setTypeFilter((current) => current = "FAMÍLIA")
+                                        setToogleTypeFilterList((current) => !current)
+                                    }} >FAMÍLIA</li>
                                 </ul>
                             </div>
                             <div className={styles.containerInputFilter} >
-                                <input type="text" />
+                                <input
+                                    type="text"
+                                    value={textFilter}
+                                    onChange={(e) => setTextFilter(e.target.value)} />
                             </div>
                             <div>
                                 <Button
@@ -114,6 +139,7 @@ export default function FilterPecas() {
                                     <th>DESCRIÇÃO</th>
                                     <th>UNIDADE</th>
                                     <th>FAMÍLIA</th>
+                                    <th></th>
 
                                 </tr>
                             </thead>
@@ -125,6 +151,9 @@ export default function FilterPecas() {
                                             <td>{item.descricao}</td>
                                             <td>{item.unidade}</td>
                                             <td>{item.familia}</td>
+                                            <td className={styles.buttonAdd} >
+                                                <span>ADICIONAR</span>
+                                            </td>
                                         </tr>
                                     ))
                                 )}
@@ -133,10 +162,18 @@ export default function FilterPecas() {
                                 </tr>
                             </tbody>
                         </table>
-                    </div>
-                </main>
-                <footer></footer>
-            </section>
+                    </div >
+                </main >
+                <footer className={styles.footer} >
+                    <Button
+                        classUi="glass"
+                        color="red"
+                        text="FECHAR"
+                        type="button"
+                        onClick={() => changeToogle(false)}
+                    />
+                </footer>
+            </section >
         )
     }
 

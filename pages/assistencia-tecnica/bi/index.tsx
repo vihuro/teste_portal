@@ -37,12 +37,15 @@ export default function Bi() {
         <table className={style.table} >
             <thead>
                 <tr>
-                    <th>Nº ORÇ</th>
-                    <th>DATA/ABERT.</th>
-                    <th>DESCRIÇÃO</th>
+                    <th>Nº OS</th>
+                    <th>MODELO</th>
                     <th>Nº SÉRIE</th>
-                    <th>DESCRIÇÃO ORÇ.</th>
-                    <th>TÉCNICO RESP.</th>
+                    <th>DESCRIÇÃO</th>
+                    <th>TÉCNICO</th>
+                    <th>DATA DE ABERTURA</th>
+                    <th>HORARIO INICIO</th>
+                    <th>TEMPO MAXIMO</th>
+                    <th>PERFORMANCE TECNICO</th>
                     <th>STATUS</th>
                 </tr>
             </thead>
@@ -51,11 +54,13 @@ export default function Bi() {
                     data.map((item, index) => (
                         <tr key={index} >
                             <td>{item.numeroOrcamento}</td>
-                            <td>{DateTimeStringFormat(item.cadastro.dataHora)}</td>
                             <td>{item.maquina.descricaoMaquina}</td>
                             <td>{item.maquina.numeroSerie}</td>
                             <td>{item.descricaoServico}</td>
                             <td>VITOR HUGO</td>
+                            <td>{DateTimeStringFormat(item.cadastro.dataHora)}</td>
+                            <td></td>
+                            <td></td>
                             <td>AGUARDANDO ORÇAMENTO</td>
 
                         </tr>
