@@ -83,11 +83,11 @@ export default function Table() {
             entries.map(item => {
                 if (item.isIntersecting) {
                     setCurrentPage((current) => current + 50)
-
                 }
             })
         })
         const sentinelElement = document.querySelector("#sentinela");
+
         if (sentinelElement) {
             intersectionObserver.observe(sentinelElement);
         }
@@ -153,6 +153,7 @@ export default function Table() {
                 itemForPage: stayItemsTeste
             }))
         }
+        if (infoPage.totalItems === data.length && data.length !== 0) return;
 
         await Api.get(`/assistencia-tecnica/pecas/${currentPage}/${infoPage.itemForPage}`)
             .then(res => {
@@ -184,24 +185,28 @@ export default function Table() {
 
     }
     async function FetchDataWithFilter(filter: FilterProps) {
-        if (currentPage === 0) {
+
+        if (infoPageFilter.totalItems === 0) {
+            console.log("entrou aqui para zerar tudo ")
             setToogleLoading((current) => current = true)
+            setCurrentPage((current) => current = 0)
+            setData([])
         }
         if (infoPageFilter.currentPage === infoPageFilter.totalPages && infoPageFilter.totalPages > 0) {
-            const stayItemsTeste = (infoPageFilter.itemForPage * infoPageFilter.totalPages - infoPageFilter.totalItems) * -1
+            const stayItems = (infoPageFilter.itemForPage * infoPageFilter.totalPages - infoPageFilter.totalItems) * -1
 
             setInfoPageFilter((current) => ({
                 ...current,
-                itemForPage: stayItemsTeste
+                itemForPage: stayItems
             }))
-
         }
+        if (infoPageFilter.totalItems === data.length && data.length !== 0) return;
+
         await Api.get(`/assistencia-tecnica/pecas/with-filter/${currentPage}/${infoPageFilter.itemForPage}`, {
             params: filter
         })
             .then(res => {
-
-                setInfoPage((info) => ({
+                setInfoPageFilter((info) => ({
                     ...info,
                     currentPage: res.data.currentPage,
                     totalPages: res.data.quantityPages,
@@ -209,7 +214,11 @@ export default function Table() {
                 }));
 
                 const dataItem: dataProps[] = res.data.pecas;
-                setData((currentData) => [...currentData, ...dataItem])
+                if (currentPage === 0) {
+                    setData(() => [...dataItem])
+                } else {
+                    setData((currentData) => [...currentData, ...dataItem])
+                }
                 refresFiteredCodigo({
                     list: dataItem.map(item => ({
                         text: item.codigoRadar,
@@ -225,6 +234,7 @@ export default function Table() {
                 setToogleLoading((current) => current = false)
             })
             .catch(err => console.log(err))
+
     }
 
     function ChangeFilter() {
@@ -266,7 +276,8 @@ export default function Table() {
                         fetchDataWithoutFilter={FecthData}
                         setFilterFecth={setFilterFecth}
                         setDataTable={setData}
-                        changeCurrentPage={setCurrentPage} />
+                        changeCurrentPage={setCurrentPage}
+                        currentPage={currentPage} />
                 </div>
             </div>
             <div className={toogleAdd ?
@@ -430,9 +441,10 @@ export default function Table() {
                                     </Fragment>
                                 ))
                             )}
-                            <tr id="sentinela" ></tr>
+
                         </tbody>
                     </table>
+                    <div id="sentinela" />
                 </div>
             </section>
 

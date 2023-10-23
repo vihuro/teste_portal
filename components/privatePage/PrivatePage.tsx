@@ -9,10 +9,12 @@ export async function validateToken(context: GetServerSidePropsContext) {
     const accessToken = parseCookies(context).ACCESS_TOKEN;
     const refreshToken = parseCookies(context).REFRESH_TOKEN;
 
+
+
     if (!accessToken || !refreshToken) {
-        setCookie(context,"PAGINA_PORTAL_THR",
-        encodeURIComponent(context.resolvedUrl),{
-            path:"/"
+        setCookie(context, "PAGINA_PORTAL_THR",
+            encodeURIComponent(context.resolvedUrl), {
+            path: "/"
         })
         context.res.writeHead(302, {
             location: "/login"
@@ -38,8 +40,8 @@ export async function validateToken(context: GetServerSidePropsContext) {
                 Authorization: `Bearer ${refreshToken}`
             }
         })
-            .then(res => {return res})
-            .catch(err => {return err})
+            .then(res => { return res })
+            .catch(err => { return err })
 
         if (newToken.status === 200) {
             setCookie(null, "ACCESS_TOKEN", newToken.data.accessToken, {
@@ -54,9 +56,9 @@ export async function validateToken(context: GetServerSidePropsContext) {
         } else {
             destroyCookie(context, "ACCESS_TOKEN");
             destroyCookie(context, "REFRESH_TOKEN");
-            setCookie(context,"PAGINA_PORTAL_THR",
-            encodeURIComponent(context.resolvedUrl),{
-                path:"/"
+            setCookie(context, "PAGINA_PORTAL_THR",
+                encodeURIComponent(context.resolvedUrl), {
+                path: "/"
             })
 
             return {

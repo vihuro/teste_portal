@@ -11,12 +11,17 @@ import TokenDrecriptor from "../../../../../service/DecriptorToken";
 import { getCookieParser } from "next/dist/server/api-utils";
 import { parseCookies } from "nookies";
 import { tokenProps } from "../../../../utils/infoToken";
+import { Form } from "./Filter/FilterMaquinaRadar";
+import { IMachineProps } from "../IMaquina";
+
 
 interface props {
     changeToogle: Function,
     refreshTable: Function
 
 }
+
+
 
 export default function Card({ changeToogle, refreshTable }: props) {
 
@@ -32,6 +37,8 @@ export default function Card({ changeToogle, refreshTable }: props) {
     const [toogleMessage, setToogleMessage] = useState<boolean>(false);
     const [tooglFilter, setToogleFilter] = useState<boolean>(false);
     const [toogleLoading, setToogleLoading] = useState<boolean>(false);
+    const [toogleFilterMaquina, setToogleFiterMaquina] = useState<boolean>(true);
+    const [infoMachine, setInfoMachine] = useState<IMachineProps>();
 
 
     const { Input } = InputUi();
@@ -94,16 +101,15 @@ export default function Card({ changeToogle, refreshTable }: props) {
             })
     }
     async function searchMachine(codigo: string) {
-        await Api.get(`/maquina/${codigo}`)
-            .then(res => {
-                setNomaMaquina((current) => ({
-                    ...current,
-                    codigoMaquina: res.data.codigo,
-                    descricaoMaquina: res.data.descricaoMaquina
-                }))
-                console.log(res.data)
-            })
-            .catch(err => console.log(err))
+        // await Api.get(`/maquina/${codigo}`)
+        //     .then(res => {
+        //         setNomaMaquina((current) => ({
+        //             ...current,
+        //             codigoMaquina: res.data.codigo,
+        //             descricaoMaquina: res.data.descricaoMaquina
+        //         }))
+        //     })
+        //     .catch(err => console.log(err))
     }
     return (
         <form className={style.card} action="">
@@ -126,6 +132,10 @@ export default function Card({ changeToogle, refreshTable }: props) {
                 style.filterPeca :
                 style.filterPeca_close} >
                 <CardPecas />
+            </div>
+            <div>
+
+                <Form toogle={toogleFilterMaquina} changeInfoMachine={setInfoMachine} />
             </div>
             <section className={style.title} >
                 <h3>

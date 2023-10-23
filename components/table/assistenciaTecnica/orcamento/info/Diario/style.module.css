@@ -16,12 +16,6 @@
     position: relative;
     color: var(--text-color-blue-600);
 }
-.listColor,
-.listColor_close{
-    position: absolute;
-    z-index: 5;
-    background-color: white;
-}
 
 .header span {
     position: absolute;

@@ -11,7 +11,8 @@ interface Props {
     fetchDataWithoutFilter: Function,
     changeCurrentPage: Function,
     cleanFilter: Function,
-    setFilterFecth: Function
+    setFilterFecth: Function,
+    currentPage: number
 }
 interface FilterProps {
     CodigoRadar: string,
@@ -27,7 +28,8 @@ export default function Filter({ changeToogle,
     changeCurrentPage,
     cleanFilter,
     fetchDataWithoutFilter,
-    setFilterFecth }: Props) {
+    setFilterFecth,
+    currentPage }: Props) {
 
     const [filter, setFilter] = useState<FilterProps>();
 
@@ -48,13 +50,14 @@ export default function Filter({ changeToogle,
     async function Filter() {
         setDataTable([])
         setFilterFecth(filter)
-        changeCurrentPage(0)
+        changeCurrentPage((current: number) => current = 0)
         // setDataTable((current) => current = [])
         await fetchDataFilter(filter)
         changeToogle(false)
 
 
     }
+
     async function ClenFilter() {
         cleanFilter()
         changeToogle(false)
