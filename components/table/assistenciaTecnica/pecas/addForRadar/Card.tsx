@@ -33,6 +33,7 @@ export default function Card({ fetchData }: { fetchData: Function }) {
             .catch(err => console.log(err))
     }
     const { Button } = ButtonUi();
+    
     async function AtualizarTabela() {
         await Api.post(`assistencia-tecnica/pecas/${tokenInfo.idUser}`)
             .then(res => {

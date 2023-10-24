@@ -48,7 +48,7 @@ export default function Login() {
     async function Logar() {
 
         if (data.apelido === "" || data.senha === "") {
-            
+
             setDataMessage({
                 message: "Campos obrigatórios vazios!",
                 type: "WARNING"
@@ -94,11 +94,10 @@ export default function Login() {
                     })
                 }
                 setToogleMessage(true)
-                setToogleLoading(false);
 
             })
             .finally(() => {
-                
+                setToogleLoading((current) => !current)
             })
     }
 

@@ -84,6 +84,9 @@ const CardStorage = ({ changeToogle, refreshTable, searchColor }: props) => {
         },
         {
             "unidade": "MI"
+        },
+        {
+            "unidade": "UND"
         }
     ]
 

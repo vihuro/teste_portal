@@ -2,6 +2,8 @@ import { useEffect, useState } from "react"
 import Api from "../../../service/api/assistenciaTecnica/Assistencia"
 import style from "./style.module.css";
 import { DateTimeStringFormat } from "../../../components/utils/DateTimeString";
+import { GetServerSideProps } from "next";
+import { validateToken } from "../../../components/privatePage/PrivatePage";
 
 interface dataProps {
     numeroOrcamento: number,
@@ -69,4 +71,23 @@ export default function Bi() {
             </tbody>
         </table>
     )
+}
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+    const info = await validateToken(context);
+
+
+    if (!info) {
+        return {
+            props: {}
+        }
+    }
+
+    return {
+        props: {},
+        redirect: {
+            destination: info.redirect.destination,
+            permanent: info.redirect.permanent,
+        }
+    }
 }

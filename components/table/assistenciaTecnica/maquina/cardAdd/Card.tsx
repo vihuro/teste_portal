@@ -11,8 +11,9 @@ import TokenDrecriptor from "../../../../../service/DecriptorToken";
 import { getCookieParser } from "next/dist/server/api-utils";
 import { parseCookies } from "nookies";
 import { tokenProps } from "../../../../utils/infoToken";
-import { Form } from "./Filter/FilterMaquinaRadar";
+import { Form as FormFilterMachine } from "./Filter/FilterMaquinaRadar";
 import { IMachineProps } from "../IMaquina";
+import { IMaquinaRadarProps } from "../IMaquinaFileRadar";
 
 
 interface props {
@@ -37,8 +38,14 @@ export default function Card({ changeToogle, refreshTable }: props) {
     const [toogleMessage, setToogleMessage] = useState<boolean>(false);
     const [tooglFilter, setToogleFilter] = useState<boolean>(false);
     const [toogleLoading, setToogleLoading] = useState<boolean>(false);
-    const [toogleFilterMaquina, setToogleFiterMaquina] = useState<boolean>(true);
-    const [infoMachine, setInfoMachine] = useState<IMachineProps>();
+    const [toogleFilterMaquina, setToogleFiterMaquina] = useState<boolean>(false);
+    const [infoMachine, setInfoMachine] = useState<IMaquinaRadarProps>({
+        classCodigo: "",
+        codigo: "",
+        descricao: "",
+        familia: "",
+        unidade: ""
+    });
 
 
     const { Input } = InputUi();
@@ -51,9 +58,8 @@ export default function Card({ changeToogle, refreshTable }: props) {
 
     async function AddMaquina() {
         const { codigoMaquina, numeroSerie, descricaoMaquina } = novaMaquina;
-        console.log(novaMaquina)
-        if (codigoMaquina === "" ||
-            descricaoMaquina === "" ||
+        if (infoMachine.codigo === "" ||
+            infoMachine.descricao === "" ||
             numeroSerie === "") {
             setDataMessage({
                 message: "Campo(s) obrigatório(s) vazio(s)!",
@@ -64,8 +70,8 @@ export default function Card({ changeToogle, refreshTable }: props) {
             return;
         }
         const obj = {
-            codigoMaquina: codigoMaquina,
-            descricaoMaquina: descricaoMaquina,
+            codigoMaquina: infoMachine.codigo,
+            descricaoMaquina: infoMachine.descricao,
             numeroSerie: numeroSerie,
             UserId: tokenInfo.idUser,
             pecas: listPecas.map(item => ({
@@ -101,15 +107,31 @@ export default function Card({ changeToogle, refreshTable }: props) {
             })
     }
     async function searchMachine(codigo: string) {
-        // await Api.get(`/maquina/${codigo}`)
-        //     .then(res => {
-        //         setNomaMaquina((current) => ({
-        //             ...current,
-        //             codigoMaquina: res.data.codigo,
-        //             descricaoMaquina: res.data.descricaoMaquina
-        //         }))
-        //     })
-        //     .catch(err => console.log(err))
+        setToogleLoading((current) => current = true);
+        await Api.get(`/maquina/${codigo}`)
+            .then(res => {
+                setNomaMaquina((current) => ({
+                    ...current,
+                    codigoMaquina: res.data.codigo,
+                    descricaoMaquina: res.data.descricaoMaquina
+                }))
+            })
+            .catch(err => {
+                if (err &&
+                    (err.response &&
+                        (err.response.data))) {
+                    setDataMessage((current) =>
+                        current = {
+                            message: err.response.data,
+                            type: "WARNING"
+                        }
+                    )
+                    setToogleMessage((current) => current = true)
+                }
+            })
+            .finally(() => {
+                setToogleLoading((current) => current = false)
+            })
     }
     return (
         <form className={style.card} action="">
@@ -133,9 +155,14 @@ export default function Card({ changeToogle, refreshTable }: props) {
                 style.filterPeca_close} >
                 <CardPecas />
             </div>
-            <div>
-
-                <Form toogle={toogleFilterMaquina} changeInfoMachine={setInfoMachine} />
+            <div className={toogleFilterMaquina ?
+                style.filterMachine :
+                style.filterMachine_close} >
+                <FormFilterMachine
+                    toogle={toogleFilterMaquina}
+                    changeInfoMachine={setInfoMachine}
+                    changeToogle={setToogleFiterMaquina}
+                />
             </div>
             <section className={style.title} >
                 <h3>
@@ -151,15 +178,23 @@ export default function Card({ changeToogle, refreshTable }: props) {
                         autoComplete="off"
                         onKeyDown={(e) => {
                             if (e.key === "Enter") {
-                                searchMachine(novaMaquina.codigoMaquina)
+                                searchMachine(infoMachine.codigo)
                             }
                         }}
-                        value={novaMaquina.codigoMaquina}
+                        value={infoMachine.codigo}
                         maxLength={15}
-                        onChange={(e) => setNomaMaquina({
-                            ...novaMaquina,
-                            codigoMaquina: e.target.value
-                        })}
+                        onChange={(e) => setInfoMachine((current) => ({
+                            ...current,
+                            codigo: e.target.value
+                        }))}
+                        iconRight={{
+                            action: () => console.log("olá mundo"),
+                            icon: Icons.Search
+                        }}
+                        iconLeft={{
+                            action: () => setToogleFiterMaquina((current) => current = true),
+                            icon: Icons.Filter
+                        }}
                     />
                 </div>
                 <div className={style.container_nomeMaquina} >
@@ -167,7 +202,7 @@ export default function Card({ changeToogle, refreshTable }: props) {
                         id="txtNovaMaquina"
                         text="Descrição"
                         autoComplete="off"
-                        value={novaMaquina.descricaoMaquina}
+                        value={infoMachine.descricao}
                         onChange={() => { }}
                         maxLength={50}
                         blocked

@@ -5,7 +5,7 @@ interface IMachineProps {
     codigo: string,
     descricaoMaquina: string,
     numeroSerie: string,
-    cadastro: string,
+    cadastro: InfoUserProps,
     unidade: string
 }
 interface InfoUserProps {
@@ -15,4 +15,4 @@ interface InfoUserProps {
     nome: string,
 }
 
-export type { IMachineProps }
+export type { IMachineProps, InfoUserProps }

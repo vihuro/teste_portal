@@ -1,0 +1,193 @@
+@media(min-width:430px) {
+    .container {
+        width: 90%;
+        height: 90%;
+        background-color: white;
+        color: black;
+        overflow: hidden;
+        border-radius: 10px;
+        box-shadow: 0 0 10px 1px rgb(182, 182, 182);
+        display: grid;
+        grid-template-rows: 60px 1fr 40px;
+    }
+
+    .containerFilter {
+        padding: 10px;
+        grid-area: 1/1/1/1;
+        position: relative;
+        display: flex;
+        gap: 10px;
+    }
+}
+
+@media(max-width:430px) {
+    .container {
+        width: 90%;
+        height: 90%;
+        background-color: white;
+        color: black;
+        overflow: hidden;
+        border-radius: 10px;
+        box-shadow: 0 0 10px 1px rgb(182, 182, 182);
+        display: grid;
+        grid-template-rows: 100px 1fr 40px;
+        overflow: auto;
+    }
+
+    .containerFilter {
+        padding: 10px;
+        grid-area: 1/1/1/1;
+        position: relative;
+        display: grid;
+        gap: 10px;
+    }
+
+    .containerFilterListType input,
+    .containerFilterInput input {
+        width: 94%;
+    }
+
+    .containerFilterListType::before,
+    .containerFilterInput::before {
+
+        bottom: 1px;
+    }
+}
+
+
+
+.containerFilterListType::before,
+.containerFilterInput::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background-image: linear-gradient(to right,
+            rgb(133, 167, 231),
+            rgb(77, 60, 231),
+            rgb(25, 100, 199));
+    transition: .5s;
+    transform: scaleX(0);
+}
+
+.containerFilterListType:focus-within::before,
+.containerFilterInput:focus-within::before {
+    transform: scaleX(1);
+}
+
+.containerFilterListType,
+.containerFilterInput {
+    position: relative;
+}
+
+.containerFilterListType input,
+.containerFilterInput input {
+    padding: 7px;
+    border-radius: 3px;
+    border: 1px solid rgba(180, 180, 180, 0.774);
+    outline: none;
+    font-size: 14px;
+}
+
+.containerFilterListType input {
+    background-color: rgba(218, 217, 217, 0.753);
+    font-weight: 600;
+    color: rgb(107, 107, 107);
+}
+
+.listType,
+.listType_close {
+    position: absolute;
+    background-color: white;
+    box-shadow: 0 0 10px 1px rgb(182, 182, 182);
+    width: 100%;
+    height: 100px;
+    padding: 5px;
+    list-style: none;
+    border-radius: 5px;
+    margin-top: 5px;
+    transition: .5s;
+    transform-origin: top;
+    z-index: 1;
+}
+
+.listType_close {
+    transform: scaleY(0);
+}
+
+.listType li,
+.listType_close li {
+    margin-top: 5px;
+    cursor: default;
+}
+
+.listType li:hover,
+.listType_close li:hover {
+    background-color: rgb(182, 182, 182);
+}
+
+.containerTable {
+    grid-area: 2/1/2/1;
+    padding: 0 5px 0 5px;
+    overflow: auto;
+}
+
+.table,
+.table_loading {
+    border-collapse: collapse;
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+
+.table_loading::before {
+    position: absolute;
+    content: "";
+    background-image: linear-gradient(to left, #8f8d8d, #adabab, #999999, #afaeae),
+        linear-gradient(to right, #afaeae, #999999, #adabab, #8f8d8d);
+    width: 100%;
+    height: 100%;
+    background-size: 400%;
+    animation: loading 3s infinite;
+}
+.tbody svg{
+    color: var(--text-color-blue-400);
+    cursor: pointer;
+}
+@keyframes loading {
+    0% {
+        background-position: 100%;
+    }
+
+    50% {
+        background-position: 50%;
+    }
+
+    100% {
+        background-position: 0%;
+    }
+}
+
+.thead {
+    position: sticky;
+    top: 0;
+    background-color: var(--background-color-blue-700);
+    color: white;
+}
+
+.tbody {
+    background-color: rgba(219, 233, 240, .5);
+    color: var(--text-color-blue-700);
+    font-weight: 500;
+}
+
+.tbody tr td {
+    padding: 5px;
+}
+
+.tbody tr:not(:last-child) {
+    border-bottom: 1px solid rgba(112, 112, 112, 0.685);
+}
+
+.containerFilterInput {}

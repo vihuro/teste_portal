@@ -15,7 +15,9 @@
 .container_message,
 .container_message_close,
 .container_loading,
-.container_loading_close {
+.container_loading_close,
+.filterMachine,
+.filterMachine_close {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -23,15 +25,18 @@
     justify-content: center;
     align-items: center;
     transition: .5s;
+    z-index: 5;
 }
+
 .container_loading,
-.container_loading_close{
+.container_loading_close {
     background-color: rgba(255, 255, 255, 0.418);
     z-index: 5;
 }
 
 .container_message_close,
-.container_loading_close {
+.container_loading_close,
+.filterMachine_close {
     transform: translateY(-300px);
     opacity: 0;
     pointer-events: none;
@@ -107,7 +112,7 @@
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         gap: 10px;
-        padding: 10px
+        padding: 5px
     }
 }
 
