@@ -2,18 +2,21 @@ import style from "./style.module.css";
 import { Icons } from "../../../../utils/IconDefault"
 import InputUi from "../../../../UI/input/Input";
 import Api from "../../../../../service/api/assistenciaTecnica/Assistencia";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { DateTimeStringFormat } from "../../../../utils/DateTimeString";
 import FilterPecas from "./filterPecas/Pecas";
 import { Form as FormDiario } from "./Diario/CardDiario";
 import {
-    OrcamentoProps,
-    clienteProps,
-    maquinaProps,
-    pecasProps,
-    statusSitucaoProps,
-    usuarioApontamentoSituacaoProps
+    IOrcamentoProps,
+    IClienteProps,
+    IMaquinaProps,
+    IPecasProps,
+    IStatusSitucaoProps,
+    IUsuarioApontamentoSituacaoProps,
+    ITechnicianProps
+
 } from "../IOrcamento";
+import { handleTouchEnd, handleTouchStart } from "../../../../utils/HandleTouch";
 
 
 interface props {
@@ -79,8 +82,16 @@ interface tecnicoProps {
     idUsuario: string
 }
 
-function Data() {
-    const [data, setData] = useState<OrcamentoProps>();
+function DataBudget() {
+    const [data, setData] = useState<IOrcamentoProps>();
+
+    return {
+        data,
+        setData
+    }
+}
+function DataTechnician() {
+    const [data, setData] = useState<ITechnicianProps[]>([]);
 
     return {
         data,
@@ -98,31 +109,40 @@ const Loading = () => {
 
 function Fetchdata({ id }: { id: number }) {
 
-    const { data, setData } = Data();
+    const { data: dataBudget, setData: setDataBudget } = DataBudget();
+    const { data: dataTechnician, setData: setDateTechnician } = DataTechnician();
+
     const { loading, setLoading } = Loading()
 
 
     function getByNumeroOrcamento() {
-        console.log("veio no get")
         Api.get(`/orcamento/${id}`)
             .then((res) => {
                 setLoading((cuurent) => cuurent = false);
-                setData((current) => current = res.data)
+                setDataBudget((current) => current = res.data)
             })
+            .catch(err => console.log(err))
+    }
+    function getListTechnician() {
+        Api.get("/tecnico")
+            .then(res => setDateTechnician(res.data))
             .catch(err => console.log(err))
     }
 
 
     return {
-        data,
+        dataBudget,
         loading,
-        setData,
+        setDataBudget,
         setLoading,
-        getByNumeroOrcamento
+        getByNumeroOrcamento,
+        getListTechnician,
+        dataTechnician,
+        setDateTechnician
     }
 }
 
-function validadeUserApontamentoDiferenteNulo(usuarioApontamento: usuarioApontamentoSituacaoProps) {
+function validadeUserApontamentoDiferenteNulo(usuarioApontamento: IUsuarioApontamentoSituacaoProps) {
     if (!usuarioApontamento) return {
         nome: "",
         apelido: ""
@@ -146,6 +166,7 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
 
     const { Input } = InputUi();
     const [dataTecnico, setDataTecnico] = useState<tecnicoProps[]>([]);
+    const touchTimeout = useRef(null);
 
     const [tecnicoOrcamento, setTecnicoOrcamento] = useState<tecnicoProps>({
         apelido: "",
@@ -153,34 +174,42 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
         idUsuario: "",
         nome: ""
     });
-    const { data, loading, setData, setLoading, getByNumeroOrcamento } = Fetchdata({ id: numeroOrcamento })
+    const { dataBudget, loading, setDataBudget, dataTechnician, setDateTechnician, setLoading, getByNumeroOrcamento, getListTechnician } = Fetchdata({ id: numeroOrcamento })
 
     useEffect(() => {
-
-        if (data) {
-            setData(undefined);
+        if (dataBudget) {
+            setDataBudget(undefined);
             setLoading(true);
         }
-
     }, [numeroOrcamento])
 
 
     useEffect(() => {
-        getByNumeroOrcamento()
+        if (valueToogle) {
+            getByNumeroOrcamento()
+            getListTechnician()
+        }
     }, [valueToogle])
 
 
     const [toogleNotification, setToogleNotification] = useState<boolean>(false);
-    const [listTecnicoOrcamento, setListTecnicoOrcamento] = useState<boolean>(false)
+    const [listTecnicoOrcamento, setListTecnicoOrcamento] = useState<boolean>(false);
+    const [listTecnicoManutecao, setListTecnicoManutencao] = useState<boolean>(false);
     const [toogleFilterPecas, setToogleFilterPecas] = useState<boolean>(false);
     const [toogleDiario, setToogleDiario] = useState<boolean>(false);
     const { Card, FetchDataPecas } = FilterPecas()
-    useEffect(() => {
-        getByNumeroOrcamento()
-    }, [numeroOrcamento])
+    // useEffect(() => {
+    //     getByNumeroOrcamento()
+    // }, [numeroOrcamento])
+    function changeToogleFilterParts() {
+        setToogleFilterPecas((current) => !current)
+    }
     // getByNumeroOrcamento()
     return (
-        <main className={style.container} >
+        <main className={style.container} onClick={(e) => {
+            setListTecnicoManutencao(false)
+            setListTecnicoOrcamento(false)
+        }}>
             <div className={toogleFilterPecas ?
                 style.containerFilter :
                 style.containerFilter_close} >
@@ -196,13 +225,15 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                 </div>
             </div>
             <header className={style.container_header} >
-                <button onClick={() => {
-                    setData(undefined);
-                    changeToogle(false);
-                    setLoading(true)
-                }} >
-                    <Icons.ArrowLeft onClick={() => { changeToogle(false) }} />
-                </button>
+                <div className={style.container_buttonBack} >
+                    <button onClick={() => {
+                        setDataBudget(undefined);
+                        changeToogle(false);
+                        setLoading(true)
+                    }} >
+                        <Icons.ArrowLeft onClick={() => { changeToogle(false) }} />
+                    </button>
+                </div>
 
                 <div className={style.containerNumeroOrcamento} >
                     <Input
@@ -214,12 +245,14 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                     />
                 </div>
                 <div className={style.containerStatusOrcamento} >
+                    <p className={style.status} >
+                        {dataBudget ? dataBudget.status : ""}
+                    </p>
+                </div>
+                <div className={style.containerButtonDaily} >
                     <button onClick={() => setToogleDiario((current) => !current)} >
                         <Icons.Book />
                     </button>
-                    <p className={style.status} >
-                        {data ? data.status : ""}
-                    </p>
                 </div>
             </header>
 
@@ -231,7 +264,7 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                         <Input
                             id="txtCodigoClienteInfo"
                             text="CÓDIGO CLIENTE"
-                            value={data ? data.cliente.codigoRadar : ""}
+                            value={dataBudget ? dataBudget.cliente.codigoRadar : ""}
                             onChange={() => { }}
                             blocked
                         />
@@ -240,7 +273,7 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                         <Input
                             id="txtNomeClienteInfo"
                             text="NOME CLIENTE"
-                            value={data ? data.cliente.nomeCliente : ""}
+                            value={dataBudget ? dataBudget.cliente.nomeCliente : ""}
                             onChange={() => { }}
                             blocked
                         />
@@ -249,7 +282,7 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                         <Input
                             id="txtCnpjClienteInfo"
                             text="CNPJ"
-                            value={data ? data.cliente.cnpj : ""}
+                            value={dataBudget ? dataBudget.cliente.cnpj : ""}
                             onChange={() => { }}
                             blocked
                         />
@@ -258,7 +291,7 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                         <Input
                             id="txtCEPClienteInfo"
                             text="CEP"
-                            value={data ? data.cliente.cep : ""}
+                            value={dataBudget ? dataBudget.cliente.cep : ""}
                             onChange={() => { }}
                             blocked
                         />
@@ -267,7 +300,7 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                         <Input
                             id="txtRuaEnderecoInfo"
                             text="RUA"
-                            value={data ? data.cliente.rua : ""}
+                            value={dataBudget ? dataBudget.cliente.rua : ""}
                             onChange={() => { }}
                             blocked
                         />
@@ -276,7 +309,7 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                         <Input
                             id="txtNumeroEstabelecimentoInfo"
                             text="Nº ESTELECIMENTO"
-                            value={data ? data.cliente.numeroEstabelecimento : ""}
+                            value={dataBudget ? dataBudget.cliente.numeroEstabelecimento : ""}
                             onChange={() => { }}
                             blocked
                         />
@@ -285,7 +318,7 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                         <Input
                             id="txtCidadeClienteInfo"
                             text="CIDADE"
-                            value={data ? data.cliente.cidade : ""}
+                            value={dataBudget ? dataBudget.cliente.cidade : ""}
                             onChange={() => { }}
                             blocked
                         />
@@ -294,7 +327,7 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                         <Input
                             id="txtRegiaoClienteInfo"
                             text="REGIÃO"
-                            value={data ? data.cliente.regiao : ""}
+                            value={dataBudget ? dataBudget.cliente.regiao : ""}
                             onChange={() => { }}
                             blocked
                         />
@@ -303,7 +336,7 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                         <Input
                             id="txtComplementoClienteInfo"
                             text="COMPLEMENTO"
-                            value={data ? data.cliente.cidade : ""}
+                            value={dataBudget ? dataBudget.cliente.cidade : ""}
                             onChange={() => { }}
                             blocked
                         />
@@ -312,7 +345,7 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                         <Input
                             id="txtNomeContatoCliente"
                             text="CONT. CLIENTE"
-                            value={data ? data.cliente.contatoNomeCliente : ""}
+                            value={dataBudget ? dataBudget.cliente.contatoNomeCliente : ""}
                             onChange={() => { }}
                             blocked
                         />
@@ -321,7 +354,7 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                         <Input
                             id="txtTelefoneContatoCliente"
                             text="TEL/ CLIENTE"
-                            value={data ? data.cliente.contatoTelefoneCliente : ""}
+                            value={dataBudget ? dataBudget.cliente.contatoTelefoneCliente : ""}
                             onChange={() => { }}
                             blocked
                         />
@@ -330,25 +363,26 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                         <Input
                             id="txtDescricaoServico"
                             text="DESCRIÇÃO SERVIÇO"
-                            value={data ? data.descricaoServico : ""}
+                            value={dataBudget ? dataBudget.descricaoServico : ""}
                             onChange={() => { }}
                             blocked
                         />
                     </div>
-                    <div className={style.containerTecnicoOrcamento} >
+                    <div className={style.containerTecnicoOrcamento} onClick={(e) => e.stopPropagation()}>
                         <input type="text"
                             required
+                            id="txtTecnicoOrcamento"
                             value={tecnicoOrcamento.nome}
                             onChange={() => { }}
                             onClick={() => {
                                 setListTecnicoOrcamento(!listTecnicoOrcamento)
                             }} />
-                        <label htmlFor="">TÉCNICO ORÇ.</label>
+                        <label htmlFor="txtTecnicoOrcamento">TÉCNICO ORÇ.</label>
                         <ul className={listTecnicoOrcamento ?
                             style.listTecnicoOrcamento :
                             style.listTecnicoOrcamento_close} >
-                            {dataTecnico && (
-                                dataTecnico.map((item, index) => (
+                            {dataTechnician && (
+                                dataTechnician.map((item, index) => (
                                     <li onClick={() => {
                                         setListTecnicoOrcamento(false)
                                         setTecnicoOrcamento(item);
@@ -357,22 +391,23 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                             )}
                         </ul>
                     </div>
-                    <div className={style.containerTecnicoManutencao} >
+                    <div className={style.containerTecnicoManutencao} onClick={(e) => e.stopPropagation()}>
                         <input type="text"
                             required
+                            id="txtTecnicoManutencao"
                             value={tecnicoOrcamento.nome}
                             onChange={() => { }}
                             onClick={() => {
-                                setListTecnicoOrcamento(!listTecnicoOrcamento)
+                                setListTecnicoManutencao(!listTecnicoManutecao)
                             }} />
-                        <label htmlFor="">TÉCNICO MANUT.</label>
-                        <ul className={listTecnicoOrcamento ?
+                        <label htmlFor="txtTecnicoManutencao">TÉCNICO MANUT.</label>
+                        <ul className={listTecnicoManutecao ?
                             style.listTecnicoOrcamento :
                             style.listTecnicoOrcamento_close} >
-                            {dataTecnico && (
-                                dataTecnico.map((item, index) => (
+                            {dataTechnician && (
+                                dataTechnician.map((item, index) => (
                                     <li onClick={() => {
-                                        setListTecnicoOrcamento(false)
+                                        setListTecnicoManutencao(false)
                                         setTecnicoOrcamento(item);
                                     }} key={index} >{item.nome}</li>
                                 ))
@@ -384,29 +419,40 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                             <Input
                                 id="txtMaquinaClienteInfo"
                                 text="MÁQUINA"
-                                value={data ? data.maquina.codigoMaquina : ""}
+                                value={dataBudget ? dataBudget.maquina.codigoMaquina : ""}
                                 onChange={() => { }}
                                 blocked
                             />
                             <Input
                                 id="txtDescricaoMaquinaCliente"
                                 text="DESCRIÇÃO"
-                                value={data ? data.maquina.descricaoMaquina : ""}
+                                value={dataBudget ? dataBudget.maquina.descricaoMaquina : ""}
                                 onChange={() => { }}
                                 blocked
                             />
                             <Input
                                 id="txtNumeroSerieMaquinaCliente"
                                 text="Nº SÉRIE"
-                                value={data ? data.maquina.numeroSerie : ""}
+                                value={dataBudget ? dataBudget.maquina.numeroSerie : ""}
                                 onChange={() => { }}
                                 blocked
                             />
                         </div>
-                        <div className={style.containerTablePecas} onDoubleClick={() => {
-                            setToogleFilterPecas((current) => current = !toogleFilterPecas)
-                            FetchDataPecas()
-                        }} >
+                        <div className={style.containerTablePecas}
+                            onDoubleClick={() => {
+                                setToogleFilterPecas((current) => current = !current)
+                                FetchDataPecas()
+                            }}
+                            onTouchStart={() =>
+                                handleTouchStart({
+                                    action: changeToogleFilterParts,
+                                    touchTimeout: touchTimeout
+                                })}
+                            onTouchEnd={() => {
+                                handleTouchEnd({
+                                    touchTimeout: touchTimeout
+                                })
+                            }}>
                             <div className={style.wrapContainerTable} >
                                 <table className={style.table} >
                                     <thead>
@@ -416,12 +462,12 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                                             <th>QTD</th>
                                             <th>IMG.</th>
                                             <th>TROCA</th>
-                                            <th>REUSO</th>
+                                            <th>TR/RU.</th>
                                         </tr>
                                     </thead>
                                     <tbody className={style.container_tableBody} >
-                                        {data && data.maquina && (
-                                            data.maquina.pecas.map((item, index) => (
+                                        {dataBudget && dataBudget.maquina && (
+                                            dataBudget.maquina.pecas.map((item, index) => (
                                                 <tr key={index} >
                                                     <td>{item.codigoPeca}</td>
                                                     <td>{item.descricaoPeca}</td>
@@ -462,7 +508,7 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                                         </tr>
                                     </thead>
                                     <tbody className={style.container_tableBody_status} >
-                                        {data && (
+                                        {dataBudget && (
                                             <>
                                                 <tr>
                                                     <td className={style.container_notification} >
@@ -478,13 +524,13 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                                                             ORÇAMENTO
                                                         </p>
                                                     </td>
-                                                    <td>{validateDataHoraApontamento(data.statusSituacao[1].dataHoraInicio)}</td>
+                                                    <td>{validateDataHoraApontamento(dataBudget.statusSituacao[1].dataHoraInicio)}</td>
                                                     <td>
-                                                        {validadeUserApontamentoDiferenteNulo(data.statusSituacao[1].usuarioApontamentoInicio).nome}
+                                                        {validadeUserApontamentoDiferenteNulo(dataBudget.statusSituacao[1].usuarioApontamentoInicio).nome}
                                                     </td>
-                                                    <td>{validateDataHoraApontamento(data.statusSituacao[1].dataHoraFim)}</td>
+                                                    <td>{validateDataHoraApontamento(dataBudget.statusSituacao[1].dataHoraFim)}</td>
                                                     <td>
-                                                        {validadeUserApontamentoDiferenteNulo(data.statusSituacao[1].usuarioApontamentoFim).nome}
+                                                        {validadeUserApontamentoDiferenteNulo(dataBudget.statusSituacao[1].usuarioApontamentoFim).nome}
                                                     </td>
                                                     <td>
                                                         <p>FINALIZAR ORÇAMENTO</p>
@@ -509,13 +555,13 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                                                             NEGOCIAÇÃO
                                                         </p>
                                                     </td>
-                                                    <td>{validateDataHoraApontamento(data.statusSituacao[2].dataHoraInicio)}</td>
+                                                    <td>{validateDataHoraApontamento(dataBudget.statusSituacao[2].dataHoraInicio)}</td>
                                                     <td>
-                                                        {validadeUserApontamentoDiferenteNulo(data.statusSituacao[2].usuarioApontamentoInicio).nome}
+                                                        {validadeUserApontamentoDiferenteNulo(dataBudget.statusSituacao[2].usuarioApontamentoInicio).nome}
                                                     </td>
-                                                    <td>{validateDataHoraApontamento(data.statusSituacao[2].dataHoraFim)}</td>
+                                                    <td>{validateDataHoraApontamento(dataBudget.statusSituacao[2].dataHoraFim)}</td>
                                                     <td>
-                                                        {validadeUserApontamentoDiferenteNulo(data.statusSituacao[2].usuarioApontamentoFim).nome}
+                                                        {validadeUserApontamentoDiferenteNulo(dataBudget.statusSituacao[2].usuarioApontamentoFim).nome}
                                                     </td>
                                                     <td>
                                                         <p>FINALIZAR NEGOCIAÇÃO</p>
@@ -539,13 +585,13 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                                                             MANUTENÇÃO
                                                         </p>
                                                     </td>
-                                                    <td>{validateDataHoraApontamento(data.statusSituacao[3].dataHoraInicio)}</td>
+                                                    <td>{validateDataHoraApontamento(dataBudget.statusSituacao[3].dataHoraInicio)}</td>
                                                     <td>
-                                                        {validadeUserApontamentoDiferenteNulo(data.statusSituacao[3].usuarioApontamentoInicio).nome}
+                                                        {validadeUserApontamentoDiferenteNulo(dataBudget.statusSituacao[3].usuarioApontamentoInicio).nome}
                                                     </td>
-                                                    <td>{validateDataHoraApontamento(data.statusSituacao[3].dataHoraFim)}</td>
+                                                    <td>{validateDataHoraApontamento(dataBudget.statusSituacao[3].dataHoraFim)}</td>
                                                     <td>
-                                                        {validadeUserApontamentoDiferenteNulo(data.statusSituacao[3].usuarioApontamentoFim).nome}
+                                                        {validadeUserApontamentoDiferenteNulo(dataBudget.statusSituacao[3].usuarioApontamentoFim).nome}
                                                     </td>
                                                     <td>
                                                         <p>FINALIZAR MANUTENÇÃO</p>
@@ -553,13 +599,13 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                                                 </tr>
                                                 <tr>
                                                     <td>LIMPEZA</td>
-                                                    <td>{validateDataHoraApontamento(data.statusSituacao[3].dataHoraInicio)}</td>
+                                                    <td>{validateDataHoraApontamento(dataBudget.statusSituacao[3].dataHoraInicio)}</td>
                                                     <td>
-                                                        {validadeUserApontamentoDiferenteNulo(data.statusSituacao[3].usuarioApontamentoInicio).nome}
+                                                        {validadeUserApontamentoDiferenteNulo(dataBudget.statusSituacao[3].usuarioApontamentoInicio).nome}
                                                     </td>
-                                                    <td>{validateDataHoraApontamento(data.statusSituacao[3].dataHoraFim)}</td>
+                                                    <td>{validateDataHoraApontamento(dataBudget.statusSituacao[3].dataHoraFim)}</td>
                                                     <td>
-                                                        {validadeUserApontamentoDiferenteNulo(data.statusSituacao[3].usuarioApontamentoFim).nome}
+                                                        {validadeUserApontamentoDiferenteNulo(dataBudget.statusSituacao[3].usuarioApontamentoFim).nome}
                                                     </td>
                                                     <td>
                                                         <p>LIMPEZA</p>

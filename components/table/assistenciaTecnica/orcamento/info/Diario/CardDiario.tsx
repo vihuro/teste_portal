@@ -184,7 +184,7 @@ function Form({ changeToogle }: Props) {
             <main className={styles.containerListDiario} >
                 <ul className={styles.listDiario} >
                     {fakeDiario.map((item, index) => (
-                        <li style={searchColor(item.flag)} >
+                        <li key={index} style={searchColor(item.flag)} >
                             {`${item.informação} - ${item.usuarioApontamento} - ${item.dataHoraApontamento}`}
                         </li>
                     ))}

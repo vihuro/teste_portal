@@ -1,12 +1,12 @@
-export interface OrcamentoProps {
+export interface IOrcamentoProps {
     numeroOrcamento: number,
     descricaoServico: string,
     status: string,
-    statusSituacao: statusSitucaoProps[],
-    cliente: clienteProps,
-    maquina: maquinaProps,
+    statusSituacao: IStatusSitucaoProps[],
+    cliente: IClienteProps,
+    maquina: IMaquinaProps,
 }
-export interface clienteProps {
+export interface IClienteProps {
     cep: string,
     cidade: string,
     cnpj: string,
@@ -19,27 +19,27 @@ export interface clienteProps {
     regiao: string,
     rua: string,
 }
-export interface statusSitucaoProps {
+export interface IStatusSitucaoProps {
     dataHoraFim: Date,
     dataHoraInicio: Date,
     status: string,
     statusId: string,
     usuarioApontamento: string,
-    usuarioApontamentoFim: usuarioApontamentoSituacaoProps,
-    usuarioApontamentoInicio: usuarioApontamentoSituacaoProps
+    usuarioApontamentoFim: IUsuarioApontamentoSituacaoProps,
+    usuarioApontamentoInicio: IUsuarioApontamentoSituacaoProps
 }
-export interface usuarioApontamentoSituacaoProps {
+export interface IUsuarioApontamentoSituacaoProps {
     usuarioApontamentoApelido: string,
     usuarioApotamentoNome: string
 }
-export interface maquinaProps {
+export interface IMaquinaProps {
     maquinaId: string,
     codigoMaquina: string,
     descricaoMaquina: string,
     numeroSerie: string,
-    pecas: pecasProps[]
+    pecas: IPecasProps[]
 }
-export interface pecasProps {
+export interface IPecasProps {
     pecaId: string,
     conserto: boolean,
     codigoPeca: string,
@@ -47,4 +47,11 @@ export interface pecasProps {
     enderecoImagem: string,
     preco: number,
     troca: boolean
+}
+
+export interface ITechnicianProps {
+    apelido: string,
+    idTecnico: string,
+    idUsuario: string,
+    nome: string
 }

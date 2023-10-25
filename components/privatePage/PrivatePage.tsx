@@ -9,7 +9,6 @@ export async function validateToken(context: GetServerSidePropsContext) {
     const accessToken = parseCookies(context).ACCESS_TOKEN;
     const refreshToken = parseCookies(context).REFRESH_TOKEN;
 
-
     if (!accessToken || !refreshToken) {
         setCookie(context, "PAGINA_PORTAL_THR",
             encodeURIComponent(context.resolvedUrl), {
@@ -39,6 +38,8 @@ export async function validateToken(context: GetServerSidePropsContext) {
             data.response.status === 404
         )
     )) {
+        console.log(data.response)
+        console.log("Ele não encontrou o validate-token")
         return {
             redirect: {
                 destination: "/login",
@@ -47,17 +48,17 @@ export async function validateToken(context: GetServerSidePropsContext) {
         }
     }
 
-    if (data.response && (
-        data.response.status === 401
-    )) {
+    if (data.response && (data.response.status === 401)) {
+
         const user = TokenDrecriptor(accessToken);
-        const newToken = await Api.post(`/token/refresh-token/${user.idUser}`, {}, {
+        const newToken = await Api.post(`/refresh-token/${user.idUser}`, {}, {
             headers: {
                 Authorization: `Bearer ${refreshToken}`
             }
         })
             .then(res => { return res })
             .catch(err => { return err })
+
 
         if (newToken.status === 200) {
             setCookie(null, "ACCESS_TOKEN", newToken.data.accessToken, {
@@ -70,6 +71,9 @@ export async function validateToken(context: GetServerSidePropsContext) {
                 httpOnly: true
             })
         } else {
+
+
+
             destroyCookie(context, "ACCESS_TOKEN");
             destroyCookie(context, "REFRESH_TOKEN");
             setCookie(context, "PAGINA_PORTAL_THR",

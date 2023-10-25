@@ -227,12 +227,24 @@
     justify-content: center;
     align-items: center;
 }
+
 .container_filter_close {
     pointer-events: none;
 }
 
+@media(min-width:430px) {
+    .wrap_container_filter {
+        width: 550px;
+    }
+}
+
+@media(max-width:430px) {
+    .wrap_container_filter {
+        width: 300px;
+    }
+}
+
 .wrap_container_filter {
-    width: 550px;
     height: 500px;
     background-color: white;
     border-radius: 10px 50px;
@@ -243,7 +255,8 @@
     overflow: hidden;
     transition: .5s
 }
-.container_filter_close .wrap_container_filter{
+
+.container_filter_close .wrap_container_filter {
     transform: scale(1.04);
     opacity: 0;
 }

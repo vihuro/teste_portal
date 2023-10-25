@@ -3,7 +3,8 @@
     height: 100%;
     position: relative;
     display: grid;
-    grid-template-rows: 60px 1fr;
+
+    overflow: hidden;
 }
 
 .container_header {
@@ -13,10 +14,9 @@
     align-items: flex-end;
 }
 
+
+
 .container_header button {
-    margin-left: 50px;
-    width: 30px;
-    height: 30px;
     border-radius: 50%;
     text-align: center;
     display: flex;
@@ -28,14 +28,13 @@
     border: 0;
 }
 
+
 .container_body,
 .container_body_loading {
     grid-area: 2/1/2/1;
     position: relative;
-    grid-auto-rows: 20px;
-    display: grid;
-    overflow: auto;
 }
+
 
 .checked {
     appearance: none;
@@ -131,23 +130,7 @@
     opacity: 0;
 }
 
-@media(min-width:430px) {
-
-    .wrapContainerFilter,
-    .wrapDiario {
-        width: 550px;
-        height: 500px;
-        border-radius: 10px 50px;
-        transition: .5s;
-        box-shadow: 0 0 10px rgba(14, 10, 231, 0.226),
-            0 0 1px rgb(14, 10, 231),
-            0 0 10px rgb(14, 10, 231);
-        overflow: hidden;
-        transition: .5s;
-        position: absolute;
-    }
-
-}
+@media(min-width:430px) {}
 
 @keyframes slideIn {
     from {
@@ -158,6 +141,7 @@
         transform: translateX(0);
     }
 }
+
 @keyframes rotate {
     0% {
         transform: rotate(0deg);
@@ -167,6 +151,7 @@
         transform: rotate(360deg);
     }
 }
+
 .wrapDiario::before {
     content: "";
     position: absolute;
@@ -233,7 +218,7 @@
     transform-origin: left;
 }
 
-.container_body_loading *::after {
+.container_body_loading .wrapContainer_body *::after {
     content: "";
     position: absolute;
     top: 0;
@@ -267,6 +252,7 @@
     background-color: rgba(219, 233, 240, .5);
     font-weight: 500;
     color: var(--text-color-blue-400);
+    text-wrap: nowrap;
 }
 
 .containerTecnicoOrcamento,
@@ -296,9 +282,15 @@
     color: #8f8d8d;
     transition: .5s;
 }
+.container_body_loading .containerTecnicoOrcamento label,
+.container_body_loading .containerTecnicoManutencao label{
+    opacity: 0;
+}
 
 .containerTecnicoOrcamento input:focus~label,
-.containerTecnicoOrcamento input:valid~label {
+.containerTecnicoOrcamento input:valid~label,
+.containerTecnicoManutencao input:focus~label,
+.containerTecnicoManutencao input:valid~label {
     transform: translateY(-20px);
     transition: .5s;
     font-size: 12px;
@@ -334,8 +326,147 @@
     transform: scaleY(0);
 }
 
+.containerButtonDaily button {
+    font-size: 18px;
+    transition: 0.2s;
+    background-color: rgb(22, 207, 145);
+    color: rgb(6, 105, 72);
+}
+
+.containerStatusOrcamento button:hover {
+    transform: scale(1.1);
+}
+
+.status {
+    padding: 5px;
+    background-color: rgb(22, 207, 145);
+    color: rgb(6, 105, 72);
+    font-weight: 600;
+    border-radius: 3px;
+    text-align: center;
+
+
+}
+
+
+@media(max-width:440px) {
+    .container {
+        grid-template-rows: 100px 1fr;
+    }
+
+    .container_header {
+        display: grid;
+        grid-auto-rows: 40px;
+        grid-template-columns: 40px 1fr;
+        padding: 15px 0 0 0;
+        box-shadow: 0 0 10px 1px rgb(204, 203, 203);
+
+    }
+
+    .containerStatusOrcamento {
+        grid-area: 2/2/2/2;
+        width: 98%;
+    }
+
+
+    .container_buttonBack {
+        grid-area: 1/1/1/1;
+    }
+
+    .container_header button {
+        margin-left: 5px;
+        width: 30px;
+        height: 30px;
+
+    }
+
+
+    .containerNumeroOrcamento {
+        grid-area: 1/2/1/2;
+    }
+
+    .containerStatusOrcamento .container_body {
+        overflow: auto;
+    }
+
+    .container_body,
+    .container_body_loading {
+
+        grid-auto-rows: 20px;
+        display: grid;
+        overflow: auto;
+    }
+
+    .container_body_loading .wrapContainer_body div input {
+        border: none;
+        background-color: transparent;
+    }
+
+    .wrapContainer_body {
+        margin: 20px 10px 0 10px;
+        display: grid;
+        gap: 20px;
+        grid-template-columns: 1fr;
+        grid-auto-rows: 40px;
+    }
+
+    .containerMaquina {
+        grid-area: 15/1/30/1;
+        display: grid;
+        grid-template-rows: repeat(5, 50px);
+    }
+
+    .container_infoMaquina {
+        display: grid;
+        grid-area: 1/1/5/1;
+    }
+
+    .containerTablePecas {
+        grid-area: 5/1/29/1;
+        padding: 0;
+    }
+
+    .containerStatus {
+        grid-area: 30/1/35/1;
+        display: grid;
+        height: 300px;
+    }
+
+    .wrapContainerFilter,
+    .wrapDiario {
+        width: 300px;
+        height: 500px;
+        border-radius: 10px 50px;
+        transition: .5s;
+        box-shadow: 0 0 10px rgba(14, 10, 231, 0.226),
+            0 0 1px rgb(14, 10, 231),
+            0 0 10px rgb(14, 10, 231);
+        overflow: hidden;
+        transition: .5s;
+        position: absolute;
+    }
+}
 
 @media(min-width:440px) {
+    .container {
+        grid-template-rows: 60px 1fr;
+    }
+
+    .container_body,
+    .container_body_loading {
+
+        grid-auto-rows: 40px;
+        display: grid;
+        overflow: auto;
+    }
+
+    .container_header button {
+        /* margin-left: 50px; */
+        width: 30px;
+        height: 30px;
+
+    }
+
     .wrapContainer_body {
         margin: 20px 10px 0 10px;
         display: grid;
@@ -353,6 +484,11 @@
         justify-content: left;
         align-items: center;
         margin-top: 5px;
+        grid-template-columns: 50px 1fr;
+    }
+
+    .container_buttonBack {
+        margin-left: 10px;
     }
 
     .containerNumeroOrcamento {
@@ -374,30 +510,11 @@
     .containerStatusOrcamento button {
         margin-left: 0;
         margin-right: 10px;
-        font-size: 18px;
-        transition: 0.2s;
-        background-color: rgb(22, 207, 145);
-        color: rgb(6, 105, 72);
-    }
-
-    .containerStatusOrcamento button:hover {
-        transform: scale(1.1);
     }
 
     .containerStatusOrcamento p {
         width: 100%;
         cursor: default;
-    }
-
-    .status {
-        padding: 5px;
-        background-color: rgb(22, 207, 145);
-        color: rgb(6, 105, 72);
-        font-weight: 600;
-        border-radius: 3px;
-        text-align: center;
-
-
     }
 
     .containerCodigoCliente {
@@ -463,7 +580,7 @@
     }
 
     .containerMaquina {
-        grid-area: 5/1/9/9;
+        grid-area: 5/1/15/9;
         display: grid;
         grid-template-columns: 200px 1fr;
         grid-template-rows: repeat(5, 50px);
@@ -480,6 +597,20 @@
         grid-area: 5/1/12/9;
         display: grid;
         height: 300px;
+    }
+
+    .wrapContainerFilter,
+    .wrapDiario {
+        width: 550px;
+        height: 500px;
+        border-radius: 10px 50px;
+        transition: .5s;
+        box-shadow: 0 0 10px rgba(14, 10, 231, 0.226),
+            0 0 1px rgb(14, 10, 231),
+            0 0 10px rgb(14, 10, 231);
+        overflow: hidden;
+        transition: .5s;
+        position: absolute;
     }
 
 

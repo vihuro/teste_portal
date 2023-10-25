@@ -5,6 +5,7 @@ import ButtonUi from "../../../../UI/button/Button";
 import TokenDrecriptor from "../../../../../service/DecriptorToken";
 import { tokenProps } from "../../../../utils/infoToken";
 import { parseCookies } from "nookies";
+import Loading from "../../../../loading/Loading";
 
 interface Props {
     changeToogle: Function
@@ -25,28 +26,37 @@ export default function Card({ fetchData }: { fetchData: Function }) {
 
 
     const [data, setData] = useState<ResponseProps>();
+    const [toogleLoading, setToogleLoading] = useState<boolean>(false)
     const tokenInfo: tokenProps = TokenDrecriptor(parseCookies().ACCESS_TOKEN)
 
     async function FetchData() {
+        setToogleLoading((cuurent) => !cuurent)
         await Api.get("assistencia-tecnica/pecas/nao-cadastrados")
             .then(res => setData(res.data))
             .catch(err => console.log(err))
+            .finally(() => setToogleLoading((current) => !current))
     }
     const { Button } = ButtonUi();
-    
+
     async function AtualizarTabela() {
+        setToogleLoading((cuurent) => !cuurent)
         await Api.post(`assistencia-tecnica/pecas/${tokenInfo.idUser}`)
             .then(res => {
                 FetchData()
                 fetchData()
             })
             .catch(err => console.log(err))
+            .finally(() => setToogleLoading((current) => !current))
     }
 
     function Form({ changeToogle }: Props) {
         return (
-
             <form className={styles.card} action="">
+                <div className={toogleLoading ?
+                    styles.containerLoading :
+                    styles.containerLoading_close} >
+                    <Loading />
+                </div>
                 <header>
                     <h3>PEÇAS RADAR</h3>
                 </header>

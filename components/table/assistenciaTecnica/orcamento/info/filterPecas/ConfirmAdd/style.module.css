@@ -1,0 +1,106 @@
+.containerForm {
+    width: 300px;
+    height: 200px;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 0 10px 1px rgba(134, 134, 134, 0.411);
+    display: grid;
+}
+
+.containerQuantidade {
+    padding: 5px;
+    margin-top: 10px;
+}
+
+.containerQuantidade div {
+    position: relative;
+}
+
+.containerQuantidade input {
+    padding: 10px 0 3px 10px;
+    border-radius: 3px;
+    width: 90%;
+    border: 1px solid rgba(160, 160, 160, 0.801);
+    outline: none;
+}
+
+.containerQuantidade label {
+    position: absolute;
+    left: 0;
+    transition: .3s;
+    transform: translateX(25px) translateY(5px);
+    color: rgba(160, 160, 160, 0.801);
+    font-size: 14px;
+}
+
+
+.containerQuantidade div::before {
+    position: absolute;
+    content: "";
+    width: 94%;
+    height: 2px;
+    background-image: linear-gradient(to right,
+            rgb(133, 167, 231),
+            rgb(77, 60, 231),
+            rgb(25, 100, 199));
+    bottom: 0;
+    left: 0;
+    transform: scaleX(0);
+    transition: .5s;
+    transform-origin: left;
+
+}
+
+.containerQuantidade div:focus-within::before {
+    transform: scaleX(1);
+}
+
+.containerQuantidade input:valid~label,
+.containerQuantidade input:focus~label {
+    transform: translateY(-10px) translateX(10px);
+    font-size: 12px;
+    padding: 3px;
+
+    background-color: white;
+    color: rgb(7, 154, 173);
+    border-left: 1px solid rgb(7, 154, 173);
+    border-right: 1px solid rgb(7, 154, 173);
+    font-weight: 600;
+}
+
+.containerRadio {
+    display: flex;
+    padding: 5px;
+    gap: 20px;
+}
+
+.footer {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    padding: 5px;
+}
+
+.footer div {
+    display: flex;
+    justify-content: center;
+}
+
+.footer button {
+    width: 100px;
+    height: 30px;
+    border-radius: 30px;
+    border: none;
+    font-weight: 600;
+    background-color: transparent;
+}
+
+.footer div:nth-child(1) button {
+    border: 1px solid rgb(26, 60, 211);
+    color: rgb(26, 60, 211);
+
+}
+
+.footer div:nth-child(2) button {
+    background-color: rgb(221, 87, 9);
+    color: rgb(112, 49, 13);
+}

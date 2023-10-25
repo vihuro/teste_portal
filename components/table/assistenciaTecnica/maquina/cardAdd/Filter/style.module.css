@@ -1,13 +1,5 @@
 @media(min-width:430px) {
     .container {
-        width: 90%;
-        height: 90%;
-        background-color: white;
-        color: black;
-        overflow: hidden;
-        border-radius: 10px;
-        box-shadow: 0 0 10px 1px rgb(182, 182, 182);
-        display: grid;
         grid-template-rows: 60px 1fr 40px;
     }
 
@@ -18,18 +10,26 @@
         display: flex;
         gap: 10px;
     }
+    .containerFilterListType::before,
+    .containerFilterInput::before {
+        bottom: 8px;
+    }
+}
+.container {
+    width: 90%;
+    height: 90%;
+    background-color: white;
+    color: black;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 0 10px 1px rgb(182, 182, 182);
+    display: grid;
+
 }
 
 @media(max-width:430px) {
     .container {
-        width: 90%;
-        height: 90%;
-        background-color: white;
-        color: black;
-        overflow: hidden;
-        border-radius: 10px;
-        box-shadow: 0 0 10px 1px rgb(182, 182, 182);
-        display: grid;
+
         grid-template-rows: 100px 1fr 40px;
         overflow: auto;
     }
@@ -49,7 +49,6 @@
 
     .containerFilterListType::before,
     .containerFilterInput::before {
-
         bottom: 1px;
     }
 }
