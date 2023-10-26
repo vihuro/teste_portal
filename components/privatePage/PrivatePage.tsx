@@ -38,8 +38,6 @@ export async function validateToken(context: GetServerSidePropsContext) {
             data.response.status === 404
         )
     )) {
-        console.log(data.response)
-        console.log("Ele não encontrou o validate-token")
         return {
             redirect: {
                 destination: "/login",
@@ -51,6 +49,7 @@ export async function validateToken(context: GetServerSidePropsContext) {
     if (data.response && (data.response.status === 401)) {
 
         const user = TokenDrecriptor(accessToken);
+        console.log("agora vai tentar buscar um novo token")
         const newToken = await Api.post(`/refresh-token/${user.idUser}`, {}, {
             headers: {
                 Authorization: `Bearer ${refreshToken}`
@@ -58,10 +57,9 @@ export async function validateToken(context: GetServerSidePropsContext) {
         })
             .then(res => { return res })
             .catch(err => { return err })
-
-
         if (newToken.status === 200) {
-            setCookie(null, "ACCESS_TOKEN", newToken.data.accessToken, {
+            console.log(newToken.data.accessToken)
+            setCookie(context, "ACCESS_TOKEN", newToken.data.accessToken, {
                 maxAge: 60 * 60 * 2,
                 path: "/",
             })

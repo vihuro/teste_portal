@@ -21,21 +21,42 @@ function Form({ peca, changeToogle }: { peca?: IPecaProps, changeToogle: Functio
 
         setTextQuantity(() => value);
     }
+    const [teste, setText] = useState<string>("");
 
+    const handleTeste = (text: string) => {
+        const value = "/^\s*-?(\d+(\.\d{1,2})?|\.\d{1,2})\s*$/"
+
+        var teste = new RegExp(value);
+
+
+        console.log(teste.test(text))
+    }
 
     return (
         <div className={styles.containerForm} >
             <header>
             </header>
-            <main>
-                <span>
-                    Deseja adicionar o código
-                    <strong>
-                        {peca?.codigoRadar}
-                    </strong> a esse orçamento?
-                </span>
+            <main className={styles.body} >
+                <div className={styles.spanQuention} >
+                    <span >
+                        Deseja adicionar o código
+                        <strong>
+                            {peca?.codigoRadar}
+                        </strong> a este orçamento?
+                    </span>
+                </div>
                 <div className={styles.containerQuantidade} >
                     <div>
+                        <input
+                            value={teste}
+                            onChange={(e) => {
+                                handleTeste(e.target.value)
+                                setText(e.target.value)
+                            }}
+                            style={{
+                                marginBottom: 20
+                            }}
+                        />
                         <input
                             required
                             id="txtQuantidade"

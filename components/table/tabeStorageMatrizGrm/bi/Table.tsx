@@ -206,7 +206,7 @@ export default function Table() {
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th >CÓDIGO</th>
+                            {/* <th >CÓDIGO</th> */}
                             <th>MEDIDA</th>
                             <th>QTDE</th>
                             <th>UND.</th>
@@ -228,7 +228,7 @@ export default function Table() {
                             filter.map((item, index) => (
                                 <tr key={index}>
                                     <td>{item.id.toString()}</td>
-                                    <td>{item.codigo}</td>
+                                    {/* <td>{item.codigo}</td> */}
                                     <td>{item.descricao}</td>
                                     <td>{item.quantidade}</td>
                                     <td>{item.unidade}</td>

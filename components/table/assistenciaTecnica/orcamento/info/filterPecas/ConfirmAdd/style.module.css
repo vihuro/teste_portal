@@ -6,7 +6,9 @@
     box-shadow: 0 0 10px 1px rgba(134, 134, 134, 0.411);
     display: grid;
 }
-
+.spanQuention{
+    padding: 5px;
+}
 .containerQuantidade {
     padding: 5px;
     margin-top: 10px;
@@ -28,7 +30,7 @@
     position: absolute;
     left: 0;
     transition: .3s;
-    transform: translateX(25px) translateY(5px);
+    transform: translateX(25px) translateY(7px);
     color: rgba(160, 160, 160, 0.801);
     font-size: 14px;
 }
@@ -92,15 +94,31 @@
     border: none;
     font-weight: 600;
     background-color: transparent;
+    transition: .5s;
 }
 
 .footer div:nth-child(1) button {
     border: 1px solid rgb(26, 60, 211);
     color: rgb(26, 60, 211);
 
+
+}
+
+.footer div:nth-child(1) button:hover {
+    background-color: rgb(26, 60, 211);
+    color: white;
+    border: none;
+    letter-spacing: 1px;
+    box-shadow: 0 0 10px 1px rgb(30, 71, 255);
 }
 
 .footer div:nth-child(2) button {
+    border: 1px solid rgb(221, 87, 9);
+    color: rgb(221, 87, 9);
+}
+.footer div:nth-child(2) button:hover{
     background-color: rgb(221, 87, 9);
-    color: rgb(112, 49, 13);
+    color: white;
+    letter-spacing: 1px;
+    box-shadow: 0 0 10px 1px rgb(255, 111, 28);
 }
