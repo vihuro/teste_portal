@@ -187,7 +187,6 @@ export default function Table() {
     async function FetchDataWithFilter(filter: FilterProps) {
 
         if (infoPageFilter.totalItems === 0) {
-            console.log("entrou aqui para zerar tudo ")
             setToogleLoading((current) => current = true)
             setCurrentPage((current) => current = 0)
             setData([])

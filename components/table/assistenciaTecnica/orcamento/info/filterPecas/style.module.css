@@ -6,10 +6,7 @@
     display: grid;
 }
 
-.IPecaProps .containerBody {
-    padding: 5px;
-    overflow: hidden;
-}
+
 
 .containerFormAdd,
 .containerFormAdd_close {
@@ -22,7 +19,8 @@
     align-items: center;
     transition: .2s;
 }
-.containerFormAdd_close{
+
+.containerFormAdd_close {
     transform: translateY(-100%);
 }
 
@@ -34,7 +32,6 @@
 .containerFilter {
     display: flex;
     gap: 15px;
-
     background-color: var(--background-color-blue-700);
     padding: 10px;
 }
@@ -48,6 +45,20 @@
 .containerTypesFilter {
     position: relative;
 }
+
+.infoNotFound {
+    position: relative;
+}
+
+.infoNotFound span:nth-child(2) {
+    position: absolute;
+    transition: 1s;
+    transform: translateX(-120px) translateY(40px) rotate(90deg);
+    color: rebeccapurple;
+    font-weight: 700;
+}
+
+
 
 
 .containerFilter input {
@@ -84,7 +95,13 @@
     transform: scaleY(0);
 }
 
-.listTypeFilter,
+.listTypeFilter li:nth-child(1),
+.listTypeFilter_close li:nth-child(1) {
+    color: rgba(114, 114, 114, 0.5);
+
+}
+
+.listTypeFilter li,
 .listTypeFilter_close li {
     padding: 5px;
 
@@ -146,7 +163,8 @@
     .form {
         grid-template-rows: 40px 1fr 80px;
     }
-    .containerBody{
+
+    .containerBody {
         grid-area: 1/1/3/1;
         overflow: hidden;
     }
@@ -189,15 +207,17 @@
     .form {
         grid-template-rows: 40px 1fr 80px;
     }
-    .containerBody{
+
+    .containerBody {
         grid-area: 1/1/3/1;
     }
+
     .containerTable {
         grid-area: 2/1/2/1;
         height: 100%;
         border-radius: 7px;
         display: grid;
-        grid-template-rows: 40px 1fr;
+        grid-template-rows: 50px 1fr;
     }
 
     .footer {

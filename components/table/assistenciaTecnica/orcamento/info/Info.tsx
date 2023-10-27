@@ -4,7 +4,7 @@ import InputUi from "../../../../UI/input/Input";
 import Api from "../../../../../service/api/assistenciaTecnica/Assistencia";
 import { useEffect, useRef, useState } from "react";
 import { DateTimeStringFormat } from "../../../../utils/DateTimeString";
-import FilterPecas from "./filterPecas/Pecas";
+import { Card as CardFilter } from "./filterPecas/Pecas";
 import { Form as FormDiario } from "./Diario/CardDiario";
 import {
     IOrcamentoProps,
@@ -197,7 +197,7 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
     const [listTecnicoManutecao, setListTecnicoManutencao] = useState<boolean>(false);
     const [toogleFilterPecas, setToogleFilterPecas] = useState<boolean>(false);
     const [toogleDiario, setToogleDiario] = useState<boolean>(false);
-    const { Card, FetchDataPecas } = FilterPecas()
+    // const { Card } = FilterPecas()
     // useEffect(() => {
     //     getByNumeroOrcamento()
     // }, [numeroOrcamento])
@@ -214,7 +214,7 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                 style.containerFilter :
                 style.containerFilter_close} >
                 <div className={style.wrapContainerFilter} >
-                    <Card changeToogle={setToogleFilterPecas} toogle={toogleFilterPecas} />
+                    <CardFilter changeToogle={setToogleFilterPecas} toogle={toogleFilterPecas} />
                 </div>
             </div>
             <div className={toogleDiario ?
@@ -441,7 +441,6 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                         <div className={style.containerTablePecas}
                             onDoubleClick={() => {
                                 setToogleFilterPecas((current) => current = !current)
-                                FetchDataPecas()
                             }}
                             onTouchStart={() =>
                                 handleTouchStart({
