@@ -18,8 +18,13 @@
 .input[type="radio"].--green {
     border: 1px solid rgb(6, 196, 133);
 }
+
 .input[type="radio"].--red {
     border: 1px solid red;
+}
+
+.input[type="radio"].--purple {
+    border: 1px solid rgb(148 8 239);
 }
 
 .input[type="radio"]:checked.--green {
@@ -29,6 +34,11 @@
 .input[type="radio"]:checked.--red {
     background-image: radial-gradient(rgba(255, 255, 255, 0.904) 35%, red 45%);
 }
+
+.input[type="radio"]:checked.--purple {
+    background-image: radial-gradient(rgba(255, 255, 255, 0.904) 35%, rgb(148 8 239) 45%);
+}
+
 .label {
     font-size: 12px;
     font-weight: 600;
@@ -44,4 +54,9 @@
 .label.--green {
     background-color: rgb(6, 196, 133);
     color: rgb(4, 100, 60)
+}
+
+.label.--purple {
+    background-color: rgb(148 8 239);
+    color: rgb(66, 9, 103);
 }

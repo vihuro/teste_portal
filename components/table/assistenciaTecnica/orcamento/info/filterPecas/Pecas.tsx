@@ -14,8 +14,15 @@ interface FilterProps {
     Familia: string
 }
 
+interface Props {
+    toogle: boolean,
+    changeToogle: Function,
+    refreshInfo: Function,
+    numeroOrcamento: number
+}
 
-function Card({ toogle, changeToogle }: { toogle: boolean, changeToogle: Function }) {
+
+function Card({ toogle, changeToogle, refreshInfo, numeroOrcamento }: Props) {
 
     const sentinel = useRef<HTMLTableRowElement>(null);
     const [currentPage, setCurrentPage] = useState<number>(0);
@@ -162,7 +169,10 @@ function Card({ toogle, changeToogle }: { toogle: boolean, changeToogle: Functio
             <div className={toogleFormConfirmAdd ?
                 styles.containerFormAdd :
                 styles.containerFormAdd_close} >
-                <Form peca={itemAdd} changeToogle={setToogleFormConfirmAdd} />
+                <Form peca={itemAdd}
+                    changeToogle={setToogleFormConfirmAdd}
+                    numeroOrcamento={numeroOrcamento}
+                    refreshBudget={refreshInfo} />
             </div>
             <header></header>
             <main className={styles.containerBody} >

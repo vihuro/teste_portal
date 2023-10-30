@@ -45,6 +45,7 @@ export interface IPecasProps {
     codigoPeca: string,
     descricaoPeca: string,
     enderecoImagem: string,
+    quantidade: number
     preco: number,
     troca: boolean
 }

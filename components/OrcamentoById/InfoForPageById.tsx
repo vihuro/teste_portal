@@ -1,11 +1,11 @@
 import style from "./style.module.css";
-import { Icons } from "../../../../utils/IconDefault"
-import InputUi from "../../../../UI/input/Input";
-import Api from "../../../../../service/api/assistenciaTecnica/Assistencia";
+import { Icons } from "../utils/IconDefault"
+import InputUi from "../UI/input/Input";
+import Api from "../../service/api/assistenciaTecnica/Assistencia";
 import { useEffect, useRef, useState } from "react";
-import { DateTimeStringFormat } from "../../../../utils/DateTimeString";
-import { Card as CardFilter } from "./filterPecas/Pecas";
-import { Form as FormDiario } from "./Diario/CardDiario";
+import { DateTimeStringFormat } from "../utils/DateTimeString";
+import { Card as CardFilter } from "../table/assistenciaTecnica/orcamento/info/filterPecas/Pecas";
+import { Form as FormDiario } from "../table/assistenciaTecnica/orcamento/info/Diario/CardDiario";
 import {
     IOrcamentoProps,
     IClienteProps,
@@ -15,8 +15,9 @@ import {
     IUsuarioApontamentoSituacaoProps,
     ITechnicianProps
 
-} from "../IOrcamento";
-import { handleTouchEnd, handleTouchStart } from "../../../../utils/HandleTouch";
+} from "../table/assistenciaTecnica/orcamento/IOrcamento";
+import { handleTouchEnd, handleTouchStart } from "../utils/HandleTouch";
+import { useRouter } from "next/router";
 
 
 interface props {
@@ -107,7 +108,7 @@ const Loading = () => {
     }
 }
 
-function Fetchdata({ id }: { id: number }) {
+function Fetchdata({ id }: { id: number | undefined }) {
 
     const { data: dataBudget, setData: setDataBudget } = DataBudget();
     const { data: dataTechnician, setData: setDateTechnician } = DataTechnician();
@@ -162,7 +163,7 @@ function validateDataHoraApontamento(dateApontamento: Date) {
 
     return DateTimeStringFormat(dateApontamento)
 }
-function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
+export default function InfoForm({ numeroOrcamento }: { numeroOrcamento: string }) {
 
     const { Input } = InputUi();
     const [dataTecnico, setDataTecnico] = useState<tecnicoProps[]>([]);
@@ -174,22 +175,27 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
         idUsuario: "",
         nome: ""
     });
-    const { dataBudget, loading, setDataBudget, dataTechnician, setDateTechnician, setLoading, getByNumeroOrcamento, getListTechnician } = Fetchdata({ id: numeroOrcamento })
 
-    useEffect(() => {
-        if (dataBudget) {
-            setDataBudget(undefined);
-            setLoading(true);
-        }
-    }, [numeroOrcamento])
+    const router = useRouter();
+
+    const byIdInUrl = router.query.id;
+
+    const { dataBudget, loading, setDataBudget, dataTechnician, setDateTechnician, setLoading, getByNumeroOrcamento, getListTechnician } = Fetchdata({ id: Number(numeroOrcamento) })
+
+    // useEffect(() => {
+    //     if (dataBudget) {
+    //         setDataBudget(undefined);
+    //         setLoading(true);
+    //     }
+    // }, [numeroOrcamento])
 
 
-    useEffect(() => {
-        if (valueToogle) {
-            getByNumeroOrcamento()
-            getListTechnician()
-        }
-    }, [valueToogle])
+    // useEffect(() => {
+    //     if (valueToogle) {
+    //         getByNumeroOrcamento()
+    //         getListTechnician()
+    //     }
+    // }, [valueToogle])
 
 
     const [toogleNotification, setToogleNotification] = useState<boolean>(false);
@@ -198,9 +204,9 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
     const [toogleFilterPecas, setToogleFilterPecas] = useState<boolean>(false);
     const [toogleDiario, setToogleDiario] = useState<boolean>(false);
     // const { Card } = FilterPecas()
-    // useEffect(() => {
-    //     getByNumeroOrcamento()
-    // }, [numeroOrcamento])
+    useEffect(() => {
+        getByNumeroOrcamento()
+    }, [numeroOrcamento])
     function changeToogleFilterParts() {
         setToogleFilterPecas((current) => !current)
     }
@@ -214,11 +220,7 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                 style.containerFilter :
                 style.containerFilter_close} >
                 <div className={style.wrapContainerFilter} >
-                    <CardFilter
-                        changeToogle={setToogleFilterPecas}
-                        toogle={toogleFilterPecas}
-                        refreshInfo={Fetchdata}
-                        numeroOrcamento={numeroOrcamento} />
+                    <CardFilter changeToogle={setToogleFilterPecas} toogle={toogleFilterPecas} />
                 </div>
             </div>
             <div className={toogleDiario ?
@@ -230,13 +232,13 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
             </div>
             <header className={style.container_header} >
                 <div className={style.container_buttonBack} >
-                    <button onClick={() => {
+                    {/* <button onClick={() => {
                         setDataBudget(undefined);
                         changeToogle(false);
                         setLoading(true)
                     }} >
                         <Icons.ArrowLeft onClick={() => { changeToogle(false) }} />
-                    </button>
+                    </button> */}
                 </div>
 
                 <div className={style.containerNumeroOrcamento} >
@@ -474,22 +476,20 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                                                 <tr key={index} >
                                                     <td>{item.codigoPeca}</td>
                                                     <td>{item.descricaoPeca}</td>
-                                                    <td>{item.quantidade}</td>
+                                                    <td>{4}</td>
                                                     <td>VISUALIZAR</td>
                                                     <td>
                                                         <input className={style.checked}
                                                             type="radio"
                                                             name={`rdb${item.codigoPeca}`}
-                                                            checked={item.troca}
-                                                            readOnly
+
                                                         />
                                                     </td>
                                                     <td>
                                                         <input className={style.checked}
                                                             type="radio"
                                                             name={`rdb${item.codigoPeca}`}
-                                                            checked={!item.troca}
-                                                            readOnly
+
                                                         />
                                                     </td>
                                                 </tr>
@@ -658,5 +658,5 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
     )
 }
 
-export { InfoForm, Fetchdata }
+
 

@@ -4,36 +4,70 @@ import { IPecaProps } from "../../../../pecas/IPeca";
 import RadioButton from "../../../../../../UI/input/radio/RadioButton";
 import { handleNumericDecimal } from "../../../../../../utils/HandleNumericDecimal"
 import { useState } from "react";
+import SearchInfoOfUserOnToken from "../../../../../../utils/SearchInfoOfUserOnToken";
+import Message from "../../../../../../message/Message";
+import Api from "../../../../../../../service/api/assistenciaTecnica/Assistencia";
+
 
 interface Props {
     peca?: IPecaProps,
     changeToogle: Function,
-    refreshBudget: Function
+    refreshBudget: Function,
+    numeroOrcamento: number
 }
 
-function Form({ peca, changeToogle }: { peca?: IPecaProps, changeToogle: Function }) {
+function Form({ peca, changeToogle, numeroOrcamento }: Props) {
     const { Radio } = RadioButton()
 
     const [textQuantity, setTextQuantity] = useState<string>("");
+    const [troca, setTroca] = useState<boolean>(true);
+    const [toogleMessage, setToogleMessage] = useState<boolean>(false);
+    const [infoMessage, setInfoMessage] = useState({
+        message: "",
+        type: "WARNING"
+    });
 
     const hadleChangeTextNumeric = (text: string) => {
         const value = handleNumericDecimal(text);
 
         setTextQuantity(() => value);
     }
-    const [teste, setText] = useState<string>("");
+    const { tokenInfo } = SearchInfoOfUserOnToken;
 
-    const handleTeste = (text: string) => {
-        const value = "/^\s*-?(\d+(\.\d{1,2})?|\.\d{1,2})\s*$/"
-
-        var teste = new RegExp(value);
-
-
-        console.log(teste.test(text))
+    async function InsertPartInBudget() {
+        const obj = {
+            numeroOrcamento: numeroOrcamento,
+            usuarioId: tokenInfo.idUser,
+            quantidade: Number(textQuantity),
+            conserto: false,
+            reaproveitamento: !troca,
+            troca: troca,
+            pecaId: peca?.id
+        }
+        if (obj.quantidade === 0) {
+            setInfoMessage(() => ({
+                message: "DIGITE UM VALOR",
+                type: "WARNING"
+            }))
+            setToogleMessage((current) => !current)
+            return;
+        }
+        await Api.post("/orcamento/pecas", obj)
+            .then(res => console.log(res.data))
+            .catch(err => console.log(err));
     }
 
     return (
         <div className={styles.containerForm} >
+            <div className={toogleMessage ?
+                styles.containerMessage :
+                styles.containerMessage_close} >
+                <Message
+                    stateMessage={toogleMessage}
+                    action={setToogleMessage}
+                    message={infoMessage.message}
+                    type={infoMessage.type} />
+            </div>
             <header>
             </header>
             <main className={styles.body} >
@@ -47,16 +81,6 @@ function Form({ peca, changeToogle }: { peca?: IPecaProps, changeToogle: Functio
                 </div>
                 <div className={styles.containerQuantidade} >
                     <div>
-                        <input
-                            value={teste}
-                            onChange={(e) => {
-                                handleTeste(e.target.value)
-                                setText(e.target.value)
-                            }}
-                            style={{
-                                marginBottom: 20
-                            }}
-                        />
                         <input
                             required
                             id="txtQuantidade"
@@ -73,20 +97,24 @@ function Form({ peca, changeToogle }: { peca?: IPecaProps, changeToogle: Functio
                             color="green"
                             id="tipoUsoTroca"
                             name="tipoUso"
-                            text="TROCA" />
+                            text="TROCA"
+                            checked={troca}
+                            onChange={(e) => setTroca(() => true)} />
                     </div>
                     <div>
                         <Radio
                             color="green"
                             id="tipoUsoReuso"
                             name="tipoUso"
-                            text="TR/RU" />
+                            text="TR/RU"
+                            checked={!troca}
+                            onChange={(e) => setTroca(() => false)} />
                     </div>
                 </div>
             </main>
             <footer className={styles.footer} >
                 <div>
-                    <button>
+                    <button onClick={() => InsertPartInBudget()} >
                         ADICIONAR
                     </button>
                 </div>

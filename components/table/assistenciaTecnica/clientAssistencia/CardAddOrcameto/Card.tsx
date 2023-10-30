@@ -5,9 +5,8 @@ import style from "./style.module.css";
 import Message from "../../../../message/Message";
 import Loading from "../../../../loading/Loading";
 import Api from "../../../../../service/api/assistenciaTecnica/Assistencia";
-import { tokenProps } from "../../../../utils/infoToken";
-import TokenDrecriptor from "../../../../../service/DecriptorToken";
-import { parseCookies } from "nookies";
+import RadioButton from "../../../../UI/input/radio/RadioButton";
+import InfoUser from "../../../../utils/SearchInfoOfUserOnToken";
 
 interface props {
     changeToogle: Function,
@@ -46,6 +45,7 @@ interface maquinaClienteProps {
     tipoMaquina: string,
     status: string
 }
+const { tokenInfo } = InfoUser
 
 export default function Card({ changeToogle, cliente }: props) {
     const { Input } = InputUi();
@@ -58,15 +58,16 @@ export default function Card({ changeToogle, cliente }: props) {
         type: "WARNING"
     })
     const [toogleListTecnico, setToogleListTecnico] = useState<boolean>(false);
+    const [externo, setExterno] = useState<boolean>(false);
     const [descricaoServico, setDescricaoServico] = useState<string>("");
 
-    const tokenInfo: tokenProps = TokenDrecriptor(parseCookies().ACCESS_TOKEN)
 
     async function InsertOrcamento() {
         const obj = {
             descricaoServico: descricaoServico,
             userId: tokenInfo.idUser,
-            MaquinaId: cliente?.maquinaCliente[0].maquinaId
+            MaquinaId: cliente?.maquinaCliente[0].maquinaId,
+            externo: externo
         }
         await Api.post("/orcamento", obj)
             .then(res => {
@@ -93,6 +94,7 @@ export default function Card({ changeToogle, cliente }: props) {
                 setToogleMessage(true);
             })
     }
+    const { Radio } = RadioButton();
 
     return (
         <form className={style.card} onClick={() => {
@@ -117,6 +119,30 @@ export default function Card({ changeToogle, cliente }: props) {
                 <h3>CRIAR ORÇAMENTO</h3>
             </header>
             <main className={style.container_body} >
+                <div className={style.containerRadioButton} >
+                    <div>
+                        <Radio
+                            checked={!externo}
+                            onChange={(e) => {
+                                setExterno(() => false)
+                            }}
+                            id="rdbInterno"
+                            name="LocalServico"
+                            text="INTERNO"
+                            color="purple"
+                        />
+                        <Radio
+                            checked={externo}
+                            onChange={(e) => {
+                                setExterno(() => true)
+                            }}
+                            id="rdbExterno"
+                            name="LocalServico"
+                            text="EXTERNO"
+                            color="green"
+                        />
+                    </div>
+                </div>
                 <div className={style.container_NomeCliente} >
                     <Input
                         id="txtClienteOrcamento"
@@ -163,8 +189,12 @@ export default function Card({ changeToogle, cliente }: props) {
                 </div>
                 <div className={style.container_tecnico} onClick={(e) => e.stopPropagation()} >
                     <div className={style.wrap_containerTecnico} >
-                        <input onClick={() => setToogleListTecnico(!toogleListTecnico)} type="text" />
-                        <label htmlFor="">TÉCNICO</label>
+                        <input required
+                            onClick={() =>
+                                setToogleListTecnico((cuurent) => !cuurent)}
+                            type="text"
+                            id="txtTecnico" />
+                        <label htmlFor="txtTecnico">TÉCNICO</label>
                         <ul className={toogleListTecnico ?
                             style.listTecnico :
                             style.listTecnico_close} >
