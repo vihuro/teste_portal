@@ -13,10 +13,12 @@ import {
     IPecasProps,
     IStatusSitucaoProps,
     IUsuarioApontamentoSituacaoProps,
-    ITechnicianProps
+    ITechnicianProps,
+    EStatus
 
 } from "../IOrcamento";
 import { handleTouchEnd, handleTouchStart } from "../../../../utils/HandleTouch";
+import ConfirmStatus from "./ConfirmChangeStatus/Confirm";
 
 
 interface props {
@@ -197,6 +199,11 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
     const [listTecnicoManutecao, setListTecnicoManutencao] = useState<boolean>(false);
     const [toogleFilterPecas, setToogleFilterPecas] = useState<boolean>(false);
     const [toogleDiario, setToogleDiario] = useState<boolean>(false);
+    const [toogleConfirmStatus, setToogleConfirmStaus] = useState<boolean>(false);
+
+    const [status, setStatus] = useState(EStatus.STATUS_AGUARDANDO_LIBERACAO_ORCAMENTO);
+    const [numeroStatus, setNumeroStatus] = useState<number>(0);
+
     // const { Card } = FilterPecas()
     // useEffect(() => {
     //     getByNumeroOrcamento()
@@ -204,12 +211,60 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
     function changeToogleFilterParts() {
         setToogleFilterPecas((current) => !current)
     }
-    // getByNumeroOrcamento()
+
+    function ValidateAguardandoAtribuicao(text: string) {
+
+        switch (text) {
+            case "AGUARDANDO ATRIBUIÇÃO":
+                return "INICIAR ORÇAMENTO";
+            case "AGURDANDO ORÇAMENTO":
+                return "FINALIZAR ORÇAMENTO"
+            default: return ""
+        }
+
+    }
+    function ValidateAguardandoOrcamento(text: string) {
+
+        switch (text) {
+            case "AGUARDANDO LIBERAÇÃO DO ORÇAMENTO":
+                return "FINALIZAR APROVAÇÃO";
+            default: return ""
+        }
+    }
+    function ValidateAguardandoManutencao(text: string) {
+
+        switch (text) {
+            case "AGUARDANDO MANUTENÇÃO":
+                return "INICIAR MANUTENÇÃO";
+            case "MANUTENÇÃO INICIADA":
+                return "FINALIZAR MANUTENÇÃO"
+            default: return ""
+        }
+    }
+    function ValidateLimpandoMaquina(text: string) {
+        switch (text) {
+            case "REALIZANDO LIMPEZA":
+                return "FINALIZAR";
+            default: return ""
+        }
+    }
+
+
     return (
         <main className={style.container} onClick={(e) => {
             setListTecnicoManutencao(false)
             setListTecnicoOrcamento(false)
         }}>
+            <div className={toogleConfirmStatus ?
+                style.containerConfirmStatus :
+                style.containerConfirmStatus_close} >
+                <ConfirmStatus
+                    changeInfo={setDataBudget}
+                    changeToogle={setToogleConfirmStaus}
+                    typeStatus={status}
+                    numeroOrcamento={numeroOrcamento}
+                    numeroStatus={numeroStatus} />
+            </div>
             <div className={toogleFilterPecas ?
                 style.containerFilter :
                 style.containerFilter_close} >
@@ -217,7 +272,7 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                     <CardFilter
                         changeToogle={setToogleFilterPecas}
                         toogle={toogleFilterPecas}
-                        refreshInfo={Fetchdata}
+                        refreshInfo={getByNumeroOrcamento}
                         numeroOrcamento={numeroOrcamento} />
                 </div>
             </div>
@@ -229,14 +284,31 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                 </div>
             </div>
             <header className={style.container_header} >
-                <div className={style.container_buttonBack} >
-                    <button onClick={() => {
-                        setDataBudget(undefined);
-                        changeToogle(false);
-                        setLoading(true)
-                    }} >
-                        <Icons.ArrowLeft onClick={() => { changeToogle(false) }} />
-                    </button>
+                <div className={style.containerActions} >
+                    <div className={style.container_buttonBack} >
+                        <button onClick={() => {
+                            setDataBudget(undefined);
+                            changeToogle(false);
+                            setLoading(true)
+                        }} >
+                            <Icons.ArrowLeft onClick={() => { changeToogle(false) }} />
+                        </button>
+                    </div>
+                    <div className={style.containerButtonDaily} >
+                        <button onClick={() => setToogleDiario((current) => !current)} >
+                            <Icons.Book />
+                        </button>
+                    </div>
+                    <div className={style.containerMap} >
+                        {dataBudget && (
+
+                            <a target="_blank"
+                                href={`https://www.google.com/maps/search/?api=1&query=
+                                    ${dataBudget?.cliente.rua + dataBudget?.cliente.numeroEstabelecimento}`}>
+                                <Icons.Map />
+                            </a>
+                        )}
+                    </div>
                 </div>
 
                 <div className={style.containerNumeroOrcamento} >
@@ -253,11 +325,7 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                         {dataBudget ? dataBudget.status : ""}
                     </p>
                 </div>
-                <div className={style.containerButtonDaily} >
-                    <button onClick={() => setToogleDiario((current) => !current)} >
-                        <Icons.Book />
-                    </button>
-                </div>
+
             </header>
 
             <main className={loading ?
@@ -537,8 +605,16 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                                                     <td>
                                                         {validadeUserApontamentoDiferenteNulo(dataBudget.statusSituacao[1].usuarioApontamentoFim).nome}
                                                     </td>
-                                                    <td>
-                                                        <p>FINALIZAR ORÇAMENTO</p>
+                                                    <td className={style.actionApontamento} onClick={() => {
+                                                        if (ValidateAguardandoAtribuicao(dataBudget.status) !== "") {
+                                                            setStatus(() => dataBudget.status === "AGUARDANDO ATRIBUIÇÃO" ?
+                                                                EStatus.STATUS_AGUARDANDO_ORCAMENTO :
+                                                                EStatus.STATUS_AGUARDANDO_LIBERACAO_ORCAMENTO)
+                                                            setNumeroStatus(() => parseInt(dataBudget.statusSituacao[1].statusId))
+                                                            setToogleConfirmStaus((current) => !current)
+                                                        }
+                                                    }} >
+                                                        <p>{ValidateAguardandoAtribuicao(dataBudget.status)} </p>
                                                     </td>
                                                     {/* <td>{DateTimeStringFormat(data.statusSituacao[1].dataHoraFim)}</td>
                                                 <td>{data.statusSituacao[1].usuarioApontamentoFim.usuarioApontamentoNome}</td> */}
@@ -568,8 +644,14 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                                                     <td>
                                                         {validadeUserApontamentoDiferenteNulo(dataBudget.statusSituacao[2].usuarioApontamentoFim).nome}
                                                     </td>
-                                                    <td>
-                                                        <p>FINALIZAR NEGOCIAÇÃO</p>
+                                                    <td className={style.actionApontamento} onClick={() => {
+                                                        if (ValidateAguardandoOrcamento(dataBudget.status) !== "") {
+                                                            setStatus(() => EStatus.STATUS_AGUARDANDO_MANUTENCAO)
+                                                            setNumeroStatus(() => parseInt(dataBudget.statusSituacao[2].statusId))
+                                                            setToogleConfirmStaus((current) => !current)
+                                                        }
+                                                    }} >
+                                                        <p> {ValidateAguardandoOrcamento(dataBudget.status)}</p>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -598,8 +680,24 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                                                     <td>
                                                         {validadeUserApontamentoDiferenteNulo(dataBudget.statusSituacao[3].usuarioApontamentoFim).nome}
                                                     </td>
-                                                    <td>
-                                                        <p>FINALIZAR MANUTENÇÃO</p>
+                                                    <td className={style.actionApontamento} onClick={() => {
+                                                        if (ValidateAguardandoManutencao(dataBudget.status) !== "") {
+                                                            setStatus((current) => {
+                                                                const text = ValidateAguardandoManutencao(dataBudget.status);
+                                                                switch (text) {
+                                                                    case "INICIAR MANUTENÇÃO":
+                                                                        return EStatus.STATUS_EM_MANUTENCAO;
+                                                                    case "FINALIZAR MANUTENÇÃO":
+                                                                        return EStatus.STATUS_MANUTENCAO_FINALIZA
+                                                                    default:
+                                                                        return current
+                                                                }
+                                                            })
+                                                            setNumeroStatus(() => parseInt(dataBudget.statusSituacao[3].statusId))
+                                                            setToogleConfirmStaus((current) => !current)
+                                                        }
+                                                    }} >
+                                                        <p>{ValidateAguardandoManutencao(dataBudget.status)}</p>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -612,8 +710,22 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                                                     <td>
                                                         {validadeUserApontamentoDiferenteNulo(dataBudget.statusSituacao[3].usuarioApontamentoFim).nome}
                                                     </td>
-                                                    <td>
-                                                        <p>LIMPEZA</p>
+                                                    <td className={style.actionApontamento} onClick={() => {
+                                                        if (ValidateLimpandoMaquina(dataBudget.status) !== "") {
+                                                            setStatus((cuurent) => {
+                                                                const text = ValidateLimpandoMaquina(dataBudget.status);
+                                                                switch (text) {
+                                                                    case "FINALIZAR":
+                                                                        return EStatus.STATUS_FINALIZADO;
+                                                                    default:
+                                                                        return cuurent
+                                                                }
+                                                            })
+                                                            setNumeroStatus(() => parseInt(dataBudget.statusSituacao[3].statusId))
+                                                            setToogleConfirmStaus((current) => !current)
+                                                        }
+                                                    }} >
+                                                        <p>{ValidateLimpandoMaquina(dataBudget.status)} </p>
                                                     </td>
                                                 </tr>
                                             </>

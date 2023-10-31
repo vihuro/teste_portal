@@ -16,7 +16,7 @@ interface Props {
     numeroOrcamento: number
 }
 
-function Form({ peca, changeToogle, numeroOrcamento }: Props) {
+function Form({ peca, changeToogle, numeroOrcamento, refreshBudget }: Props) {
     const { Radio } = RadioButton()
 
     const [textQuantity, setTextQuantity] = useState<string>("");
@@ -53,7 +53,9 @@ function Form({ peca, changeToogle, numeroOrcamento }: Props) {
             return;
         }
         await Api.post("/orcamento/pecas", obj)
-            .then(res => console.log(res.data))
+            .then(res => {
+                refreshBudget(numeroOrcamento)
+            })
             .catch(err => console.log(err));
     }
 
@@ -75,7 +77,7 @@ function Form({ peca, changeToogle, numeroOrcamento }: Props) {
                     <span >
                         Deseja adicionar o código
                         <strong>
-                            {peca?.codigoRadar}
+                            { ` ${peca?.codigoRadar}`}
                         </strong> a este orçamento?
                     </span>
                 </div>

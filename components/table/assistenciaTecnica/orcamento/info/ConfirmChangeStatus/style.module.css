@@ -1,0 +1,48 @@
+.card {
+    width: 300px;
+    height: 300px;
+    border-radius: 50px 10px;
+    background-color: white;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 0 10px 1px rgba(190, 190, 190, 0.568);
+}
+
+.footer {
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.footer button {
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+
+    background-color: transparent;
+    transition: .5s;
+
+}
+
+.footer button:nth-child(1) {
+    border: 1px solid rgb(10, 177, 51);
+    color: rgb(10, 177, 51);
+    /* background-color: rgb(10, 177, 51); */
+}
+
+.footer button:nth-child(2) {
+    border: 1px solid rgb(238, 12, 12);
+    color: rgb(238, 12, 12);
+}
+
+
+.footer button:nth-child(1):hover{
+    box-shadow: 0 0 10px 1px rgb(10, 177, 51);
+    letter-spacing: 2px;
+}
+.footer button:nth-child(2):hover{
+    box-shadow: 0 0 10px 1px rgb(238, 12, 12);
+    letter-spacing: 2px;
+}

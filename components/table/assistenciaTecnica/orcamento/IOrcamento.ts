@@ -56,3 +56,12 @@ export interface ITechnicianProps {
     idUsuario: string,
     nome: string
 }
+export enum EStatus{
+    STATUS_AGUARDANDO_ORCAMENTO = 1,
+    STATUS_AGUARDANDO_LIBERACAO_ORCAMENTO = 2,
+    STATUS_AGUARDANDO_MANUTENCAO = 3,
+    STATUS_EM_MANUTENCAO = 4,
+    STATUS_MANUTENCAO_FINALIZA = 5,
+    STATUS_EM_LIMPEZA = 6,
+    STATUS_FINALIZADO = 7
+}

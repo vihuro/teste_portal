@@ -10,14 +10,10 @@ import Filter from "../../filterColunaTable/CardFilterColuna";
 interface dataProps {
     numeroOrcamento: number,
     descricaoServico: string,
-    status: statusProps[],
+    status: string,
     cliente: clienteProps,
     maquina: maquinaProps,
-}
-interface statusProps {
-    dataHoraFim: Date
-    dataHoraInicio: Date,
-    status: string
+
 }
 interface clienteProps {
     cep: string,
@@ -206,7 +202,7 @@ export default function Table() {
                                         <td>{item.numeroOrcamento}</td>
                                         <td>{item.cliente.codigoRadar}</td>
                                         <td>{item.cliente.nomeCliente}</td>
-                                        <td>AGUARDANDO ORÇAMENTO</td>
+                                        <td>{item.status}</td>
                                         <td>{item.maquina.numeroSerie}</td>
                                         <td className={style.infoPlus} onClick={() => {
                                             // FetchDataByNumeroOrcamento({ id: item.numeroOrcamento })

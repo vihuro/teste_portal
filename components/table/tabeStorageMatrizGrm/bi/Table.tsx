@@ -54,7 +54,8 @@ interface ItemsProps {
 }
 interface Color {
     background: string,
-    color: string
+    color: string,
+    border: string
 }
 
 export default function Table() {
@@ -108,59 +109,78 @@ export default function Table() {
 
         "MATRIZ - GRM": {
             background: "#B40000",
-            color: "white"
+            color: "white",
+            border: "black"
         },
         "FABRICA - GRM": {
             background: "#5D60E9",
-            color: "white"
+            color: "white",
+            border: "black"
         },
         ROL: {
             background: "#4CFAFA",
-            color: "#048D8A"
+            color: "#048D8A",
+            border: "black"
         },
         KG: {
             background: "#F47210",
-            color: "#9D4707"
+            color: "#9D4707",
+            border: "black"
         },
         "PET VIRGEM": {
             background: "#3FFF8D",
-            color: "#021800"
+            color: "#021800",
+            border: "black"
         },
         "PET-2": {
             background: "#00923B",
-            color: "white"
+            color: "white",
+            border: "black"
         },
         "FPA VIRGEM": {
             background: "#001dff9c",
-            color: "white"
+            color: "white",
+            border: "black"
         },
         "FPA-2": {
             background: "#0B28B9",
-            color: "white"
+            color: "white",
+            border: "black"
         },
         STRETCH: {
             background: "#E753DC",
-            color: "white"
+            color: "white",
+            border: "black"
         },
         ADESIVA: {
             background: "#990000",
-            color: "white"
+            color: "white",
+            border: "black"
         },
         "STRECH ECO": {
             background: "#94148B",
-            color: "white"
+            color: "white",
+            border: "black"
+        },
+        "APR":{
+            background: "black",
+            color: "white",
+            border: "white"
         },
         SHRINK: {
             background: "#EB5353",
-            color: "white"
+            color: "white",
+            border: "black"
         },
         true: {
             background: "#3FFF8D",
-            color: "#15990B"
+            color: "#15990B",
+            border: "black"
         },
         false: {
             background: "#B40000",
-            color: "red"
+            color: "red",
+            border: "black"
         }
     }
 
@@ -181,7 +201,8 @@ export default function Table() {
 
         return {
             background: color ? color.background : "black",
-            color: color ? color.color : "white"
+            color: color ? color.color : "white",
+            border: color ? `1px solid ${color.border}` : "black"
         };
     }
 
