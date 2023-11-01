@@ -3,6 +3,7 @@ import styles from "./style.module.css";
 import { EStatus } from "../../IOrcamento";
 import SearchInfoOfUserOnToken from "../../../../../utils/SearchInfoOfUserOnToken";
 import Api from "../../../../../../service/api/assistenciaTecnica/Assistencia";
+import { useState } from "react";
 
 interface Props {
     changeToogle: Function,
@@ -21,13 +22,18 @@ export default function ConfirmStatus({ changeInfo,
 
     const { tokenInfo } = SearchInfoOfUserOnToken
 
+    const [text, setText] = useState<string>("");
+
     async function UpdateStatus() {
         const obj = {
             numeroOrcamento: numeroOrcamento,
             usuarioId: tokenInfo.idUser,
-            numeroStatus: numeroStatus
+            statusId: numeroStatus,
+            observacao: text
         }
         const url = typeUrl(typeStatus);
+
+        console.log(obj)
 
         await Api.post(`/orcamento/${url}`, obj)
             .then(res => {
@@ -40,25 +46,26 @@ export default function ConfirmStatus({ changeInfo,
 
     const typeUrl = (typeStatus: EStatus) => {
         switch (typeStatus) {
-            case 1:
+            case EStatus.STATUS_AGUARDANDO_ORCAMENTO:
                 return "aguardando-orcamento";
 
-            case 2:
+            case EStatus.STATUS_AGUARDANDO_LIBERACAO_ORCAMENTO:
                 return "aguardando-liberacao-orcamento"
 
-            case 3:
+            case EStatus.STATUS_ORCAMENTO_RECUSADO:
+                return "orcamento-recusado"
+
+            case EStatus.STATUS_AGUARDANDO_MANUTENCAO:
                 return "aguardando-manutencao"
 
-            case 4:
+            case EStatus.STATUS_EM_MANUTENCAO:
                 return "manutencao-iniciada"
 
-            case 5:
+            case EStatus.STATUS_MANUTENCAO_FINALIZA:
+                return "manutencao-finalizada"
+            case EStatus.STATUS_EM_LIMPEZA:
                 return "limpeza-iniciada"
-
-            case 6:
-                return "aguardando-orcamento"
-
-            case 7:
+            case EStatus.STATUS_FINALIZADO:
                 return "finalizado"
 
             default:
@@ -68,19 +75,23 @@ export default function ConfirmStatus({ changeInfo,
 
     return (
         <form className={styles.card} action="">
-            <header></header>
-            <main>
+            <main className={styles.containerBody} >
                 <span>
                     Deseja
                     <strong>
                         {typeStatus === 1 ? " iniciar este orçamento?" :
                             typeStatus === 2 ? " finalizar este orçamento?" :
-                                typeStatus === 4 ? " iniciar a manutenção?" :
-                                    typeStatus === 3 ? " finalizar essa negociação?" :
-                                        typeStatus === 5 ? " finalizar esta manutenção?" :
-                                            typeStatus === 7 ? " finalizar esta manutenção?" : ""}
+                                typeStatus === 3 ? " recusar esse orçamento?" :
+                                    typeStatus === 4 ? " mandar para manutenção?" :
+                                        typeStatus === 5 ? " iniciar esta manutenção?" :
+                                            typeStatus === 6 ? " finalizar esta manutenção?" :
+                                                typeStatus === 7 ? " finalizar esta manutenção?" :
+                                                    typeStatus === 8 ? " finalizar este orçamento?" : ""}
                     </strong>
                 </span>
+                <div>
+                    <textarea maxLength={1000} value={text} onChange={(e) => setText(e.target.value)} />
+                </div>
             </main>
             <footer className={styles.footer} >
                 <button

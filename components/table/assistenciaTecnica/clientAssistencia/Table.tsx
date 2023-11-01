@@ -11,6 +11,7 @@ import FilterColuna from "../../filterColunaTable/CardFilterColuna";
 import TagMaquina from "./tagMaquina/Card";
 import { DateTimeStringFormat } from "../../../utils/DateTimeString";
 import { TbEdit } from "react-icons/tb";
+import { Fetchdata } from "../orcamento/info/Info";
 
 interface dataProps {
     idCliente: string,
@@ -22,6 +23,24 @@ interface dataProps {
     cadastro: userProps,
     alteracao: userProps,
     maquinaCliente: maquinaClienteProps[],
+    cep: string,
+    estado: string,
+    cidade: string,
+    regiao: string,
+    rua: string,
+    complemento: string,
+    numeroEstabelecimento: string,
+}
+interface dataPropsOrcamento {
+    idCliente: string,
+    cnpj: string,
+    codigoRadar: string,
+    contatoTelefone: string,
+    contatoNome: string,
+    nome: string,
+    cadastro: userProps,
+    alteracao: userProps,
+    maquinaCliente: maquinaClienteProps,
     cep: string,
     estado: string,
     cidade: string,
@@ -49,6 +68,7 @@ export default function Table() {
     const [data, setData] = useState<dataProps[]>([]);
     const [dataItemString, setDataItemString] = useState<string>("");
     const [dataItemAlteracao, setDataItemAlteracao] = useState<dataProps>();
+    const [dataItemAlteracaoOrcamento, setDataItemAlteracaoOrcamento] = useState<dataPropsOrcamento>();
     const [toogleFormAdd, setToogleFormAdd] = useState<boolean>(false);
     const [toogleFormChange, setToogleFormChange] = useState<boolean>(false);
     const [toogleFormOrcamento, setToogleFormOrcamento] = useState<boolean>(false);
@@ -58,6 +78,7 @@ export default function Table() {
     const [toogleFilterCNPJ, setToogleCNPJ] = useState<boolean>(false);
     const [indiceInfoPlus, setIndiceInfoPlus] = useState<number>();
     const [toogleTagMaquina, setToogleTagMquina] = useState<boolean>();
+    const [maquinaId, setMaquinaId] = useState<string>("");
 
 
     useEffect(() => {
@@ -93,8 +114,6 @@ export default function Table() {
         })
 
 
-
-
     async function FecthData() {
         await Api.get("/cliente")
             .then(res => {
@@ -121,7 +140,10 @@ export default function Table() {
 
                 })))
             })
-            .catch(err => console.log(err));
+            .catch(err => {
+                console.log("qua foi o erro")
+                console.log(err)
+            });
     }
 
     const [filter, setFilter] = useState<dataProps[]>([])
@@ -142,14 +164,32 @@ export default function Table() {
         })
         setFilter(filtered)
     }
+    useEffect(() => {
 
+        if (!dataItemAlteracao) {
+            return;
+        }
+        const maquina = dataItemAlteracao.maquinaCliente
+            .find((item) =>
+                item.maquinaId === maquinaId);
+        if (!maquina) {
+            return;
+        }
+        const item = {
+            ...dataItemAlteracao,
+            maquinaCliente: maquina
+        }
+        setDataItemAlteracaoOrcamento(() => item);
+
+    }, [maquinaId])
 
     return (
         <main className={style.container} >
             <div className={toogleFormAdd ?
                 style.container_novoProduto :
                 style.container_novoProduto_close} >
-                <FormAdd changeToogleCard={setToogleFormAdd} refreshTable={FecthData} />
+                <FormAdd changeToogleCard={setToogleFormAdd}
+                    refreshTable={FecthData} />
             </div>
             <div className={toogleFormChange ?
                 style.container_change :
@@ -167,7 +207,9 @@ export default function Table() {
                 style.container_orcamento_close}>
                 <FormOrcamento
                     changeToogle={setToogleFormOrcamento}
-                    cliente={dataItemAlteracao}
+                    cliente={dataItemAlteracaoOrcamento}
+                    refreshTable={FecthData}
+                    maquinaId={maquinaId}
                 />
             </div>
             <section className={style.container_button} >
@@ -286,7 +328,9 @@ export default function Table() {
                                                                 setDataItemString(item.idCliente),
                                                                 setToogleFormOrcamento(true)
                                                         }}
+                                                        changeMaquinaId={setMaquinaId}
                                                         maquina={item.maquinaCliente.map(item => ({
+                                                            maquinaId: item.maquinaId,
                                                             tipoMaquina: item.tipoMaquina,
                                                             numeroSerie: item.numeroSerie,
                                                             status: item.status

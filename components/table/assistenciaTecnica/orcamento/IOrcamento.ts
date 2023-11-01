@@ -2,6 +2,8 @@ export interface IOrcamentoProps {
     numeroOrcamento: number,
     descricaoServico: string,
     status: string,
+    tempoEstimadoOrcamento: number,
+    tempoEstimadoManutencao: number,
     statusSituacao: IStatusSitucaoProps[],
     cliente: IClienteProps,
     maquina: IMaquinaProps,
@@ -24,13 +26,14 @@ export interface IStatusSitucaoProps {
     dataHoraInicio: Date,
     status: string,
     statusId: string,
+    observacao: string,
     usuarioApontamento: string,
     usuarioApontamentoFim: IUsuarioApontamentoSituacaoProps,
     usuarioApontamentoInicio: IUsuarioApontamentoSituacaoProps
 }
 export interface IUsuarioApontamentoSituacaoProps {
     usuarioApontamentoApelido: string,
-    usuarioApotamentoNome: string
+    usuarioApotamentoNome: string,
 }
 export interface IMaquinaProps {
     maquinaId: string,
@@ -56,12 +59,13 @@ export interface ITechnicianProps {
     idUsuario: string,
     nome: string
 }
-export enum EStatus{
+export enum EStatus {
     STATUS_AGUARDANDO_ORCAMENTO = 1,
     STATUS_AGUARDANDO_LIBERACAO_ORCAMENTO = 2,
-    STATUS_AGUARDANDO_MANUTENCAO = 3,
-    STATUS_EM_MANUTENCAO = 4,
-    STATUS_MANUTENCAO_FINALIZA = 5,
-    STATUS_EM_LIMPEZA = 6,
-    STATUS_FINALIZADO = 7
+    STATUS_ORCAMENTO_RECUSADO = 3,
+    STATUS_AGUARDANDO_MANUTENCAO = 4,
+    STATUS_EM_MANUTENCAO = 5,
+    STATUS_MANUTENCAO_FINALIZA = 6,
+    STATUS_EM_LIMPEZA = 7,
+    STATUS_FINALIZADO = 8
 }

@@ -10,7 +10,9 @@ import InfoUser from "../../../../utils/SearchInfoOfUserOnToken";
 
 interface props {
     changeToogle: Function,
-    cliente?: dataProps
+    cliente?: dataProps,
+    refreshTable: Function,
+    maquinaId?: string
 }
 
 interface dataProps {
@@ -22,7 +24,7 @@ interface dataProps {
     nome: string,
     cadastro: userProps,
     alteracao: userProps,
-    maquinaCliente: maquinaClienteProps[],
+    maquinaCliente: maquinaClienteProps,
     cep: string,
     estado: string,
     cidade: string,
@@ -47,7 +49,7 @@ interface maquinaClienteProps {
 }
 const { tokenInfo } = InfoUser
 
-export default function Card({ changeToogle, cliente }: props) {
+export default function Card({ changeToogle, cliente, maquinaId, refreshTable }: props) {
     const { Input } = InputUi();
     const { Button } = ButtonUi();
 
@@ -66,15 +68,17 @@ export default function Card({ changeToogle, cliente }: props) {
         const obj = {
             descricaoServico: descricaoServico,
             userId: tokenInfo.idUser,
-            MaquinaId: cliente?.maquinaCliente[0].maquinaId,
+            MaquinaId: maquinaId,
             externo: externo
         }
         await Api.post("/orcamento", obj)
-            .then(res => {
+            .then(() => {
                 setDataMessage({
                     message: "Orçamento cadastrado com sucesso!",
                     type: "SUCESS"
                 })
+                setDescricaoServico(() => "")
+                refreshTable()
             })
             .catch(err => {
                 if (err && (err.response) && (err.response.data)) {
@@ -156,7 +160,7 @@ export default function Card({ changeToogle, cliente }: props) {
                     <Input
                         id="txtMaquinaOrcamento2"
                         text="Nº SÉRIE"
-                        value={cliente && (cliente.maquinaCliente.length > 0) ? cliente.maquinaCliente[0].numeroSerie : ""}
+                        value={cliente && (cliente.maquinaCliente) ? cliente.maquinaCliente.numeroSerie : ""}
                         onChange={() => { }}
                         blocked
                     />
@@ -165,7 +169,7 @@ export default function Card({ changeToogle, cliente }: props) {
                     <Input
                         id="txtCodigoMaquinaOrcamento"
                         text="CÓD. MAQ"
-                        value={cliente && (cliente.maquinaCliente.length > 0) ? cliente.maquinaCliente[0].codigoMaquina : ""}
+                        value={cliente && (cliente.maquinaCliente) ? cliente.maquinaCliente.codigoMaquina : ""}
                         onChange={() => { }}
                         blocked
                     />
@@ -174,7 +178,7 @@ export default function Card({ changeToogle, cliente }: props) {
                     <Input
                         id="txtMaquinaOrcamento"
                         text="MÁQUINA"
-                        value={cliente && (cliente.maquinaCliente.length > 0) ? cliente.maquinaCliente[0].tipoMaquina : ""}
+                        value={cliente && (cliente.maquinaCliente) ? cliente.maquinaCliente.tipoMaquina : ""}
                         onChange={() => { }}
                         blocked
                     />

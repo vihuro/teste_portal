@@ -4,10 +4,12 @@ import Api from "../../../../../service/api/assistenciaTecnica/Assistencia";
 
 interface props {
     maquina: maquinaProps[],
-    abrirOrdemService: Function
+    abrirOrdemService: Function,
+    changeMaquinaId: Function
 }
 
 interface maquinaProps {
+    maquinaId: string,
     tipoMaquina: string,
     numeroSerie: string,
     status: string
@@ -17,7 +19,7 @@ interface Color {
     color: string
 }
 
-export default function Card({ maquina, abrirOrdemService }: props) {
+export default function Card({ maquina, abrirOrdemService, changeMaquinaId }: props) {
 
     const color: Record<string, Color> = {
 
@@ -51,6 +53,7 @@ export default function Card({ maquina, abrirOrdemService }: props) {
         }
     }
 
+
     function GetColor(text: string) {
         const getStyle = color[text];
 
@@ -65,11 +68,11 @@ export default function Card({ maquina, abrirOrdemService }: props) {
     const [tipo, setTipo] = useState<string>("");
 
     const filter = maquina.filter(item =>
-        (
-            item.numeroSerie.toLocaleUpperCase().startsWith(numeroSerie.toLocaleUpperCase()) &&
-            item.tipoMaquina.toLocaleUpperCase().startsWith(tipo.toLocaleUpperCase())
-        )
-        
+    (
+        item.numeroSerie.toLocaleUpperCase().startsWith(numeroSerie.toLocaleUpperCase()) &&
+        item.tipoMaquina.toLocaleUpperCase().startsWith(tipo.toLocaleUpperCase())
+    )
+
     )
 
 
@@ -127,9 +130,12 @@ export default function Card({ maquina, abrirOrdemService }: props) {
                                     </td>
                                     <td>
                                         {item.status === "Liberada" ?
-                                            <p className={style.buttonAtalho} 
-                                            style={GetColor("Abrir Ordem de Serviço")}
-                                            onClick={() => abrirOrdemService(true)}
+                                            <p className={style.buttonAtalho}
+                                                style={GetColor("Abrir Ordem de Serviço")}
+                                                onClick={() => {
+                                                    changeMaquinaId(() => item.maquinaId)
+                                                    abrirOrdemService()
+                                                }}
                                             >
                                                 Abrir Ordem de Serviço
                                             </p>

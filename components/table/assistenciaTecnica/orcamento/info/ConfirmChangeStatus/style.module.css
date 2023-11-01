@@ -4,15 +4,60 @@
     border-radius: 50px 10px;
     background-color: white;
     display: grid;
-    justify-content: center;
-    align-items: center;
+    grid-template-rows: 1fr 100px;
     box-shadow: 0 0 10px 1px rgba(190, 190, 190, 0.568);
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.containerBody {
+    grid-area: 1/1/1/1;
+    display: grid;
+    grid-template-rows: 20px 1fr;
+    padding: 15px;
+    gap: 50px;
+}
+
+.containerBody div {
+    border: 1px solid rgba(201, 201, 201, 0.822);
+    border-radius: 10px;
+    padding: 5px;
+    position: relative;
+}
+
+.containerBody div::after {
+    position: absolute;
+    content: "";
+    bottom: 0;
+    left: 5px;
+    width: 96%;
+    height: 2px;
+    background-image: linear-gradient(to right,
+            rgb(0, 195, 255),
+            rgb(25, 0, 255),
+            rgb(226, 3, 255));
+    transition: .5s;
+    transform: scaleX(0);
+    transform-origin: left;
+}
+.containerBody div:focus-within::after{
+    transform: scaleX(1);
+}
+
+.containerBody textarea {
+    width: 99%;
+    grid-area: 2/1/2/1;
+    border: none;
+    outline: none;
+    height: 100%;
+    resize: none;
 }
 
 .footer {
     display: grid;
     gap: 10px;
     grid-template-columns: repeat(2, 1fr);
+    padding: 30px;
 }
 
 .footer button {
@@ -38,11 +83,12 @@
 }
 
 
-.footer button:nth-child(1):hover{
+.footer button:nth-child(1):hover {
     box-shadow: 0 0 10px 1px rgb(10, 177, 51);
     letter-spacing: 2px;
 }
-.footer button:nth-child(2):hover{
+
+.footer button:nth-child(2):hover {
     box-shadow: 0 0 10px 1px rgb(238, 12, 12);
     letter-spacing: 2px;
 }

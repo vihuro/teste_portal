@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { DateTimeStringFormat } from "../../../../utils/DateTimeString";
 import { Card as CardFilter } from "./filterPecas/Pecas";
 import { Form as FormDiario } from "./Diario/CardDiario";
+import Obser from "./obs/Card";
 import {
     IOrcamentoProps,
     IClienteProps,
@@ -176,7 +177,10 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
         idUsuario: "",
         nome: ""
     });
-    const { dataBudget, loading, setDataBudget, dataTechnician, setDateTechnician, setLoading, getByNumeroOrcamento, getListTechnician } = Fetchdata({ id: numeroOrcamento })
+    const { dataBudget, loading, setDataBudget,
+        dataTechnician, setDateTechnician,
+        setLoading, getByNumeroOrcamento, getListTechnician } =
+        Fetchdata({ id: numeroOrcamento })
 
     useEffect(() => {
         if (dataBudget) {
@@ -463,6 +467,18 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                             )}
                         </ul>
                     </div>
+                    <div className={style.containerTempoEstimadoOrcamento} >
+                        <input type="number"
+                            value={dataBudget ?
+                                dataBudget.tempoEstimadoOrcamento.toString() :
+                                0} />
+                    </div>
+                    <div className={style.containerTempoEstimadoManutencao} >
+                        <input type="number"
+                            value={dataBudget ?
+                                dataBudget.tempoEstimadoManutencao.toString() :
+                                0} />
+                    </div>
                     <div className={style.containerTecnicoManutencao} onClick={(e) => e.stopPropagation()}>
                         <input type="text"
                             required
@@ -581,7 +597,7 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                                         </tr>
                                     </thead>
                                     <tbody className={style.container_tableBody_status} >
-                                        {dataBudget && (
+                                        {dataBudget && dataBudget.statusSituacao.length > 0 && (
                                             <>
                                                 <tr>
                                                     <td className={style.container_notification} >
@@ -591,6 +607,7 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                                                         <div className={toogleNotification ?
                                                             style.descriptionNotification :
                                                             style.descriptionNotification_close} >
+                                                            <Obser text={dataBudget.statusSituacao[1].observacao} />
 
                                                         </div>
                                                         <p>
@@ -627,11 +644,11 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                                                         }} onClick={() => setToogleNotification(!toogleNotification)} >
                                                             <Icons.BellNotification />
                                                         </div>
-                                                        <div className={toogleNotification ?
+                                                        {/* <div className={toogleNotification ?
                                                             style.descriptionNotification :
                                                             style.descriptionNotification_close} >
 
-                                                        </div>
+                                                        </div> */}
                                                         <p>
                                                             NEGOCIAÇÃO
                                                         </p>
@@ -644,18 +661,26 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                                                     <td>
                                                         {validadeUserApontamentoDiferenteNulo(dataBudget.statusSituacao[2].usuarioApontamentoFim).nome}
                                                     </td>
-                                                    <td className={style.actionApontamento} onClick={() => {
-                                                        if (ValidateAguardandoOrcamento(dataBudget.status) !== "") {
-                                                            setStatus(() => EStatus.STATUS_AGUARDANDO_MANUTENCAO)
-                                                            setNumeroStatus(() => parseInt(dataBudget.statusSituacao[2].statusId))
-                                                            setToogleConfirmStaus((current) => !current)
+                                                    <td className={style.actionApontamento} >
+                                                        {ValidateAguardandoOrcamento(dataBudget.status) ?
+                                                            <>
+                                                                <p onClick={() => {
+                                                                    setStatus(() => EStatus.STATUS_AGUARDANDO_MANUTENCAO)
+                                                                    setNumeroStatus(() => parseInt(dataBudget.statusSituacao[2].statusId))
+                                                                    setToogleConfirmStaus((current) => !current)
+                                                                }} className={style.aprovado} > ORÇAMENTO APROVADO</p>
+                                                                <p onClick={() => {
+                                                                    setStatus(() => EStatus.STATUS_ORCAMENTO_RECUSADO)
+                                                                    setNumeroStatus(() => parseInt(dataBudget.statusSituacao[2].statusId))
+                                                                    setToogleConfirmStaus((current) => !current)
+                                                                }} className={style.reprovado} > ORÇAMENTO REPROVADO</p>
+                                                            </>
+                                                            :
+                                                            <p></p>
                                                         }
-                                                    }} >
-                                                        <p> {ValidateAguardandoOrcamento(dataBudget.status)}</p>
                                                     </td>
                                                 </tr>
                                                 <tr>
-
                                                     <td className={style.container_notification} >
                                                         <div className={style.tag_notification} style={{
                                                             background: "rgb(187,180,180)",
@@ -663,22 +688,22 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                                                         }} onClick={() => setToogleNotification(!toogleNotification)} >
                                                             <Icons.BellNotification />
                                                         </div>
-                                                        <div className={toogleNotification ?
+                                                        {/* <div className={toogleNotification ?
                                                             style.descriptionNotification :
                                                             style.descriptionNotification_close} >
 
-                                                        </div>
+                                                        </div> */}
                                                         <p>
                                                             MANUTENÇÃO
                                                         </p>
                                                     </td>
-                                                    <td>{validateDataHoraApontamento(dataBudget.statusSituacao[3].dataHoraInicio)}</td>
+                                                    <td>{validateDataHoraApontamento(dataBudget.statusSituacao[6].dataHoraInicio)}</td>
                                                     <td>
-                                                        {validadeUserApontamentoDiferenteNulo(dataBudget.statusSituacao[3].usuarioApontamentoInicio).nome}
+                                                        {validadeUserApontamentoDiferenteNulo(dataBudget.statusSituacao[6].usuarioApontamentoInicio).nome}
                                                     </td>
-                                                    <td>{validateDataHoraApontamento(dataBudget.statusSituacao[3].dataHoraFim)}</td>
+                                                    <td>{validateDataHoraApontamento(dataBudget.statusSituacao[7].dataHoraInicio)}</td>
                                                     <td>
-                                                        {validadeUserApontamentoDiferenteNulo(dataBudget.statusSituacao[3].usuarioApontamentoFim).nome}
+                                                        {validadeUserApontamentoDiferenteNulo(dataBudget.statusSituacao[7].usuarioApontamentoInicio).nome}
                                                     </td>
                                                     <td className={style.actionApontamento} onClick={() => {
                                                         if (ValidateAguardandoManutencao(dataBudget.status) !== "") {
@@ -693,7 +718,18 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                                                                         return current
                                                                 }
                                                             })
-                                                            setNumeroStatus(() => parseInt(dataBudget.statusSituacao[3].statusId))
+                                                            setNumeroStatus((current) => {
+                                                                const text = ValidateAguardandoManutencao(dataBudget.status);
+                                                                switch (text) {
+                                                                    case "INICIAR MANUTENÇÃO":
+                                                                        return parseInt(dataBudget.statusSituacao[5].statusId);
+                                                                    case "FINALIZAR MANUTENÇÃO":
+                                                                        return parseInt(dataBudget.statusSituacao[6].statusId)
+                                                                    default:
+                                                                        return current
+                                                                }
+
+                                                            })
                                                             setToogleConfirmStaus((current) => !current)
                                                         }
                                                     }} >
@@ -702,13 +738,13 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                                                 </tr>
                                                 <tr>
                                                     <td>LIMPEZA</td>
-                                                    <td>{validateDataHoraApontamento(dataBudget.statusSituacao[3].dataHoraInicio)}</td>
+                                                    <td>{validateDataHoraApontamento(dataBudget.statusSituacao[7].dataHoraInicio)}</td>
                                                     <td>
-                                                        {validadeUserApontamentoDiferenteNulo(dataBudget.statusSituacao[3].usuarioApontamentoInicio).nome}
+                                                        {validadeUserApontamentoDiferenteNulo(dataBudget.statusSituacao[7].usuarioApontamentoInicio).nome}
                                                     </td>
-                                                    <td>{validateDataHoraApontamento(dataBudget.statusSituacao[3].dataHoraFim)}</td>
+                                                    <td>{validateDataHoraApontamento(dataBudget.statusSituacao[7].dataHoraFim)}</td>
                                                     <td>
-                                                        {validadeUserApontamentoDiferenteNulo(dataBudget.statusSituacao[3].usuarioApontamentoFim).nome}
+                                                        {validadeUserApontamentoDiferenteNulo(dataBudget.statusSituacao[7].usuarioApontamentoFim).nome}
                                                     </td>
                                                     <td className={style.actionApontamento} onClick={() => {
                                                         if (ValidateLimpandoMaquina(dataBudget.status) !== "") {
@@ -721,7 +757,7 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                                                                         return cuurent
                                                                 }
                                                             })
-                                                            setNumeroStatus(() => parseInt(dataBudget.statusSituacao[3].statusId))
+                                                            setNumeroStatus(() => parseInt(dataBudget.statusSituacao[5].statusId))
                                                             setToogleConfirmStaus((current) => !current)
                                                         }
                                                     }} >
@@ -731,30 +767,6 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                                             </>
                                         )}
 
-                                        {/* <tr>
-                                            <td>ORÇAMENTO</td>
-                                            <td>25/09/2023 16:00:00</td>
-                                            <td>00/00/0000 00:00:00</td>
-                                            <td></td>
-                                        </tr>
-                                        <tr>
-                                            <td>NEGOCIAÇÃO</td>
-                                            <td>00/00/0000 00:00:00</td>
-                                            <td>00/00/0000 00:00:00</td>
-                                            <td></td>
-                                        </tr>
-                                        <tr>
-                                            <td>MANUTENÇÃO</td>
-                                            <td>00/00/0000 00:00:00</td>
-                                            <td>00/00/0000 00:00:00</td>
-                                            <td></td>
-                                        </tr>
-                                        <tr>
-                                            <td>MANUTENÇÃO</td>
-                                            <td>00/00/0000 00:00:00</td>
-                                            <td>00/00/0000 00:00:00</td>
-                                            <td></td>
-                                        </tr> */}
                                     </tbody>
                                 </table>
                             </div>
