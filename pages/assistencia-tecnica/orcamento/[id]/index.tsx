@@ -26,7 +26,7 @@ export default function OrcamentoById() {
             <Page />
             <Body changeToogleAlterarSenha={setToogleValue} toogleCardAlterarSenha={toogleValue} >
                 {byId && (
-                    <InfoPage numeroOrcamento={byId} />
+                    <InfoPage numeroOrcamento={parseInt(byId)} />
                 )}
             </Body>
 

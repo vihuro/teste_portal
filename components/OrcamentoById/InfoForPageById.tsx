@@ -163,7 +163,7 @@ function validateDataHoraApontamento(dateApontamento: Date) {
 
     return DateTimeStringFormat(dateApontamento)
 }
-export default function InfoForm({ numeroOrcamento }: { numeroOrcamento: string }) {
+export default function InfoForm({ numeroOrcamento }: { numeroOrcamento: number }) {
 
     const { Input } = InputUi();
     const [dataTecnico, setDataTecnico] = useState<tecnicoProps[]>([]);
@@ -220,7 +220,11 @@ export default function InfoForm({ numeroOrcamento }: { numeroOrcamento: string 
                 style.containerFilter :
                 style.containerFilter_close} >
                 <div className={style.wrapContainerFilter} >
-                    <CardFilter changeToogle={setToogleFilterPecas} toogle={toogleFilterPecas} />
+                    <CardFilter 
+                    changeToogle={setToogleFilterPecas} 
+                    toogle={toogleFilterPecas} 
+                    refreshInfo={getByNumeroOrcamento}
+                    numeroOrcamento={numeroOrcamento}/>
                 </div>
             </div>
             <div className={toogleDiario ?
