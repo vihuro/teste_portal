@@ -1,10 +1,13 @@
-import { Fragment, useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./style.module.css";
 import { Manutencao } from "./fakeManutencao";
 import { Icons } from "../../utils/IconDefault";
 import Add from "./Add/addOrdemServico";
 import Info from "./info/Info";
 import { TableUi } from "../../UI/table/TableUi";
+import Api from "../../../service/api/manutencao/Manutencao";
+import { IOrderService } from "./IOrderService";
+import { DateAndYearStringFormat } from "../../utils/DateTimeString";
 
 interface dataProps {
     numeroOrdemServico: number,
@@ -21,25 +24,24 @@ interface dataProps {
 }
 
 
-
 export default function Table() {
-    const [data, setData] = useState<dataProps[]>([])
+    const [data, setData] = useState<IOrderService[]>([])
     const PRIORIDADE: StyleKey = {
-        "ALTA": {
+        "ALTO": {
             background: "#ff0000",
             color: "#7d0404"
         },
-        "BAIXA": {
+        "BAIXO": {
             background: "#00ff50",
             color: "#046d25"
         },
-        "NORMAL": {
+        "MÉDIO": {
             background: "#0035ff",
             color: "#ffffff87"
         }
     }
     const STATUS: StyleKey = {
-        "AGUARDANDO VERIFICAÇÃO": {
+        "AGUARDANDO ATRIBUIÇÃO": {
             background: "#feff00",
             color: "#747512"
         },
@@ -125,28 +127,28 @@ export default function Table() {
                 onClick: () => console.log("hahaha")
             },
             "col1": {
-                label: item.numeroOrdemServico.toString()
+                label: item.id.toString()
             },
             "col2": {
-                label: item.execucao
+                label: item.localeManinteace
             },
             "col3": {
-                label: item.tipoServico
+                label: item.typeService
             },
             "col4": {
-                label: item.categoriaServico
+                label: item.category
             },
             "col5": {
-                label: item.dataIdeal
+                label: DateAndYearStringFormat(item.suggestdMainteneaceDate)
             },
 
             "col6": {
-                label: item.prioridade,
-                tag: searchColorPrioridade(item.prioridade)
+                label: item.priority,
+                tag: searchColorPrioridade(item.priority)
             },
             "col7": {
-                label: item.statusOrdemServico,
-                tag: searchColorStatus(item.statusOrdemServico)
+                label: item.situation,
+                tag: searchColorStatus(item.situation)
             },
             "col8": {
                 label: "",
@@ -161,9 +163,6 @@ export default function Table() {
     const [toogleInfo, setToogleInfo] = useState<boolean>(false);
 
 
-    useEffect(() => {
-        setData(Manutencao);
-    }, [])
 
     interface StyleData {
         background: string;
@@ -176,6 +175,15 @@ export default function Table() {
         [key: string]: StyleData;
     }
 
+    useEffect(() => {
+        FetchData();
+    }, [])
+
+    async function FetchData() {
+        await Api.get("order-service")
+            .then(res => setData(() => res.data))
+            .catch(err => console.log(err))
+    }
 
 
     return (
@@ -196,7 +204,10 @@ export default function Table() {
                         <div className={toogleAdd ?
                             styles.form :
                             styles.form_close} >
-                            <Add changeToogle={setToogleAdd} />
+                            <Add
+                                changeToogle={setToogleAdd}
+                                toogle={toogleAdd}
+                                refreshTable={FetchData} />
                         </div>
                     </div>
                     <header className={styles.container_button} >

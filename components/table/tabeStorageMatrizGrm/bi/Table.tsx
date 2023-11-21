@@ -163,9 +163,9 @@ export default function Table() {
             border: "black"
         },
         "APR":{
-            background: "black",
+            background: "RED",
             color: "white",
-            border: "white"
+            border: "BLACK"
         },
         SHRINK: {
             background: "#EB5353",
@@ -181,6 +181,11 @@ export default function Table() {
             background: "#B40000",
             color: "red",
             border: "black"
+        },
+        ADS:{
+            background:"YELLOW",
+            color:"",
+            border:"black"
         }
     }
 
@@ -227,7 +232,7 @@ export default function Table() {
                     <thead>
                         <tr>
                             <th>ID</th>
-                            {/* <th >CÓDIGO</th> */}
+                            <th >CÓDIGO</th>
                             <th>MEDIDA</th>
                             <th>QTDE</th>
                             <th>UND.</th>
@@ -249,7 +254,7 @@ export default function Table() {
                             filter.map((item, index) => (
                                 <tr key={index}>
                                     <td>{item.id.toString()}</td>
-                                    {/* <td>{item.codigo}</td> */}
+                                    <td>{item.codigo}</td>
                                     <td>{item.descricao}</td>
                                     <td>{item.quantidade}</td>
                                     <td>{item.unidade}</td>

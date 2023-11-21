@@ -48,6 +48,7 @@ export function TableUi({ col, row }: props) {
     }, [row])
 
 
+
     const handleDragOver = (e: React.DragEvent, targetColId: string) => {
         e.preventDefault();
     };
@@ -65,6 +66,15 @@ export function TableUi({ col, row }: props) {
             updatedColumns.splice(targetIndex, 0, draggedColumn);
 
             setColumns(updatedColumns);
+
+
+            const filterUser = {
+                userFilter: "vitorhugo",
+                tableName: "Tabela Manutenção fabrica",
+                roles: updatedColumns
+            }
+
+            console.log(filterUser)
         }
     };
     const handleDragStart = (e: React.DragEvent, colId: string) => {

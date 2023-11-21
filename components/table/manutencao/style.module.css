@@ -14,7 +14,7 @@
     height: 95%;
     margin: 0 40px 0 40px;
     display: grid;
-    /* grid-template-rows: 40px 1fr; */
+    grid-template-rows: 20px 1fr;
     background-color: white;
     box-shadow: 0 0 5px 1px rgb(226, 223, 223);
     border-radius: 10px;
@@ -62,6 +62,7 @@
     height: 100%;
     grid-area: 2/1/2/1;
     display: grid;
+    grid-template-rows: 40px 1fr;
 
     /* aqui é para teste */
     position: relative;
@@ -106,6 +107,7 @@
     grid-area: 2/1/2/1;
     padding: 15px;
     overflow: auto;
+    position: relative;
 }
 
 .wrap_container_table {
