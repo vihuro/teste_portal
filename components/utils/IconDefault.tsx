@@ -7,6 +7,7 @@ import { HiInformationCircle } from "react-icons/hi";
 import { ImBook } from "react-icons/im";
 import { IoBookSharp } from "react-icons/io5"
 import { FaMapMarked } from "react-icons/fa"
+import { BsFilePdf } from "react-icons/bs"
 
 
 
@@ -24,5 +25,6 @@ export const Icons = {
     Book: ImBook,
     BookOpen: IoBookSharp,
     LocalizationOnMap: BiMapPin,
-    Map: FaMapMarked
+    Map: FaMapMarked,
+    Pdf: BsFilePdf
 }

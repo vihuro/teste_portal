@@ -1,30 +1,9 @@
-import { ElementType, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./style.module.css";
+import { CellData, Column, ColumnExternal, Row } from "./ITableUi";
+import { Icons } from "../../utils/IconDefault";
 
-interface Column {
-    id: string;
-    label: string;
-    visible: boolean
-}
 
-interface Row {
-    id: number;
-    data: Record<string, CellData>;
-}
-interface CellData {
-    label: string;
-    tag?: TagData,
-    tagInfo?: Function,
-    icon?: ElementType; // Pode ajustar o tipo de ícone conforme necessário
-    onClick?: Function; // Pode ajustar o tipo de função conforme necessário
-}
-interface TagData {
-    background: string,
-    color: string
-}
-interface ColumnExternal {
-    label: string
-}
 
 interface props {
     row: Row[],
@@ -32,7 +11,7 @@ interface props {
     nameTable: string
 }
 
-export function TableUi({ col, row }: props) {
+export function TableUi({ col, row, nameTable }: props) {
 
     const [column, setColumns] = useState<Column[]>([]);
     const [rowTable, setRowTable] = useState<Row[]>([]);
@@ -74,7 +53,6 @@ export function TableUi({ col, row }: props) {
                 roles: updatedColumns
             }
 
-            console.log(filterUser)
         }
     };
     const handleDragStart = (e: React.DragEvent, colId: string) => {
