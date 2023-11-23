@@ -2,6 +2,7 @@ import { useState } from "react";
 import InputUi from "../../../UI/input/Input";
 import styles from "./style.module.css";
 import { Icons } from "../../../utils/IconDefault";
+import { } from "./Functions";
 
 
 export default function Info({ changeToogle }: { changeToogle: Function }) {
@@ -78,201 +79,98 @@ export default function Info({ changeToogle }: { changeToogle: Function }) {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>defjdçkjdf klfjlkdjflkdjdkljfdkle</td>
-                                        <td>tete</td>
-                                        <td>tete</td>
-                                        <td>tete</td>
-                                    </tr>
-                                    <tr>
-                                        <td>dee</td>
-                                        <td>tete</td>
-                                        <td>tete</td>
-                                        <td>tete</td>
-                                    </tr>
-                                    <tr>
-                                        <td>dee</td>
-                                        <td>tete</td>
-                                        <td>tete</td>
-                                        <td>tete</td>
-                                    </tr>
-                                    <tr>
-                                        <td>dee</td>
-                                        <td>tete</td>
-                                        <td>tete</td>
-                                        <td>tete</td>
-                                    </tr>
-                                    <tr>
-                                        <td>dee</td>
-                                        <td>tete</td>
-                                        <td>tete</td>
-                                        <td>tete</td>
-                                    </tr>
-                                    <tr>
-                                        <td>dee</td>
-                                        <td>tete</td>
-                                        <td>tete</td>
-                                        <td>tete</td>
-                                    </tr>
-                                    <tr>
-                                        <td>dee</td>
-                                        <td>tete</td>
-                                        <td>tete</td>
-                                        <td>tete</td>
-                                    </tr>
-                                    <tr>
-                                        <td>dee</td>
-                                        <td>tete</td>
-                                        <td>tete</td>
-                                        <td>tete</td>
-                                    </tr>
-                                    <tr>
-                                        <td>dee</td>
-                                        <td>tete</td>
-                                        <td>tete</td>
-                                        <td>tete</td>
-                                    </tr>
-                                    <tr>
-                                        <td>dee</td>
-                                        <td>tete</td>
-                                        <td>tete</td>
-                                        <td>tete</td>
-                                    </tr>
-                                    <tr>
-                                        <td>dee</td>
-                                        <td>tete</td>
-                                        <td>tete</td>
-                                        <td>tete</td>
-                                    </tr>
-                                    <tr>
-                                        <td>dee</td>
-                                        <td>tete</td>
-                                        <td>tete</td>
-                                        <td>tete</td>
-                                    </tr>
-                                    <tr>
-                                        <td>dee</td>
-                                        <td>tete</td>
-                                        <td>tete</td>
-                                        <td>tete</td>
-                                    </tr>
-                                    <tr>
-                                        <td>dee</td>
-                                        <td>tete</td>
-                                        <td>tete</td>
-                                        <td>tete</td>
-                                    </tr>
-                                    <tr>
-                                        <td>dee</td>
-                                        <td>tete</td>
-                                        <td>tete</td>
-                                        <td>tete</td>
-                                    </tr>
-                                    <tr>
-                                        <td>dee</td>
-                                        <td>tete</td>
-                                        <td>tete</td>
-                                        <td>tete</td>
-                                    </tr>
-                                    <tr>
-                                        <td>dee</td>
-                                        <td>tete</td>
-                                        <td>tete</td>
-                                        <td>tete</td>
-                                    </tr>
-                                    <tr>
-                                        <td>dee</td>
-                                        <td>tete</td>
-                                        <td>tete</td>
-                                        <td>tete</td>
-                                    </tr>
-                                    <tr>
-                                        <td>dee</td>
-                                        <td>tete</td>
-                                        <td>tete</td>
-                                        <td>tete</td>
-                                    </tr>
-                                    <tr>
-                                        <td>dee</td>
-                                        <td>tete</td>
-                                        <td>tete</td>
-                                        <td>tete</td>
-                                    </tr>
-                                    <tr>
-                                        <td>dee</td>
-                                        <td>tete</td>
-                                        <td>tete</td>
-                                        <td>tete</td>
-                                    </tr>
-                                    <tr>
-                                        <td>dee</td>
-                                        <td>tete</td>
-                                        <td>tete</td>
-                                        <td>tete</td>
-                                    </tr>
+
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
                 <div className={styles.thirdRow} >
-                    <div className={styles.wrapTableSituation} >
+                    <div className={styles.wrapTableSituacao} >
+                        <table className={styles.tableSituacao} >
+                            <thead>
+                                <tr>
+                                    <th>SITUAÇÃO</th>
+                                    <th>DATA/HORA ÍNICIO</th>
+                                    <th>USUÁRIO ÍNICIO</th>
+                                    <th>DATA/HORA FIM</th>
+                                    <th>USUÁRIO FIM</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>aqui</td>
+                                    <td>aqui</td>
+                                    <td>aqui</td>
+                                    <td>aqui</td>
+                                </tr>
+                                <tr>
+                                    <td>aqui</td>
+                                    <td>aqui</td>
+                                    <td>aqui</td>
+                                    <td>aqui</td>
+                                </tr>
+                                <tr>
+                                    <td>aqui</td>
+                                    <td>aqui</td>
+                                    <td>aqui</td>
+                                    <td>aqui</td>
+                                </tr>
+                                <tr>
+                                    <td>aqui</td>
+                                    <td>aqui</td>
+                                    <td>aqui</td>
+                                    <td>aqui</td>
+                                </tr>
+                                <tr>
+                                    <td>aqui</td>
+                                    <td>aqui</td>
+                                    <td>aqui</td>
+                                    <td>aqui</td>
+                                </tr>
+                                <tr>
+                                    <td>aqui</td>
+                                    <td>aqui</td>
+                                    <td>aqui</td>
+                                    <td>aqui</td>
+                                </tr>
 
+                                <tr>
+                                    <td>aqui</td>
+                                    <td>aqui</td>
+                                    <td>aqui</td>
+                                    <td>aqui</td>
+                                </tr>
+                                <tr>
+                                    <td>aqui</td>
+                                    <td>aqui</td>
+                                    <td>aqui</td>
+                                    <td>aqui</td>
+                                </tr>
+                                <tr>
+                                    <td>aqui</td>
+                                    <td>aqui</td>
+                                    <td>aqui</td>
+                                    <td>aqui</td>
+                                </tr>
+                                <tr>
+                                    <td>aqui</td>
+                                    <td>aqui</td>
+                                    <td>aqui</td>
+                                    <td>aqui</td>
+                                </tr>
+                                <tr>
+                                    <td>aqui</td>
+                                    <td>aqui</td>
+                                    <td>aqui</td>
+                                    <td>aqui</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </main>
-            {/* <header className={styles.container_header} >
-                <button onClick={() => changeToogle(false)} >
-                    <Icons.ArrowLeft />
-                </button>
-            </header>
-            <main className={styles.containerBody} >
-                <div className={styles.containerExecucao} >
-                    <Input
-                        id="txtExecucaoChange"
-                        text="LOCAL"
-                        blocked
-                    />
-                </div>
-                <div className={styles.containerTipoServico} >
-                    <Input
-                        id="txtTipoServicoChange"
-                        text="TIPO/SERV."
-                        blocked
-                    />
-                </div>
-                <div className={styles.containerCategoriaServico} >
-                    <Input
-                        id="txtCategoriaServicoChange"
-                        text="CATEGORIA/SERV."
-                        blocked
-                    />
-                </div>
-                <div className={styles.containerDataIdeal} >
-                    <Input
-                        id="txtDataIdealServico"
-                        type="date"
-                    />
-                </div>
-                <div className={styles.containerPrioridade} >
-                    <input type="text" />
-                    <label htmlFor=""></label>
-                </div>
-                <div onClick={() => {
-                    setListTecnico(!listTecnico)
-                }} className={styles.containerTecnico}>
-                    <input type="text" />
-                    <label htmlFor="">TÉCNICO</label>
-                    <ul className={listTecnico ?
-                        styles.containerListTecnico :
-                        styles.containerListTecnico_close} >
-                        <li>WILDEN SILVA</li>
-                        <li>JOÃO PLINIO</li>
-                        <li>JOÃO</li>
-                        <li>GEROLDI</li>
-                    </ul>
-                </div>
-            </main> */}
+
         </main>
     )
 }
