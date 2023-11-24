@@ -5,14 +5,50 @@
     grid-template-columns: 1fr;
     grid-template-rows: .2fr 1fr;
     gap: 5px;
+    position: relative;
     grid-template-areas:
         "header"
         "body";
 }
 
+.containerSearchParts,
+.containerSearchParts_close {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.containerSearchParts_close .form {
+    transform: scale(1.2);
+    opacity: 0;
+}
+.containerSearchParts_close {
+    pointer-events: none;
+
+}
+
+.form {
+    width: 550px;
+    height: 500px;
+    background-color: white;
+    border-radius: 10px 50px;
+    transition: .5s;
+    box-shadow: 0 0 10px rgba(14, 10, 231, 0.226),
+        0 0 1px rgb(14, 10, 231),
+        0 0 10px rgb(14, 10, 231);
+    overflow: hidden;
+    position: relative;
+    transition: .5s;
+}
+
+
 .header {
     grid-area: header;
-    background-color: rgb(72, 116, 116);
+    box-shadow: 0 0 10px -2px rgb(131, 130, 130);
     display: grid;
     grid-template-columns: .2fr 1fr .2fr;
     grid-template-rows: repeat(2, 1fr);
@@ -24,21 +60,64 @@
 
 .containerButtonBack {
     grid-area: containerButtonBack;
-    background-color: rgb(1, 51, 34);
-}
-.cotnainerButtonDaily{
-    grid-area: containerButtonDaily;
-    background-color: rgb(92, 65, 95);
-}
-.containerStatus{
-    grid-area: containerStatus;
-    background-color: rgb(177, 39, 39);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.buttonBack {
+.cotnainerButtonDaily {
+    grid-area: containerButtonDaily;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.containerStatus {
+    grid-area: containerStatus;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.containerStatus span {
+    background-color: rgb(22, 207, 145);
+    padding: 3px;
+    color: rgb(1, 51, 34);
+    font-weight: 600;
+    border-radius: 7px;
+    width: 100%;
+    text-align: center;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.buttonBack,
+.buttonDaily {
     width: 35px;
     height: 35px;
     border-radius: 50%;
+    font-size: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+}
+
+.buttonBack {
+    background-color: var(--background-color-blue-700);
+    color: white;
+}
+
+.buttonDaily {
+    background-color: rgb(22, 207, 145);
+    color: rgb(6, 105, 72);
+}
+
+.containerNumeroOrdemServico {
+    grid-area: containerNumeroOrdemServico;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .body {
@@ -47,11 +126,16 @@
     grid-template-rows: repeat(3, 1fr);
     overflow: auto;
     padding: 10px;
+    gap: 15px;
     grid-template-areas:
         "first first first first"
         "second second second second"
         "third third third third";
 
+}
+
+.body input {
+    width: 100% !important;
 }
 
 .firstRow {
@@ -84,20 +168,62 @@
 
 .inputTecnicoResponsavel {
     grid-area: inputTecnicoResponsavel;
+    display: flex;
+    border-radius: 7px;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+}
+
+.inputTecnicoResponsavel input {
+    border: 1px solid rgba(102, 102, 102, 0.555);
+    padding: 17px 10px 10px 10px;
+    outline: none;
+    width: 100%;
+    border-radius: 7px;
+}
+
+.inputTecnicoResponsavel label {
+    position: absolute;
+    transition: .5s;
+    left: 1.2rem;
+    font-size: 14px;
+    color: rgb(131, 130, 130);
 }
 
 .descricaoServico {
     grid-area: textAreaDescricaoServico;
     display: flex;
+    position: relative;
+    border: 1px solid rgba(102, 102, 102, 0.555);
+    border-radius: 5px;
+    margin-bottom: 15px;
+    height: calc(100% - 5px);
 }
 
 .descricaoServico textarea {
     width: 100%;
+
+    border-radius: 5px;
+    border: 0;
+    padding: 9px 3px 0 3px;
+    resize: none;
+    outline: none;
+}
+
+.descricaoServico label {
+    position: absolute;
+    color: white;
+    font-size: 12px;
+    padding: 3px;
+    border-radius: 5px;
+    background-color: var(--background-color-blue-700);
+    transform: translateX(17px) translateY(-10px);
+
 }
 
 .secondRow {
     grid-area: second;
-    background-color: aqua;
     display: grid;
     grid-template-columns: .5fr 1fr;
     grid-template-rows: repeat(3, 1fr);
@@ -124,13 +250,64 @@
 
 .containerTable {
     grid-area: containerTable;
-    border: 1px solid red;
+    padding: 0 0 0 5px;
+    display: flex;
+
+    overflow: auto;
+}
+
+.wrapContainerTable {
+    width: 100%;
+    position: relative;
+    overflow: auto;
+    border: 1px solid rgb(6, 2, 255);
+    border-radius: 5px;
+}
+
+.tablePecas,
+.tableSituacao {
+    position: absolute;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tablePecas thead,
+.tableSituacao thead {
+    background-color: var(--background-color-blue-600);
+    color: rgba(255, 255, 255, 0.822);
+    position: sticky;
+    top: 0;
+    text-wrap: nowrap;
+}
+
+.tablePecas thead tr th,
+.tableSituacao thead tr th {
+    padding: 0 5px 0 5px;
+}
+
+.tablePecas thead tr th:not(:last-child),
+.tableSituacao thead tr th:not(:last-child) {
+    border-right: 1px solid white;
 }
 
 .thirdRow {
     grid-area: third;
+    position: relative;
+    overflow: hidden;
+    min-height: 150px;
+    border: 1px solid rgb(6, 2, 255);
+    border-radius: 7px;
+
 }
 
+.wrapTableSituacao {
+    border-radius: 7px;
+    position: relative;
+    overflow: auto;
+    width: 100%;
+    height: 100%;
+
+}
 
 
 @media only screen and (max-width:710px) {
@@ -162,7 +339,6 @@
 
     .secondRow {
         grid-area: second;
-        background-color: aqua;
         display: grid;
         grid-template-columns: 1fr;
         grid-template-rows: repeat(5, 1fr);
@@ -177,122 +353,3 @@
     }
 
 }
-
-
-
-
-/* .containerInfo {
-
-    width: 100%;
-    height: 100%;
-    display: grid;
-    grid-template-rows: 50px 1fr;
-    padding: 5px;
-    overflow: hidden;
-}
-
-.container_header {
-    grid-area: 1/1/1/1;
-    display: flex;
-    justify-content: left;
-    align-items: center;
-}
-
-.container_header button {
-    border-radius: 50%;
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 22px;
-    background-color: var(--background-color-blue-700);
-    color: white;
-    border: 0;
-}
-.containerBody{
-    display: grid;
-
-}
-
-@media(min-width:430px) {
-    .containerBody {
-        display: grid;
-        gap: 10px;
-        grid-auto-rows: 50px;
-        grid-template-columns: repeat(5, 1fr);
-    }
-
-    .containerExecucao {
-        grid-area: 1/1/1/3;
-    }
-
-    .containerTipoServico {
-        grid-area: 1/3/1/3;
-    }
-
-    .containerCategoriaServico {
-        grid-area: 1/4/1/6;
-    }
-
-    .containerDataIdeal {
-        grid-area: 2/1/2/3;
-    }
-
-    .containerPrioridade {
-        grid-area: 2/3/2/7;
-
-    }
-
-    .containerTecnico {
-        grid-area: 3/1/3/3;
-        position: relative;
-    }
-
-    .containerTecnico input,
-    .containerPrioridade input {
-        padding: 17px 10px 10px 10px;
-        width: 90%;
-        border: 1px solid rgba(102, 102, 102, 0.555);
-        border-radius: 5px;
-    }
-
-    .containerTecnico label {
-        position: absolute;
-        left: 0;
-        color: rgb(131, 130, 130);
-        transition: .5s;
-        transform: translateY(15px) translateX(10px);
-    }
-
-    .containerTecnico input:valid~label,
-    .containerTecnico input:focus~label {
-        transform: translateX(15px) translateY(-10px);
-        background-color: var(--background-color-blue-700);
-        color: white;
-        font-size: 12px;
-        padding: 3px;
-        border-radius: 5px;
-    }
-
-    .containerListTecnico,
-    .containerListTecnico_close {
-        position: absolute;
-        background-color: var(--background-color-blue-700);
-        border-radius: 3px;
-        color: white;
-        width: 90%;
-        transition: .5s;
-        padding: 5px;
-        height: 100px;
-        overflow: auto;
-        transform-origin: top;
-    }
-
-    .containerListTecnico_close {
-        transform: scaleY(0);
-    }
-
-    .containerListTecnico li,
-    .containerListTecnico_close li {}
-
-} */

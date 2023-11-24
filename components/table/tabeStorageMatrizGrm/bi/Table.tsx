@@ -184,7 +184,7 @@ export default function Table() {
         },
         ADS:{
             background:"YELLOW",
-            color:"",
+            color:"black",
             border:"black"
         }
     }

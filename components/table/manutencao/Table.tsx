@@ -26,6 +26,7 @@ interface dataProps {
 
 export default function Table() {
     const [data, setData] = useState<IOrderService[]>([])
+    const [valueOrderId, setValueOrderId] = useState<number>();
     const PRIORIDADE: StyleKey = {
         "ALTO": {
             background: "#ff0000",
@@ -100,24 +101,6 @@ export default function Table() {
             label: "INFO"
         }
     ]
-    function searchColorPrioridade(text: string) {
-        const colors = PRIORIDADE[text]
-
-        return {
-            background: colors ? colors.background : "",
-            color: colors ? colors.color : ""
-        }
-    }
-    function searchColorStatus(text: string) {
-        const colors = STATUS[text];
-
-
-        return {
-            background: colors ? colors.background : "",
-            color: colors ? colors.color : ""
-        };
-    }
-
     const rowData = data.map((item, index) => ({
         id: index,
         data: {
@@ -153,11 +136,36 @@ export default function Table() {
             "col8": {
                 label: "",
                 icon: Icons.Information,
-                onClick: () => setToogleInfo(true)
+                onClick: () => {
+                    ChangeValueOrderId(item.id)
+                    setToogleInfo((current) => !current)
+                }
             }
         }
     }))
+    function searchColorPrioridade(text: string) {
+        const colors = PRIORIDADE[text]
 
+        return {
+            background: colors ? colors.background : "",
+            color: colors ? colors.color : ""
+        }
+    }
+    function searchColorStatus(text: string) {
+        const colors = STATUS[text];
+
+
+        return {
+            background: colors ? colors.background : "",
+            color: colors ? colors.color : ""
+        };
+    }
+
+
+
+    function ChangeValueOrderId(id: number) {
+        setValueOrderId(id);
+    }
 
     const [toogleAdd, setToogleAdd] = useState<boolean>(false);
     const [toogleInfo, setToogleInfo] = useState<boolean>(false);
@@ -168,7 +176,6 @@ export default function Table() {
         background: string;
         color: string;
     }
-
 
     // Interface para representar o objeto de status
     interface StyleKey {
@@ -193,7 +200,11 @@ export default function Table() {
                 <div className={toogleInfo ?
                     styles.containerInfo :
                     styles.containerInfo_close} >
-                    <Info changeToogle={setToogleInfo} />
+                    {valueOrderId && (
+                        <Info changeToogle={setToogleInfo}
+                            toogle={toogleInfo}
+                            OrderServiceId={valueOrderId} />
+                    )}
                 </div>
                 <div className={!toogleInfo ?
                     styles.containerTable :

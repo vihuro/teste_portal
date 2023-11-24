@@ -1,19 +1,52 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import InputUi from "../../../UI/input/Input";
 import styles from "./style.module.css";
 import { Icons } from "../../../utils/IconDefault";
-import { } from "./Functions";
+import { FetchData } from "./Functions";
+import FormSearParts from "./SearchParts/Card"
+import { IOrderService } from "../IOrderService";
+import { DateAndYearStringFormat } from "../../../utils/DateTimeString";
 
+interface Props {
+    changeToogle: Function,
+    toogle: boolean,
+    OrderServiceId: number
+}
 
-export default function Info({ changeToogle }: { changeToogle: Function }) {
+export default function Info({ changeToogle, OrderServiceId, toogle }: Props) {
 
     const [listTecnico, setListTecnico] = useState<boolean>(false);
+    const [toogleListParts, setToogleListParts] = useState<boolean>(false);
+    const [data, setData] = useState<IOrderService>();
 
 
     const { Input } = InputUi();
 
+    useEffect(() => {
+        const Fetch = async () => {
+            if (toogle) {
+                const result = await FetchData(OrderServiceId).then(res => res.data)
+
+                setData(() => result)
+
+            }
+        }
+        Fetch()
+    }, [toogle])
+
+
     return (
         <main className={styles.containerInfo} >
+            <div className={toogleListParts ?
+                styles.containerSearchParts :
+                styles.containerSearchParts_close} >
+                <div className={styles.form} >
+                    <FormSearParts
+                        changeToogle={setToogleListParts}
+                        toogle={toogleListParts} />
+                </div>
+
+            </div>
             <header className={styles.header} >
                 <div className={styles.containerButtonBack} >
                     <button className={styles.buttonBack} onClick={() => changeToogle(false)} >
@@ -35,37 +68,50 @@ export default function Info({ changeToogle }: { changeToogle: Function }) {
             <main className={styles.body} >
                 <div className={styles.firstRow} >
                     <div className={styles.inputExecucao} >
-                        <Input id="inputLocalExecucao" text="LOCA/EXECUÇÃO" />
+                        <Input id="inputLocalExecucao"
+                            blocked text="LOCA/EXECUÇÃO"
+                            value={data ? data.localeManinteace : ""}
+                            onChange={() => { }} />
                     </div>
                     <div className={styles.inputTipoServico} >
-                        <Input id="inputTipoServico" text="TIPO/SERVIÇO" />
+                        <Input id="inputTipoServico"
+                            blocked text="TIPO/SERVIÇO"
+                            value={data ? data.typeService : ""}
+                            onChange={() => { }} />
                     </div>
                     <div className={styles.inputCategoria} >
-                        <Input id="inputCategoriaServico" text="CATEGORIA/SERVIÇO" />
+                        <Input id="inputCategoriaServico"
+                            blocked text="CATEGORIA/SERVIÇO"
+                            value={data ? data.category : ""}
+                            onChange={() => { }} />
                     </div>
                     <div className={styles.inputDataIdeal} >
-                        <Input id="inputDateIdealServico" text="DATA/IDEAL" />
+                        <Input id="inputDateIdealServico"
+                            blocked text="DATA/IDEAL"
+                            value={data ? DateAndYearStringFormat(data.suggestdMainteneaceDate) : ""}
+                            onChange={() => { }} />
                     </div>
                     <div className={styles.inputTecnicoResponsavel} >
                         <input type="text" />
                         <label htmlFor="">TÉCNICO</label>
                     </div>
                     <div className={styles.descricaoServico} >
-                        <textarea >
-
-                        </textarea>
+                        <textarea value={data ? data.description : ""} readOnly />
                         <label htmlFor="">DESCRIÇÃO</label>
                     </div>
                 </div>
                 <div className={styles.secondRow} >
                     <div className={styles.inputCodigo}>
-                        <Input id="inputCodigo" type="text" text="CÓDIGO" />
+                        <Input id="inputCodigo" type="text" text="CÓDIGO" iconRight={{
+                            icon: Icons.Filter,
+                            action: () => setToogleListParts((current) => !current)
+                        }} />
                     </div>
                     <div className={styles.inputDescricao} >
-                        <Input id="inputDescricao" type="text" text="DESCRIÇÃO" />
+                        <Input id="inputDescricao" blocked type="text" text="DESCRIÇÃO" />
                     </div>
                     <div className={styles.inputUnidade}>
-                        <Input id="inputUniadde" type="text" text="UNIDADE" />
+                        <Input id="inputUniadde" blocked type="text" text="UNIDADE" />
                     </div>
                     <div className={styles.containerTable} >
                         <div className={styles.wrapContainerTable} >

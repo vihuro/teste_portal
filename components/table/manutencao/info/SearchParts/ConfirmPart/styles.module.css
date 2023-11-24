@@ -1,0 +1,91 @@
+.container {
+    height: 200px;
+    width: 250px;
+    background-color: white;
+    box-shadow: 0 0 10px rgb(185, 185, 185);
+    border-radius: 7px;
+    padding: 5px;
+    display: grid;
+    grid-template-rows: 1fr .4fr 1fr;
+    grid-template-areas:
+        "text"
+        "input"
+        "containerButton";
+}
+
+.input {
+    grid-area: input;
+    display: flex;
+}
+
+.wrapInput {
+    display: flex;
+    position: relative;
+    border: 1px solid rgba(102, 102, 102, 0.555);
+    border-radius: 5px;
+}
+
+.input input {
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    padding: 7px;
+}
+
+.input input:valid~label,
+.input input:focus~label {
+    font-size: 12px;
+    padding: 3px;
+    color: white;
+    background-color: var(--background-color-blue-700);
+    transform: translateX(5px) translateY(-15px);
+    border-radius: 5px;
+}
+
+.input label {
+    position: absolute;
+    transition: .5s;
+    font-size: 14px;
+    transform: translateX(20px) translateY(7px);
+    color: rgb(131, 130, 130);
+}
+
+.footer {
+    grid-area: containerButton;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+
+.footer button {
+    width: 100%;
+    padding: 5px;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    transition: .5s;
+}
+
+.footer button:hover {
+    letter-spacing: 2px;
+}
+
+.footer button:nth-child(1) {
+    background-color: rgb(19, 219, 79);
+    color: rgb(3, 80, 26);
+}
+
+.footer button:nth-child(2) {
+    background-color: rgb(250, 142, 0);
+    color: rgb(87, 51, 4);
+}
+
+.footer button:nth-child(1):hover {
+    box-shadow: 0 0 20px 1px rgb(19, 219, 79);
+}
+
+.footer button:nth-child(2):hover {
+    box-shadow: 0 0 20px 1px rgb(250, 142, 0);
+}

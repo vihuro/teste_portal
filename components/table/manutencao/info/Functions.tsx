@@ -7,8 +7,8 @@ function Castrar() {
 async function FetchData(id: number) {
 
     var result = await Api.get(`order-service/${id}`)
-        .then(res => console.log(res.data))
-        .catch(err => console.log(err));
+        .then(res => res)
+        .catch(err => err);
 
     return result;
 }
