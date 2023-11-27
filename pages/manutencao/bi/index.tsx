@@ -1,6 +1,8 @@
 import styles from "./style.module.css";
 import { Manutencao } from "../../../components/table/manutencao/fakeManutencao";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import Api from "../../../service/api/manutencao/Manutencao";
+import Table from "../../../components/table/manutencao/Bi/Bi";
 
 interface StyleData {
     background: string;
@@ -16,6 +18,15 @@ interface StyleKey {
 
 
 export default function Bi() {
+
+    useEffect(() => {
+        FetchData()
+    }, [])
+    async function FetchData() {
+        Api.get("/order-service")
+            .then(res => console.log(res.data))
+            .catch(err => console.log(err))
+    }
 
     const [data, setData] = useState(Manutencao);
 
@@ -92,7 +103,8 @@ export default function Bi() {
 
     return (
         <div>
-            <table className={styles.table} >
+            <Table />
+            {/* <table className={styles.table} >
                 <thead  >
                     <tr>
                         <th >Nº OS</th>
@@ -117,7 +129,7 @@ export default function Bi() {
                         ))
                     )}
                 </tbody>
-            </table>
+            </table> */}
         </div>
     )
 }

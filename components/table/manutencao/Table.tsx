@@ -46,13 +46,25 @@ export default function Table() {
             background: "#feff00",
             color: "#747512"
         },
-        "AGURDANDO MANUTENÇÃO": {
+        "ORDEM INVÁLIDA": {
+            background: "red",
+            color: "white"
+        },
+        "AGUARDANDO MANUTENÇÃO": {
             background: "#ffa200",
             color: "#6b4708"
+        },
+        "EM MANUTENÇÃO": {
+            background: "black",
+            color: "white"
         },
         "AGUARDANDO PEÇAS": {
             background: "#4d00ff",
             color: "#f9f9f9a1"
+        },
+        "PEÇAS AUTORIZADAS": {
+            background: "blue",
+            color: "white"
         },
         "AGUARDANDO COMPRA DE PEÇAS": {
             background: "#4d00ff",
@@ -62,11 +74,11 @@ export default function Table() {
             background: "#ff00c6",
             color: "#811569"
         },
-        "AGUARDANDO VERIFIÇÃO DE PEÇAS": {
+        "MANUTENÇÃO FINALIZADA": {
             background: "#00f1ff",
             color: "#0a7c83"
         },
-        "AGUARDANDO FINALIZAÇÃO DE MANUTENÇÃO": {
+        "ORDEM FINALIZADA": {
             background: "#ff0045",
             color: "#7b0928"
         }

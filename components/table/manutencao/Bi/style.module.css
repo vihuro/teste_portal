@@ -1,0 +1,31 @@
+.table {
+    border: 1px solid black;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+.table thead tr{
+    background-color: var(--background-color-blue-700);
+    color: white;
+    font-size: 22px;
+}
+.table thead tr th{
+    padding: 10px;
+}
+
+.table tbody tr td {
+    padding: 8px;
+}
+.table_body{
+    background-color: rgb(240, 239, 207);
+
+}
+.table_body tr td:not(:last-child){
+    border-right: 1px solid black;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.table_body tr:not(:last-child) {
+    border-bottom: 1px solid var(--background-color-blue-700);
+}

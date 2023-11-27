@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import InputUi from "../../../UI/input/Input";
 import styles from "./style.module.css";
 import { Icons } from "../../../utils/IconDefault";
-import { FetchData } from "./Functions";
-import FormSearParts from "./SearchParts/Card"
-import { IOrderService } from "../IOrderService";
+import { FetchData, ValidateUser, ValidateStatusReturnText } from "./Functions";
+import FormSearParts from "./SearchParts/Card";
+import FormConfirm from "./ConfirmSituacion/Card";
+import { EStatus, IOrderService } from "../IOrderService";
 import { DateAndYearStringFormat } from "../../../utils/DateTimeString";
 
 interface Props {
@@ -17,7 +18,11 @@ export default function Info({ changeToogle, OrderServiceId, toogle }: Props) {
 
     const [listTecnico, setListTecnico] = useState<boolean>(false);
     const [toogleListParts, setToogleListParts] = useState<boolean>(false);
+    const [toogleConfirm, setToogleConfirm] = useState<boolean>(false);
     const [data, setData] = useState<IOrderService>();
+    const [textMessage, setTextMessage] = useState<string>("");
+    const [situation, setSituation] = useState<EStatus>();
+    const [typeFlowId, setTypeFlowId] = useState<number | undefined>(undefined)
 
 
     const { Input } = InputUi();
@@ -28,11 +33,22 @@ export default function Info({ changeToogle, OrderServiceId, toogle }: Props) {
                 const result = await FetchData(OrderServiceId).then(res => res.data)
 
                 setData(() => result)
-
             }
         }
         Fetch()
     }, [toogle])
+
+    function HandleFormConfirmAndSituation({ typeSituation, typeFlowId }: {
+        typeSituation: EStatus,
+        typeFlowId: number
+    }) {
+
+        setTextMessage(() => ValidateStatusReturnText(typeSituation))
+        setSituation(() => typeSituation)
+        setTypeFlowId(() => typeFlowId)
+        setToogleConfirm((current) => !current)
+
+    }
 
 
     return (
@@ -46,6 +62,18 @@ export default function Info({ changeToogle, OrderServiceId, toogle }: Props) {
                         toogle={toogleListParts} />
                 </div>
 
+
+            </div>
+            <div className={
+                `${styles.containerConfirm}
+                    ${!toogleConfirm && styles['--close']}`
+            } >
+                <FormConfirm text={textMessage}
+                    changleToogle={setToogleConfirm}
+                    idOrderService={OrderServiceId}
+                    updateInfo={setData}
+                    typeFlowId={typeFlowId}
+                    situation={situation} />
             </div>
             <header className={styles.header} >
                 <div className={styles.containerButtonBack} >
@@ -59,7 +87,7 @@ export default function Info({ changeToogle, OrderServiceId, toogle }: Props) {
                     </button>
                 </div>
                 <div className={styles.containerStatus} >
-                    <span>AGUARDANDO VALIDAÇÃO</span>
+                    <span>{data?.situation}</span>
                 </div>
                 <div className={styles.containerNumeroOrdemServico} >
                     <span>1</span>
@@ -141,76 +169,95 @@ export default function Info({ changeToogle, OrderServiceId, toogle }: Props) {
                                     <th>USUÁRIO ÍNICIO</th>
                                     <th>DATA/HORA FIM</th>
                                     <th>USUÁRIO FIM</th>
+                                    <th></th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td>aqui</td>
-                                    <td>aqui</td>
-                                    <td>aqui</td>
-                                    <td>aqui</td>
-                                </tr>
-                                <tr>
-                                    <td>aqui</td>
-                                    <td>aqui</td>
-                                    <td>aqui</td>
-                                    <td>aqui</td>
-                                </tr>
-                                <tr>
-                                    <td>aqui</td>
-                                    <td>aqui</td>
-                                    <td>aqui</td>
-                                    <td>aqui</td>
-                                </tr>
-                                <tr>
-                                    <td>aqui</td>
-                                    <td>aqui</td>
-                                    <td>aqui</td>
-                                    <td>aqui</td>
-                                </tr>
-                                <tr>
-                                    <td>aqui</td>
-                                    <td>aqui</td>
-                                    <td>aqui</td>
-                                    <td>aqui</td>
-                                </tr>
-                                <tr>
-                                    <td>aqui</td>
-                                    <td>aqui</td>
-                                    <td>aqui</td>
-                                    <td>aqui</td>
-                                </tr>
+                            <tbody className={styles.tableBodyFlow} >
+                                {data?.flowList && (
+                                    data.flowList.map((item, index) => {
+                                        const userInit = ValidateUser(item.userInit);
+                                        const userEnd = ValidateUser(item.userEnd);
+                                        return (
+                                            <tr key={index} >
+                                                <td>{item.typeFlow}</td>
+                                                <td>{userInit.dateTime}</td>
+                                                <td>{userInit.name}</td>
+                                                <td>{userEnd.dateTime}</td>
+                                                <td>{userEnd.name}</td>
+                                                <td className={styles.actions} >
+                                                    {index === 0 ? (
+                                                        <>
+                                                            <span onClick={() => {
+                                                                HandleFormConfirmAndSituation({
+                                                                    typeFlowId: item.id,
+                                                                    typeSituation: EStatus.ORDEM_INVALIDA
+                                                                })
+                                                                // setTypeFlowId(() => item.id)
+                                                                // setSituation(() => EStatus.ORDEM_IVALIDA)
+                                                                // setToogleConfirm(current => !current)
+                                                                // setTextMessage(() =>
+                                                                //     ValidateStatusReturnText(EStatus.ORDEM_IVALIDA))
+                                                            }} className={styles['--red']} >INVÁLIDA</span>
+                                                            <span onClick={() => {
+                                                                HandleFormConfirmAndSituation({
+                                                                    typeFlowId: item.id,
+                                                                    typeSituation: EStatus.AGUARDANDO_MANUTENCAO
+                                                                })
+                                                                // setTypeFlowId(() => item.id)
+                                                                // setSituation(() => EStatus.AGUARDANDO_MANUTENCAO)
+                                                                // setToogleConfirm(current => !current)
+                                                                // setTextMessage(() =>
+                                                                //     ValidateStatusReturnText(EStatus.AGUARDANDO_MANUTENCAO))
+                                                            }} className={styles['--green']} >ATRIBUIR</span>
+                                                        </>
+                                                    ) : index === 1 ? (
+                                                        <span></span>
+                                                    ) : index === 2 ? (
+                                                        <span onClick={() => {
+                                                            HandleFormConfirmAndSituation({
+                                                                typeFlowId: item.id,
+                                                                typeSituation: EStatus.EM_MANUTENCA
+                                                            })
+                                                            // setTypeFlowId(() => item.id)
+                                                            // setSituation(() => EStatus.EM_MANUTENCA)
+                                                            // setToogleConfirm(current => !current)
+                                                            // setTextMessage(() =>
+                                                            //     ValidateStatusReturnText(EStatus.EM_MANUTENCA))
+                                                        }} className={styles['--orange']} >INICIAR MANUTENÇÃO</span>
+                                                    ) : index === 5 ? (
+                                                        <span onClick={() => {
+                                                            HandleFormConfirmAndSituation({
+                                                                typeFlowId: item.id,
+                                                                typeSituation: EStatus.MANUTENCAO_FINALIZADA
+                                                            })
+                                                            // setTypeFlowId(() => item.id)
+                                                            // setSituation(() => EStatus.MANUTENCAO_FINALIZADA)
+                                                            // setToogleConfirm(current => !current)
+                                                            // setTextMessage(() =>
+                                                            //     ValidateStatusReturnText(EStatus.MANUTENCAO_FINALIZADA))
+                                                        }} className={styles['--orange']} >FINALIZAR MANUTENÇÃO</span>
+                                                    ) : index === 6 ? (
+                                                        <span onClick={() => {
+                                                            HandleFormConfirmAndSituation({
+                                                                typeFlowId: item.id,
+                                                                typeSituation: EStatus.MANUTENCAO_INVALIDA
+                                                            })
 
-                                <tr>
-                                    <td>aqui</td>
-                                    <td>aqui</td>
-                                    <td>aqui</td>
-                                    <td>aqui</td>
-                                </tr>
-                                <tr>
-                                    <td>aqui</td>
-                                    <td>aqui</td>
-                                    <td>aqui</td>
-                                    <td>aqui</td>
-                                </tr>
-                                <tr>
-                                    <td>aqui</td>
-                                    <td>aqui</td>
-                                    <td>aqui</td>
-                                    <td>aqui</td>
-                                </tr>
-                                <tr>
-                                    <td>aqui</td>
-                                    <td>aqui</td>
-                                    <td>aqui</td>
-                                    <td>aqui</td>
-                                </tr>
-                                <tr>
-                                    <td>aqui</td>
-                                    <td>aqui</td>
-                                    <td>aqui</td>
-                                    <td>aqui</td>
-                                </tr>
+                                                        }} className={styles['--red']} >MANUTENÇÃO INVÁLIDA</span>
+                                                    ) : index === 7 ? (
+                                                        <span onClick={() => {
+                                                            HandleFormConfirmAndSituation({
+                                                                typeFlowId: item.id,
+                                                                typeSituation: EStatus.ORDEM_FINALIZADA
+                                                            })
+
+                                                        }} className={styles['--green']} >FINALIZAR</span>
+                                                    ) : ""}
+                                                </td>
+                                            </tr>
+                                        )
+                                    })
+                                )}
                             </tbody>
                         </table>
                     </div>

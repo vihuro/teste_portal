@@ -1,0 +1,43 @@
+.container{
+    width: 250px;
+    height: 200px;
+    background-color: white;
+    box-shadow: 0 0 10px 1px rgba(189, 189, 189, 0.582);
+    display: grid;
+    grid-template-areas: 
+    "text"
+    "footet";
+    padding: 5px;
+    border-radius: 7px;
+}
+.containerFooter{
+    justify-content: center;
+    align-items: flex-end;
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+.containerFooter button{
+    width: 110px;
+    height: 35px;
+    border: none;
+    background-color: transparent;
+    border-radius: 7px;
+    cursor: pointer;
+    transition: .5s;
+}
+.containerFooter button:nth-child(1){
+    border: 1px solid rgb(6, 202, 6);
+    color: rgb(6, 202, 6);
+}
+.containerFooter button:nth-child(1):hover{
+    box-shadow: 0 0 10px 1px rgb(6, 202, 6);
+}
+.containerFooter button:nth-child(2){
+    border: 1px solid rgb(202, 111, 6);
+    color: rgb(202, 111, 6);
+}
+.containerFooter button:nth-child(2):hover{
+    box-shadow: 0 0 10px 1px rgb(202, 111, 6);
+}
+
