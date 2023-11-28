@@ -98,8 +98,8 @@ const List = [
         icon: <BsTools />,
         rotas: [
             {
-                label: "Manutenção Fábrica",
-                text: "Fábrica",
+                text: "Manutenção Fábrica",
+                label: "Fábrica",
                 visible: false,
                 rotas: [
                     {
@@ -122,8 +122,8 @@ const List = [
                 ]
             },
             {
-                label: "Assistencia Matriz",
-                text: "Matriz",
+                text: "Assistência Matriz",
+                label: "Matriz",
                 visible: false,
                 rotas: [
                     {
@@ -189,18 +189,22 @@ const List = [
         icon: <MdOutlineEngineering />,
         rotas: [
             {
+                label: "Usuários",
                 text: "Usuários",
                 link: "/gerencial/login"
             },
             {
+                label: "Regras",
                 text: "Regras",
                 link: "/#"
             },
             {
-                text: "Estoque",
+                label: "Estoque",
+                text: "Estoque Gerencial",
                 visible: false,
                 rotas: [
                     {
+                        label: "Estoque Matriz Gerencial",
                         text: "Estoque Matriz grm",
                         visible: false,
                         rotas: [

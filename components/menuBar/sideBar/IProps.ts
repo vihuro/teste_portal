@@ -15,5 +15,13 @@ interface IListMenusProps {
     link: string;
     rotas: IRotasProps[];
 }
+interface IRole {
+    text: string;
+    role: IRoleSimple[];
+}
+interface IRoleSimple {
+    name: string;
+    value: string;
+}
 
-export type { IListMenusProps, IRotasProps }
+export type { IListMenusProps, IRotasProps, IRole }

@@ -1,32 +1,23 @@
 "use client"
 import SideBar from "./sideBar/SideBar";
-import TopBarSide from "./topBar/TopBar";
-import { useEffect, useState } from "react";
+import { TopBar, Actions } from "./topBar/TopBar";
 
 
 
-export default function Menu() {
+function Menu({ idList }: { idList?: number }) {
 
-
-    const { TopBar, toogleValue, setToogleValue } = TopBarSide();
- 
-
-    const Page = () => {
-
-        return (
-            <>
-                <TopBar />
-                <SideBar />
-            </>
-        )
-    }
-    return {
-        Page,
-
-        toogleValue,
-        setToogleValue
-
-    }
-
+    return (
+        <>
+            <TopBar />
+            <SideBar idList={idList} />
+        </>
+    )
 }
+
+export {
+    Menu,
+    Actions
+}
+
+
 

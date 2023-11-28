@@ -1,10 +1,8 @@
 "use client"
-import { destroyCookie, parseCookies, setCookie } from "nookies";
-import MenuBar from "../components/menuBar/MenuBar";
+import { Actions, Menu } from "../components/menuBar/MenuBar";
 import Body from "../components/table/Body";
 import { GetServerSideProps } from "next";
-import axios from "axios";
-import TokenDrecriptor from "../service/DecriptorToken";
+
 import { validateToken } from "../components/privatePage/PrivatePage";
 
 
@@ -86,15 +84,15 @@ import { validateToken } from "../components/privatePage/PrivatePage";
 
 export default function Home() {
 
-    const { Page,  setToogleValue, toogleValue } = MenuBar();
 
 
     return (
 
         <section >
-            <Page />
-            <Body changeToogleAlterarSenha={setToogleValue}  toogleCardAlterarSenha={toogleValue ?? false}>
-
+            <Menu />
+            <Body changeToogleAlterarSenha={Actions().setToogleValue} toogleCardAlterarSenha={Actions().toogleValue ?? false}>
+                <>
+                </>
             </Body>
         </section>
     )

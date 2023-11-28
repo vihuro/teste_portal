@@ -7,24 +7,36 @@ import { parseCookies } from "nookies";
 import TokenDrecriptor from "../../../service/DecriptorToken";
 import { tokenProps } from "../../utils/infoToken";
 import { IListMenusProps } from "./IProps";
+import { roles } from "./Function";
 
 
-export default function SideBar() {
+export default function SideBar({ idList }: { idList?: number }) {
 
 
     const [valueToken, setValueToken] = useState<tokenProps>();
     const [listMenus, setListMenus] = useState<IListMenusProps[]>([]);
     const [marginTop, setMarginTop] = useState("0px");
     const [toogle, setToogle] = useState<boolean>(false);
+    const [validate, setValidate] = useState<boolean>(false);
 
 
     useEffect(() => {
-        setListMenus(List as IListMenusProps[]);
         const token = parseCookies().ACCESS_TOKEN;
-        setValueToken(TokenDrecriptor(token));
-    }, [])
 
-    function changeList(id: number) {
+        setValueToken(TokenDrecriptor(token));
+        setListMenus(() => List);
+
+    }, [])
+    useEffect(() => {
+        if (listMenus.length > 0 && !validate) {
+            setValidate(true);
+            changeList(idList ?? 0, false)
+        }
+    }, [listMenus])
+
+
+    function changeList(id: number, valueToogle?: boolean) {
+
         const newList = listMenus.map((item, index) => {
             if (index === id) {
                 switch (item.text) {
@@ -55,7 +67,8 @@ export default function SideBar() {
             return {
                 ...item,
                 class: index === id ? "row_active" : "row",
-                visible: index === id ? !item.visible : false
+                visible: valueToogle !== undefined ? valueToogle :
+                    index === id ? !item.visible : false
             };
         });
 
@@ -83,156 +96,12 @@ export default function SideBar() {
         setListMenus(newList)
 
     }
-    interface RoleItem {
-        name: string;
-        value: string;
-    }
 
-    interface Role {
-        text: string;
-        role: RoleItem[];
-    }
-    const roles: Role[] = [
-        {
-            text: "ESTOQUE",
-            role: [
-                {
-                    name: "ESTOQUE - GRM - MATRIZ",
-                    value: "EXPEDIÇÃO - LEITURA"
-                },
-                {
-                    name: "ESTOQUE - GRM - MATRIZ",
-                    value: "EXPEDIÇÃO - GRAVAÇÃO"
-                },
-                {
-                    name: "ESTOQUE - GRM - MATRIZ",
-                    value: "COMUNICADOR - GRAVAÇÃO"
-                },
-                {
-                    name: "ESTOQUE - GRM - MATRIZ",
-                    value: "COMUNICADOR - LEITURA"
-                },
-                {
-                    name: "ESTOQUE - GRM - MATRIZ",
-                    value: "TI"
-                }
-            ]
-        },
-        {
-            text: "ESTOQUE FÁBRICA",
-            role: [
-                {
-                    name: "ESTOQUE - FÁBRICA - TI",
-                    value: "ESTOQUE - FÁBRICA - APONTADOR"
-                },
-                {
-                    name: "ESTOQUE - FÁBRICA",
-                    value: "ESTOQUE - FÁBRICA - ESTOQUISTA"
-                },
-                {
-                    name: "ESTOQUE - FÁBRICA",
-                    value: "ESTOQUE - FÁBRICA - EMPILHADOR"
-                },
-                {
-                    name: "ESTOQUE - FÁBRICA",
-                    value: "ESTOQUE - FÁBRICA - CQ"
-                },
-                {
-                    name: "ESTOQUE - FÁBRICA - TI",
-                    value: "ESTOQUE - FÁBRICA - TI"
-                },
-                {
-                    name: "ESTOQUE - GRM - MATRIZ",
-                    value: "TI"
-                }
-            ]
-        },
-        {
-            text: "ESTOQUE MATRIZ",
-            role: [
-                {
-                    name: "ESTOQUE - GRM - MATRIZ",
-                    value: "EXPEDIÇÃO - LEITURA"
-                },
-                {
-                    name: "ESTOQUE - GRM - MATRIZ",
-                    value: "EXPEDIÇÃO - GRAVAÇÃO"
-                },
-                {
-                    name: "ESTOQUE - GRM - MATRIZ",
-                    value: "COMUNICADOR - GRAVAÇÃO"
-                },
-                {
-                    name: "ESTOQUE - GRM - MATRIZ",
-                    value: "COMUNICADOR - LEITURA"
-                },
-                {
-                    name: "ESTOQUE - GRM - MATRIZ",
-                    value: "TI"
-                }
-            ]
-        },
-        {
-            text: "PRODUÇÃO",
-            role: [
-                {
-                    name: "PRODUCAO - FÁBRICA",
-                    value: "TI"
-                },
-            ]
-        },
-        {
-            text: "EXPEDIÇÃO",
-            role: [
-                {
-                    name: "EXPEDIÇÃO - FÁBRICA",
-                    value: "TI"
-                },
-                {
-                    name: "EXPEDIÇÃO - MATRIZ",
-                    value: "TI"
-                },
-            ]
-        },
-        {
-            text: "COMPRAS",
-            role: [
-                {
-                    name: "GERENCIAL",
-                    value: "TI"
-                },
-                {
-                    name: "COMPRAS - MATRIZ",
-                    value: "TI"
-                },
-            ]
-        },
-        {
-            text: "GERENCIAL",
-            role: [
-                {
-                    name: "GERENCIAL",
-                    value: "TI"
-                },
-            ]
-        },
-        {
-            text: "ASSISTÊNCIA TÉCNICA",
-            role: [
-                {
-                    name: "GERENCIAL",
-                    value: "TI"
-                },
-            ]
-        }
-    ]
     function validateModulo({ text }: { text: string }) {
 
         if (!valueToken) {
             return false; // Não há informações de token, não permitir acesso
         }
-
-
 
         const found = roles.find(item => item.text.toLowerCase() === text.toLowerCase());
 
@@ -246,11 +115,7 @@ export default function SideBar() {
         } else {
             return false;
         }
-
-
     }
-
-
 
     return (
         <section className={
@@ -296,7 +161,7 @@ export default function SideBar() {
                                                             color: visibleSubMenu ? "white" : "gray"
                                                         }} >
                                                             {primeiraRota.link !== "/#" ?
-                                                                <a href={primeiraRota.link}>{primeiraRota.text}</a>
+                                                                <a href={primeiraRota.link}>{primeiraRota.label}</a>
                                                                 : primeiraRota.label}
 
                                                         </li>
