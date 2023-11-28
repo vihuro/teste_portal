@@ -25,7 +25,10 @@ export default function Card({
             flowId: typeFlowId
         }
         await Api.put("order-service", obj)
-            .then(res => updateInfo(() => res.data))
+            .then(res => {
+                updateInfo(() => res.data)
+                changleToogle(false)
+            })
             .catch(err => console.log(err))
     }
     return (
