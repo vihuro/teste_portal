@@ -202,6 +202,30 @@
     font-size: 14px;
     color: rgb(131, 130, 130);
 }
+.listTecnico{
+    width: 250px;
+    height: 100px;
+    overflow: auto;
+    position: absolute;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0 0 10px 1px rgba(212, 212, 212, 0.877);
+    bottom:   -240%;
+    border-radius: 5px;
+    z-index: 1;
+    list-style: none;
+    transition: .5s;
+    transform-origin: top;
+}
+.listTecnico li{
+    padding: 3px;
+    cursor: default;
+}
+.listTecnico li:hover{
+    background-color: rgb(131, 130, 130);
+}
+.listTecnico.--close{
+    transform: scaleY(0);
+}
 
 .descricaoServico {
     grid-area: textAreaDescricaoServico;
@@ -233,6 +257,7 @@
     transform: translateX(17px) translateY(-10px);
 
 }
+
 
 .secondRow {
     grid-area: second;

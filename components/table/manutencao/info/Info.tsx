@@ -16,7 +16,7 @@ interface Props {
 
 export default function Info({ changeToogle, OrderServiceId, toogle }: Props) {
 
-    const [listTecnico, setListTecnico] = useState<boolean>(false);
+    const [tooglelistTecnico, setToogleListTecnico] = useState<boolean>(false);
     const [toogleListParts, setToogleListParts] = useState<boolean>(false);
     const [toogleConfirm, setToogleConfirm] = useState<boolean>(false);
     const [data, setData] = useState<IOrderService>();
@@ -49,6 +49,21 @@ export default function Info({ changeToogle, OrderServiceId, toogle }: Props) {
         setToogleConfirm((current) => !current)
 
     }
+    const listTecnico =
+        [
+            {
+                tecnico: "Geroldi Silva"
+            },
+            {
+                tecnico: "João Plinio"
+            },
+            {
+                tecnico: "Wilden Silva"
+            },
+            {
+                tecnico: "Fernando Silva"
+            }
+        ]
 
 
     return (
@@ -118,8 +133,15 @@ export default function Info({ changeToogle, OrderServiceId, toogle }: Props) {
                             onChange={() => { }} />
                     </div>
                     <div className={styles.inputTecnicoResponsavel} >
-                        <input type="text" />
+                        <input type="text" onChange={() => { }} />
                         <label htmlFor="">TÉCNICO</label>
+                        <ul className={`${styles.listTecnico}
+                                        ${!tooglelistTecnico &&
+                                         styles['--close']}`} >
+                            {listTecnico.map((item, index) => (
+                                <li key={index} >{item.tecnico}</li>
+                            ))}
+                        </ul>
                     </div>
                     <div className={styles.descricaoServico} >
                         <textarea value={data ? data.description : ""} readOnly />
@@ -131,13 +153,13 @@ export default function Info({ changeToogle, OrderServiceId, toogle }: Props) {
                         <Input id="inputCodigo" type="text" text="CÓDIGO" iconRight={{
                             icon: Icons.Filter,
                             action: () => setToogleListParts((current) => !current)
-                        }} />
+                        }} onChange={() => { }} />
                     </div>
                     <div className={styles.inputDescricao} >
-                        <Input id="inputDescricao" blocked type="text" text="DESCRIÇÃO" />
+                        <Input id="inputDescricao" blocked type="text" text="DESCRIÇÃO" onChange={() => { }} />
                     </div>
                     <div className={styles.inputUnidade}>
-                        <Input id="inputUniadde" blocked type="text" text="UNIDADE" />
+                        <Input id="inputUniadde" blocked type="text" text="UNIDADE" onChange={() => { }} />
                     </div>
                     <div className={styles.containerTable} >
                         <div className={styles.wrapContainerTable} >
@@ -227,8 +249,8 @@ export default function Info({ changeToogle, OrderServiceId, toogle }: Props) {
                                                             }} className={styles['--orange']} >INICIAR MANUTENÇÃO</span>
                                                         )
                                                     ) : index === 5 ? (
-                                                        data.situation === "EM MANUTENÇÃO" ||
-                                                        data.situation === "MANUTENÇÃO INVÁLIDA" && (
+                                                        (data.situation === "EM MANUTENÇÃO" ||
+                                                            data.situation === "MANUTENÇÃO INVÁLIDA") && (
                                                             <span onClick={() => {
                                                                 HandleFormConfirmAndSituation({
                                                                     typeFlowId: item.id,

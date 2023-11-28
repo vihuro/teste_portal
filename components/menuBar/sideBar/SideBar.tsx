@@ -1,39 +1,25 @@
 "use client"
 import { useEffect, useState, memo } from "react";
-import { ListMenus } from "../ListMenus";
+import { List } from "../ListMenus";
 import style from "./style.module.css";
 import { FiSettings } from "react-icons/fi";
 import { parseCookies } from "nookies";
 import TokenDrecriptor from "../../../service/DecriptorToken";
 import { tokenProps } from "../../utils/infoToken";
+import { IListMenusProps } from "./IProps";
 
-interface RotasProps {
-    text: string;
-    link?: string;
-    visible: boolean;
-    rotas?: RotasProps[];
-}
-
-interface listMenusProps {
-    class: string;
-    icon: JSX.Element;
-    text: string;
-    visible: boolean;
-    link: string;
-    rotas: RotasProps[];
-}
 
 export default function SideBar() {
-    const { List } = ListMenus();
+
 
     const [valueToken, setValueToken] = useState<tokenProps>();
-    const [listMenus, setListMenus] = useState<listMenusProps[]>([]);
+    const [listMenus, setListMenus] = useState<IListMenusProps[]>([]);
     const [marginTop, setMarginTop] = useState("0px");
     const [toogle, setToogle] = useState<boolean>(false);
 
 
     useEffect(() => {
-        setListMenus(List as listMenusProps[]);
+        setListMenus(List as IListMenusProps[]);
         const token = parseCookies().ACCESS_TOKEN;
         setValueToken(TokenDrecriptor(token));
     }, [])
@@ -133,7 +119,7 @@ export default function SideBar() {
             ]
         },
         {
-            text: "FÁBRICA",
+            text: "ESTOQUE FÁBRICA",
             role: [
                 {
                     name: "ESTOQUE - FÁBRICA - TI",
@@ -155,10 +141,14 @@ export default function SideBar() {
                     name: "ESTOQUE - FÁBRICA - TI",
                     value: "ESTOQUE - FÁBRICA - TI"
                 },
+                {
+                    name: "ESTOQUE - GRM - MATRIZ",
+                    value: "TI"
+                }
             ]
         },
         {
-            text: "MATRIZ",
+            text: "ESTOQUE MATRIZ",
             role: [
                 {
                     name: "ESTOQUE - GRM - MATRIZ",
@@ -307,11 +297,11 @@ export default function SideBar() {
                                                         }} >
                                                             {primeiraRota.link !== "/#" ?
                                                                 <a href={primeiraRota.link}>{primeiraRota.text}</a>
-                                                                : primeiraRota.text}
+                                                                : primeiraRota.label}
 
                                                         </li>
 
-                                                        {primeiraRota.visible && primeiraRota.rotas && primeiraRota.rotas.length > 0 && (
+                                                        {(primeiraRota.visible && primeiraRota.rotas && primeiraRota.rotas.length > 0) && (
                                                             <>
                                                                 <ul className={style.segundoSubMenu} >
                                                                     {primeiraRota.rotas.map((segundaRota, index) => (

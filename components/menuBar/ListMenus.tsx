@@ -3,22 +3,8 @@ import { FaServer, FaTruck } from "react-icons/fa";
 import { MdOutlineEngineering } from "react-icons/md";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { BsTools } from "react-icons/bs";
+import { IListMenusProps } from "./sideBar/IProps";
 
-interface RotasProps {
-    text: string;
-    link?: string;
-    visible: boolean;
-    rotas?: RotasProps[];
-}
-
-interface listMenusProps {
-    class: string;
-    icon: JSX.Element;
-    text: string;
-    visible: boolean;
-    link: string;
-    rotas: RotasProps[];
-}
 
 
 
@@ -31,7 +17,8 @@ const List = [
         icon: <BsBoxes />,
         rotas: [
             {
-                text: "Fábrica",
+                text: "Estoque Fábrica",
+                label: "Fábrica",
                 visible: false,
                 rotas: [
                     {
@@ -48,7 +35,8 @@ const List = [
                 link: "/#"
             },
             {
-                text: "Matriz",
+                text: "Estoque Matriz",
+                label: "Matriz",
                 visible: false,
                 rotas: [
                     {
@@ -110,10 +98,31 @@ const List = [
         icon: <BsTools />,
         rotas: [
             {
+                label: "Manutenção Fábrica",
                 text: "Fábrica",
-                link: "/#"
+                visible: false,
+                rotas: [
+                    {
+                        text: "BI",
+                        rotas: [{
+                            text: "",
+                            visible: false,
+                            link: "/manutencao/bi"
+                        }]
+                    },
+                    {
+                        text: "OS",
+                        rotas: [{
+                            text: "",
+                            visible: false,
+                            link: "/manutencao"
+
+                        }]
+                    }
+                ]
             },
             {
+                label: "Assistencia Matriz",
                 text: "Matriz",
                 visible: false,
                 rotas: [
@@ -207,12 +216,8 @@ const List = [
             },
         ]
     }
-] as listMenusProps[]
+] as IListMenusProps[]
 
 
 
-export function ListMenus() {
-    return {
-        List
-    }
-}
+export { List }
