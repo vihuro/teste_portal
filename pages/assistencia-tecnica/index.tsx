@@ -1,15 +1,14 @@
 import { GetServerSideProps } from "next";
-import Menu from "../../components/menuBar/MenuBar";
+import { Menu, Actions } from "../../components/menuBar/MenuBar";
 import Body from "../../components/table/Body";
 import Table from "../../components/table/assistenciaTecnica/Table";
 import { validateToken } from "../../components/privatePage/PrivatePage";
 
 export default function AssistenciaTecnica() {
-    const { Page, setToogleValue, toogleValue } = Menu();
     return (
         <main>
-            <Page />
-            <Body changeToogleAlterarSenha={setToogleValue} toogleCardAlterarSenha={toogleValue} >
+            <Menu />
+            <Body changeToogleAlterarSenha={Actions().setToogleValue} toogleCardAlterarSenha={Actions().toogleValue} >
                 <Table />
             </Body>
         </main>

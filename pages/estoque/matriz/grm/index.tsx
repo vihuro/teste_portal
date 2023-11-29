@@ -1,5 +1,5 @@
 import { GetServerSideProps } from "next";
-import MenuBar from "../../../../components/menuBar/MenuBar";
+import { Menu, Actions } from "../../../../components/menuBar/MenuBar";
 import Body from "../../../../components/table/Body";
 import Table from "../../../../components/table/tabeStorageMatrizGrm/Table";
 import SecondTable from "../../../../components/table/tabeStorageMatrizGrm/Table";
@@ -7,7 +7,6 @@ import { validateToken } from "../../../../components/privatePage/PrivatePage";
 import Head from "next/head";
 
 export default function Estoque() {
-    const { Page, setToogleValue, toogleValue } = MenuBar();
     return (
         <section >
             <Head>
@@ -15,8 +14,8 @@ export default function Estoque() {
                     THR | MATRIZ | GRM
                 </title>
             </Head>
-            <Page />
-            <Body changeToogleAlterarSenha={setToogleValue} toogleCardAlterarSenha={toogleValue ?? false}>
+            <Menu />
+            <Body changeToogleAlterarSenha={Actions().setToogleValue} toogleCardAlterarSenha={Actions().toogleValue ?? false}>
                 <SecondTable />
             </Body>
         </section>

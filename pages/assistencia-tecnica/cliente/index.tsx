@@ -1,16 +1,15 @@
 import { GetServerSideProps } from "next";
-import Menu from "../../../components/menuBar/MenuBar";
+import { Menu, Actions } from "../../../components/menuBar/MenuBar";
 import { validateToken } from "../../../components/privatePage/PrivatePage";
 import Body from "../../../components/table/Body";
 import Table from "../../../components/table/assistenciaTecnica/clientAssistencia/Table";
 
-export default function Cliente(){
-    const { Page, setToogleValue, toogleValue } = Menu();
+export default function Cliente() {
 
-    return(
+    return (
         <main>
-            <Page />
-            <Body changeToogleAlterarSenha={setToogleValue} toogleCardAlterarSenha={toogleValue}>
+            <Menu idList={4} />
+            <Body changeToogleAlterarSenha={Actions().setToogleValue} toogleCardAlterarSenha={Actions().toogleValue} >
                 <Table />
             </Body>
         </main>

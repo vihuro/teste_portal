@@ -2,13 +2,12 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import Api from "../../../../service/api/assistenciaTecnica/Assistencia";
 import InfoPage from "../../../../components/OrcamentoById/InfoForPageById";
-import Menu from "../../../../components/menuBar/MenuBar";
+import { Menu, Actions } from "../../../../components/menuBar/MenuBar";
 import Body from "../../../../components/table/Body";
 
 
 export default function OrcamentoById() {
 
-    const { Page, setToogleValue, toogleValue } = Menu();
 
     const router = useRouter();
     const byId: string | undefined = router.query.id?.toString();
@@ -23,8 +22,8 @@ export default function OrcamentoById() {
 
     return (
         <div>
-            <Page />
-            <Body changeToogleAlterarSenha={setToogleValue} toogleCardAlterarSenha={toogleValue} >
+            <Menu />
+            <Body changeToogleAlterarSenha={Actions().setToogleValue} toogleCardAlterarSenha={Actions().toogleValue} >
                 {byId && (
                     <InfoPage numeroOrcamento={parseInt(byId)} />
                 )}

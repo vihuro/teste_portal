@@ -1,16 +1,16 @@
 import { GetServerSideProps } from "next";
-import Menu from "../../../components/menuBar/MenuBar";
+import { Actions, Menu } from "../../../components/menuBar/MenuBar";
 import Body from "../../../components/table/Body";
 import Table from "../../../components/table/assistenciaTecnica/maquina/Table";
 import { validateToken } from "../../../components/privatePage/PrivatePage";
 
-export default function Maquina(){
-    const { Page, setToogleValue, toogleValue } = Menu();
-    
+export default function Maquina() {
+
+
     return (
         <main>
-            <Page />
-            <Body changeToogleAlterarSenha={setToogleValue} toogleCardAlterarSenha={toogleValue} >
+            <Menu idList={4} />
+            <Body changeToogleAlterarSenha={Actions().setToogleValue} toogleCardAlterarSenha={Actions().toogleValue} >
                 <Table />
             </Body>
         </main>
