@@ -46,8 +46,29 @@ const roles: IRole[] = [
                 value: "ESTOQUE - FÁBRICA - CQ"
             },
             {
-                name: "ESTOQUE - FÁBRICA - TI",
-                value: "ESTOQUE - FÁBRICA - TI"
+                name: "GERENCIAL",
+                value: "TI"
+            }
+        ]
+    },
+    {
+        text: "Estoque Matriz",
+        role: [
+            {
+                name: "ESTOQUE - GRM - MATRIZ",
+                value: "EXPEDIÇÃO - LEITURA"
+            },
+            {
+                name: "ESTOQUE - GRM - MATRIZ",
+                value: "EXPEDIÇÃO - GRAVAÇÃO"
+            },
+            {
+                name: "ESTOQUE - GRM - MATRIZ",
+                value: "COMUNICADOR - GRAVAÇÃO"
+            },
+            {
+                name: "ESTOQUE - GRM - MATRIZ",
+                value: "COMUNICADOR - LEITURA"
             },
             {
                 name: "ESTOQUE - GRM - MATRIZ",
