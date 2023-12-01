@@ -7,8 +7,9 @@ import { validateToken } from "../../../components/privatePage/PrivatePage";
 export default function Pecas() {
     return (
         <main>
-            <Menu />
-            <Body changeToogleAlterarSenha={Actions().setToogleValue} toogleCardAlterarSenha={Actions().toogleValue} >
+            <Menu idList={4} />
+            <Body changeToogleAlterarSenha={Actions().setToogleValue}
+                toogleCardAlterarSenha={Actions().toogleValue} >
                 <Table />
             </Body>
         </main>

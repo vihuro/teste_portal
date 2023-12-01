@@ -74,6 +74,9 @@
     background-color: rgb(230, 5, 24);
     color: rgb(63, 6, 10);
 }
+.radio{
+    width: 25px;
+}
 
 .checked {
     appearance: none;
@@ -276,6 +279,28 @@
     border-radius: 5px;
 }
 
+.--block *::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-image:
+        linear-gradient(to left, #dbdbdb, #ececec, #dbdbdb, #f3f3f3);
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    background-size: 400%;
+    animation: loading 3s linear infinite;
+    border-radius: 5px;
+}
+.--block {
+    position: relative; 
+}
+.--block label{
+    transform: translateY(0) !important;
+}
+
+
 @keyframes loading {
     0% {
         background-position: 100%;
@@ -427,14 +452,17 @@
     text-decoration: none;
     color: inherit;
 }
-.wrapContainer_body input{
+
+.wrapContainer_body input {
     width: 100% !important;
 }
+
 @media(max-width:1200px) {
     .container {
         grid-template-rows: 110px 1fr;
     }
-    .wrapContainer_body input{
+
+    .wrapContainer_body input {
         width: 100% !important;
     }
 
@@ -504,11 +532,13 @@
         grid-template-columns: 1fr;
         grid-auto-rows: 40px;
     }
+
     .containerTempoEstimadoOrcamento {
         grid-area: 14/1/14/1;
         position: relative;
     }
-    .containerTempoEstimadoManutencao{
+
+    .containerTempoEstimadoManutencao {
         grid-area: 16/1/16/1;
         position: relative;
     }
@@ -549,6 +579,7 @@
         position: absolute;
     }
 }
+
 @media(min-width:1200px) {
     .container {
         grid-template-rows: 60px 1fr;
@@ -617,7 +648,7 @@
         width: calc(100% - 350px);
         display: flex;
     }
-    
+
 
     .containerStatusOrcamento button {
         margin-left: 0;
@@ -647,7 +678,7 @@
 
     .containerRuaCliente {
         grid-area: 2/1/2/5;
-        
+
     }
 
     .containerNumeroEstabelecimento {
@@ -688,10 +719,11 @@
         position: relative;
     }
 
-    .containerTempoEstimadoManutencao{
+    .containerTempoEstimadoManutencao {
         grid-area: 4/6/4/6;
         position: relative;
     }
+
     .containerTecnicoOrcamento {
         grid-area: 4/7/4/8;
         position: relative;

@@ -2,6 +2,7 @@ export interface IOrcamentoProps {
     numeroOrcamento: number,
     descricaoServico: string,
     status: string,
+    externo: boolean,
     tempoEstimadoOrcamento: number,
     tempoEstimadoManutencao: number,
     statusSituacao: IStatusSitucaoProps[],

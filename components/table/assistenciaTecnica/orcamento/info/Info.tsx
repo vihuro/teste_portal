@@ -27,56 +27,7 @@ interface props {
     numeroOrcamento: number,
     valueToogle: boolean
 }
-// interface dataProps {
-//     numeroOrcamento: number,
-//     descricaoServico: string,
-//     status: string,
-//     statusSituacao: statusSitucaoProps[],
-//     cliente: clienteProps,
-//     maquina: maquinaProps,
-// }
-// interface clienteProps {
-//     cep: string,
-//     cidade: string,
-//     cnpj: string,
-//     contatoNomeCliente: string,
-//     contatoTelefoneCliente: string,
-//     codigoRadar: string,
-//     estado: string,
-//     nomeCliente: string,
-//     numeroEstabelecimento: string,
-//     regiao: string,
-//     rua: string,
-// }
-// interface statusSitucaoProps {
-//     dataHoraFim: Date,
-//     dataHoraInicio: Date,
-//     status: string,
-//     statusId: string,
-//     usuarioApontamento: string,
-//     usuarioApontamentoFim: usuarioApontamentoSituacaoProps,
-//     usuarioApontamentoInicio: usuarioApontamentoSituacaoProps
-// }
-// interface usuarioApontamentoSituacaoProps {
-//     usuarioApontamentoApelido: string,
-//     usuarioApotamentoNome: string
-// }
-// interface maquinaProps {
-//     maquinaId: string,
-//     codigoMaquina: string,
-//     descricaoMaquina: string,
-//     numeroSerie: string,
-//     pecas: pecasProps[]
-// }
-// interface pecasProps {
-//     pecaId: string,
-//     conserto: boolean,
-//     codigoPeca: string,
-//     descricaoPeca: string,
-//     enderecoImagem: string,
-//     preco: number,
-//     troca: boolean
-// }
+
 
 interface tecnicoProps {
     apelido: string,
@@ -208,6 +159,8 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
     const [status, setStatus] = useState(EStatus.STATUS_AGUARDANDO_LIBERACAO_ORCAMENTO);
     const [numeroStatus, setNumeroStatus] = useState<number>(0);
 
+    const [toogleValidateServiceExternal, setToogleValidateServiceExternal] = useState<boolean>(false);
+
     // const { Card } = FilterPecas()
     // useEffect(() => {
     //     getByNumeroOrcamento()
@@ -251,6 +204,13 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                 return "FINALIZAR";
             default: return ""
         }
+    }
+
+    function ValidateServiceExternal() {
+        if (dataBudget &&
+            (dataBudget.externo)) return true;
+
+        return false;
     }
 
 
@@ -304,10 +264,9 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                         </button>
                     </div>
                     <div className={style.containerMap} >
-                        {dataBudget && (
-
+                        {dataBudget && ValidateServiceExternal() && (
                             <a target="_blank"
-                                href={`https://www.google.com/maps/search/?api=1&query=
+                                href={` https://www.google.com/maps/search/?api=1&query=
                                     ${dataBudget?.cliente.rua + dataBudget?.cliente.numeroEstabelecimento}`}>
                                 <Icons.Map />
                             </a>
@@ -336,7 +295,8 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                 style.container_body_loading :
                 style.container_body} >
                 <div className={style.wrapContainer_body} >
-                    <div className={style.containerCodigoCliente} >
+                    <div className={`${style.containerCodigoCliente} 
+                    ${!ValidateServiceExternal() && style['--block']}`} >
                         <Input
                             id="txtCodigoClienteInfo"
                             text="CÓDIGO CLIENTE"
@@ -345,7 +305,8 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                             blocked
                         />
                     </div>
-                    <div className={style.containerNomeCliente} >
+                    <div className={`${style.containerNomeCliente}
+                    ${!ValidateServiceExternal() && style['--block']}`} >
                         <Input
                             id="txtNomeClienteInfo"
                             text="NOME CLIENTE"
@@ -354,7 +315,8 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                             blocked
                         />
                     </div>
-                    <div className={style.containerCNPJCliente} >
+                    <div className={`${style.containerCNPJCliente}
+                    ${!ValidateServiceExternal() && style['--block']}`} >
                         <Input
                             id="txtCnpjClienteInfo"
                             text="CNPJ"
@@ -363,7 +325,8 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                             blocked
                         />
                     </div>
-                    <div className={style.containerCEPCliente} >
+                    <div className={`${style.containerCEPCliente}
+                    ${!ValidateServiceExternal() && style['--block']}`} >
                         <Input
                             id="txtCEPClienteInfo"
                             text="CEP"
@@ -372,7 +335,8 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                             blocked
                         />
                     </div>
-                    <div className={style.containerRuaCliente} >
+                    <div className={`${style.containerRuaCliente}
+                    ${!ValidateServiceExternal() && style['--block']}`} >
                         <Input
                             id="txtRuaEnderecoInfo"
                             text="RUA"
@@ -381,7 +345,8 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                             blocked
                         />
                     </div>
-                    <div className={style.containerNumeroEstabelecimento}>
+                    <div className={`${style.containerNumeroEstabelecimento}
+                    ${!ValidateServiceExternal() && style['--block']}`}>
                         <Input
                             id="txtNumeroEstabelecimentoInfo"
                             text="Nº ESTELECIMENTO"
@@ -390,7 +355,8 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                             blocked
                         />
                     </div>
-                    <div className={style.containerCidadeCliente} >
+                    <div className={`${style.containerCidadeCliente}
+                    ${!ValidateServiceExternal() && style['--block']}`} >
                         <Input
                             id="txtCidadeClienteInfo"
                             text="CIDADE"
@@ -399,7 +365,8 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                             blocked
                         />
                     </div>
-                    <div className={style.containerRegiaoCliente} >
+                    <div className={`${style.containerRegiaoCliente}
+                    ${!ValidateServiceExternal() && style['--block']}`} >
                         <Input
                             id="txtRegiaoClienteInfo"
                             text="REGIÃO"
@@ -408,7 +375,8 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                             blocked
                         />
                     </div>
-                    <div className={style.containerComplementoCliente} >
+                    <div className={`${style.containerComplementoCliente}
+                    ${!ValidateServiceExternal() && style['--block']}`} >
                         <Input
                             id="txtComplementoClienteInfo"
                             text="COMPLEMENTO"
@@ -417,7 +385,8 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                             blocked
                         />
                     </div>
-                    <div className={style.containerNomeContatoCliente} >
+                    <div className={`${style.containerNomeContatoCliente}
+                    ${!ValidateServiceExternal() && style['--block']}`} >
                         <Input
                             id="txtNomeContatoCliente"
                             text="CONT. CLIENTE"
@@ -426,7 +395,8 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                             blocked
                         />
                     </div>
-                    <div className={style.containerTelefoneContatoCliente} >
+                    <div className={`${style.containerTelefoneContatoCliente}
+                    ${!ValidateServiceExternal() && style['--block']}`} >
                         <Input
                             id="txtTelefoneContatoCliente"
                             text="TEL/ CLIENTE"
@@ -435,7 +405,8 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                             blocked
                         />
                     </div>
-                    <div className={style.containerDescricaoServico} >
+                    <div className={`${style.containerDescricaoServico}
+                    ${!ValidateServiceExternal() && style['--block']}`} >
                         <Input
                             id="txtDescricaoServico"
                             text="DESCRIÇÃO SERVIÇO"
@@ -560,7 +531,7 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                                                     <td>{item.descricaoPeca}</td>
                                                     <td>{item.quantidade}</td>
                                                     <td>VISUALIZAR</td>
-                                                    <td>
+                                                    <td className={style.radio}>
                                                         <input className={style.checked}
                                                             type="radio"
                                                             name={`rdb${item.codigoPeca}`}
@@ -568,7 +539,7 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                                                             readOnly
                                                         />
                                                     </td>
-                                                    <td>
+                                                    <td className={style.radio}>
                                                         <input className={style.checked}
                                                             type="radio"
                                                             name={`rdb${item.codigoPeca}`}

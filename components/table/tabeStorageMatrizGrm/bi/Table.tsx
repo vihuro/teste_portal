@@ -112,6 +112,11 @@ export default function Table() {
             color: "white",
             border: "black"
         },
+        "WIND": {
+            background: "orange",
+            border: "black",
+            color: "black"
+        },
         "FABRICA - GRM": {
             background: "#5D60E9",
             color: "white",
@@ -162,7 +167,7 @@ export default function Table() {
             color: "white",
             border: "black"
         },
-        "APR":{
+        "APR": {
             background: "RED",
             color: "white",
             border: "BLACK"
@@ -182,10 +187,10 @@ export default function Table() {
             color: "red",
             border: "black"
         },
-        ADS:{
-            background:"YELLOW",
-            color:"black",
-            border:"black"
+        ADS: {
+            background: "YELLOW",
+            color: "black",
+            border: "black"
         }
     }
 
