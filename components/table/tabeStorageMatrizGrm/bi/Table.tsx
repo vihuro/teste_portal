@@ -231,7 +231,7 @@ export default function Table() {
     })
 
     return (
-        <section className={style.container} >
+        <section  className={style.container} >
             <section className={style.container_table}>
                 <table className={style.table} >
                     <thead>
