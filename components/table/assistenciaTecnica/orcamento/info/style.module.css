@@ -77,6 +77,10 @@
 .radio{
     width: 25px;
 }
+.button-delete{
+    color: red;
+    font-size: 22px;
+}
 
 .checked {
     appearance: none;

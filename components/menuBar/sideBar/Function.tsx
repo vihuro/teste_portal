@@ -9,6 +9,10 @@ const roles: IRole[] = [
                 value: "EXPEDIÇÃO - LEITURA"
             },
             {
+                name: "GERENCIAL",
+                value: "TI"
+            },
+            {
                 name: "ESTOQUE - GRM - MATRIZ",
                 value: "EXPEDIÇÃO - GRAVAÇÃO"
             },
@@ -73,7 +77,11 @@ const roles: IRole[] = [
             {
                 name: "ESTOQUE - GRM - MATRIZ",
                 value: "TI"
-            }
+            },
+            {
+                name: "GERENCIAL",
+                value: "TI"
+            },
         ]
     },
     {
@@ -97,6 +105,10 @@ const roles: IRole[] = [
             },
             {
                 name: "ESTOQUE - GRM - MATRIZ",
+                value: "TI"
+            },
+            {
+                name: "GERENCIAL",
                 value: "TI"
             }
         ]
@@ -147,17 +159,27 @@ const roles: IRole[] = [
     },
     {
         text: "ASSISTÊNCIA TÉCNICA",
-        role: [{
-            name: "GERENCIAL",
-            value: "TI"
-        }]
+        role: [
+            {
+                name: "GERENCIAL",
+                value: "TI"
+            },
+            {
+                name: "ASSISTÊNCIA TÉCNICA",
+                value: "TÉCNICO"
+            },
+        ]
     },
     {
         text: "Assistência Matriz",
         role: [
             {
-                name: "GERENCIAL",
-                value: "TI"
+                name: "ASSISTÊNCIA TÉCNICA",
+                value: "TÉCNICO"
+            },
+            {
+                name: "ASSISTÊNCIA TÉCNICA",
+                value: "ADM"
             },
         ]
     },
@@ -168,6 +190,24 @@ const roles: IRole[] = [
                 name: "GERENCIAL",
                 value: "TI"
             },
+        ]
+    },
+    {
+        text: "Usuários Gerencial",
+        role: [
+            {
+                name: "GERENCIAL",
+                value: "TI"
+            }
+        ]
+    },
+    {
+        text: "Estoque Matriz Gerencial",
+        role: [
+            {
+                name: "GERENCIAL",
+                value: "TI"
+            }
         ]
     }
 ]

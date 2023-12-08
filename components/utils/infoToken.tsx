@@ -7,6 +7,7 @@ export interface tokenProps {
     "ESTOQUE - GRM - MATRIZ": string,
     "EXPEDICAO": string,
     "PRODUÇÃO": string,
-    "ASSISTÊNCIA TÉCNICA": string
+    "ASSISTÊNCIA TÉCNICA": string,
+    "GERENCIAL": string
 }
 

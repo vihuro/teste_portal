@@ -161,7 +161,9 @@ export default function SideBar({ idList }: { idList?: number }) {
                                                             color: visibleSubMenu ? "white" : "gray"
                                                         }} >
                                                             {primeiraRota.link !== "/#" ?
-                                                                <a href={primeiraRota.link}>{primeiraRota.label}</a>
+                                                                <a style={{
+                                                                    color: visibleSubMenu ? "white" : "gray"
+                                                                }} href={primeiraRota.link}>{primeiraRota.label}</a>
                                                                 : primeiraRota.label}
 
                                                         </li>

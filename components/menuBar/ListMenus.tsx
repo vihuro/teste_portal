@@ -190,7 +190,7 @@ const List = [
         rotas: [
             {
                 label: "Usuários",
-                text: "Usuários",
+                text: "Usuários Gerencial",
                 link: "/gerencial/login"
             },
             {

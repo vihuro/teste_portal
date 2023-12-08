@@ -55,8 +55,12 @@ function Form({ peca, changeToogle, numeroOrcamento, refreshBudget }: Props) {
         await Api.post("/orcamento/pecas", obj)
             .then(res => {
                 refreshBudget(numeroOrcamento)
+                clear();
             })
             .catch(err => console.log(err));
+    }
+    function clear() {
+        setTextQuantity("");
     }
 
     return (
@@ -77,7 +81,7 @@ function Form({ peca, changeToogle, numeroOrcamento, refreshBudget }: Props) {
                     <span >
                         Deseja adicionar o código
                         <strong>
-                            { ` ${peca?.codigoRadar}`}
+                            {` ${peca?.codigoRadar}`}
                         </strong> a este orçamento?
                     </span>
                 </div>

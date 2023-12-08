@@ -81,6 +81,7 @@ export default function Card({ changeToogleCard, refreshTable }: props) {
         setTextCep(cep);
     }
     async function Cadastrar() {
+        setToogleLoading((current) => !current);
         const { cnpj,
             codigoRadar,
             contatoTelefone,
@@ -104,6 +105,7 @@ export default function Card({ changeToogleCard, refreshTable }: props) {
                 type: "WARNING"
             })
             setToogleMessage(true);
+            setToogleLoading((current) => !current);
 
             return;
         }
@@ -157,7 +159,8 @@ export default function Card({ changeToogleCard, refreshTable }: props) {
                 }
             })
             .finally(() => {
-                setToogleMessage(true)
+                setToogleMessage((current) => !current);
+                setToogleLoading((current) => !current);
             })
     }
     function ClearAll() {
@@ -186,8 +189,8 @@ export default function Card({ changeToogleCard, refreshTable }: props) {
                 message: "Digite um cep!",
                 type: "WARNING"
             })
-            setToogleMessage(true);
-            setToogleLoading(false)
+            setToogleMessage((cuurent) => !cuurent);
+            setToogleLoading((current) => !current);
             return;
         }
         const cep = parseInt(textCep)

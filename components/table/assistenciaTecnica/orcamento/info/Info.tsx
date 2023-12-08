@@ -9,10 +9,6 @@ import { Form as FormDiario } from "./Diario/CardDiario";
 import Obser from "./obs/Card";
 import {
     IOrcamentoProps,
-    IClienteProps,
-    IMaquinaProps,
-    IPecasProps,
-    IStatusSitucaoProps,
     IUsuarioApontamentoSituacaoProps,
     ITechnicianProps,
     EStatus
@@ -20,6 +16,7 @@ import {
 } from "../IOrcamento";
 import { handleTouchEnd, handleTouchStart } from "../../../../utils/HandleTouch";
 import ConfirmStatus from "./ConfirmChangeStatus/Confirm";
+import SearchInfoOfUserOnToken from "../../../../utils/SearchInfoOfUserOnToken";
 
 
 interface props {
@@ -119,8 +116,8 @@ function validateDataHoraApontamento(dateApontamento: Date) {
 function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
 
     const { Input } = InputUi();
-    const [dataTecnico, setDataTecnico] = useState<tecnicoProps[]>([]);
     const touchTimeout = useRef(null);
+    const { tokenInfo } = SearchInfoOfUserOnToken
 
     const [tecnicoOrcamento, setTecnicoOrcamento] = useState<tecnicoProps>({
         apelido: "",
@@ -159,12 +156,7 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
     const [status, setStatus] = useState(EStatus.STATUS_AGUARDANDO_LIBERACAO_ORCAMENTO);
     const [numeroStatus, setNumeroStatus] = useState<number>(0);
 
-    const [toogleValidateServiceExternal, setToogleValidateServiceExternal] = useState<boolean>(false);
 
-    // const { Card } = FilterPecas()
-    // useEffect(() => {
-    //     getByNumeroOrcamento()
-    // }, [numeroOrcamento])
     function changeToogleFilterParts() {
         setToogleFilterPecas((current) => !current)
     }
@@ -207,8 +199,27 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
     }
 
     function ValidateServiceExternal() {
-        if (dataBudget &&
-            (dataBudget.externo)) return true;
+
+        if (!dataBudget) return false;
+
+
+        const validate = ValidateRuleUser();
+
+        if (!ValidateRuleUser() &&
+            (!dataBudget.externo)) return false;
+
+        return true;
+
+        // if (dataBudget &&
+        //     (dataBudget.externo)) return true;
+
+        // return false;
+    }
+    function ValidateRuleUser() {
+
+        if (tokenInfo["GERENCIAL"] === "TI" ||
+            tokenInfo["ASSISTÊNCIA TÉCNICA"] === "ADM")
+            return true;
 
         return false;
     }
@@ -286,6 +297,7 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                 <div className={style.containerStatusOrcamento} >
                     <p className={style.status} >
                         {dataBudget ? dataBudget.status : ""}
+                        {dataBudget && dataBudget.externo ? "EXTERNO" : "INTERNO"}
                     </p>
                 </div>
 
@@ -521,6 +533,7 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                                             <th>IMG.</th>
                                             <th>TROCA</th>
                                             <th>TR/RU.</th>
+                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody className={style.container_tableBody} >
@@ -534,7 +547,7 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                                                     <td className={style.radio}>
                                                         <input className={style.checked}
                                                             type="radio"
-                                                            name={`rdb${item.codigoPeca}`}
+                                                            name={`rdb${item.codigoPeca + index}`}
                                                             checked={item.troca}
                                                             readOnly
                                                         />
@@ -542,14 +555,16 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                                                     <td className={style.radio}>
                                                         <input className={style.checked}
                                                             type="radio"
-                                                            name={`rdb${item.codigoPeca}`}
+                                                            name={`rdb${item.codigoPeca + index}`}
                                                             checked={!item.troca}
                                                             readOnly
                                                         />
                                                     </td>
+                                                    <td className={style['button-delete']} >
+                                                        <Icons.Delete />
+                                                    </td>
                                                 </tr>
-                                            ))
-                                        )}
+                                            )))}
                                     </tbody>
                                 </table>
                             </div>
