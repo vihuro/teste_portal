@@ -26,12 +26,6 @@ interface props {
     valueToogle: boolean
 }
 
-interface tecnicoProps {
-    apelido: string,
-    nome: string,
-    idTecnico: string,
-    idUsuario: string
-}
 
 function DataBudget() {
     const [data, setData] = useState<IOrcamentoProps>();
@@ -119,12 +113,9 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
     const touchTimeout = useRef(null);
     const { tokenInfo } = SearchInfoOfUserOnToken
 
-    const [tecnicoOrcamento, setTecnicoOrcamento] = useState<tecnicoProps>({
-        apelido: "",
-        idTecnico: "",
-        idUsuario: "",
-        nome: ""
-    });
+    const [tecnicoOrcamento, setTecnicoOrcamento] = useState<ITechnicianProps>();
+    const [tecnicoManutencao, setTecnicoManutencao] = useState<ITechnicianProps>();
+
     const { dataBudget, loading, setDataBudget,
         dataTechnician, setDateTechnician,
         setLoading, getByNumeroOrcamento, getListTechnician } =
@@ -145,6 +136,16 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
         }
     }, [valueToogle])
 
+    useEffect(() => {
+        if (dataBudget) {
+            console.log("testes")
+            console.log(dataBudget.tecnicoManutencao)
+            setTecnicoOrcamento(() => dataBudget.tecnicoOrcamento)
+            setTecnicoManutencao(() => dataBudget.tecnicoManutencao)
+        }
+    }, [dataBudget])
+    console.log(dataBudget?.tecnicoManutencao)
+
 
     const [toogleNotification, setToogleNotification] = useState<boolean>(false);
     const [listTecnicoOrcamento, setListTecnicoOrcamento] = useState<boolean>(false);
@@ -159,6 +160,8 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
 
     const [status, setStatus] = useState(EStatus.STATUS_AGUARDANDO_LIBERACAO_ORCAMENTO);
     const [numeroStatus, setNumeroStatus] = useState<number>(0);
+
+    const [tempoEstimaOrcamento, setTempoEstimadoOrcamento] = useState<number>(0);
 
     const [pecaDelete, setPecaDelet] = useState<IPecasProps | undefined>();
 
@@ -231,8 +234,8 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
     }
 
     async function deletePeca() {
-        const { tokenInfo } = SearchInfoOfUserOnToken;
 
+        const { tokenInfo } = SearchInfoOfUserOnToken;
         const deletePecaNoORcamento = {
             pecaNoOrcamentoId: pecaDelete?.pecaId,
             ususarioId: tokenInfo.idUser
@@ -241,10 +244,30 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
         await Api.delete("orcamento/pecas", {
             data: deletePecaNoORcamento
         })
-            .then(res => console.log(res))
+            .then(res => {
+                getByNumeroOrcamento()
+            })
             .catch(err => console.log(err));
-            getByNumeroOrcamento()
 
+
+    }
+
+    async function insertTecnicoNoOrcamento() {
+        const { tokenInfo } = SearchInfoOfUserOnToken;
+
+        const obj = {
+            tecnicoId: tecnicoOrcamento?.idTecnico,
+            usuarioAlteracaoId: tokenInfo.idUser,
+            orcamentoId: numeroOrcamento,
+            tempoEstimadoOrcamento: tempoEstimaOrcamento
+        }
+
+        await Api.put("orcamento/insert-tecnico", obj)
+            .then(res => {
+                getByNumeroOrcamento();
+                console.log(obj)
+            })
+            .catch(err => console.log(err));
     }
 
 
@@ -275,12 +298,17 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                     </span>
                     <div className={style.container_input_horas} >
                         <div>
-                            <input readOnly id="txtHorasCard" required type="number" />
+                            <input id="txtHorasCard"
+                                required type="number"
+                                value={tempoEstimaOrcamento}
+                                onChange={(e) => setTempoEstimadoOrcamento(Number(e.target.value))} />
                             <label htmlFor="txtHorasCard">HORAS</label>
                         </div>
                     </div>
                     <div className={style.container_button_card_horas} >
-                        <button>ATRIBUIR</button>
+                        <button onClick={() => {
+                            insertTecnicoNoOrcamento()
+                        }} >ATRIBUIR</button>
                         <button onClick={() =>
                             setToogleConfirmTecnicoManutencao((current) =>
                                 !current)} >FECHAR</button>
@@ -496,12 +524,13 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                     <div className={style.containerTecnicoOrcamento} onClick={(e) => e.stopPropagation()}>
                         <input type="text"
                             required
+                            autoComplete="off"
                             id="txtTecnicoOrcamento"
-                            value={tecnicoOrcamento.nome}
+                            value={tecnicoOrcamento ? tecnicoOrcamento.nome : ""}
                             onChange={() => { }}
                             onClick={() => {
                                 setListTecnicoOrcamento(!listTecnicoOrcamento)
-                                setToogleConfirmTecnicoManutencao((current) => !current)
+
                             }} />
                         <label htmlFor="txtTecnicoOrcamento">TÉCNICO ORÇ.</label>
                         <ul className={listTecnicoOrcamento ?
@@ -512,6 +541,7 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                                     <li onClick={() => {
                                         setListTecnicoOrcamento(false)
                                         setTecnicoOrcamento(item);
+                                        setToogleConfirmTecnicoManutencao((current) => !current)
                                     }} key={index} >{item.nome}</li>
                                 ))
                             )}
@@ -522,18 +552,20 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                             value={dataBudget ?
                                 dataBudget.tempoEstimadoOrcamento.toString() :
                                 0} />
+                        <label htmlFor="">TEMPO - ORÇ.</label>
                     </div>
                     <div className={style.containerTempoEstimadoManutencao} >
                         <input type="number"
                             value={dataBudget ?
                                 dataBudget.tempoEstimadoManutencao.toString() :
                                 0} />
+                        <label htmlFor="">TEMPO - MANUT.</label>
                     </div>
                     <div className={style.containerTecnicoManutencao} onClick={(e) => e.stopPropagation()}>
                         <input type="text"
                             required
                             id="txtTecnicoManutencao"
-                            value={tecnicoOrcamento.nome}
+                            value={tecnicoManutencao && tecnicoManutencao.nome}
                             onChange={() => { }}
                             onClick={() => {
                                 setListTecnicoManutencao(!listTecnicoManutecao)
@@ -546,7 +578,7 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                                 dataTechnician.map((item, index) => (
                                     <li onClick={() => {
                                         setListTecnicoManutencao(false)
-                                        setTecnicoOrcamento(item);
+                                        setTecnicoManutencao(item);
                                     }} key={index} >{item.nome}</li>
                                 ))
                             )}

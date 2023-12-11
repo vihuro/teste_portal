@@ -169,12 +169,7 @@ export default function InfoForm({ numeroOrcamento }: { numeroOrcamento: number 
     const [dataTecnico, setDataTecnico] = useState<tecnicoProps[]>([]);
     const touchTimeout = useRef(null);
 
-    const [tecnicoOrcamento, setTecnicoOrcamento] = useState<tecnicoProps>({
-        apelido: "",
-        idTecnico: "",
-        idUsuario: "",
-        nome: ""
-    });
+    const [tecnicoOrcamento, setTecnicoOrcamento] = useState<ITechnicianProps>();
 
     const router = useRouter();
 
@@ -220,11 +215,11 @@ export default function InfoForm({ numeroOrcamento }: { numeroOrcamento: number 
                 style.containerFilter :
                 style.containerFilter_close} >
                 <div className={style.wrapContainerFilter} >
-                    <CardFilter 
-                    changeToogle={setToogleFilterPecas} 
-                    toogle={toogleFilterPecas} 
-                    refreshInfo={getByNumeroOrcamento}
-                    numeroOrcamento={numeroOrcamento}/>
+                    <CardFilter
+                        changeToogle={setToogleFilterPecas}
+                        toogle={toogleFilterPecas}
+                        refreshInfo={getByNumeroOrcamento}
+                        numeroOrcamento={numeroOrcamento} />
                 </div>
             </div>
             <div className={toogleDiario ?
@@ -382,7 +377,7 @@ export default function InfoForm({ numeroOrcamento }: { numeroOrcamento: number 
                         <input type="text"
                             required
                             id="txtTecnicoOrcamento"
-                            value={tecnicoOrcamento.nome}
+                            value={tecnicoOrcamento && tecnicoOrcamento.nome}
                             onChange={() => { }}
                             onClick={() => {
                                 setListTecnicoOrcamento(!listTecnicoOrcamento)
@@ -405,7 +400,7 @@ export default function InfoForm({ numeroOrcamento }: { numeroOrcamento: number 
                         <input type="text"
                             required
                             id="txtTecnicoManutencao"
-                            value={tecnicoOrcamento.nome}
+                            value={tecnicoOrcamento && tecnicoOrcamento.nome}
                             onChange={() => { }}
                             onClick={() => {
                                 setListTecnicoManutencao(!listTecnicoManutecao)

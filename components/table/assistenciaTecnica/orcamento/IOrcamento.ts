@@ -3,6 +3,8 @@ export interface IOrcamentoProps {
     descricaoServico: string,
     status: string,
     externo: boolean,
+    tecnicoOrcamento: ITechnicianProps,
+    tecnicoManutencao: ITechnicianProps,
     tempoEstimadoOrcamento: number,
     tempoEstimadoManutencao: number,
     statusSituacao: IStatusSitucaoProps[],
@@ -57,7 +59,6 @@ export interface IPecasProps {
 export interface ITechnicianProps {
     apelido: string,
     idTecnico: string,
-    idUsuario: string,
     nome: string
 }
 export enum EStatus {

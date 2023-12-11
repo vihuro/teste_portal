@@ -496,11 +496,13 @@
     border: none;
     padding: 10px 10px 10px 10px;
     margin: 1px;
-
 }
 
+
 .containerTecnicoOrcamento label,
-.containerTecnicoManutencao label {
+.containerTecnicoManutencao label,
+.containerTempoEstimadoOrcamento label,
+.containerTempoEstimadoManutencao label {
     left: 15px;
     position: absolute;
     color: #8f8d8d;
@@ -515,7 +517,9 @@
 .containerTecnicoOrcamento input:focus~label,
 .containerTecnicoOrcamento input:valid~label,
 .containerTecnicoManutencao input:focus~label,
-.containerTecnicoManutencao input:valid~label {
+.containerTecnicoManutencao input:valid~label,
+.containerTempoEstimadoOrcamento label,
+.containerTempoEstimadoManutencao label {
     transform: translateY(-20px);
     transition: .5s;
     font-size: 12px;
@@ -541,7 +545,6 @@
     transform-origin: top;
 }
 
-.listTecnicoOrcamento li {}
 
 .listTecnicoOrcamento li:hover {
     background-color: var(--background-color-blue-400);
@@ -745,6 +748,7 @@
         transition: .5s;
         position: absolute;
     }
+    
 }
 @media(min-width:1200px) {
     .container {
@@ -820,6 +824,7 @@
         margin-left: 0;
         margin-right: 10px;
     }
+
 
     .containerStatusOrcamento p {
         width: 100%;
