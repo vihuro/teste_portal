@@ -55,6 +55,7 @@ function Form({ peca, changeToogle, numeroOrcamento, refreshBudget }: Props) {
         await Api.post("/orcamento/pecas", obj)
             .then(res => {
                 refreshBudget(numeroOrcamento)
+                changeToogle(false)
                 clear();
             })
             .catch(err => console.log(err));

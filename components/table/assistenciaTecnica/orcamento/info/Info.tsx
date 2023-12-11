@@ -11,7 +11,8 @@ import {
     IOrcamentoProps,
     IUsuarioApontamentoSituacaoProps,
     ITechnicianProps,
-    EStatus
+    EStatus,
+    IPecasProps
 
 } from "../IOrcamento";
 import { handleTouchEnd, handleTouchStart } from "../../../../utils/HandleTouch";
@@ -24,7 +25,6 @@ interface props {
     numeroOrcamento: number,
     valueToogle: boolean
 }
-
 
 interface tecnicoProps {
     apelido: string,
@@ -69,8 +69,8 @@ function Fetchdata({ id }: { id: number }) {
     function getByNumeroOrcamento() {
         Api.get(`/orcamento/${id}`)
             .then((res) => {
-                setLoading((cuurent) => cuurent = false);
-                setDataBudget((current) => current = res.data)
+                setLoading(() => false);
+                setDataBudget(() => res.data)
             })
             .catch(err => console.log(err))
     }
@@ -149,12 +149,18 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
     const [toogleNotification, setToogleNotification] = useState<boolean>(false);
     const [listTecnicoOrcamento, setListTecnicoOrcamento] = useState<boolean>(false);
     const [listTecnicoManutecao, setListTecnicoManutencao] = useState<boolean>(false);
+
+
     const [toogleFilterPecas, setToogleFilterPecas] = useState<boolean>(false);
     const [toogleDiario, setToogleDiario] = useState<boolean>(false);
     const [toogleConfirmStatus, setToogleConfirmStaus] = useState<boolean>(false);
+    const [toogleConfirmTecnicoManutencao, setToogleConfirmTecnicoManutencao] = useState<boolean>(false);
+    const [toogleCardRemoverPeca, setToolgeRemoverCard] = useState<boolean>(false);
 
     const [status, setStatus] = useState(EStatus.STATUS_AGUARDANDO_LIBERACAO_ORCAMENTO);
     const [numeroStatus, setNumeroStatus] = useState<number>(0);
+
+    const [pecaDelete, setPecaDelet] = useState<IPecasProps | undefined>();
 
 
     function changeToogleFilterParts() {
@@ -224,6 +230,25 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
         return false;
     }
 
+    async function deletePeca() {
+        const { tokenInfo } = SearchInfoOfUserOnToken;
+
+        const deletePecaNoORcamento = {
+            pecaNoOrcamentoId: pecaDelete?.pecaId,
+            ususarioId: tokenInfo.idUser
+        }
+
+        await Api.delete("orcamento/pecas", {
+            data: deletePecaNoORcamento
+        })
+            .then(res => console.log(res))
+            .catch(err => console.log(err));
+            getByNumeroOrcamento()
+
+    }
+
+
+
 
     return (
         <main className={style.container} onClick={(e) => {
@@ -240,6 +265,47 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                     numeroOrcamento={numeroOrcamento}
                     numeroStatus={numeroStatus} />
             </div>
+            <div className={`${style.containerConfirmTecnico} 
+            ${!toogleConfirmTecnicoManutencao && style['--close']}`} >
+                <div className={style.cardConfirmTecnico} >
+                    <span>Deseja atribuir esse orçamento para o técnico
+                        <strong> Vitor Hugo?</strong>
+                        <br />
+                        Se sim, coloque a estimativa de horas para esse orçamento!
+                    </span>
+                    <div className={style.container_input_horas} >
+                        <div>
+                            <input readOnly id="txtHorasCard" required type="number" />
+                            <label htmlFor="txtHorasCard">HORAS</label>
+                        </div>
+                    </div>
+                    <div className={style.container_button_card_horas} >
+                        <button>ATRIBUIR</button>
+                        <button onClick={() =>
+                            setToogleConfirmTecnicoManutencao((current) =>
+                                !current)} >FECHAR</button>
+                    </div>
+                </div>
+            </div>
+            {pecaDelete && (
+                <div className={`${style.containerExcluirPeca}
+                ${!toogleCardRemoverPeca && style['--close']}`} >
+                    <div className={style.cardExcluirPeca} >
+                        <span>Deseja mesmo remover a peça
+                            <strong> {pecaDelete.codigoPeca} ({pecaDelete.descricaoPeca})?</strong>
+                        </span>
+                        <div className={style.container_button_excluirPecas} >
+                            <button onClick={() => {
+                                deletePeca(),
+                                    setToolgeRemoverCard(current => !current)
+                            }} >SIM</button>
+                            <button onClick={() =>
+                                setToolgeRemoverCard(current => !current)} >NÃO</button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
             <div className={toogleFilterPecas ?
                 style.containerFilter :
                 style.containerFilter_close} >
@@ -297,7 +363,7 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                 <div className={style.containerStatusOrcamento} >
                     <p className={style.status} >
                         {dataBudget ? dataBudget.status : ""}
-                        {dataBudget && dataBudget.externo ? "EXTERNO" : "INTERNO"}
+                        {dataBudget && dataBudget.externo ? " - (EXTERNO)" : " - (INTERNO)"}
                     </p>
                 </div>
 
@@ -435,6 +501,7 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                             onChange={() => { }}
                             onClick={() => {
                                 setListTecnicoOrcamento(!listTecnicoOrcamento)
+                                setToogleConfirmTecnicoManutencao((current) => !current)
                             }} />
                         <label htmlFor="txtTecnicoOrcamento">TÉCNICO ORÇ.</label>
                         <ul className={listTecnicoOrcamento ?
@@ -560,7 +627,11 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                                                             readOnly
                                                         />
                                                     </td>
-                                                    <td className={style['button-delete']} >
+                                                    <td className={style['button-delete']} onClick={() => {
+                                                        setPecaDelet(() => item)
+                                                        setToolgeRemoverCard(current => !current)
+
+                                                    }} >
                                                         <Icons.Delete />
                                                     </td>
                                                 </tr>
