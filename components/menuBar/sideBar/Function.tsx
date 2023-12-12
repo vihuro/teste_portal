@@ -14,7 +14,7 @@ const roles: IRole[] = [
             },
             {
                 name: "ESTOQUE - GRM - MATRIZ",
-                value: "EXPEDIÇÃO - GRAVAÇÃO"
+                value: "EXPEDIÇÃO - ALTERAÇÃO"
             },
             {
                 name: "ESTOQUE - GRM - MATRIZ",
@@ -25,18 +25,18 @@ const roles: IRole[] = [
                 value: "COMUNICADOR - LEITURA"
             },
             {
-                name: "ESTOQUE - GRM - MATRIZ",
+                name: "GERENCIAL",
                 value: "TI"
-            }
+            },
+            {
+                name: "ESTOQUE - GRM - MATRIZ",
+                value: "BI"
+            },
         ]
     },
     {
         text: "ESTOQUE FÁBRICA",
         role: [
-            {
-                name: "ESTOQUE - FÁBRICA - TI",
-                value: "ESTOQUE - FÁBRICA - APONTADOR"
-            },
             {
                 name: "ESTOQUE - FÁBRICA",
                 value: "ESTOQUE - FÁBRICA - ESTOQUISTA"
@@ -56,7 +56,61 @@ const roles: IRole[] = [
         ]
     },
     {
-        text: "Estoque Matriz",
+        text: "ESTOQUE MATRIZ",
+        role: [
+            {
+                name: "ESTOQUE - GRM - MATRIZ",
+                value: "EXPEDIÇÃO - LEITURA"
+            },
+            {
+                name: "ESTOQUE - GRM - MATRIZ",
+                value: "EXPEDIÇÃO - ALTERAÇÃO"
+            },
+            {
+                name: "ESTOQUE - GRM - MATRIZ",
+                value: "COMUNICADOR - GRAVAÇÃO"
+            },
+            {
+                name: "ESTOQUE - GRM - MATRIZ",
+                value: "COMUNICADOR - LEITURA"
+            },
+            {
+                name: "GERENCIAL",
+                value: "TI"
+            },
+            {
+                name: "ESTOQUE - GRM - MATRIZ",
+                value: "BI"
+            },
+        ]
+    },
+    {
+        text: "ESTOQUE MATRIZ TABELA",
+        role: [
+            {
+                name: "ESTOQUE - GRM - MATRIZ",
+                value: "EXPEDIÇÃO - LEITURA"
+            },
+            {
+                name: "ESTOQUE - GRM - MATRIZ",
+                value: "EXPEDIÇÃO - ALTERAÇÃO"
+            },
+            {
+                name: "ESTOQUE - GRM - MATRIZ",
+                value: "COMUNICADOR - GRAVAÇÃO"
+            },
+            {
+                name: "ESTOQUE - GRM - MATRIZ",
+                value: "COMUNICADOR - LEITURA"
+            },
+            {
+                name: "GERENCIAL",
+                value: "TI"
+            },
+        ]
+    },
+    {
+        text: "ESTOQUE MATRIZ BI",
         role: [
             {
                 name: "ESTOQUE - GRM - MATRIZ",
@@ -75,12 +129,12 @@ const roles: IRole[] = [
                 value: "COMUNICADOR - LEITURA"
             },
             {
-                name: "ESTOQUE - GRM - MATRIZ",
+                name: "GERENCIAL",
                 value: "TI"
             },
             {
-                name: "GERENCIAL",
-                value: "TI"
+                name: "ESTOQUE - GRM - MATRIZ",
+                value: "BI"
             },
         ]
     },
@@ -117,7 +171,7 @@ const roles: IRole[] = [
         text: "PRODUÇÃO",
         role: [
             {
-                name: "PRODUCAO - FÁBRICA",
+                name: "GERENCIAL",
                 value: "TI"
             },
         ]
@@ -126,11 +180,7 @@ const roles: IRole[] = [
         text: "EXPEDIÇÃO",
         role: [
             {
-                name: "EXPEDIÇÃO - FÁBRICA",
-                value: "TI"
-            },
-            {
-                name: "EXPEDIÇÃO - MATRIZ",
+                name: "GERENCIAL",
                 value: "TI"
             },
         ]
@@ -141,11 +191,7 @@ const roles: IRole[] = [
             {
                 name: "GERENCIAL",
                 value: "TI"
-            },
-            {
-                name: "COMPRAS - MATRIZ",
-                value: "TI"
-            },
+            }
         ]
     },
     {
@@ -168,10 +214,14 @@ const roles: IRole[] = [
                 name: "ASSISTÊNCIA TÉCNICA",
                 value: "TÉCNICO"
             },
+            {
+                name: "ASSISTÊNCIA TÉCNICA",
+                value: "ADM"
+            },
         ]
     },
     {
-        text: "Assistência Matriz",
+        text: "ASSISTÊNCIA MATRIZ",
         role: [
             {
                 name: "ASSISTÊNCIA TÉCNICA",
@@ -180,6 +230,83 @@ const roles: IRole[] = [
             {
                 name: "ASSISTÊNCIA TÉCNICA",
                 value: "ADM"
+            },
+            {
+                name: "GERENCIAL",
+                value: "TI"
+            },
+        ]
+    },
+    {
+        text: "BI ASSISTEC GEREAL",
+        role: [
+            {
+                name: "ASSISTÊNCIA TÉCNICA",
+                value: "TÉCNICO"
+            },
+            {
+                name: "ASSISTÊNCIA TÉCNICA",
+                value: "ADM"
+            },
+            {
+                name: "GERENCIAL",
+                value: "TI"
+            },
+        ]
+    },
+    {
+        text: "ORÇAMENTO ASSITEC",
+        role: [
+            {
+                name: "ASSISTÊNCIA TÉCNICA",
+                value: "TÉCNICO"
+            },
+            {
+                name: "ASSISTÊNCIA TÉCNICA",
+                value: "ADM"
+            },
+            {
+                name: "GERENCIAL",
+                value: "TI"
+            },
+        ]
+    },
+    {
+        text: "CLIENTE ASSITEC",
+        role: [
+            {
+                name: "ASSISTÊNCIA TÉCNICA",
+                value: "ADM"
+            },
+            {
+                name: "GERENCIAL",
+                value: "TI"
+            },
+        ]
+    },
+    {
+        text: "PEÇAS ASSISTEC",
+        role: [
+            {
+                name: "ASSISTÊNCIA TÉCNICA",
+                value: "ADM"
+            },
+            {
+                name: "GERENCIAL",
+                value: "TI"
+            },
+        ]
+    },
+    {
+        text: "MÁQUINAS ASSISTEC",
+        role: [
+            {
+                name: "ASSISTÊNCIA TÉCNICA",
+                value: "ADM"
+            },
+            {
+                name: "GERENCIAL",
+                value: "TI"
             },
         ]
     },

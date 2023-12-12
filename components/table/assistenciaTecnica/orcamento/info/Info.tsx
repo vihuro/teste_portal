@@ -182,6 +182,9 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
 
     }
     function ValidateAguardandoOrcamento(text: string) {
+        
+        if (tokenInfo["GERENCIAL"] !== "TI" &&
+            tokenInfo["ASSISTÊNCIA TÉCNICA"] !== "ADM") return "";
 
         switch (text) {
             case "AGUARDANDO LIBERAÇÃO DO ORÇAMENTO":
@@ -231,6 +234,20 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
             return true;
 
         return false;
+    }
+    function ValidateRuleForRequestParts() {
+        if (tokenInfo["GERENCIAL"] === "TI" ||
+            tokenInfo["ASSISTÊNCIA TÉCNICA"] === "ADM") {
+            return true;
+        }
+        else if (tokenInfo["ASSISTÊNCIA TÉCNICA"] === "TÉCNICO" &&
+            dataBudget?.status === "AGURDANDO ORÇAMENTO") {
+            return true;
+        }
+        else {
+            return false;
+        }
+
     }
 
     async function deletePeca() {
@@ -511,8 +528,7 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                             blocked
                         />
                     </div>
-                    <div className={`${style.containerDescricaoServico}
-                    ${!ValidateServiceExternal() && style['--block']}`} >
+                    <div className={`${style.containerDescricaoServico}`} >
                         <Input
                             id="txtDescricaoServico"
                             text="DESCRIÇÃO SERVIÇO"
@@ -610,7 +626,8 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                         </div>
                         <div className={style.containerTablePecas}
                             onDoubleClick={() => {
-                                setToogleFilterPecas((current) => current = !current)
+                                if (ValidateRuleForRequestParts())
+                                    setToogleFilterPecas((current) => current = !current)
                             }}
                             onTouchStart={() =>
                                 handleTouchStart({
@@ -777,11 +794,6 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                                                         }} onClick={() => setToogleNotification(!toogleNotification)} >
                                                             <Icons.BellNotification />
                                                         </div>
-                                                        {/* <div className={toogleNotification ?
-                                                            style.descriptionNotification :
-                                                            style.descriptionNotification_close} >
-
-                                                        </div> */}
                                                         <p>
                                                             MANUTENÇÃO
                                                         </p>

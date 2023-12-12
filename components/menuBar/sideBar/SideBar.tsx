@@ -105,16 +105,33 @@ export default function SideBar({ idList }: { idList?: number }) {
 
         const found = roles.find(item => item.text.toLowerCase() === text.toLowerCase());
 
-        const foundToken = found?.role.some(item =>
+        const foundToken = found?.role.find(item =>
             valueToken[item.name as keyof tokenProps])
 
 
-        if (foundToken) {
-            return true;
 
-        } else {
-            return false;
-        }
+        const foundRoleAndToken = found?.role.find(item => {
+            if (item.value === valueToken[item.name as keyof tokenProps]) {
+                return true;
+            }
+        })
+        if (foundRoleAndToken) return true;
+
+
+        return false
+
+
+        // return false;
+
+
+
+
+        // if (foundToken) {
+        //     return true;
+
+        // } else {
+        //     return false;
+        // }
     }
 
     return (
@@ -139,13 +156,15 @@ export default function SideBar({ idList }: { idList?: number }) {
                                         }
                                     }}
                                     style={{
-                                        color: visibleMenu ? "white" : "gray"
+                                        color: visibleMenu ? "white" : "#ffffff82"
                                     }}
                                     className={style[item.class]}
                                     key={index}
                                 >
                                     {item.icon}
-                                    <a>{item.text}</a>
+                                    <a style={{
+                                        color: visibleMenu ? "white" : "#ffffff82"
+                                    }} >{item.text}</a>
                                     {item.visible && item.rotas.length > 0 && (
                                         <ul className={style.subMenu} onClick={(e) => e.stopPropagation()} >
                                             {item.rotas.map((primeiraRota, index) => {
@@ -158,11 +177,11 @@ export default function SideBar({ idList }: { idList?: number }) {
                                                                 changeVisibleSegundaRota(index)
                                                             }
                                                         }} style={{
-                                                            color: visibleSubMenu ? "white" : "gray"
+                                                            color: visibleSubMenu ? "white" : "#ffffff82"
                                                         }} >
                                                             {primeiraRota.link !== "/#" ?
                                                                 <a style={{
-                                                                    color: visibleSubMenu ? "white" : "gray"
+                                                                    color: visibleSubMenu ? "white" : "#ffffff82"
                                                                 }} href={primeiraRota.link}>{primeiraRota.label}</a>
                                                                 : primeiraRota.label}
 
@@ -171,14 +190,20 @@ export default function SideBar({ idList }: { idList?: number }) {
                                                         {(primeiraRota.visible && primeiraRota.rotas && primeiraRota.rotas.length > 0) && (
                                                             <>
                                                                 <ul className={style.segundoSubMenu} >
-                                                                    {primeiraRota.rotas.map((segundaRota, index) => (
-                                                                        <li key={index} >
-                                                                            {segundaRota.rotas && (
-                                                                                <a href={segundaRota.rotas[0].link}>{segundaRota.text}</a>
-                                                                            )}
+                                                                    {primeiraRota.rotas.map((segundaRota, index) => {
+                                                                        const visibleSubMenu = validateModulo({ text: segundaRota.text })
 
-                                                                        </li>
-                                                                    ))}
+                                                                        return (
+                                                                            <li key={index} >
+                                                                                {segundaRota.rotas && (
+                                                                                    <a style={{
+                                                                                        color: visibleSubMenu ? "white" : "#ffffff82"
+                                                                                    }} href={visibleSubMenu ? segundaRota.rotas[0].link : undefined}>{segundaRota.label}</a>
+                                                                                )}
+
+                                                                            </li>
+                                                                        )
+                                                                    })}
                                                                 </ul>
                                                             </>
                                                         )}

@@ -69,7 +69,7 @@ export default function Table() {
     }, [])
 
     async function FetchData() {
-        await Api.get("")
+        await Api.get("/bi")
             .then(res => {
                 setData(res.data)
             })
@@ -97,7 +97,7 @@ export default function Table() {
     }, [])
 
     async function AtualizarDash() {
-        await Api.get("")
+        await Api.get("/bi")
             .then(res => {
                 setData(res.data)
             })
@@ -229,6 +229,7 @@ export default function Table() {
             return item;
         }
     })
+
 
     return (
         <section  className={style.container} >

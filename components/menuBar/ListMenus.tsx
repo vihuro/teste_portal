@@ -22,7 +22,8 @@ const List = [
                 visible: false,
                 rotas: [
                     {
-                        text: "Fábrica",
+                        text: "Estoque Fábrica",
+                        label: "Estoque",
                         visible: false,
                         rotas: [
                             {
@@ -40,7 +41,8 @@ const List = [
                 visible: false,
                 rotas: [
                     {
-                        text: "Estoque grm",
+                        text: "ESTOQUE MATRIZ TABELA",
+                        label: "ESTOQUE GRM",
                         visible: false,
                         rotas: [
                             {
@@ -51,7 +53,8 @@ const List = [
                         ]
                     },
                     {
-                        text: "BI grm",
+                        text: "ESTOQUE MATRIZ",
+                        label: "BI GRM",
                         visible: false,
                         rotas: [
                             {
@@ -104,6 +107,7 @@ const List = [
                 rotas: [
                     {
                         text: "BI",
+                        label:"BI",
                         rotas: [{
                             text: "",
                             visible: false,
@@ -112,6 +116,7 @@ const List = [
                     },
                     {
                         text: "OS",
+                        label:"OS",
                         rotas: [{
                             text: "",
                             visible: false,
@@ -127,7 +132,8 @@ const List = [
                 visible: false,
                 rotas: [
                     {
-                        text: "BI",
+                        text: "BI ASSISTEC GEREAL",
+                        label: "BI",
                         rotas: [
                             {
                                 text: "",
@@ -137,7 +143,8 @@ const List = [
                         ]
                     },
                     {
-                        text: "ORÇAMENTOS",
+                        text: "ORÇAMENTO ASSITEC",
+                        label: "ORÇAMENTOS",
                         rotas: [
                             {
                                 text: "",
@@ -147,7 +154,8 @@ const List = [
                         ]
                     },
                     {
-                        text: "CLIENTE",
+                        text: "CLIENTE ASSITEC",
+                        label: "CLIENTE",
                         rotas: [
                             {
                                 text: "",
@@ -157,7 +165,8 @@ const List = [
                         ]
                     },
                     {
-                        text: "PEÇAS",
+                        text: "PEÇAS ASSISTEC",
+                        label: "PEÇAS",
                         rotas: [
                             {
                                 text: "",
@@ -167,7 +176,8 @@ const List = [
                         ]
                     },
                     {
-                        text: "MÁQUINAS",
+                        text: "MÁQUINAS ASSISTEC",
+                        label: "MÁQUINAS",
                         rotas: [
                             {
                                 text: "",

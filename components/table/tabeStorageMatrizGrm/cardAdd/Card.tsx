@@ -252,11 +252,15 @@ const CardStorage = ({ changeToogle, refreshTable, searchColor }: props) => {
 
                 })
                 .catch(err => {
-                    if (err.response.data) {
+
+                    if(err.response.status === 403){
                         setMessage({
-                            message: err.response.data,
-                            type: "WARNING"
+                            message: "Operação não permitida",
+                            type: "ERROR"
                         })
+                    }
+                    else if (err.response && (err.response.data)) {
+
                     } else {
                         console.log(err)
                         setMessage({

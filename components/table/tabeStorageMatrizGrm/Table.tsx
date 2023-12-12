@@ -11,6 +11,7 @@ import FilterLocal from "./filterLocal/Card";
 import FitlerTipo from "./filterTipo/Card";
 import CardSubstitutoComponent from "./cardSubstituto/Card";
 import { DateTimeStringFormat } from "../../utils/DateTimeString";
+import SearchInfoOfUserOnToken from "../../utils/SearchInfoOfUserOnToken";
 
 
 interface ItemsProps {
@@ -221,6 +222,14 @@ export default function Table() {
         return `${month}/${year}`
 
     }
+    function ValidateRole() {
+        const infoUser = SearchInfoOfUserOnToken;
+        if (infoUser.tokenInfo["ESTOQUE - GRM - MATRIZ"] === "GERENCIAL" ||
+            infoUser.tokenInfo["ESTOQUE - GRM - MATRIZ"] === "EXPEDIÇÃO - ALTERAÇÃO") {
+            return true;
+        }
+        return false;
+    }
 
     return (
         <div className={style.container_table} >
@@ -249,7 +258,10 @@ export default function Table() {
 
             <div className={style.container_button} >
                 <div className={style.wrap_containerButton} >
-                    <button onClick={() => setToogleAdd(!toogleAdd)} >
+                    <button onClick={() => {
+                        if (ValidateRole())
+                            setToogleAdd(!toogleAdd)
+                    }} >
                         Adicionar Produto
                     </button>
                 </div>

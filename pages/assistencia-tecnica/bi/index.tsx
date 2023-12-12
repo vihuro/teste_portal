@@ -4,6 +4,8 @@ import style from "./style.module.css";
 import { DateTimeStringFormat } from "../../../components/utils/DateTimeString";
 import { GetServerSideProps } from "next";
 import { validateToken } from "../../../components/privatePage/PrivatePage";
+import { IOrcamentoProps, IStatusSitucaoProps } from "../../../components/table/assistenciaTecnica/orcamento/IOrcamento"
+
 
 interface dataProps {
     numeroOrcamento: number,
@@ -26,15 +28,19 @@ interface userProps {
 }
 
 export default function Bi() {
-    const [data, setData] = useState<dataProps[]>([]);
+    const [data, setData] = useState<IOrcamentoProps[]>([]);
     useEffect(() => {
-        Api.get("/orcamento")
+        Api.get("/orcamento/bi")
             .then(res => {
                 setData(res.data)
                 console.log(res.data)
             })
             .catch(err => console.log(err))
     }, [])
+    function TempoOrcamento(situacao: IStatusSitucaoProps[]) {
+        console.log(situacao)
+        return "teste"
+    }
     return (
         <table className={style.table} >
             <thead>
@@ -43,10 +49,13 @@ export default function Bi() {
                     <th>MODELO</th>
                     <th>Nº SÉRIE</th>
                     <th>DESCRIÇÃO</th>
-                    <th>TÉCNICO</th>
+                    <th>TÉCNICO ORÇ.</th>
+                    <th>TEMPO ORÇ.</th>
+                    <th>PERFORMANCE ORÇ.</th>
+                    <th>TÉCNICO MANUT.</th>
+                    <th>TEMPO MANUT.</th>
                     <th>DATA DE ABERTURA</th>
                     <th>HORARIO INICIO</th>
-                    <th>TEMPO MAXIMO</th>
                     <th>PERFORMANCE TECNICO</th>
                     <th>STATUS</th>
                 </tr>
@@ -59,11 +68,18 @@ export default function Bi() {
                             <td>{item.maquina.descricaoMaquina}</td>
                             <td>{item.maquina.numeroSerie}</td>
                             <td>{item.descricaoServico}</td>
-                            <td>VITOR HUGO</td>
-                            <td>{DateTimeStringFormat(item.cadastro.dataHora)}</td>
+                            <td>{item.tecnicoOrcamento.nome}</td>
+                            <td>{item.tempoEstimadoOrcamento}</td>
+                            <td>{TempoOrcamento(item.statusSituacao)}</td>
+                            <td>{item.tecnicoManutencao?.nome}</td>
+                            <td>{item.tempoEstimadoManutencao}</td>
+                            {/* <td>{item.}</td>
+                            <td>{DateTimeStringFormat(item.cadastro.dataHora)}</td> */}
                             <td></td>
                             <td></td>
-                            <td>AGUARDANDO ORÇAMENTO</td>
+                            <td></td>
+
+                            <td>{item.status}</td>
 
                         </tr>
                     ))
