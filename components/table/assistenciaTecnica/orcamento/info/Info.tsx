@@ -165,6 +165,8 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
 
     const [pecaDelete, setPecaDelet] = useState<IPecasProps | undefined>();
 
+    const [indexSituacao, setIndexSituacao] = useState<number | undefined>();
+
 
     function changeToogleFilterParts() {
         setToogleFilterPecas((current) => !current)
@@ -182,7 +184,7 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
 
     }
     function ValidateAguardandoOrcamento(text: string) {
-        
+
         if (tokenInfo["GERENCIAL"] !== "TI" &&
             tokenInfo["ASSISTÊNCIA TÉCNICA"] !== "ADM") return "";
 
@@ -221,11 +223,6 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
             (!dataBudget.externo)) return false;
 
         return true;
-
-        // if (dataBudget &&
-        //     (dataBudget.externo)) return true;
-
-        // return false;
     }
     function ValidateRuleUser() {
 
@@ -629,15 +626,20 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                                 if (ValidateRuleForRequestParts())
                                     setToogleFilterPecas((current) => current = !current)
                             }}
-                            onTouchStart={() =>
-                                handleTouchStart({
-                                    action: changeToogleFilterParts,
-                                    touchTimeout: touchTimeout
-                                })}
+                            onTouchStart={() => {
+                                if (ValidateRuleForRequestParts()) {
+                                    handleTouchStart({
+                                        action: changeToogleFilterParts,
+                                        touchTimeout: touchTimeout
+                                    })
+                                }
+                            }}
                             onTouchEnd={() => {
-                                handleTouchEnd({
-                                    touchTimeout: touchTimeout
-                                })
+                                if (ValidateRuleForRequestParts()) {
+                                    handleTouchEnd({
+                                        touchTimeout: touchTimeout
+                                    })
+                                }
                             }}>
                             <div className={style.wrapContainerTable} >
                                 <table className={style.table} >
@@ -707,14 +709,16 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                                             <>
                                                 <tr>
                                                     <td className={style.container_notification} >
-                                                        <div className={style.tag_notification} onClick={() => setToogleNotification(!toogleNotification)} >
+                                                        <div className={style.tag_notification} onClick={() => {
+                                                            setIndexSituacao(() => 0)
+                                                            setToogleNotification((current) => !current)
+                                                        }} >
                                                             <Icons.BellNotification />
                                                         </div>
-                                                        <div className={toogleNotification ?
+                                                        <div className={toogleNotification && indexSituacao === 0 ?
                                                             style.descriptionNotification :
                                                             style.descriptionNotification_close} >
                                                             <Obser text={dataBudget.statusSituacao[1].observacao} />
-
                                                         </div>
                                                         <p>
                                                             ORÇAMENTO
@@ -747,14 +751,17 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                                                         <div className={style.tag_notification} style={{
                                                             background: "rgb(187,180,180)",
                                                             color: "#5f5b5b"
-                                                        }} onClick={() => setToogleNotification(!toogleNotification)} >
+                                                        }} onClick={() => {
+                                                            setIndexSituacao(() => 1)
+                                                            setToogleNotification((current) => !current)
+                                                        }} >
                                                             <Icons.BellNotification />
                                                         </div>
-                                                        {/* <div className={toogleNotification ?
+                                                        <div className={toogleNotification && indexSituacao === 1 ?
                                                             style.descriptionNotification :
                                                             style.descriptionNotification_close} >
-
-                                                        </div> */}
+                                                            <Obser text={dataBudget.statusSituacao[3].observacao} />
+                                                        </div>
                                                         <p>
                                                             NEGOCIAÇÃO
                                                         </p>
@@ -829,7 +836,6 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                                                                     default:
                                                                         return current
                                                                 }
-
                                                             })
                                                             setToogleConfirmStaus((current) => !current)
                                                         }

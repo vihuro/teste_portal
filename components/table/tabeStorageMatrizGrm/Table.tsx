@@ -225,6 +225,7 @@ export default function Table() {
     function ValidateRole() {
         const infoUser = SearchInfoOfUserOnToken;
         if (infoUser.tokenInfo["ESTOQUE - GRM - MATRIZ"] === "GERENCIAL" ||
+            infoUser.tokenInfo["ESTOQUE - GRM - MATRIZ"] === "TI" ||
             infoUser.tokenInfo["ESTOQUE - GRM - MATRIZ"] === "EXPEDIÇÃO - ALTERAÇÃO") {
             return true;
         }

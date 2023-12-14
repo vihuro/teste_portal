@@ -45,7 +45,9 @@ export default function Bi() {
         <table className={style.table} >
             <thead>
                 <tr>
+                    <th>DATA DE ABERTURA</th>
                     <th>Nº OS</th>
+                    <th>STATUS</th>
                     <th>MODELO</th>
                     <th>Nº SÉRIE</th>
                     <th>DESCRIÇÃO</th>
@@ -54,21 +56,20 @@ export default function Bi() {
                     <th>PERFORMANCE ORÇ.</th>
                     <th>TÉCNICO MANUT.</th>
                     <th>TEMPO MANUT.</th>
-                    <th>DATA DE ABERTURA</th>
-                    <th>HORARIO INICIO</th>
                     <th>PERFORMANCE TECNICO</th>
-                    <th>STATUS</th>
                 </tr>
             </thead>
             <tbody className={style.tableBody} >
                 {data && (
                     data.map((item, index) => (
                         <tr key={index} >
+                            <td></td>
                             <td>{item.numeroOrcamento}</td>
+                            <td>{item.status}</td>
                             <td>{item.maquina.descricaoMaquina}</td>
                             <td>{item.maquina.numeroSerie}</td>
                             <td>{item.descricaoServico}</td>
-                            <td>{item.tecnicoOrcamento.nome}</td>
+                            <td>{item.tecnicoOrcamento?.nome}</td>
                             <td>{item.tempoEstimadoOrcamento}</td>
                             <td>{TempoOrcamento(item.statusSituacao)}</td>
                             <td>{item.tecnicoManutencao?.nome}</td>
@@ -76,10 +77,6 @@ export default function Bi() {
                             {/* <td>{item.}</td>
                             <td>{DateTimeStringFormat(item.cadastro.dataHora)}</td> */}
                             <td></td>
-                            <td></td>
-                            <td></td>
-
-                            <td>{item.status}</td>
 
                         </tr>
                     ))
