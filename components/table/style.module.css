@@ -1,14 +1,13 @@
 .body {
-    width: calc(100% - 100px);
-    height: calc(100vh - 100px);
-    position: relative;
-    left: 100px;
-    top: 100px;
-    overflow: hidden;
+  width: calc(100% - 100px);
+  height: 100%;
+  position: relative;
+  left: 100px;
+  overflow: auto;
 }
-@media(max-width:430px){
-    .body{
-        width: 100%;
-        left: 0;
-    }
+@media (max-width: 430px) {
+  .body {
+    width: 100%;
+    left: 0;
+  }
 }

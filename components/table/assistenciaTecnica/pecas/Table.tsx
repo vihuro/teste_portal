@@ -443,7 +443,9 @@ export default function Table() {
 
                         </tbody>
                     </table>
-                    <div id="sentinela" />
+                    <div style={{
+                        height:"5px"
+                    }} id="sentinela" />
                 </div>
             </section>
 

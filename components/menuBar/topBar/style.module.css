@@ -6,7 +6,7 @@
     background-color: var(--background-color-blue-700);
     display: grid;
     grid-template-columns: 1fr 100px 20px;
-    z-index: 500;
+    z-index: 2;
 }
 
 .iconUser {

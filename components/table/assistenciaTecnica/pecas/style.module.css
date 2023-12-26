@@ -1,10 +1,11 @@
 .container {
-    position: relative;
+    position: absolute;
     width: 100%;
     height: 100%;
     z-index: 1;
     display: grid;
-    grid-template-rows: 40px 1fr;
+    overflow: hidden;
+    grid-template-rows: 70px 1fr;
 }
 
 .container_button {
@@ -65,7 +66,8 @@
 
 .container_table {
     grid-area: 2/1/2/1;
-    padding: 15px 15px 0 15px;
+    padding: 0 15px 0 15px;
+    display: flex;
     overflow: auto;
 }
 
@@ -78,8 +80,8 @@
 
 .wrap_table,
 .wrap_table_loading {
-    max-width: 100%;
-    max-height: 100%;
+    height: 100%;
+    width: 100%;
     border-radius: 7px;
     overflow: auto;
     background-color: rgba(219, 233, 240, .5);
@@ -212,8 +214,8 @@
     z-index: 3;
     display: flex;
     justify-content: center;
-    align-items: center;
     transition: .5s;
+    overflow: auto;
 }
 
 .container_filter,
@@ -221,11 +223,11 @@
     position: absolute;
     width: 100%;
     height: 100%;
-
+    overflow: auto;
     z-index: 3;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-self: center;
 }
 
 .container_filter_close {
@@ -246,6 +248,7 @@
 
 .wrap_container_filter {
     height: 500px;
+    margin: 20px 0 0 0;
     background-color: white;
     border-radius: 10px 50px;
     transition: .5s;

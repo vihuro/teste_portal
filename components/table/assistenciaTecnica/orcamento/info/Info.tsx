@@ -469,9 +469,9 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
         <div className={style.cardConfirmTecnico}>
           <span>
             Deseja atribuir esse orçamento para o técnico
-            <strong> {tecnicoOrcamento?.nome}</strong>
+            <strong> {tecnicoOrcamento?.nome}?</strong>
             <br />
-            Se sim, coloque a estimativa de horas para esse orçamento!
+            Se sim, coloque a estimativa de minutos para esse orçamento!
           </span>
           <div className={style.container_input_horas}>
             <div>
@@ -484,7 +484,7 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                   setTempoEstimadoOrcamento(Number(e.target.value))
                 }
               />
-              <label htmlFor="txtHorasCard">HORAS</label>
+              <label htmlFor="txtHorasCard">MINUTOS</label>
             </div>
           </div>
           <div className={style.container_button_card_horas}>
@@ -512,9 +512,9 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
         <div className={style.cardConfirmTecnico}>
           <span>
             Deseja atribuir esse manutenção para o técnico
-            <strong> {tecnicoManutencao?.nome}</strong>?
+            <strong> {tecnicoManutencao?.nome}?</strong>?
             <br />
-            Se sim, coloque a estimativa de horas para essa manutenção!
+            Se sim, coloque a estimativa em minutos para essa manutenção!
           </span>
           <div className={style.container_input_horas}>
             <div>
@@ -527,7 +527,7 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                   setTempoEstimadoOrcamento(Number(e.target.value))
                 }
               />
-              <label htmlFor="txtHorasCard">HORAS</label>
+              <label htmlFor="txtHorasCard">MINUTOS</label>
             </div>
           </div>
           <div className={style.container_button_card_horas}>
@@ -622,6 +622,11 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
             </button>
           </div>
           <div className={style.containerButtonDaily}>
+            <button onClick={() => setToogleDiario((current) => !current)}>
+              <Icons.Book />
+            </button>
+          </div>
+          <div className={style.containerButtonDailyDir}>
             <button onClick={() => setToogleDiario((current) => !current)}>
               <Icons.Book />
             </button>

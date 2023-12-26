@@ -486,6 +486,7 @@
     align-items: center;
     justify-content: center;
     transition: .5s;
+    overflow: auto;
 }
 
 .container_add~.table {

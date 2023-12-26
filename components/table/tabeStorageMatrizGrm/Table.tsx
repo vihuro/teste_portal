@@ -80,7 +80,7 @@ export default function Table() {
     const [toogleInfoPlus, setToogleInfoPlus] = useState<boolean>(false);
     const [toogleSubstituto, setToogleSubstituto] = useState<boolean>(false);
     const [indiceInfoPlus, setIndiceInfoPlus] = useState<number>();
-    const [colSpan, setColSpan] = useState<number>(11);
+    const [colSpan, setColSpan] = useState<number>(17);
 
     const colors: Record<string, Color> = {
 

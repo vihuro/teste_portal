@@ -34,6 +34,7 @@
     position: relative;
     overflow: hidden;
     display: grid;
+    margin: 20px 0 0 0;
 }
 
 @media(max-width:430px) {
