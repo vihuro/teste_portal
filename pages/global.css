@@ -4,7 +4,6 @@
   viewport-fit: cover;
   /* font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; */
   /* font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
-
 }
 
 *::-webkit-scrollbar {
@@ -23,7 +22,6 @@
   background-color: #01015b;
   border-radius: 10px;
 }
-
 
 :root {
   --background-color-blue-800: rgb(0, 2, 31);
@@ -55,7 +53,6 @@
   --background-color-yellow-400: rgb(250, 246, 0);
   --background-color-yellow-200: rgb(243, 255, 79);
 
-
   --text-color-blue-700: rgb(0, 4, 59);
   --text-color-blue-600: rgb(0, 7, 102);
   --text-color-blue-400: rgb(0, 10, 143);
@@ -78,6 +75,12 @@
   --text-color-yellow-400: rgb(250, 246, 0);
   --text-color-yellow-200: rgb(243, 255, 79);
 
+  --gradient-input: linear-gradient(
+    to right,
+    rgb(0, 195, 255),
+    rgb(25, 0, 255),
+    rgb(226, 3, 255)
+  );
 }
 
 .body {
@@ -87,8 +90,7 @@
   top: 100px;
 }
 
-
-@media(max-width:770px) {
+@media (max-width: 770px) {
   .body {
     width: calc(100% - 100px);
     position: relative;

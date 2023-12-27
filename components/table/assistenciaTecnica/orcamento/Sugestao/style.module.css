@@ -1,0 +1,159 @@
+@media (min-width: 500px) {
+  .card {
+    width: 500px;
+    height: 500px;
+  }
+}
+.container {
+  grid-template-rows: 50px 1fr 60px;
+}
+.card {
+  background-color: white;
+  border-radius: 10px 50px;
+  overflow: hidden;
+  position: relative;
+  margin: 20px 0 20px 0;
+  box-shadow: 0 0 10px rgba(14, 10, 231, 0.226), 0 0 1px rgb(14, 10, 231),
+    0 0 10px rgb(14, 10, 231);
+  display: grid;
+}
+.container {
+  display: grid;
+  overflow: hidden;
+  grid-template-areas:
+    "header"
+    "body"
+    "footer";
+}
+.containerAddSugestao {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: .5s;
+}
+.--close{
+  transform: translateY(-100%);
+}
+.wrapContainerAddSugestao {
+  width: 200px;
+  height: 200px;
+  background-color: white;
+  box-shadow: 0 0 10px 1px rgb(180, 180, 180);
+  display: grid;
+  padding: 5px;
+  border-radius: 10px;
+}
+.wrapInput {
+  position: relative;
+  display: flex;
+  height: 35px;
+  padding: 1px;
+  border-radius: 7px;
+  border: 1px solid rgb(202, 202, 202);
+}
+.wrapInput input,
+.wrapInput textarea {
+  border: none;
+  width: 100%;
+  resize: none;
+  outline: none;
+}
+.wrapInput::after {
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 1px;
+  bottom: -1px;
+  background-image: var(--gradient-input);
+  transition: 0.5s;
+  transform-origin: left;
+  transform: scaleX(0);
+}
+.wrapInput:focus-within::after {
+  transform: scaleX(1);
+}
+.wrapInput label {
+  position: absolute;
+  left: 0;
+  transition: 0.5s;
+}
+.wrapInput:nth-child(3) input ~ label {
+  transform: translateX(25px) translateY(9px);
+  font-size: 14px;
+  color: rgb(145, 143, 143);
+}
+.wrapInput:nth-child(3) input:valid ~ label,
+.wrapInput:nth-child(2) label {
+  transform: translateX(10px) translateY(-10px);
+  padding: 3px;
+  background-color: rgb(4, 87, 62);
+  font-size: 12px;
+  color: white;
+  border-radius: 5px;
+}
+.header {
+  grid-area: header;
+  color: rgb(61, 61, 61);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.body {
+  grid-area: body;
+  overflow: hidden auto;
+  padding: 0 30px 0 0;
+}
+.containerSugestao {
+  width: 100%;
+  padding: 5px;
+  margin: 10px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px 1px rgba(155, 155, 155, 0.493);
+}
+.--ATRASADO {
+  background-color: rgba(255, 0, 0, 0.849);
+  color: rgb(245, 243, 243);
+  box-shadow: 0 0 10px 1px rgba(243, 0, 0, 0.493);
+}
+.--EM-DIA {
+  background-color: rgb(0, 255, 136);
+  box-shadow: 0 0 10px 1px rgb(0, 255, 136);
+  color: rgb(70, 70, 70);
+}
+.containerSugestao span {
+}
+.footer {
+  grid-area: footer;
+  display: grid;
+  gap: 5px;
+}
+.footerAddSugestao {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 7px;
+  padding: 5px;
+}
+.footerAddSugestao button {
+  border: none;
+  border-radius: 20px;
+  color: white;
+  transition: 0.5s;
+}
+.footerAddSugestao button:hover {
+  letter-spacing: 1px;
+}
+.footerAddSugestao button:nth-child(1) {
+  background-color: var(--background-color-green-400);
+}
+.footerAddSugestao button:nth-child(2) {
+  background-color: var(--background-color-red-400);
+}
+.footerAddSugestao button:nth-child(1):hover {
+  box-shadow: 0 0 10px 1px var(--background-color-green-400);
+}
+.footerAddSugestao button:nth-child(2):hover {
+  box-shadow: 0 0 10px 1px var(--background-color-red-400);
+}

@@ -48,6 +48,7 @@ export interface IUsuarioApontamentoSituacaoProps {
 }
 export interface IMaquinaProps {
   maquinaId: string;
+  maquinaClienteId: string;
   codigoMaquina: string;
   descricaoMaquina: string;
   numeroSerie: string;

@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { DateTimeStringFormat } from "../../../../utils/DateTimeString";
 import { Card as CardFilter } from "./filterPecas/Pecas";
 import { Form as FormDiario } from "./Diario/CardDiario";
+import CardSugestao from "../Sugestao/CardSugestao";
 import Obser from "./obs/Card";
 import {
   IOrcamentoProps,
@@ -162,6 +163,7 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
     useState<boolean>(false);
   const [toogleCardRemoverPeca, setToolgeRemoverCard] =
     useState<boolean>(false);
+  const [toogleCardSugestao, setToogleCardSugestao] = useState<boolean>(false);
 
   const [status, setStatus] = useState(
     EStatus.STATUS_AGUARDANDO_LIBERACAO_ORCAMENTO
@@ -447,6 +449,13 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
         setListTecnicoOrcamento(false);
       }}
     >
+      <div
+        className={`${style.containerSugestao} ${
+          toogleCardSugestao && style["--close"]
+        }`}
+      >
+        <CardSugestao maquinaId={dataBudget?.maquina.maquinaClienteId} />
+      </div>
       <div
         className={
           toogleConfirmStatus
@@ -852,6 +861,7 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
           <div className={style.containerTempoEstimadoOrcamento}>
             <input
               type="number"
+              onChange={() => {}}
               value={
                 dataBudget ? dataBudget.tempoEstimadoOrcamento.toString() : 0
               }
@@ -861,6 +871,7 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
           <div className={style.containerTempoEstimadoManutencao}>
             <input
               type="number"
+              onChange={() => {}}
               value={
                 dataBudget ? dataBudget.tempoEstimadoManutencao.toString() : 0
               }
@@ -875,7 +886,7 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
               type="text"
               required
               id="txtTecnicoManutencao"
-              value={tecnicoManutencao && tecnicoManutencao.nome}
+              value={tecnicoManutencao ? tecnicoManutencao.nome : ""}
               onChange={() => {}}
               onClick={() => {
                 setListTecnicoManutencao(!listTecnicoManutecao);
