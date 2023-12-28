@@ -46,7 +46,7 @@
   z-index: 3;
   overflow: auto;
 }
-.containerSugestao.--close{
+.containerSugestao.--close {
   transform: scale(1.2);
   opacity: 0;
   pointer-events: none;
@@ -579,10 +579,18 @@
   background-color: black;
   color: rgb(143, 142, 142);
 }
+.containerButtonSugestao button {
+  background-color: rgb(252, 6, 231);
+}
+.containerButtonSugestao button svg path {
+  stroke: white;
+}
 
 .containerMap,
 .container_buttonBack button,
-.containerButtonDaily button {
+.containerButtonDaily button,
+.containerButtonDailyDir button,
+.containerButtonSugestao button {
   transition: 0.2s;
   cursor: pointer;
 }
@@ -590,7 +598,9 @@
 .containerButtonDaily button:hover,
 .containerMap:hover,
 .container_buttonBack button:hover,
-.containerButtonDailyDir button:hover {
+.containerButtonDailyDir button:hover,
+.containerButtonDailyDir button:hover,
+.containerButtonSugestao button:hover {
   transform: scale(1.2);
 }
 
@@ -634,32 +644,40 @@
     grid-template-rows: 160px 1fr;
   }
 
-  .wrapContainer_body input {
+  .wrapContainer_body input ,
+  .container_header input{
     width: 100% !important;
   }
 
   .container_header {
     display: grid;
-    grid-auto-rows: 45px;
-    grid-template-columns: 40px 1fr;
-    padding: 15px 0 0 0;
+    grid-template-rows: repeat(3, 1fr);
+    grid-template-columns: 1fr;
+    justify-content: center;
+    align-items: center;
+    grid-template-areas:
+      "numeroOrcamento numeroOrcamento"
+      "status status"
+      "actions actions";
+    padding: 15px 20px 0 10px;
   }
 
   .containerActions {
-    grid-area: 1/1/4/1;
+    grid-area: actions;
     display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: 1fr;
     gap: 5px;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
+    justify-items: center;
+  }
+  .container_buttonBack{
+    justify-self: flex-start;
   }
 
   .containerStatusOrcamento {
-    grid-area: 2/2/2/2;
-    width: 95%;
-  }
-
-  .container_buttonBack {
-    grid-area: 1/1/1/1;
+    grid-area: status;
   }
 
   .container_header button {
@@ -673,7 +691,7 @@
   }
 
   .containerNumeroOrcamento {
-    grid-area: 1/2/1/2;
+    grid-area: numeroOrcamento;
   }
 
   .containerStatusOrcamento .container_body {
@@ -795,34 +813,28 @@
     justify-content: left;
     align-items: center;
     padding-top: 5px;
-    grid-template-columns: 180px 1fr;
+    grid-template-columns: 220px 1fr 200px;
+    grid-template-areas: "actions status numeroOrcamento";
   }
 
   .containerActions {
-    grid-area: 1/1/1/1;
+    grid-area: actions;
     display: flex;
     gap: 15px;
     justify-content: center;
     align-items: center;
   }
 
-  .container_buttonBack {
-    margin-left: 10px;
-  }
-
   .containerNumeroOrcamento {
-    position: absolute;
-    right: 0;
-    margin-right: 25px;
     padding: 5px;
-    width: 150px;
+    grid-area: numeroOrcamento;
   }
 
   .containerStatusOrcamento {
     position: absolute;
-    left: 200px;
-    top: 25%;
-    width: calc(100% - 400px);
+    grid-area: status;
+    width: 100%;
+    /* width: calc(100% - 400px); */
     display: flex;
   }
 

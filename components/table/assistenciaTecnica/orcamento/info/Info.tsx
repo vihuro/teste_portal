@@ -217,7 +217,7 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
   async function deletePeca() {
     const { tokenInfo } = SearchInfoOfUserOnToken;
     const deletePecaNoORcamento = {
-      pecaNoOrcamentoId: pecaDelete?.pecaId,
+      pecaNoOrcamentoId: pecaDelete?.id,
       ususarioId: tokenInfo.idUser,
     };
 
@@ -451,10 +451,13 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
     >
       <div
         className={`${style.containerSugestao} ${
-          toogleCardSugestao && style["--close"]
+          !toogleCardSugestao && style["--close"]
         }`}
       >
-        <CardSugestao maquinaId={dataBudget?.maquina.maquinaClienteId} />
+        <CardSugestao
+          changeToogle={setToogleCardSugestao}
+          maquinaId={dataBudget?.maquina.maquinaClienteId}
+        />
       </div>
       <div
         className={
@@ -617,6 +620,7 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
         <div className={style.containerActions}>
           <div className={style.container_buttonBack}>
             <button
+              title="Voltar"
               onClick={() => {
                 setDataBudget(undefined);
                 changeToogle(false);
@@ -631,16 +635,29 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
             </button>
           </div>
           <div className={style.containerButtonDaily}>
-            <button onClick={() => setToogleDiario((current) => !current)}>
+            <button
+              title="Diário"
+              onClick={() => setToogleDiario((current) => !current)}
+            >
               <Icons.Book />
             </button>
           </div>
           <div className={style.containerButtonDailyDir}>
-            <button onClick={() => setToogleDiario((current) => !current)}>
+            <button
+              title="Diário privado"
+              onClick={() => setToogleDiario((current) => !current)}
+            >
               <Icons.Book />
             </button>
           </div>
-          <div className={style.containerMap}>
+          <div className={style.containerButtonSugestao}>
+            <button
+              onClick={() => setToogleCardSugestao((current) => !current)}
+            >
+              <Icons.InfoIdea />
+            </button>
+          </div>
+          <div title="Mapa" className={style.containerMap}>
             {dataBudget && ValidateServiceExternal() && (
               <a
                 target="_blank"

@@ -55,6 +55,7 @@ export interface IMaquinaProps {
   pecas: IPecasProps[];
 }
 export interface IPecasProps {
+  id: string;
   pecaId: string;
   conserto: boolean;
   codigoPeca: string;

@@ -1,17 +1,20 @@
 import { useEffect, useState } from "react";
 import styles from "./style.module.css";
 import { IInsertSugestao, IReturSugestao } from "./ISugestao";
-import {
-  FetchSugestao,
-  FetchSugestaoByMaquinaId,
-  InsertSugestao,
-} from "./Sugestao.Functions";
+import { FetchSugestaoByMaquinaId, InsertSugestao } from "./Sugestao.Functions";
 import {
   DateAndYearStringFormat,
   DateTimeStringFormat,
 } from "../../../../utils/DateTimeString";
+import ButtonUi from "../../../../UI/button/Button";
+import { Icons } from "../../../../utils/IconDefault";
 
-export default function Card({ maquinaId }: { maquinaId: string | undefined }) {
+interface CardSugestaoProps {
+  maquinaId: string | undefined;
+  changeToogle: Function;
+}
+
+export default function Card({ maquinaId, changeToogle }: CardSugestaoProps) {
   const [data, setData] = useState<IReturSugestao[]>([]);
   const [toogleAddSugestao, setToogleAddSugestao] = useState<boolean>(false);
   const [valueEntityInsert, setValueEntityInsert] = useState({
@@ -19,6 +22,8 @@ export default function Card({ maquinaId }: { maquinaId: string | undefined }) {
     descricaoSugestao: "",
     maquinaSugestaoId: "",
   });
+
+  const { Button } = ButtonUi();
 
   useEffect(() => {
     const fetch = async () => {
@@ -34,7 +39,6 @@ export default function Card({ maquinaId }: { maquinaId: string | undefined }) {
   }, [maquinaId]);
 
   const Insert = async () => {
-    console.log(maquinaId);
     if (maquinaId) {
       const obj: IInsertSugestao = {
         dataCobranca: new Date(valueEntityInsert.dataCobranca),
@@ -43,6 +47,12 @@ export default function Card({ maquinaId }: { maquinaId: string | undefined }) {
       };
       await InsertSugestao(obj)
         .then(() => {
+          setValueEntityInsert((current) => ({
+            ...current,
+            dataCobranca: "",
+            descricaoSugestao: "",
+          }));
+          setToogleAddSugestao(() => false);
           FetchSugestaoByMaquinaId({
             maquinaId: maquinaId,
           }).then((res) => setData(() => res.data));
@@ -98,13 +108,22 @@ export default function Card({ maquinaId }: { maquinaId: string | undefined }) {
           </div>
           <footer className={styles.footerAddSugestao}>
             <button onClick={() => Insert()}>ADICIONAR</button>
-            <button>FECHAR</button>
+            <button onClick={() => setToogleAddSugestao((current) => !current)}>
+              FECHAR
+            </button>
           </footer>
         </div>
       </div>
       <main className={styles.container}>
         <header className={styles.header}>
-          <h5>SUGESTÕES</h5>
+          <h5 className={styles.title}>SUGESTÕES</h5>
+
+          <button
+            onClick={() => setToogleAddSugestao((current) => !current)}
+            className={styles.button}
+          >
+            <Icons.AddFill />
+          </button>
         </header>
         <main className={styles.body}>
           {data &&
@@ -133,7 +152,14 @@ export default function Card({ maquinaId }: { maquinaId: string | undefined }) {
               </div>
             ))}
         </main>
-        <footer></footer>
+        <footer className={styles.footer}>
+          <Button
+            onClick={() => changeToogle(false)}
+            classUi="glass"
+            color="red"
+            text="FECHAR"
+          />
+        </footer>
       </main>
     </div>
   );
