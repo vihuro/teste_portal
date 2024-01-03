@@ -985,9 +985,6 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                       <th>CÓDIGO PEÇA</th>
                       <th>DESCRIÇÃO </th>
                       <th>QTD</th>
-                      <th>IMG.</th>
-                      <th>TROCA</th>
-                      <th>TR/RU.</th>
                       <th></th>
                     </tr>
                   </thead>
@@ -999,25 +996,6 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                           <td>{item.codigoPeca}</td>
                           <td>{item.descricaoPeca}</td>
                           <td>{item.quantidade}</td>
-                          <td>VISUALIZAR</td>
-                          <td className={style.radio}>
-                            <input
-                              className={style.checked}
-                              type="radio"
-                              name={`rdb${item.codigoPeca + index}`}
-                              checked={item.troca}
-                              readOnly
-                            />
-                          </td>
-                          <td className={style.radio}>
-                            <input
-                              className={style.checked}
-                              type="radio"
-                              name={`rdb${item.codigoPeca + index}`}
-                              checked={!item.troca}
-                              readOnly
-                            />
-                          </td>
                           <td
                             className={style["button-delete"]}
                             onClick={() => {
