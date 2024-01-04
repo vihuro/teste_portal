@@ -198,6 +198,12 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
 
     return false;
   }
+  function ValidateStatusNotManutencaoFinalizada() {
+    if (dataBudget && dataBudget.status !== "MANUTENÇÃO FINALIZADA")
+      return true;
+
+    return false;
+  }
   function ValidateRuleForRequestParts() {
     if (
       tokenInfo["GERENCIAL"] === "TI" ||
@@ -255,7 +261,7 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
   }) {
     switch (text) {
       case "AGUARDANDO ATRIBUIÇÃO":
-        return "";
+        return <p></p>;
       case "AGUARDANDO ORÇAMENTO":
         return (
           <p
@@ -590,7 +596,6 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
           </div>
         </div>
       )}
-
       <div
         className={
           toogleFilterPecas
@@ -846,10 +851,18 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
               required
               autoComplete="off"
               id="txtTecnicoOrcamento"
-              value={tecnicoOrcamento ? tecnicoOrcamento.nome : ""}
+              value={
+                dataBudget && dataBudget.tecnicoOrcamento
+                  ? dataBudget.tecnicoOrcamento.nome
+                  : ""
+              }
               onChange={() => {}}
               onClick={() => {
-                setListTecnicoOrcamento(!listTecnicoOrcamento);
+                if (
+                  ValidateRuleUser() &&
+                  ValidateStatusNotManutencaoFinalizada()
+                )
+                  setListTecnicoOrcamento(!listTecnicoOrcamento);
               }}
             />
             <label htmlFor="txtTecnicoOrcamento">TÉCNICO ORÇ.</label>
@@ -902,11 +915,20 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
             <input
               type="text"
               required
+              autoComplete="off"
               id="txtTecnicoManutencao"
-              value={tecnicoManutencao ? tecnicoManutencao.nome : ""}
+              value={
+                dataBudget && dataBudget?.tecnicoManutencao
+                  ? dataBudget.tecnicoManutencao.nome
+                  : ""
+              }
               onChange={() => {}}
               onClick={() => {
-                setListTecnicoManutencao(!listTecnicoManutecao);
+                if (
+                  ValidateRuleUser() &&
+                  ValidateStatusNotManutencaoFinalizada()
+                )
+                  setListTecnicoManutencao(!listTecnicoManutecao);
               }}
             />
             <label htmlFor="txtTecnicoManutencao">TÉCNICO MANUT.</label>
