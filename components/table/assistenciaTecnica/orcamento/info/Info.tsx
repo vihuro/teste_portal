@@ -478,6 +478,7 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
           typeStatus={status}
           numeroOrcamento={numeroOrcamento}
           numeroStatus={numeroStatus}
+          maquinaId={dataBudget ? dataBudget.maquina.maquinaId : ""}
         />
       </div>
       <div

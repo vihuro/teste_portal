@@ -1,223 +1,246 @@
 .card {
-    background: white;
-    border-radius: 7px;
-    position: relative;
-    overflow: hidden;
-    display: grid;
-
+  background: white;
+  border-radius: 7px;
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  margin: 30px 0 0 0;
 }
 
 .container_message,
 .container_message_close,
 .container_loading,
 .container_loading_close {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 5;
-    transition: .5s;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 5;
+  transition: 0.5s;
 }
-
+.containerSugestao {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  transition: 0.2s;
+  z-index: 3;
+  overflow: auto;
+}
+.--close {
+  scale: 1.1;
+  opacity: 0;
+  pointer-events: none;
+}
+.buttonSugestao {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  font-size: 18px;
+  border: none;
+  transition: 0.2s;
+  background-color: rgb(252, 6, 231);
+  cursor: pointer;
+}
+.buttonSugestao svg path {
+  stroke: white;
+}
+.buttonSugestao:hover {
+  transform: scale(1.2);
+}
 .container_message_close {
-    transform: translateY(-100%);
+  transform: translateY(-100%);
 }
 
 .container_loading,
 .container_loading_close {
-    background-color: rgba(238, 238, 238, 0.629);
+  background-color: rgba(238, 238, 238, 0.629);
 }
 
 .container_loading_close {
-    transform: translateY(-100%);
+  transform: translateY(-100%);
 }
 
 .wrap_containerTecnico label {
-    position: absolute;
-    left: 0;
-    transition: .5s;
-    font-size: 14px;
-    color: rgb(131, 130, 130);
+  position: absolute;
+  left: 0;
+  transition: 0.5s;
+  font-size: 14px;
+  color: rgb(131, 130, 130);
 }
 
-.wrap_containerTecnico input:valid~label,
-.wrap_containerTecnico input:focus~label {
-    font-size: 12px;
-    background-color: var(--background-color-blue-700);
-    padding: 3px;
-    border-radius: 5px;
-    color: white;
-    transform: translateX(23px) translateY(-10px);
+.wrap_containerTecnico input:valid ~ label,
+.wrap_containerTecnico input:focus ~ label {
+  font-size: 12px;
+  background-color: var(--background-color-blue-700);
+  padding: 3px;
+  border-radius: 5px;
+  color: white;
+  transform: translateX(23px) translateY(-10px);
 }
 
 .wrap_containerTecnico label {
-    transform: translateX(23px) translateY(15px);
+  transform: translateX(23px) translateY(15px);
 }
 
+@media (max-width: 440px) {
+  .card {
+    width: 300px;
+    height: 500px;
+    grid-template-rows: 20px 1fr 100px;
+  }
 
+  .container_body {
+    display: grid;
+    grid-template-rows: 20px;
+    grid-auto-rows: 50px;
+    gap: 12px;
+    padding: 10px 7px 0 7px;
+    overflow: auto;
+  }
 
-@media (max-width:440px) {
-    .card {
-        width: 300px;
-        height: 500px;
-        grid-template-rows: 20px 1fr 100px;
-    }
+  .containerRadioButton {
+    grid-area: 1/1/1/1;
+    display: flex;
+    justify-content: center;
+  }
 
-    .container_body {
-        display: grid;
-        grid-template-rows: 20px;
-        grid-auto-rows: 50px;
-        gap: 12px;
-        padding: 10px 7px 0 7px;
-        overflow: auto;
-    }
+  .containerRadioButton div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+  }
 
-    .containerRadioButton {
-        grid-area: 1/1/1/1;
-        display: flex;
-        justify-content: center;
-    }
-
-    .containerRadioButton div {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 20px;
-    }
-
-    .footer {
-        display: grid;
-        gap: 15px;
-        padding: 10px;
-
-    }
+  .footer {
+    display: grid;
+    gap: 15px;
+    padding: 10px;
+  }
 }
 
 .wrap_containerTecnico input {
-    width: 90%;
-    border: 1px solid rgba(102, 102, 102, 0.555);
-    padding: 17px 10px 10px 10px;
-    border-radius: 5px;
-    cursor: default;
-    outline: none;
+  width: 90%;
+  border: 1px solid rgba(102, 102, 102, 0.555);
+  padding: 17px 10px 10px 10px;
+  border-radius: 5px;
+  cursor: default;
+  outline: none;
 }
 
 .wrap_containerTecnico label {
-    position: absolute;
-    left: 0;
+  position: absolute;
+  left: 0;
 }
 
 .listTecnico,
 .listTecnico_close {
-    position: absolute;
-    bottom: -70px;
-    background-color: var(--background-color-blue-600);
-    width: 95%;
-    height: 70px;
-    list-style: none;
-    color: white;
-    transition: .5s;
-    transform-origin: top;
-    border-radius: 5px;
-    overflow: auto;
-    cursor: default;
-    z-index: 3;
+  position: absolute;
+  bottom: -70px;
+  background-color: var(--background-color-blue-600);
+  width: 95%;
+  height: 70px;
+  list-style: none;
+  color: white;
+  transition: 0.5s;
+  transform-origin: top;
+  border-radius: 5px;
+  overflow: auto;
+  cursor: default;
+  z-index: 3;
 }
 
 .listTecnico li,
 .listTecnico_close li {
-    padding: 5px;
+  padding: 5px;
 }
 
 .listTecnico li:hover,
 .listTecnico_close li:hover {
-    background-color: rgba(38, 48, 192, 0.84);
+  background-color: rgba(38, 48, 192, 0.84);
 }
 
 .listTecnico_close {
-    transform: scaleY(0);
+  transform: scaleY(0);
 }
 
 .container_title {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: var(--text-color-blue-600);
-    grid-area: 1/1/1/1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--text-color-blue-600);
+  grid-area: 1/1/1/1;
 }
 
 .wrap_containerTecnico {
-    position: relative;
+  position: relative;
 }
 
-@media(min-width:440px) {
-    .card {
-        width: 550px;
-        height: 350px;
-        grid-template-rows: 30px 1fr 70px;
-    }
+@media (min-width: 440px) {
+  .card {
+    width: 550px;
+    height: 500px;
+    grid-template-rows: 30px 1fr 70px;
+  }
 
+  .container_body {
+    grid-area: 2/1/2/1;
+    display: grid;
+    grid-template-rows: 20px repeat(auto-fill, 50px);
+    grid-template-columns: repeat(10, 1fr);
+    padding: 10px 7px 0 7px;
+    gap: 12px;
+    overflow: auto;
+  }
 
+  .containerRadioButton {
+    grid-area: 1/1/1/11;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
-    .container_body {
-        grid-area: 2/1/2/1;
-        display: grid;
-        grid-template-rows: 20px repeat(auto-fill, 50px);
-        grid-template-columns: repeat(10, 1fr);
-        padding: 10px 7px 0 7px;
-        gap: 12px;
-        overflow: auto;
-    }
+  .containerRadioButton div {
+    display: flex;
+    gap: 100px;
+  }
 
-    .containerRadioButton {
-        grid-area: 1/1/1/11;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
+  .container_NomeCliente {
+    grid-area: 2/1/2/6;
+  }
 
-    .containerRadioButton div {
-        display: flex;
-        gap: 100px;
-    }
+  .container_numeroSerie {
+    grid-area: 2/6/2/11;
+  }
 
-    .container_NomeCliente {
-        grid-area: 2/1/2/6;
-    }
+  .container_codigoMaquina {
+    grid-area: 3/1/3/6;
+  }
 
-    .container_numeroSerie {
-        grid-area: 2/6/2/11;
-    }
+  .container_descricaoMaquina {
+    grid-area: 3/6/3/11;
+  }
 
-    .container_codigoMaquina {
-        grid-area: 3/1/3/6;
-    }
+  .container_descricaoServico {
+    grid-area: 4/1/4/11;
+  }
+  .container_descricaoServico input {
+    width: 100% !important;
+  }
+  .wrap_containerTecnico {
+    position: relative;
+  }
 
-    .container_descricaoMaquina {
-        grid-area: 3/6/3/11;
-    }
-
-    .container_descricaoServico {
-        grid-area: 4/1/4/6;
-    }
-
-    .container_tecnico {
-        grid-area: 4/6/4/11;
-    }
-
-    .wrap_containerTecnico {
-        position: relative;
-    }
-
-    .footer {
-        grid-area: 3/1/3/1;
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        padding: 7px;
-        gap: 10px;
-        justify-content: center;
-        padding: 15px;
-    }
+  .footer {
+    grid-area: 3/1/3/1;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    padding: 7px;
+    gap: 10px;
+    justify-content: center;
+    padding: 15px;
+  }
 }

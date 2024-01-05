@@ -7,6 +7,7 @@ import { useState } from "react";
 
 interface Props {
   changeToogle: Function;
+  maquinaId: string;
   changeInfo: Function;
   typeStatus: EStatus;
   numeroOrcamento: number;
@@ -19,6 +20,7 @@ export default function ConfirmStatus({
   typeStatus,
   numeroOrcamento,
   numeroStatus,
+  maquinaId,
 }: Props) {
   const { tokenInfo } = SearchInfoOfUserOnToken;
 
@@ -27,15 +29,14 @@ export default function ConfirmStatus({
   async function UpdateStatus() {
     const obj = {
       numeroOrcamento: numeroOrcamento,
+      maquinaId: maquinaId,
       usuarioId: tokenInfo.idUser,
       statusId: numeroStatus,
       observacao: text,
     };
     const url = typeUrl(typeStatus);
 
-    console.log(url);
-
-    await Api.post(`/orcamento/${url}`, obj)
+    await Api.put(`/orcamento/${url}`, obj)
       .then((res) => {
         changeToogle(false);
         changeInfo(res.data);
@@ -47,7 +48,7 @@ export default function ConfirmStatus({
   const typeUrl = (typeStatus: EStatus) => {
     switch (typeStatus) {
       case EStatus.STATUS_AGUARDANDO_ORCAMENTO:
-        return "aguardando-orcamento";
+        return "orcamento-iniciado";
       case EStatus.STATUS_AGUARDANDO_LIBERACAO_ORCAMENTO:
         return "aguardando-liberacao-orcamento";
       case EStatus.STATUS_ORCAMENTO_RECUSADO:

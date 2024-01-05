@@ -26,7 +26,7 @@ export default function Card({ maquinaId, changeToogle }: CardSugestaoProps) {
   const { Button } = ButtonUi();
 
   useEffect(() => {
-    const fetch = async () => {
+    const fetchSugestao = async () => {
       if (maquinaId) {
         const response = await FetchSugestaoByMaquinaId({
           maquinaId: maquinaId,
@@ -35,7 +35,7 @@ export default function Card({ maquinaId, changeToogle }: CardSugestaoProps) {
       }
     };
 
-    fetch();
+    fetchSugestao();
   }, [maquinaId]);
 
   const Insert = async () => {
