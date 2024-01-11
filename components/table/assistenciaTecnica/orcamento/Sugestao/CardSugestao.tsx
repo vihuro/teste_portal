@@ -3,6 +3,7 @@ import styles from "./style.module.css";
 import { IInsertSugestao, IReturSugestao } from "./ISugestao";
 import { FetchSugestaoByMaquinaId, InsertSugestao } from "./Sugestao.Functions";
 import {
+  ChangeFormatForInput,
   DateAndYearStringFormat,
   DateTimeStringFormat,
 } from "../../../../utils/DateTimeString";
@@ -17,7 +18,14 @@ interface CardSugestaoProps {
 export default function Card({ maquinaId, changeToogle }: CardSugestaoProps) {
   const [data, setData] = useState<IReturSugestao[]>([]);
   const [toogleAddSugestao, setToogleAddSugestao] = useState<boolean>(false);
+  const [toogleUpdateSugestao, setToogleUpdateSugestao] =
+    useState<boolean>(false);
   const [valueEntityInsert, setValueEntityInsert] = useState({
+    dataCobranca: "",
+    descricaoSugestao: "",
+    maquinaSugestaoId: "",
+  });
+  const [valueEntityUpdate, setValueEntityUpdate] = useState({
     dataCobranca: "",
     descricaoSugestao: "",
     maquinaSugestaoId: "",
@@ -69,7 +77,7 @@ export default function Card({ maquinaId, changeToogle }: CardSugestaoProps) {
         }`}
       >
         <div className={styles.wrapContainerAddSugestao}>
-          <span>Adicione uma nova sugestão!</span>
+          <p>Adicione uma nova sugestão!</p>
           <div className={styles.wrapInput}>
             <input
               id="txtDataCobrancaCliente"
@@ -114,10 +122,61 @@ export default function Card({ maquinaId, changeToogle }: CardSugestaoProps) {
           </footer>
         </div>
       </div>
+      <div
+        className={`${styles.containerUpdateSugestao} ${
+          !toogleUpdateSugestao && styles["--close"]
+        }`}
+      >
+        <div className={styles.wrapContainerUpdateSugestao}>
+          <p>Altere a sugestão</p>
+          <div className={styles.wrapInput}>
+            <input
+              id="txtDataCobrancaClienteAlteracao"
+              title="Data para cobra o cliente"
+              type="date"
+              value={valueEntityUpdate.dataCobranca}
+              onChange={(e) =>
+                setValueEntityUpdate((current) => ({
+                  ...current,
+                  dataCobranca: e.target.value,
+                }))
+              }
+            />
+            <label htmlFor="txtDataCobrancaClienteAlteracao">Data</label>
+          </div>
+          <div className={styles.wrapInput}>
+            <input
+              maxLength={300}
+              required
+              id="txtDescricaoSugestaoAlteracao"
+              type="text"
+              value={valueEntityUpdate.descricaoSugestao}
+              onChange={(e) =>
+                setValueEntityUpdate((current) => ({
+                  ...current,
+                  descricaoSugestao: e.target.value,
+                }))
+              }
+            />
+            <label htmlFor="txtDescricaoSugestaoAlteracao">Sugestão</label>
+          </div>
+          <footer className={styles.footerAddSugestao}>
+            <button
+              onClick={() => setToogleUpdateSugestao((current) => !current)}
+            >
+              Alterar
+            </button>
+            <button
+              onClick={() => setToogleUpdateSugestao((current) => !current)}
+            >
+              Fechar
+            </button>
+          </footer>
+        </div>
+      </div>
       <main className={styles.container}>
         <header className={styles.header}>
           <h5 className={styles.title}>SUGESTÕES</h5>
-
           <button
             onClick={() => setToogleAddSugestao((current) => !current)}
             className={styles.button}
@@ -134,6 +193,22 @@ export default function Card({ maquinaId, changeToogle }: CardSugestaoProps) {
                   styles["--" + item.status.replace(" ", "-")]
                 }`}
               >
+                <div
+                  className={styles.actionEdit}
+                  onClick={() => {
+                    setValueEntityUpdate(() => ({
+                      dataCobranca: ChangeFormatForInput(item.dataCobranca),
+                      descricaoSugestao: item.sugestaoManutencao,
+                      maquinaSugestaoId: item.maquinaSugerida.maquinaId,
+                    }));
+                    setToogleUpdateSugestao((current) => !current);
+                  }}
+                >
+                  <Icons.Edit />
+                </div>
+                <div className={styles.actionRemoved}>
+                  <Icons.Delete />
+                </div>
                 <span>{item.sugestaoManutencao}</span>
                 <br />
                 <span>

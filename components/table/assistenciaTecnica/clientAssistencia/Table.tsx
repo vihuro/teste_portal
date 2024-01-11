@@ -183,8 +183,9 @@ export default function Table() {
       return;
     }
     const maquina = dataItemAlteracao.maquinaCliente.find(
-      (item) => item.maquinaId === maquinaId
+      (item) => item.id === maquinaId
     );
+
     if (!maquina) {
       return;
     }
@@ -192,6 +193,7 @@ export default function Table() {
       ...dataItemAlteracao,
       maquinaCliente: maquina,
     };
+
     setDataItemAlteracaoOrcamento(() => item);
   }, [maquinaId]);
 

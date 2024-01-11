@@ -71,7 +71,6 @@ export default function Card({
     message: "",
     type: "WARNING",
   });
-  const [toogleListTecnico, setToogleListTecnico] = useState<boolean>(false);
   const [externo, setExterno] = useState<boolean>(false);
   const [descricaoServico, setDescricaoServico] = useState<string>("");
 
@@ -84,7 +83,7 @@ export default function Card({
     const obj = {
       descricaoServico: descricaoServico,
       userId: tokenInfo.idUser,
-      MaquinaId: maquinaId,
+      MaquinaId: cliente?.maquinaCliente.maquinaId,
       externo: externo,
     };
     await Api.post("/orcamento", obj)
@@ -117,12 +116,7 @@ export default function Card({
   const { Radio } = RadioButton();
 
   return (
-    <form
-      className={style.card}
-      onClick={() => {
-        setToogleListTecnico(false);
-      }}
-    >
+    <form className={style.card}>
       <div
         className={
           toogleMessage

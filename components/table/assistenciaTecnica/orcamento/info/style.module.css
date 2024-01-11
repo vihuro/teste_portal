@@ -580,7 +580,7 @@
   color: rgb(143, 142, 142);
 }
 .containerButtonSugestao button {
-  background-color: rgb(252, 6, 231);
+  background-color: rgba(252, 6, 231, 0.541);
 }
 .containerButtonSugestao button svg path {
   stroke: white;
