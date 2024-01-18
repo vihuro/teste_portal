@@ -51,17 +51,19 @@ export default function Bi() {
       <thead>
         <tr>
           <th>DATA DE ABERTURA</th>
-          <th>Nº OS</th>
+          <th>OS</th>
           <th>STATUS</th>
           <th>MODELO</th>
-          <th>Nº SÉRIE</th>
-          <th>DESCRIÇÃO</th>
-          <th>TÉCNICO ORÇ.</th>
-          <th>TEMPO ORÇ.</th>
-          <th>PERFORMANCE ORÇ.</th>
-          <th>TÉCNICO MANUT.</th>
-          <th>TEMPO MANUT.</th>
-          <th>PERFORMANCE MAN.</th>
+          <th>SÉRIE</th>
+          <th>INFORMAÇÕES</th>
+          <th>RESP. ORÇ</th>
+          <th>LIMITE ORÇ.</th>
+
+          <th>RESP. SERVIÇO</th>
+          <th>LIMITE EXEC.</th>
+          <th style={{
+            fontSize: 14
+          }}>AVALIAÇÃO DO TÉCNICO</th>
         </tr>
       </thead>
       <tbody className={style.tableBody}>
@@ -70,13 +72,28 @@ export default function Bi() {
             <tr key={index}>
               <td>{DateTimeStringFormat(item.cadastro.dataHora)}</td>
               <td>{item.numeroOrcamento}</td>
-              <td>{item.status}</td>
+              <td style={{
+                background: item.status === "AGUARDANDO LIBERAÇÃO DO ORÇAMENTO" ? "red" :
+                  item.status === "AGUARDANDO ORÇAMENTO" ? "#a836ff" :
+                    item.status === "AGUARDANDO ATRIBUIÇÃO" ? "#e9ff36" :
+                      item.status === "ORÇANDO" ? "#0e98e9" :
+                        item.status === "AGUARDANDO PEÇAS" ? "#f7840d" :
+                          item.status === "AGUARDANDO MANUTENÇÃO" ? "#A836FF" :
+                            item.status === "MANUTENÇÃO INICIADA" ? "#0a0297" : "green",
+
+
+                color: item.status === "AGUARDANDO LIBERAÇÃO DO ORÇAMENTO" ? "white" :
+                  item.status === "AGUARDANDO ORÇAMENTO" ? "white" :
+                    item.status === "MANUTENÇÃO FINALIZADA" ? "black" :
+                      item.status === "AGUARDANDO MANUTENÇÃO" ? "white" :
+                        item.status === "MANUTENÇÃO INICIADA" ? "WHITE" : "black",
+              }} >{item.status}</td>
               <td>{item.maquina.descricaoMaquina}</td>
               <td>{item.maquina.numeroSerie}</td>
               <td>{item.descricaoServico}</td>
               <td>{item.tecnicoOrcamento?.nome}</td>
               <td>{item.tempoEstimadoOrcamento}</td>
-              <td>{TempoOrcamento(item.statusSituacao)}</td>
+
               <td>{item.tecnicoManutencao?.nome}</td>
               <td>{item.tempoEstimadoManutencao}</td>
               {/* <td>{item.}</td>

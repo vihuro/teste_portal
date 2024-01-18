@@ -16,6 +16,7 @@
 .tableBody{
     
     background-color:rgb(255, 240, 221) ;
+    text-align: center;
 }
 .tableBody tr td{
     padding: 20px;

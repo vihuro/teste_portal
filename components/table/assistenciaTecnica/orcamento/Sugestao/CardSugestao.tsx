@@ -206,9 +206,7 @@ export default function Card({ maquinaId, changeToogle }: CardSugestaoProps) {
                 >
                   <Icons.Edit />
                 </div>
-                <div className={styles.actionRemoved}>
-                  <Icons.Delete />
-                </div>
+
                 <span>{item.sugestaoManutencao}</span>
                 <br />
                 <span>
