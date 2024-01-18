@@ -1,92 +1,135 @@
-.container{
-    width: 80%;
-    height: 80%;
-    display: grid;
-    grid-template-rows: 1fr 50px;
-    background-color: white;
+.container {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-rows: 50px 1fr 50px;
+  grid-template-areas:
+    "header"
+    "table"
+    "button";
+  background-color: white;
+  position: relative;
 }
 
-.container_table{
-    /* width: 100%;
+.container_table {
+  /* width: 100%;
     height: 100%; */
-    width: 100%;
-    grid-area: 1/1/1/1;
-    overflow: auto;
-    border-radius: 7px;
+  width: 100%;
+  grid-area: table;
+  overflow: auto;
+  border-radius: 7px;
+}
+.containerHeader {
+  grid-area: header;
+  position: relative;
+  display: flex;
+}
+.containerHeader button {
+  position: absolute;
+  right: 25px;
+  top: 15px;
+  padding: 5px;
+  border-radius: 5px;
+  font-weight: 600;
+  background-color: transparent;
+  color: rgb(2, 122, 74);
+  border: 2px solid rgb(10, 228, 137);
+  transition: 0.55s;
+  width: 250px;
+}
+.containerAddMaquina {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transition: 0.5s;
+}
+.cardConfirmAdd {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.containerAddMaquina.--close {
+  transform: translateX(-100%);
+}
+.containerHeader button:hover {
+  letter-spacing: 2px;
 }
 
-.table{
-    border-collapse: collapse;
-    width: 100%;
+.table {
+  border-collapse: collapse;
+  width: 100%;
 }
-.table thead{
-    background-color: var(--background-color-blue-700);
-    color: white;
-    font-size: 14px;
+.table thead {
+  background-color: var(--background-color-blue-700);
+  color: white;
+  font-size: 14px;
 }
-.table thead tr th{
-    padding: 5px;
-    position: relative;
+.table thead tr th {
+  padding: 5px;
+  position: relative;
 }
-.table thead tr th:not(:last-child){
-    border-right: 1px solid white;
-
+.table thead tr th:not(:last-child) {
+  border-right: 1px solid white;
 }
-.table tbody{
-    background-color: rgba(219, 233, 240, .5);
-    font-size: 14px;
+.table tbody {
+  background-color: rgba(219, 233, 240, 0.5);
+  font-size: 14px;
 }
-.table tbody tr td{
-    padding:10px;
+.table tbody tr td {
+  padding: 10px;
 }
-.table tbody tr:not(:last-child){
-    border-bottom: 1px solid black;
+.table tbody tr:not(:last-child) {
+  border-bottom: 1px solid black;
 }
-.container_button{
-    grid-area: 2/1/2/1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 10px;
+.container_button {
+  grid-area: button;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
 }
-.table tr td svg{
-    color: blue;
-    font-size: 18px;
+.table tr td svg {
+  color: blue;
+  font-size: 18px;
 }
-.container_button button{
-    width: 100%;
-    height: 100%;
-    border: none;
-    color: white;
-    background-color: var(--background-color-blue-700);
-    border-radius: 3px;
+.container_button button {
+  width: 100%;
+  height: 100%;
+  border: none;
+  color: white;
+  background-color: var(--background-color-blue-700);
+  border-radius: 3px;
 }
 .container_filterCodigo,
 .container_filterDescricao,
 .container_filterNumeroSerie,
 .container_filterCodigo_close,
 .container_filterDescricao_close,
-.container_filterNumeroSerie_close{
-    position: absolute;
-    width: 150px;
-    height: 100px;
-    background-color: white;
-    box-shadow: 1px 0 10px 1px rgba(160, 160, 160, 0.459);
-    border-radius: 5px;
-    padding: 1px;
-    overflow: hidden;
-    transition: .5s;
-    transform-origin: top;
+.container_filterNumeroSerie_close {
+  position: absolute;
+  width: 150px;
+  height: 100px;
+  background-color: white;
+  box-shadow: 1px 0 10px 1px rgba(160, 160, 160, 0.459);
+  border-radius: 5px;
+  padding: 1px;
+  overflow: hidden;
+  transition: 0.5s;
+  transform-origin: top;
 }
 .container_filterCodigo,
 .container_filterDescricao,
-.container_filterNumeroSerie{
-    transform: scaleY(1);
-    transition: .5s;
+.container_filterNumeroSerie {
+  transform: scaleY(1);
+  transition: 0.5s;
 }
 .container_filterCodigo_close,
 .container_filterDescricao_close,
-.container_filterNumeroSerie_close{
-    transform: scaleY(0);
-    transition: .5s;
+.container_filterNumeroSerie_close {
+  transform: scaleY(0);
+  transition: 0.5s;
 }
