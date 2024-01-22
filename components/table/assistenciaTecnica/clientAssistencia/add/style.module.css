@@ -1,322 +1,320 @@
 .card {
-    width: 550px;
-    height: 500px;
-    background: white;
-    border-radius: 7px;
-    position: relative;
-    overflow: hidden;
-    display: grid;
-    margin: 30px 0 0 0;
-    grid-template-rows: 40px 1fr 70px;
+  width: 550px;
+  height: 500px;
+  background: white;
+  border-radius: 7px;
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  margin: 30px 0 0 0;
+  grid-template-rows: 40px 1fr 70px;
 }
 
 .container_table {
-    border: 1px solid var(--background-color-blue-700);
-    border-radius: 7px;
-    overflow: auto;
+  border: 1px solid var(--background-color-blue-700);
+  border-radius: 7px;
+  overflow: auto;
 }
 
 .table {
-    border-collapse: collapse;
-    width: 100%;
-    z-index: 1;
+  border-collapse: collapse;
+  width: 100%;
+  z-index: 1;
 }
 
 .table th:not(:last-child) {
-    border-right: 1px solid rgb(255, 255, 255);
+  border-right: 1px solid rgb(255, 255, 255);
 }
 
 .table th {
-    padding: 5px;
+  padding: 5px;
 }
 
 .table thead {
-    background-color: var(--background-color-blue-700);
-    font-size: 15px;
-    color: rgba(255, 255, 255, 0.815);
-    position: sticky;
-    top: 0;
-    z-index: 1;
+  background-color: var(--background-color-blue-700);
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.815);
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  text-wrap: nowrap;
 }
 
 .table_body {
-    background-color: rgba(219, 233, 240, .5);
-    font-weight: 700;
-    font-size: 14px;
-    color: var(--text-color-blue-600);
-    text-align: center;
+  background-color: rgba(219, 233, 240, 0.5);
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--text-color-blue-600);
+  text-align: center;
 }
 
 .table_body svg {
-    color: rgb(218, 8, 8);
-    font-size: 1rem;
-
+  color: rgb(218, 8, 8);
+  font-size: 1rem;
 }
 
 .table_body tr:not(:last-child) {
-    border-bottom: 1px solid var(--background-color-blue-700);
+  border-bottom: 1px solid var(--background-color-blue-700);
 }
 
 .table_body tr td {
-    padding: 7px;
+  padding: 7px;
 }
 
 .container_message,
 .container_message_close {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 5;
-    transition: .5s;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 5;
+  transition: 0.5s;
 }
 
 .container_filterMaquina,
 .container_filterMaquina_close {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    z-index: 5;
-    /* backdrop-filter: blur(5px); */
-    background-color: rgba(255, 255, 255, 0.418);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: .5s;
-
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 5;
+  /* backdrop-filter: blur(5px); */
+  background-color: rgba(255, 255, 255, 0.418);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.5s;
 }
 
 .container_message_close,
 .container_filterMaquina_close {
-    transform: translateY(-50px);
-    opacity: 0;
-    pointer-events: none;
+  transform: translateY(-50px);
+  opacity: 0;
+  pointer-events: none;
 }
 
 .container_loading,
 .container_loading_close {
-    position: absolute;
-    width: 100%;
-    height: 100%;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(189, 189, 189, 0.295);
+  z-index: 2;
+  transition: 0.5s;
+}
+.container_loading_close {
+  transform: translateY(-300px);
+  opacity: 0;
+  pointer-events: none;
+}
+
+@media (max-width: 440px) {
+  .card {
+    width: 300px;
+    height: 500px;
+    display: grid;
+    grid-template-rows: 30px 1fr 100px;
+  }
+
+  .container_title {
+    grid-area: 1/1/1/1;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: rgba(189, 189, 189, 0.295);
-    z-index: 2;
-    transition: .5s
-}
-.container_loading_close{
-    transform: translateY(-300px);
-    opacity: 0;
-    pointer-events: none;
-}
+    color: var(--text-color-blue-600);
+  }
 
-@media(max-width:440px) {
-    .card {
-        width: 300px;
-        height: 500px;
-        display: grid;
-        grid-template-rows: 30px 1fr 100px;
-    }
+  .container_body {
+    grid-area: 2/1/2/1;
+    display: grid;
+    grid-template-rows: repeat(14, 1fr);
+    overflow: auto;
+    padding: 3px 7px 0 7px;
+    gap: 10px;
+  }
 
-    .container_title {
-        grid-area: 1/1/1/1;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        color: var(--text-color-blue-600);
-    }
+  .container_codigoRadar {
+    grid-area: 1/1/1/11;
+    margin-top: 10px;
+  }
 
-    .container_body {
-        grid-area: 2/1/2/1;
-        display: grid;
-        grid-template-rows: repeat(14, 1fr);
-        overflow: auto;
-        padding: 3px 7px 0 7px;
-        gap: 10px;
-    }
+  .container_cnpj {
+    grid-area: 2/1/2/11;
+  }
 
-    .container_codigoRadar {
-        grid-area: 1/1/1/11;
-        margin-top: 10px;
-    }
+  .container_nomeCliente {
+    grid-area: 3/1/3/11;
+  }
 
-    .container_cnpj {
-        grid-area: 2/1/2/11;
-    }
+  .container_cidade,
+  .container_bairro,
+  .container_nomeContato {
+    width: 95%;
+  }
 
-    .container_nomeCliente {
-        grid-area: 3/1/3/11;
-    }
+  .container_cep {
+    grid-area: 4/1/4/11;
+    width: 98%;
+  }
 
-    .container_cidade,
-    .container_bairro,
-    .container_nomeContato {
-        width: 95%;
-    }
+  .container_rua {
+    grid-area: 5/1/5/11;
+  }
 
-    .container_cep {
-        grid-area: 4/1/4/11;
-        width: 98%;
-    }
+  .container_numeroEstabelecimento {
+    grid-area: 6/1/6/6;
+  }
 
-    .container_rua {
-        grid-area: 5/1/5/11;
-    }
+  .container_cidade {
+    grid-area: 6/6/6/11;
+  }
 
-    .container_numeroEstabelecimento {
-        grid-area: 6/1/6/6;
-    }
+  .container_estado {
+    grid-area: 7/1/7/6;
+  }
 
-    .container_cidade {
-        grid-area: 6/6/6/11;
-    }
+  .container_bairro {
+    grid-area: 7/6/8/11;
+  }
 
-    .container_estado {
-        grid-area: 7/1/7/6;
-    }
+  .container_complemento {
+    grid-area: 8/1/8/6;
+  }
 
-    .container_bairro {
-        grid-area: 7/6/8/11;
-    }
+  .container_nomeContato {
+    grid-area: 8/6/8/11;
+  }
 
-    .container_complemento {
-        grid-area: 8/1/8/6;
-    }
+  .container_telefoneContato {
+    grid-area: 9/1/9/11;
+  }
 
-    .container_nomeContato {
-        grid-area: 8/6/8/11;
-    }
+  .container_filterMaquinas {
+    grid-area: 10/1/14/11;
+    display: grid;
+    grid-template-rows: 150px 1fr;
+    gap: 5px;
+  }
 
-    .container_telefoneContato {
-        grid-area: 9/1/9/11;
-    }
+  .container_table {
+    grid-area: 1/1/1/1;
+    border-radius: 7px;
+    overflow: auto;
+    position: relative;
+    top: 0;
+  }
 
-    .container_filterMaquinas {
-        grid-area: 10/1/14/11;
-        display: grid;
-        grid-template-rows: 150px 1fr;
-        gap: 5px;
-    }
+  .container_buttonFilter {
+    grid-area: 2/1/2/1;
+  }
 
-    .container_table {
-        grid-area: 1/1/1/1;
-        border-radius: 7px;
-        overflow: auto;
-        position: relative;
-        top: 0;
-    }
-
-
-    .container_buttonFilter {
-        grid-area: 2/1/2/1;
-    }
-
-    .footer {
-        grid-area: 3/1/3/1;
-        display: grid;
-        grid-template-rows: repeat(2, 1fr);
-        gap: 20px;
-        padding: 7px;
-    }
+  .footer {
+    grid-area: 3/1/3/1;
+    display: grid;
+    grid-template-rows: repeat(2, 1fr);
+    gap: 20px;
+    padding: 7px;
+  }
 }
 
-@media(min-width:440px) {
-    .container_title {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        color: var(--text-color-blue-600);
-        grid-area: 1/1/1/1;
-    }
+@media (min-width: 440px) {
+  .container_title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--text-color-blue-600);
+    grid-area: 1/1/1/1;
+  }
 
-    .container_body {
-        grid-area: 2/1/2/1;
-        display: grid;
-        grid-template-rows: repeat(8, 1fr);
-        grid-template-columns: repeat(10, 1fr);
-        padding: 10px 7px 0 7px;
-        gap: 7px;
-        overflow: auto;
-    }
+  .container_body {
+    grid-area: 2/1/2/1;
+    display: grid;
+    grid-template-rows: repeat(8, 1fr);
+    grid-template-columns: repeat(10, 1fr);
+    padding: 10px 7px 0 7px;
+    gap: 7px;
+    overflow: auto;
+  }
 
-    .container_codigoRadar {
-        grid-area: 1/1/1/4;
-    }
+  .container_codigoRadar {
+    grid-area: 1/1/1/4;
+  }
 
-    .container_cnpj {
-        grid-area: 1/4/1/7;
-    }
+  .container_cnpj {
+    grid-area: 1/4/1/7;
+  }
 
-    .container_nomeCliente {
-        grid-area: 1/7/1/11;
-    }
+  .container_nomeCliente {
+    grid-area: 1/7/1/11;
+  }
 
-    .container_cep {
-        grid-area: 2/1/2/4;
-    }
+  .container_cep {
+    grid-area: 2/1/2/4;
+  }
 
-    .container_rua {
-        grid-area: 2/4/2/9;
-    }
+  .container_rua {
+    grid-area: 2/4/2/9;
+  }
 
-    .container_numeroEstabelecimento {
-        grid-area: 2/9/2/11;
-    }
+  .container_numeroEstabelecimento {
+    grid-area: 2/9/2/11;
+  }
 
-    .container_cidade {
-        grid-area: 3/1/3/4;
-    }
+  .container_cidade {
+    grid-area: 3/1/3/4;
+  }
 
-    .container_estado {
-        grid-area: 3/4/3/6;
-    }
+  .container_estado {
+    grid-area: 3/4/3/6;
+  }
 
-    .container_rua input,
-    .container_estado input {
-        width: 99%;
-    }
+  .container_rua input,
+  .container_estado input {
+    width: 99%;
+  }
 
-    .container_complemento {
-        grid-area: 3/8/3/11;
-    }
+  .container_complemento {
+    grid-area: 3/8/3/11;
+  }
 
-    .container_bairro {
-        grid-area: 3/6/3/8;
-    }
+  .container_bairro {
+    grid-area: 3/6/3/8;
+  }
 
-    .container_nomeContato {
-        grid-area: 4/1/4/7;
-    }
+  .container_nomeContato {
+    grid-area: 4/1/4/7;
+  }
 
-    .container_telefoneContato {
-        grid-area: 4/7/4/11;
-    }
+  .container_telefoneContato {
+    grid-area: 4/7/4/11;
+  }
 
-    .container_filterMaquinas {
-        grid-area: 5/1/8/11;
-        display: grid;
-        grid-template-rows: 100px 1fr;
-        gap: 5px;
-    }
+  .container_filterMaquinas {
+    grid-area: 5/1/8/11;
+    display: grid;
+    grid-template-rows: 100px 1fr;
+    gap: 5px;
+  }
 
-    .container_table {
-        grid-area: 1/1/1/1;
-    }
+  .container_table {
+    grid-area: 1/1/1/1;
+  }
 
-    .container_buttonFilter {
-        grid-area: 2/1/2/1;
-    }
+  .container_buttonFilter {
+    grid-area: 2/1/2/1;
+  }
 
-    .footer {
-        grid-area: 3/1/3/1;
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        padding: 7px;
-        gap: 10px;
-        justify-content: center;
-        padding: 15px;
-    }
+  .footer {
+    grid-area: 3/1/3/1;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    padding: 7px;
+    gap: 10px;
+    justify-content: center;
+    padding: 15px;
+  }
 }

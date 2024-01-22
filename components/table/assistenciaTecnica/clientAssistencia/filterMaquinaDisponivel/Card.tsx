@@ -6,21 +6,16 @@ import FilterColuna from "./filterDescricao/FilterDescricao";
 import { MdOutlineLibraryAdd } from "react-icons/md";
 import AddMaquina from "../../maquina/cardAdd/Card";
 import ConfirmAddMaquina from "./cardConfirmAddMaquina/CardConfirmAddMaquina";
+import { maquinaReturnProps } from "../IClienteAssistencia";
 
 interface props {
   changeToogle: Function;
-}
-interface maquinaProps {
-  codigo: string;
-  descricaoMaquina: string;
-  numeroSerie: string;
-  id: string;
 }
 
 interface CardFilterMaquinaDisponivelProps {
   changeToogle: Function;
   toogle: boolean;
-  listMaquinas: maquinaProps[];
+  listMaquinas: maquinaReturnProps[];
   setListMaquinas: Function;
 }
 
@@ -30,7 +25,7 @@ export function CardFilterMaquinaDisponivel({
   listMaquinas,
   setListMaquinas,
 }: CardFilterMaquinaDisponivelProps) {
-  const [data, setData] = useState<maquinaProps[]>([]);
+  const [data, setData] = useState<maquinaReturnProps[]>([]);
 
   const [toogleFilerCodigo, setToogleFilterCodigo] = useState<boolean>(false);
   const [toogleFilterDescricao, setToogleFilterDescricao] =
@@ -45,10 +40,12 @@ export function CardFilterMaquinaDisponivel({
   const filterMaquina = data.filter(
     (item) => !listMaquinas.some((maquinaId) => item.id === maquinaId.id)
   );
+  const [maquinaSelecionada, setMaquinaSelecionada] =
+    useState<maquinaReturnProps>();
 
   const { CardFilterCodigo, filteredData: listMaquinaVisible } = FilterCodigo(
     filterMaquina.map((item) => ({
-      codigo: item.codigo,
+      codigoMaquina: item.codigoMaquina,
       id: item.id,
     }))
   );
@@ -88,7 +85,7 @@ export function CardFilterMaquinaDisponivel({
       !listMaquinas.some((listMaquina) => listMaquina.id === item.id) &&
       listMaquinaVisible.some(
         (listMaquinaVisible) =>
-          listMaquinaVisible.codigo === item.codigo &&
+          listMaquinaVisible.codigoMaquina === item.codigoMaquina &&
           listMaquinaVisible.visible
       ) &&
       listDescricaoVisible.some(
@@ -101,6 +98,8 @@ export function CardFilterMaquinaDisponivel({
       )
     );
   });
+
+
 
   return (
     <section className={style.container}>
@@ -123,6 +122,7 @@ export function CardFilterMaquinaDisponivel({
           changeToogle={setToogleConfirm}
           toogle={toogleConfirm}
           addMaquinaInCliente={setListMaquinas}
+          maquina={maquinaSelecionada}
         />
       </div>
       <section className={style.containerHeader}>
@@ -209,20 +209,24 @@ export function CardFilterMaquinaDisponivel({
             {data &&
               filter.map((item, index) => (
                 <tr key={index}>
-                  <td>{item.codigo}</td>
+                  <td>{item.codigoMaquina}</td>
                   <td>{item.descricaoMaquina}</td>
                   <td>{item.numeroSerie}</td>
                   <td
-                    onClick={() =>
-                      setListMaquinas([
-                        ...listMaquinas,
-                        {
-                          codigo: item.codigo,
-                          id: item.id,
-                          numeroSerie: item.numeroSerie,
-                          descricaoMaquina: item.descricaoMaquina,
-                        },
-                      ])
+                    onClick={
+                      () => {
+                        setMaquinaSelecionada(() => item);
+                        setToogleConfirm((current) => !current);
+                      }
+                      // setListMaquinas([
+                      //   ...listMaquinas,
+                      //   {
+                      //     codigo: item.codigo,
+                      //     id: item.id,
+                      //     numeroSerie: item.numeroSerie,
+                      //     descricaoMaquina: item.descricaoMaquina,
+                      //   },
+                      // ])
                     }
                   >
                     <MdOutlineLibraryAdd />

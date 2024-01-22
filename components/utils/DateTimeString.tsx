@@ -9,7 +9,10 @@ const DateTimeStringFormat = (dateString: Date) => {
   return `${day}-${month}-${year} ${hour}:${minutes}`;
 };
 
-const DateAndYearStringFormat = (dateString: Date) => {
+const DateAndYearStringFormat = (dateString?: Date) => {
+
+  if (!dateString || isNaN(new Date(dateString).getFullYear())) return "";
+
   const date = new Date(dateString);
 
   const day = (date.getDate() + 1).toString().padStart(2, "0");

@@ -51,8 +51,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: 0.5s;
 }
-.containerAddMaquina.--close {
+.containerAddMaquina.--close,
+.cardConfirmAdd.--close {
   transform: translateX(-100%);
 }
 .containerHeader button:hover {

@@ -14,6 +14,7 @@ import {
 } from "../../orcamento/Sugestao/Sugestao.Functions";
 import CardSugestao from "../../orcamento/Sugestao/CardSugestao";
 import { Icons } from "../../../../utils/IconDefault";
+import { maquinaReturnProps } from "../IClienteAssistencia";
 
 interface props {
   changeToogle: Function;
@@ -31,7 +32,7 @@ interface dataProps {
   nome: string;
   cadastro: userProps;
   alteracao: userProps;
-  maquinaCliente: maquinaClienteProps;
+  maquinaCliente: maquinaReturnProps;
   cep: string;
   estado: string;
   cidade: string;
@@ -47,13 +48,7 @@ interface userProps {
   apelido: string;
   dataHora: Date;
 }
-interface maquinaClienteProps {
-  maquinaId: string;
-  codigoMaquina: string;
-  numeroSerie: string;
-  tipoMaquina: string;
-  status: string;
-}
+
 const { tokenInfo } = InfoUser;
 
 export default function Card({

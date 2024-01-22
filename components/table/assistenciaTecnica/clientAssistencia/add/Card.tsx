@@ -11,17 +11,14 @@ import Loading from "../../../../loading/Loading";
 import { tokenProps } from "../../../../utils/infoToken";
 import TokenDrecriptor from "../../../../../service/DecriptorToken";
 import { parseCookies } from "nookies";
+import { TipoAquisicao, maquinaProps } from "../IClienteAssistencia";
+import { DateAndYearStringFormat } from "../../../../utils/DateTimeString";
 
 interface props {
   changeToogleCard: Function;
   refreshTable: Function;
 }
-interface maquinaProps {
-  codigo: string;
-  descricaoMaquina: string;
-  numeroSerie: string;
-  id: string;
-}
+
 export default function Card({ changeToogleCard, refreshTable }: props) {
   const { Button } = ButtonUi();
   const { Input } = InputUi();
@@ -129,6 +126,10 @@ export default function Card({ changeToogleCard, refreshTable }: props) {
       userId: tokenInfo.idUser,
       maquinas: listMaquinas.map((item) => ({
         maquinaId: item.id,
+        tipoAquisicao: item.tipoAquisicao,
+        dataSugestaoRetorno: item.dataSugeridaRetorno
+          ?new Date(item.dataSugeridaRetorno)
+          : null,
       })),
     };
 
@@ -136,6 +137,7 @@ export default function Card({ changeToogleCard, refreshTable }: props) {
       ...novoCliente,
       cnpj: valueCnpj,
     });
+    console.log(obj);
     await Api.post("/cliente", obj)
       .then((res) => {
         setDataMessage({
@@ -183,7 +185,7 @@ export default function Card({ changeToogleCard, refreshTable }: props) {
     });
     setTextCep("");
     setValueCnpj("");
-    // setListMaquina([]);
+    setListMaquina([]);
   }
   async function SearchCEP() {
     if (textCep === "") {
@@ -452,6 +454,8 @@ export default function Card({ changeToogleCard, refreshTable }: props) {
                   <th>CÓD/MAQ</th>
                   <th>DESCRIÇÃO</th>
                   <th>Nº SÉRIE</th>
+                  <th>TIPO/AQUISIÇÃO</th>
+                  <th>DATA/SUG/RETOR.</th>
                   <th>DEL.</th>
                 </tr>
               </thead>
@@ -459,9 +463,11 @@ export default function Card({ changeToogleCard, refreshTable }: props) {
                 {listMaquinas &&
                   listMaquinas.map((item, index) => (
                     <tr key={index}>
-                      <td>{item.codigo}</td>
+                      <td>{item.codigoMaquina}</td>
                       <td>{item.descricaoMaquina}</td>
                       <td>{item.numeroSerie}</td>
+                      <td>{TipoAquisicao[item.tipoAquisicao]}</td>
+                      <td>{DateAndYearStringFormat(item.dataSugeridaRetorno)}</td>
                       <td
                         onClick={() =>
                           setListMaquina((current) => {

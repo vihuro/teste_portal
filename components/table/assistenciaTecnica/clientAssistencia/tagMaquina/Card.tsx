@@ -1,20 +1,15 @@
 import { useState } from "react";
 import style from "./style.module.css";
 import Api from "../../../../../service/api/assistenciaTecnica/Assistencia";
+import { maquinaReturnProps } from "../IClienteAssistencia";
+import { ChangeFormatForInput, DateAndYearStringFormat } from "../../../../utils/DateTimeString";
 
 interface props {
-  maquina: maquinaProps[];
+  maquina: maquinaReturnProps[];
   abrirOrdemService: Function;
   changeMaquinaId: Function;
 }
 
-interface maquinaProps {
-  id: string;
-  maquinaId: string;
-  tipoMaquina: string;
-  numeroSerie: string;
-  status: string;
-}
 interface Color {
   background: string;
   color: string;
@@ -69,7 +64,7 @@ export default function Card({
       item.numeroSerie
         .toLocaleUpperCase()
         .startsWith(numeroSerie.toLocaleUpperCase()) &&
-      item.tipoMaquina.toLocaleUpperCase().startsWith(tipo.toLocaleUpperCase())
+      item.descricaoMaquina.toLocaleUpperCase().startsWith(tipo.toLocaleUpperCase())
   );
 
   return (
@@ -100,6 +95,8 @@ export default function Card({
                 <th>Nº SÉRIE</th>
                 <th>DESCR.</th>
                 <th>STATUS</th>
+                <th>TIPO/AQUIS.</th>
+                <th>DATA/SUG/RETOR.</th>
                 <th>AÇÃO</th>
               </tr>
             </thead>
@@ -107,12 +104,14 @@ export default function Card({
               {filter.map((item, index) => (
                 <tr key={index}>
                   <td>{item.numeroSerie}</td>
-                  <td>{item.tipoMaquina}</td>
+                  <td>{item.descricaoMaquina}</td>
                   <td>
                     <p className={style.status} style={GetColor(item.status)}>
                       {item.status}
                     </p>
                   </td>
+                  <td>{item.tipoAquisicao}</td>
+                  <td>{DateAndYearStringFormat(item.dataSugestaoRetorno)}</td>
                   <td>
                     {item.status === "Liberada" ? (
                       <p

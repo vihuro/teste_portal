@@ -12,6 +12,7 @@ import TagMaquina from "./tagMaquina/Card";
 import { DateTimeStringFormat } from "../../../utils/DateTimeString";
 import { TbEdit } from "react-icons/tb";
 import { Fetchdata } from "../orcamento/info/Info";
+import { maquinaReturnProps } from "./IClienteAssistencia";
 
 interface dataProps {
   idCliente: string;
@@ -22,7 +23,7 @@ interface dataProps {
   nome: string;
   cadastro: userProps;
   alteracao: userProps;
-  maquinaCliente: maquinaClienteProps[];
+  maquinaCliente: maquinaReturnProps[];
   cep: string;
   estado: string;
   cidade: string;
@@ -40,7 +41,7 @@ interface dataPropsOrcamento {
   nome: string;
   cadastro: userProps;
   alteracao: userProps;
-  maquinaCliente: maquinaClienteProps;
+  maquinaCliente: maquinaReturnProps;
   cep: string;
   estado: string;
   cidade: string;
@@ -55,14 +56,6 @@ interface userProps {
   nome: string;
   apelido: string;
   dataHora: Date;
-}
-interface maquinaClienteProps {
-  id: string;
-  maquinaId: string;
-  codigoMaquina: string;
-  numeroSerie: string;
-  tipoMaquina: string;
-  status: string;
 }
 
 export default function Table() {
@@ -371,9 +364,13 @@ export default function Table() {
                             maquina={item.maquinaCliente.map((item) => ({
                               id: item.id,
                               maquinaId: item.maquinaId,
-                              tipoMaquina: item.tipoMaquina,
+                              descricaoMaquina: item.descricaoMaquina,
                               numeroSerie: item.numeroSerie,
                               status: item.status,
+                              dataSugestaoRetorno: item.dataSugestaoRetorno,
+                              tipoAquisicao: item.tipoAquisicao,
+                              codigoMaquina: item.codigo,
+                              codigo: item.codigo,
                             }))}
                           />
                         </div>
