@@ -101,9 +101,12 @@ export default function Card({ changeToogle, dataProps, refreshTable }: props) {
       nomeContatoCliente: data?.contatoNome,
       contatoTelefone: data?.contatoTelefone,
       maquinaCliente: listMaquina?.map((item) => ({
-        maquinaId: item.maquinaId,
+        maquinaId: item.maquinaId ? item.maquinaId : item.id,
       })),
     };
+    console.log(obj)
+    console.log(listMaquina)
+    console.log(obj)
     Api.put("/cliente", obj)
       .then((res) => {
         setDataMessage({
@@ -128,28 +131,32 @@ export default function Card({ changeToogle, dataProps, refreshTable }: props) {
   const [toogleFilterMaquina, setToogleFilterMaquina] =
     useState<boolean>(false);
 
-  //   const {
-  //     CardFilterMaquinaDisponivel,
-  //     listMaquina: listMaquinaCard,
-  //     setListMaquina: changeListMaquinaCard,
-  //     FetchData: FetchDataMaquina,
-  //   } = CardFilterMaquinaDisponivel({
-  //     changeToogle: setToogleFilterMaquina,
-  //   });
+  // const {
+  //   CardFilterMaquinaDisponivel,
+  //   listMaquina: listMaquinaCard,
+  //   setListMaquina: changeListMaquinaCard,
+  //   FetchData: FetchDataMaquina,
+  // } = CardFilterMaquinaDisponivel({
+  //   changeToogle: setToogleFilterMaquina,
+  // });
 
-  //   useEffect(() => {
-  //     if (data) {
-  //       const list = listMaquina.map((item) => ({
-  //         maquinaId: item.id,
-  //         codigoMaquina: item.codigo,
-  //         numeroSerie: item.numeroSerie,
-  //         tipoMaquina: item.descricaoMaquina,
-  //         status: "PENDENTE",
-  //       }));
+  useEffect(() => {
+    if (data) {
+      const list: maquinaReturnProps[] = listMaquina.map((item) => ({
+        id: item.id,
+        maquinaId: item.maquinaId,
+        codigoMaquina: item.codigoMaquina,
+        numeroSerie: item.numeroSerie,
+        tipoMaquina: item.descricaoMaquina,
+        status: "PENDENTE",
+        dataSugestaoRetorno: item.dataSugestaoRetorno,
+        descricaoMaquina: item.descricaoMaquina,
+        tipoAquisicao: item.tipoAquisicao
+      }));
 
-  //       setListMaquina([...listMaquina, ...list]);
-  //     }
-  //   }, [listMaquina]);
+      setListMaquina(() => list);
+    }
+  }, []);
 
   async function SearchCEP() {
     const cep = parseInt(textCep);
@@ -332,7 +339,7 @@ export default function Card({ changeToogle, dataProps, refreshTable }: props) {
               blocked
               autoComplete="off"
               value={data.rua}
-              onChange={() => {}}
+              onChange={() => { }}
             />
           </div>
           <div className={style.container_numeroEstabelecimento}>
@@ -356,7 +363,7 @@ export default function Card({ changeToogle, dataProps, refreshTable }: props) {
               autoComplete="off"
               blocked
               value={data.cidade}
-              onChange={() => {}}
+              onChange={() => { }}
             />
           </div>
           <div className={style.container_bairro}>
@@ -366,7 +373,7 @@ export default function Card({ changeToogle, dataProps, refreshTable }: props) {
               autoComplete="off"
               blocked
               value={data.regiao}
-              onChange={() => {}}
+              onChange={() => { }}
             />
           </div>
           <div className={style.container_estado}>
@@ -376,7 +383,7 @@ export default function Card({ changeToogle, dataProps, refreshTable }: props) {
               autoComplete="off"
               blocked
               value={data.estado}
-              onChange={() => {}}
+              onChange={() => { }}
             />
           </div>
           <div className={style.container_complemento}>

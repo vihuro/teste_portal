@@ -61,9 +61,8 @@ export default function CardConfirmAddMaquina({
   return (
     <div className={styles.container}>
       <div
-        className={`${styles.containerMessage} ${
-          !toogleMessage && styles["--close"]
-        }`}
+        className={`${styles.containerMessage} ${!toogleMessage && styles["--close"]
+          }`}
       >
         <Message
           stateMessage={toogleMessage}
@@ -107,9 +106,8 @@ export default function CardConfirmAddMaquina({
               />
             </div>
             <div
-              className={`${styles.inputDataSugerida} ${
-                blockedInputDataSugerida && styles["--block"]
-              }`}
+              className={`${styles.inputDataSugerida} ${blockedInputDataSugerida && styles["--block"]
+                }`}
             >
               <div>
                 <input
