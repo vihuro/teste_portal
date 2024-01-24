@@ -18,6 +18,7 @@ interface props {
   changeToogle: Function;
   refreshTable: Function;
   dataProps: dataProps;
+  toogle: boolean;
 }
 interface dataProps {
   idCliente: string;
@@ -44,7 +45,12 @@ interface userProps {
   dataHora: Date;
 }
 
-export default function Card({ changeToogle, dataProps, refreshTable }: props) {
+export default function Card({
+  changeToogle,
+  dataProps,
+  refreshTable,
+  toogle,
+}: props) {
   const { Input } = InputUi();
   const { Button } = ButtonUi();
 
@@ -58,33 +64,9 @@ export default function Card({ changeToogle, dataProps, refreshTable }: props) {
   });
   const [valueCnpj, setValueCnpj] = useState<string>("");
   const [textCep, setTextCep] = useState<string>("");
-
-  useEffect(() => {
-    setData(dataProps);
-
-    const cnpj = `${dataProps.cnpj.slice(0, 2)}
-                        .${dataProps.cnpj.slice(2, 5)}
-                        .${dataProps.cnpj.slice(5, 8)}
-                        /${dataProps.cnpj.slice(8, 12)}
-                        -${dataProps.cnpj.slice(12)}`;
-    handleCnpj(cnpj);
-    setTextCep(dataProps.cep);
-
-    setListMaquina(
-      dataProps.maquinaCliente.map((item) => ({
-        codigoMaquina: item.codigoMaquina,
-        descricaoMaquina: item.codigoMaquina,
-        id: item.id,
-        numeroSerie: item.numeroSerie,
-        tipoAquisicao: parseInt(item.tipoAquisicao),
-        dataSugeridaRetorno: item.dataSugestaoRetorno
-      }))
-    );
-  }, [dataProps]);
   const tokenInfo: tokenProps = TokenDrecriptor(parseCookies().ACCESS_TOKEN);
 
   async function Altera() {
-
     const obj = {
       idCliente: data?.idCliente,
       nome: data?.nome,
@@ -103,12 +85,13 @@ export default function Card({ changeToogle, dataProps, refreshTable }: props) {
       maquinaCliente: listMaquina?.map((item) => ({
         maquinaId: item.id ? item.id : item.id,
         tipoAquisicao: item.tipoAquisicao,
-        dataSugestaoRetorno: item.dataSugeridaRetorno ? new Date(item.dataSugeridaRetorno) : null
+        dataSugestaoRetorno: item.dataSugeridaRetorno
+          ? new Date(item.dataSugeridaRetorno)
+          : null,
       })),
     };
-    console.log(obj)
-    console.log(listMaquina)
-    Api.put("/cliente", obj)
+
+    await Api.put("/cliente", obj)
       .then((res) => {
         setDataMessage({
           message: "Alteração realizada!",
@@ -129,21 +112,35 @@ export default function Card({ changeToogle, dataProps, refreshTable }: props) {
         setToogleLoading(false);
       });
   }
-  console.log(listMaquina)
+
   const [toogleFilterMaquina, setToogleFilterMaquina] =
     useState<boolean>(false);
 
-  // const {
-  //   CardFilterMaquinaDisponivel,
-  //   listMaquina: listMaquinaCard,
-  //   setListMaquina: changeListMaquinaCard,
-  //   FetchData: FetchDataMaquina,
-  // } = CardFilterMaquinaDisponivel({
-  //   changeToogle: setToogleFilterMaquina,
-  // });
+  useEffect(() => {
+    setData(dataProps);
+
+    const cnpj = `${dataProps.cnpj.slice(0, 2)}
+                          .${dataProps.cnpj.slice(2, 5)}
+                          .${dataProps.cnpj.slice(5, 8)}
+                          /${dataProps.cnpj.slice(8, 12)}
+                          -${dataProps.cnpj.slice(12)}`;
+    handleCnpj(cnpj);
+    setTextCep(dataProps.cep);
+
+    setListMaquina(
+      dataProps.maquinaCliente.map((item) => ({
+        codigoMaquina: item.codigoMaquina,
+        descricaoMaquina: item.codigoMaquina,
+        id: item.id,
+        numeroSerie: item.numeroSerie,
+        tipoAquisicao: parseInt(item.tipoAquisicao),
+        dataSugeridaRetorno: item.dataSugestaoRetorno,
+      }))
+    );
+  }, [dataProps]);
 
   useEffect(() => {
-    if (data) {
+    if (data && toogle) {
       const list: maquinaProps[] = listMaquina.map((item) => ({
         id: item.id,
         codigoMaquina: item.codigoMaquina,
@@ -152,13 +149,12 @@ export default function Card({ changeToogle, dataProps, refreshTable }: props) {
         status: "TESTE",
         dataSugestaoRetorno: item.dataSugeridaRetorno,
         descricaoMaquina: item.descricaoMaquina,
-        tipoAquisicao: item.tipoAquisicao
+        tipoAquisicao: item.tipoAquisicao,
       }));
-      console.log("atualizou a lista")
+
       setListMaquina((current) => [...current, ...list]);
     }
-  }, []);
-
+  }, [toogle]);
 
   async function SearchCEP() {
     const cep = parseInt(textCep);
@@ -230,14 +226,14 @@ export default function Card({ changeToogle, dataProps, refreshTable }: props) {
     setTextCep(cep);
   };
 
-  const maquinaInCard: maquinaProps[] = listMaquina.map(item => ({
+  const maquinaInCard: maquinaProps[] = listMaquina.map((item) => ({
     codigoMaquina: item.codigoMaquina,
     descricaoMaquina: item.descricaoMaquina,
     id: item.id,
     numeroSerie: item.numeroSerie,
     tipoAquisicao: item.tipoAquisicao,
-    dataSugeridaRetorno: item.dataSugeridaRetorno
-  }))
+    dataSugeridaRetorno: item.dataSugeridaRetorno,
+  }));
 
   return (
     data && (
@@ -350,7 +346,7 @@ export default function Card({ changeToogle, dataProps, refreshTable }: props) {
               blocked
               autoComplete="off"
               value={data.rua}
-              onChange={() => { }}
+              onChange={() => {}}
             />
           </div>
           <div className={style.container_numeroEstabelecimento}>
@@ -374,7 +370,7 @@ export default function Card({ changeToogle, dataProps, refreshTable }: props) {
               autoComplete="off"
               blocked
               value={data.cidade}
-              onChange={() => { }}
+              onChange={() => {}}
             />
           </div>
           <div className={style.container_bairro}>
@@ -384,7 +380,7 @@ export default function Card({ changeToogle, dataProps, refreshTable }: props) {
               autoComplete="off"
               blocked
               value={data.regiao}
-              onChange={() => { }}
+              onChange={() => {}}
             />
           </div>
           <div className={style.container_estado}>
@@ -394,7 +390,7 @@ export default function Card({ changeToogle, dataProps, refreshTable }: props) {
               autoComplete="off"
               blocked
               value={data.estado}
-              onChange={() => { }}
+              onChange={() => {}}
             />
           </div>
           <div className={style.container_complemento}>
@@ -462,8 +458,12 @@ export default function Card({ changeToogle, dataProps, refreshTable }: props) {
                         <td>{item.descricaoMaquina}</td>
                         <td>{item.numeroSerie}</td>
                         <td>{""}</td>
-                        <td>{item.tipoAquisicao === 0 ? "VENDA" : "EMPRÉSTIMO"}</td>
-                        <td>{DateAndYearStringFormat(item.dataSugeridaRetorno)}</td>
+                        <td>
+                          {item.tipoAquisicao === 0 ? "VENDA" : "EMPRÉSTIMO"}
+                        </td>
+                        <td>
+                          {DateAndYearStringFormat(item.dataSugeridaRetorno)}
+                        </td>
                         <td onClick={() => RemoveMaquina(item.id)}>
                           <AiOutlineDelete />
                         </td>

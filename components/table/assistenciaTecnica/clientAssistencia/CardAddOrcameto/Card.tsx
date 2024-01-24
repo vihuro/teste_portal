@@ -21,6 +21,7 @@ interface props {
   cliente?: dataProps;
   refreshTable: Function;
   maquinaId?: string;
+  toogle: boolean;
 }
 
 interface dataProps {
@@ -56,6 +57,7 @@ export default function Card({
   cliente,
   maquinaId,
   refreshTable,
+  toogle,
 }: props) {
   const { Input } = InputUi();
   const { Button } = ButtonUi();
@@ -109,6 +111,19 @@ export default function Card({
       });
   }
   const { Radio } = RadioButton();
+
+  useEffect(() => {
+    if (!toogle || !cliente) return;
+    GetHistorico(cliente);
+  }, [toogle]);
+
+  async function GetHistorico(cliente: dataProps) {
+    await Api.get(
+      `orcamento/numero-serie/${cliente.maquinaCliente.numeroSerie}`
+    )
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+  }
 
   return (
     <form className={style.card}>

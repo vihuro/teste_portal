@@ -11,7 +11,6 @@ interface CardConfirmAddMaquinaProps {
   maquina: maquinaReturnProps | undefined;
 }
 
-
 export default function CardConfirmAddMaquina({
   changeToogle,
   toogle,
@@ -61,8 +60,9 @@ export default function CardConfirmAddMaquina({
   return (
     <div className={styles.container}>
       <div
-        className={`${styles.containerMessage} ${!toogleMessage && styles["--close"]
-          }`}
+        className={`${styles.containerMessage} ${
+          !toogleMessage && styles["--close"]
+        }`}
       >
         <Message
           stateMessage={toogleMessage}
@@ -75,8 +75,8 @@ export default function CardConfirmAddMaquina({
         <header className={styles.header}>
           {maquina && (
             <p>
-              Deseja adicionar a máquina <strong>{maquina.codigoMaquina}</strong> para
-              esse cliente?
+              Deseja adicionar a máquina{" "}
+              <strong>{maquina.codigoMaquina}</strong> para esse cliente?
             </p>
           )}
         </header>
@@ -86,10 +86,10 @@ export default function CardConfirmAddMaquina({
               <Radio
                 color="green"
                 name="tipoAquisicao"
-                id="rdbVenda"
+                id="venda"
                 text="VENDA"
                 checked={valueTipoAquisicao === TipoAquisicao.VENDA ?? true}
-                onChange={() => {
+                onChange={(e) => {
                   setDataSugeridaRetorno(() => "");
                   setValueTipoAquisicao(TipoAquisicao.VENDA);
                 }}
@@ -97,17 +97,20 @@ export default function CardConfirmAddMaquina({
               <Radio
                 color="green"
                 name="tipoAquisicao"
-                id="rdbEmprestimo"
+                id="emprestimo"
                 text="EMPRÉSTIMO"
                 checked={
                   valueTipoAquisicao === TipoAquisicao.EMPRESTIMO ?? true
                 }
-                onChange={() => setValueTipoAquisicao(TipoAquisicao.EMPRESTIMO)}
+                onChange={(e) => {
+                  setValueTipoAquisicao(TipoAquisicao.EMPRESTIMO);
+                }}
               />
             </div>
             <div
-              className={`${styles.inputDataSugerida} ${blockedInputDataSugerida && styles["--block"]
-                }`}
+              className={`${styles.inputDataSugerida} ${
+                blockedInputDataSugerida && styles["--block"]
+              }`}
             >
               <div>
                 <input

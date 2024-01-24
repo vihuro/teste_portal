@@ -2,7 +2,7 @@ import style from "./style.module.css";
 import ButtonUi from "../../../../UI/button/Button";
 import InputUi from "../../../../UI/input/Input";
 import { CardFilterMaquinaDisponivel } from "../filterMaquinaDisponivel/Card";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Api from "../../../../../service/api/assistenciaTecnica/Assistencia";
 import { BiFilterAlt, BiSearchAlt2 } from "react-icons/bi";
 import Message from "../../../../message/Message";
@@ -13,18 +13,27 @@ import TokenDrecriptor from "../../../../../service/DecriptorToken";
 import { parseCookies } from "nookies";
 import { TipoAquisicao, maquinaProps } from "../IClienteAssistencia";
 import { DateAndYearStringFormat } from "../../../../utils/DateTimeString";
+import { HandleCnpj } from "../../../../utils/HandleCNPJ";
+import { InsertClienteProps } from "../ICliente";
+import { InsertCliente } from "../Cliente.Functions";
+import { ETypeErro } from "../../../../utils/Erro";
 
 interface props {
   changeToogleCard: Function;
   refreshTable: Function;
+  toogle: boolean;
 }
 
-export default function Card({ changeToogleCard, refreshTable }: props) {
+export default function Card({
+  changeToogleCard,
+  refreshTable,
+  toogle,
+}: props) {
   const { Button } = ButtonUi();
   const { Input } = InputUi();
 
   const [valueCnpj, setValueCnpj] = useState<string>("");
-  const [novoCliente, setNovoCliente] = useState({
+  const [novoCliente, setNovoCliente] = useState<InsertClienteProps>({
     nome: "",
     codigoRadar: "",
     cnpj: "",
@@ -37,6 +46,8 @@ export default function Card({ changeToogleCard, refreshTable }: props) {
     complemento: "",
     nomeContatoCliente: "",
     contatoTelefone: "",
+    maquinas: [],
+    userId: "",
   });
   const [listMaquinas, setListMaquina] = useState<maquinaProps[]>([]);
   const [textCep, setTextCep] = useState<string>("");
@@ -51,22 +62,6 @@ export default function Card({ changeToogleCard, refreshTable }: props) {
     useState<boolean>(false);
   const tokenInfo: tokenProps = TokenDrecriptor(parseCookies().ACCESS_TOKEN);
 
-  function handleCnpj(text: HTMLInputElement) {
-    let cnpj = text.value.replace(/[^\d./-]/g, "");
-    switch (cnpj.length) {
-      case 2:
-      case 6:
-        cnpj += ".";
-        break;
-      case 10:
-        cnpj += "/";
-        break;
-      case 15:
-        cnpj += "-";
-        break;
-    }
-    setValueCnpj(cnpj);
-  }
   const handleChangeCEP = (text: string) => {
     const cep = text.replace(/[^\d./-]/g, "");
 
@@ -74,62 +69,74 @@ export default function Card({ changeToogleCard, refreshTable }: props) {
   };
   async function Cadastrar() {
     setToogleLoading((current) => !current);
-    const {
-      cnpj,
-      codigoRadar,
-      contatoTelefone,
-      cep,
-      cidade,
-      complemento,
-      estado,
-      numeroEstabelecimento,
-      rua,
-      nome,
-      nomeContatoCliente,
-      regiao,
-    } = novoCliente;
+    // const {
+    //   cnpj,
+    //   codigoRadar,
+    //   contatoTelefone,
+    //   cep,
+    //   cidade,
+    //   complemento,
+    //   estado,
+    //   numeroEstabelecimento,
+    //   rua,
+    //   nome,
+    //   nomeContatoCliente,
+    //   regiao,
+    // } = novoCliente;
 
-    if (
-      codigoRadar === "" ||
-      valueCnpj === "" ||
-      nome === "" ||
-      cep === "" ||
-      rua === "" ||
-      numeroEstabelecimento === "" ||
-      cidade === "" ||
-      estado === "" ||
-      regiao === ""
-    ) {
-      setDataMessage({
-        message: "Campo(s) obrigatório(s) vazio(s)!",
-        type: "WARNING",
-      });
-      setToogleMessage(true);
-      setToogleLoading((current) => !current);
+    // if (
+    //   codigoRadar === "" ||
+    //   valueCnpj === "" ||
+    //   nome === "" ||
+    //   cep === "" ||
+    //   rua === "" ||
+    //   numeroEstabelecimento === "" ||
+    //   cidade === "" ||
+    //   estado === "" ||
+    //   regiao === ""
+    // ) {
+    //   setDataMessage({
+    //     message: "Campo(s) obrigatório(s) vazio(s)!",
+    //     type: "WARNING",
+    //   });
+    //   setToogleMessage(true);
+    //   setToogleLoading((current) => !current);
 
-      return;
-    }
+    //   return;
+    // }
 
-    const obj = {
-      codigoRadar: codigoRadar,
-      contatoTelefone: contatoTelefone,
-      cep: cep,
-      estado: estado,
-      cidade: cidade,
-      rua: rua,
-      regiao: regiao,
-      numeroEstabelecimento: numeroEstabelecimento,
-      complemento: complemento,
-      nome: nome,
-      nomeContatoCliente: nomeContatoCliente,
-      cnpj: valueCnpj.replaceAll(".", "").replace("/", "").replace("-", ""),
+    // const obj = {
+    //   codigoRadar: codigoRadar,
+    //   contatoTelefone: contatoTelefone,
+    //   cep: cep,
+    //   estado: estado,
+    //   cidade: cidade,
+    //   rua: rua,
+    //   regiao: regiao,
+    //   numeroEstabelecimento: numeroEstabelecimento,
+    //   complemento: complemento,
+    //   nome: nome,
+    //   nomeContatoCliente: nomeContatoCliente,
+    //   cnpj: valueCnpj.replaceAll(".", "").replace("/", "").replace("-", ""),
+    //   userId: tokenInfo.idUser,
+    //   maquinas: listMaquinas.map((item) => ({
+    //     maquinaId: item.id,
+    //     tipoAquisicao: item.tipoAquisicao,
+    //     dataSugestaoRetorno: item.dataSugeridaRetorno
+    //       ? new Date(item.dataSugeridaRetorno)
+    //       : null,
+    //   })),
+    // };
+    const obj: InsertClienteProps = {
+      ...novoCliente,
+      cnpj: valueCnpj,
       userId: tokenInfo.idUser,
       maquinas: listMaquinas.map((item) => ({
         maquinaId: item.id,
         tipoAquisicao: item.tipoAquisicao,
         dataSugestaoRetorno: item.dataSugeridaRetorno
-          ?new Date(item.dataSugeridaRetorno)
-          : null,
+          ? new Date(item.dataSugeridaRetorno)
+          : undefined,
       })),
     };
 
@@ -137,35 +144,58 @@ export default function Card({ changeToogleCard, refreshTable }: props) {
       ...novoCliente,
       cnpj: valueCnpj,
     });
-    console.log(obj);
-    await Api.post("/cliente", obj)
+    await InsertCliente(obj)
       .then((res) => {
-        setDataMessage({
-          message: "Cliente Cadastrado!",
+        console.log("then acessado");
+        console.log(res);
+        setDataMessage(() => ({
+          message: "Cliente cadastrados com sucesso!",
           type: "SUCESS",
-        });
+        }));
         ClearAll();
         refreshTable();
       })
       .catch((err) => {
         console.log(err);
-        if (err.response && err.response.data) {
-          setDataMessage({
-            message: err.response.data,
-            type: "WARNING",
-          });
-          console.log(err);
-        } else {
-          setDataMessage({
-            message: "ERRO NO SERVIDOR!",
-            type: "ERROR",
-          });
+        const validate = err && err.cause;
+
+        console.log(validate);
+        if (err && err.cause && err.cause === ETypeErro.CUSTOM_ERROR) {
+          console.log("funcionu aqui");
         }
+        console.log("dentro do ssssssssss");
+        console.log(err);
       })
       .finally(() => {
         setToogleMessage((current) => !current);
         setToogleLoading((current) => !current);
       });
+    // await Api.post("/cliente", obj)
+    //   .then((res) => {
+    //     setDataMessage({
+    //       message: "Cliente Cadastrado!",
+    //       type: "SUCESS",
+    //     });
+    //     ClearAll();
+    //     refreshTable();
+    //   })
+    //   .catch((err) => {
+    //     if (err.response && err.response.data) {
+    //       setDataMessage({
+    //         message: err.response.data,
+    //         type: "WARNING",
+    //       });
+    //     } else {
+    //       setDataMessage({
+    //         message: "ERRO NO SERVIDOR!",
+    //         type: "ERROR",
+    //       });
+    //     }
+    //   })
+    //   .finally(() => {
+    //     setToogleMessage((current) => !current);
+    //     setToogleLoading((current) => !current);
+    //   });
   }
   function ClearAll() {
     setNovoCliente({
@@ -231,7 +261,6 @@ export default function Card({ changeToogleCard, refreshTable }: props) {
         setToogleLoading(false);
       });
   }
-
   //   function changeList(idMaquina: string) {
   //     const list = listMaquina.filter((item) => item.id !== idMaquina);
 
@@ -304,7 +333,7 @@ export default function Card({ changeToogleCard, refreshTable }: props) {
             autoComplete="off"
             maxLength={18}
             value={valueCnpj}
-            onChange={(e) => handleCnpj(e.target)}
+            onChange={(e) => setValueCnpj(() => HandleCnpj(e.target))}
           />
         </div>
         <div className={style.container_nomeCliente}>
@@ -467,7 +496,9 @@ export default function Card({ changeToogleCard, refreshTable }: props) {
                       <td>{item.descricaoMaquina}</td>
                       <td>{item.numeroSerie}</td>
                       <td>{TipoAquisicao[item.tipoAquisicao]}</td>
-                      <td>{DateAndYearStringFormat(item.dataSugeridaRetorno)}</td>
+                      <td>
+                        {DateAndYearStringFormat(item.dataSugeridaRetorno)}
+                      </td>
                       <td
                         onClick={() =>
                           setListMaquina((current) => {

@@ -16,9 +16,7 @@ async function FetchSugestaoByMaquinaId({ maquinaId }: { maquinaId: string }) {
 
   return response;
 }
-async function DeleteBySugestaoId({ sugestaoId }: { sugestaoId: string }) {
-
-}
+async function DeleteBySugestaoId({ sugestaoId }: { sugestaoId: string }) {}
 
 async function InsertSugestao(sugestao: IInsertSugestao) {
   if (
@@ -41,4 +39,4 @@ async function InsertSugestao(sugestao: IInsertSugestao) {
   return response;
 }
 
-export { FetchSugestao, InsertSugestao,FetchSugestaoByMaquinaId };
+export { FetchSugestao, InsertSugestao, FetchSugestaoByMaquinaId };

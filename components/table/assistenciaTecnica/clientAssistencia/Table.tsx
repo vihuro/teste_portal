@@ -1,5 +1,4 @@
 import { Fragment, useEffect, useState } from "react";
-import Api from "../../../../service/api/assistenciaTecnica/Assistencia";
 import style from "./style.module.css";
 import { BiArrowFromTop } from "react-icons/bi";
 import { CiMenuKebab } from "react-icons/ci";
@@ -11,59 +10,15 @@ import FilterColuna from "../../filterColunaTable/CardFilterColuna";
 import TagMaquina from "./tagMaquina/Card";
 import { DateTimeStringFormat } from "../../../utils/DateTimeString";
 import { TbEdit } from "react-icons/tb";
-import { Fetchdata } from "../orcamento/info/Info";
-import { maquinaReturnProps } from "./IClienteAssistencia";
-
-interface dataProps {
-  idCliente: string;
-  cnpj: string;
-  codigoRadar: string;
-  contatoTelefone: string;
-  contatoNome: string;
-  nome: string;
-  cadastro: userProps;
-  alteracao: userProps;
-  maquinaCliente: maquinaReturnProps[];
-  cep: string;
-  estado: string;
-  cidade: string;
-  regiao: string;
-  rua: string;
-  complemento: string;
-  numeroEstabelecimento: string;
-}
-interface dataPropsOrcamento {
-  idCliente: string;
-  cnpj: string;
-  codigoRadar: string;
-  contatoTelefone: string;
-  contatoNome: string;
-  nome: string;
-  cadastro: userProps;
-  alteracao: userProps;
-  maquinaCliente: maquinaReturnProps;
-  cep: string;
-  estado: string;
-  cidade: string;
-  regiao: string;
-  rua: string;
-  complemento: string;
-  numeroEstabelecimento: string;
-}
-
-interface userProps {
-  usuarioId: string;
-  nome: string;
-  apelido: string;
-  dataHora: Date;
-}
+import { GetCliente } from "./Cliente.Functions";
+import { ClienteProps, ReturnMquinaProps } from "./ICliente";
 
 export default function Table() {
-  const [data, setData] = useState<dataProps[]>([]);
+  const [data, setData] = useState<ClienteProps[]>([]);
   const [dataItemString, setDataItemString] = useState<string>("");
-  const [dataItemAlteracao, setDataItemAlteracao] = useState<dataProps>();
+  const [dataItemAlteracao, setDataItemAlteracao] = useState<ClienteProps>();
   const [dataItemAlteracaoOrcamento, setDataItemAlteracaoOrcamento] =
-    useState<dataPropsOrcamento>();
+    useState<ReturnMquinaProps>();
   const [toogleFormAdd, setToogleFormAdd] = useState<boolean>(false);
   const [toogleFormChange, setToogleFormChange] = useState<boolean>(false);
   const [toogleFormOrcamento, setToogleFormOrcamento] =
@@ -121,39 +76,34 @@ export default function Table() {
   });
 
   async function FecthData() {
-    await Api.get("/cliente")
+    console.log("fetch data acessado")
+    await GetCliente()
       .then((res) => {
-        const dataItem: dataProps[] = res.data;
-        setData(dataItem);
+        setData(() => res);
+
+        refreshListCNPJ(
+          res.map((item: any) => ({
+            cnpj: item.cnpj,
+          }))
+        );
+        refreshListCodigo({
+          list: res.map((item: any) => ({
+            id: item.idCliente,
+            text: item.codigoRadar,
+          })),
+        });
         refreshListNome({
-          list: dataItem.map((item) => ({
+          list: res.map((item: any) => ({
             id: item.idCliente,
             text: item.nome,
           })),
         });
-        // refreshListNome(dataItem.map((item) => ({
-        //     text: item.nome,
-        //     id: item.idCliente
-        // })))
-        refreshListCodigo({
-          list: dataItem.map((item) => ({
-            text: item.codigoRadar,
-            id: item.idCliente,
-          })),
-        });
-        refreshListCNPJ(
-          res.data.map((item: any) => ({
-            cnpj: item.cnpj,
-          }))
-        );
       })
-      .catch((err) => {
-        console.log("qua foi o erro");
-        console.log(err);
-      });
+
+      .catch((err) => console.log(err));
   }
 
-  const [filter, setFilter] = useState<dataProps[]>([]);
+  const [filter, setFilter] = useState<ClienteProps[]>([]);
 
   useEffect(() => {
     ChangeFiter();
@@ -199,7 +149,11 @@ export default function Table() {
             : style.container_novoProduto_close
         }
       >
-        <FormAdd changeToogleCard={setToogleFormAdd} refreshTable={FecthData} />
+        <FormAdd
+          changeToogleCard={setToogleFormAdd}
+          refreshTable={FecthData}
+          toogle={toogleFormAdd}
+        />
       </div>
       <div
         className={
@@ -211,6 +165,7 @@ export default function Table() {
         {dataItemAlteracao && (
           <FormChange
             changeToogle={setToogleFormChange}
+            toogle={toogleFormChange}
             dataProps={dataItemAlteracao}
             refreshTable={FecthData}
           />
@@ -225,6 +180,7 @@ export default function Table() {
       >
         <FormOrcamento
           changeToogle={setToogleFormOrcamento}
+          toogle={toogleFormOrcamento}
           cliente={dataItemAlteracaoOrcamento}
           refreshTable={FecthData}
           maquinaId={maquinaId}
@@ -370,7 +326,6 @@ export default function Table() {
                               dataSugestaoRetorno: item.dataSugestaoRetorno,
                               tipoAquisicao: item.tipoAquisicao,
                               codigoMaquina: item.codigoMaquina,
-                              
                             }))}
                           />
                         </div>
