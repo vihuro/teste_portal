@@ -369,8 +369,8 @@ export default function Table() {
                               status: item.status,
                               dataSugestaoRetorno: item.dataSugestaoRetorno,
                               tipoAquisicao: item.tipoAquisicao,
-                              codigoMaquina: item.codigo,
-                              codigo: item.codigo,
+                              codigoMaquina: item.codigoMaquina,
+                              
                             }))}
                           />
                         </div>

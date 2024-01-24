@@ -118,7 +118,7 @@ export default function CardConfirmAddMaquina({
                   value={dataSugeridaRetorno}
                   onChange={(e) => setDataSugeridaRetorno(e.target.value)}
                 />
-                <label htmlFor="txtDataSugerida">DATA SUGERIDA</label>
+                <label htmlFor="txtDataSugerida">DATA RETORNO</label>
               </div>
             </div>
           </div>

@@ -222,7 +222,7 @@ export default function Card({
             text="MÁQUINA"
             value={
               cliente && cliente.maquinaCliente
-                ? cliente.maquinaCliente.tipoMaquina
+                ? cliente.maquinaCliente.descricaoMaquina
                 : ""
             }
             onChange={() => {}}

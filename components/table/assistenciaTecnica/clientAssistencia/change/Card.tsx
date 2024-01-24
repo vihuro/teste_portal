@@ -11,7 +11,8 @@ import Message from "../../../../message/Message";
 import { tokenProps } from "../../../../utils/infoToken";
 import TokenDrecriptor from "../../../../../service/DecriptorToken";
 import { parseCookies } from "nookies";
-import { maquinaReturnProps } from "../IClienteAssistencia";
+import { maquinaProps, maquinaReturnProps } from "../IClienteAssistencia";
+import { DateAndYearStringFormat } from "../../../../utils/DateTimeString";
 
 interface props {
   changeToogle: Function;
@@ -48,7 +49,7 @@ export default function Card({ changeToogle, dataProps, refreshTable }: props) {
   const { Button } = ButtonUi();
 
   const [data, setData] = useState<dataProps>();
-  const [listMaquina, setListMaquina] = useState<maquinaReturnProps[]>([]);
+  const [listMaquina, setListMaquina] = useState<maquinaProps[]>([]);
   const [toogleLoading, setToogleLoading] = useState<boolean>(false);
   const [toogleMessage, setToogleMessage] = useState<boolean>(false);
   const [dataMessage, setDataMessage] = useState({
@@ -71,20 +72,19 @@ export default function Card({ changeToogle, dataProps, refreshTable }: props) {
 
     setListMaquina(
       dataProps.maquinaCliente.map((item) => ({
-        id: item.id,
-        maquinaId: item.maquinaId,
         codigoMaquina: item.codigoMaquina,
-        descricaoMaquina: item.descricaoMaquina,
+        descricaoMaquina: item.codigoMaquina,
+        id: item.id,
         numeroSerie: item.numeroSerie,
-        status: item.status,
-        dataSugestaoRetorno: item.dataSugestaoRetorno,
-        tipoAquisicao: item.tipoAquisicao,
+        tipoAquisicao: parseInt(item.tipoAquisicao),
+        dataSugeridaRetorno: item.dataSugestaoRetorno
       }))
     );
   }, [dataProps]);
   const tokenInfo: tokenProps = TokenDrecriptor(parseCookies().ACCESS_TOKEN);
 
   async function Altera() {
+
     const obj = {
       idCliente: data?.idCliente,
       nome: data?.nome,
@@ -101,12 +101,13 @@ export default function Card({ changeToogle, dataProps, refreshTable }: props) {
       nomeContatoCliente: data?.contatoNome,
       contatoTelefone: data?.contatoTelefone,
       maquinaCliente: listMaquina?.map((item) => ({
-        maquinaId: item.maquinaId ? item.maquinaId : item.id,
+        maquinaId: item.id ? item.id : item.id,
+        tipoAquisicao: item.tipoAquisicao,
+        dataSugestaoRetorno: item.dataSugeridaRetorno ? new Date(item.dataSugeridaRetorno) : null
       })),
     };
     console.log(obj)
     console.log(listMaquina)
-    console.log(obj)
     Api.put("/cliente", obj)
       .then((res) => {
         setDataMessage({
@@ -128,6 +129,7 @@ export default function Card({ changeToogle, dataProps, refreshTable }: props) {
         setToogleLoading(false);
       });
   }
+  console.log(listMaquina)
   const [toogleFilterMaquina, setToogleFilterMaquina] =
     useState<boolean>(false);
 
@@ -142,21 +144,21 @@ export default function Card({ changeToogle, dataProps, refreshTable }: props) {
 
   useEffect(() => {
     if (data) {
-      const list: maquinaReturnProps[] = listMaquina.map((item) => ({
+      const list: maquinaProps[] = listMaquina.map((item) => ({
         id: item.id,
-        maquinaId: item.maquinaId,
         codigoMaquina: item.codigoMaquina,
         numeroSerie: item.numeroSerie,
         tipoMaquina: item.descricaoMaquina,
-        status: "PENDENTE",
-        dataSugestaoRetorno: item.dataSugestaoRetorno,
+        status: "TESTE",
+        dataSugestaoRetorno: item.dataSugeridaRetorno,
         descricaoMaquina: item.descricaoMaquina,
         tipoAquisicao: item.tipoAquisicao
       }));
-
-      setListMaquina(() => list);
+      console.log("atualizou a lista")
+      setListMaquina((current) => [...current, ...list]);
     }
   }, []);
+
 
   async function SearchCEP() {
     const cep = parseInt(textCep);
@@ -198,12 +200,12 @@ export default function Card({ changeToogle, dataProps, refreshTable }: props) {
 
   function RemoveMaquina(idMaquina: string) {
     if (data) {
-      const list = listMaquina.filter((item) => item.maquinaId !== idMaquina);
+      const list = listMaquina.filter((item) => item.id !== idMaquina);
 
-      //   setListMaquina(list);
-      //   changeListMaquinaCard(
-      //     listMaquinaCard.filter((item) => item.id !== idMaquina)
-      //   );
+      setListMaquina(list);
+      // changeListMaquinaCard(
+      //   listMaquinaCard.filter((item) => item.id !== idMaquina)
+      // );
     }
   }
   function handleCnpj(text: string) {
@@ -228,6 +230,15 @@ export default function Card({ changeToogle, dataProps, refreshTable }: props) {
     setTextCep(cep);
   };
 
+  const maquinaInCard: maquinaProps[] = listMaquina.map(item => ({
+    codigoMaquina: item.codigoMaquina,
+    descricaoMaquina: item.descricaoMaquina,
+    id: item.id,
+    numeroSerie: item.numeroSerie,
+    tipoAquisicao: item.tipoAquisicao,
+    dataSugeridaRetorno: item.dataSugeridaRetorno
+  }))
+
   return (
     data && (
       <form className={style.card} action="">
@@ -241,7 +252,7 @@ export default function Card({ changeToogle, dataProps, refreshTable }: props) {
           <CardFilterMaquinaDisponivel
             changeToogle={setToogleFilterMaquina}
             toogle={toogleFilterMaquina}
-            listMaquinas={listMaquina}
+            listMaquinas={maquinaInCard}
             setListMaquinas={setListMaquina}
           />
         </div>
@@ -438,7 +449,8 @@ export default function Card({ changeToogle, dataProps, refreshTable }: props) {
                     <th>DESCRIÇÃO</th>
                     <th>Nº SÉRIE</th>
                     <th>STATUS</th>
-                    <th>AÇÃO</th>
+                    <th>TIPO/AQUIS</th>
+                    <th>DATA/SUG/RETOR</th>
                     <th>DEL.</th>
                   </tr>
                 </thead>
@@ -449,9 +461,10 @@ export default function Card({ changeToogle, dataProps, refreshTable }: props) {
                         <td>{item.codigoMaquina}</td>
                         <td>{item.descricaoMaquina}</td>
                         <td>{item.numeroSerie}</td>
-                        <td>{item.status}</td>
-                        <td>{"SS"}</td>
-                        <td onClick={() => RemoveMaquina(item.maquinaId)}>
+                        <td>{""}</td>
+                        <td>{item.tipoAquisicao === 0 ? "VENDA" : "EMPRÉSTIMO"}</td>
+                        <td>{DateAndYearStringFormat(item.dataSugeridaRetorno)}</td>
+                        <td onClick={() => RemoveMaquina(item.id)}>
                           <AiOutlineDelete />
                         </td>
                       </tr>

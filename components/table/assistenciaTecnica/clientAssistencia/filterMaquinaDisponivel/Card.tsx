@@ -6,7 +6,7 @@ import FilterColuna from "./filterDescricao/FilterDescricao";
 import { MdOutlineLibraryAdd } from "react-icons/md";
 import AddMaquina from "../../maquina/cardAdd/Card";
 import ConfirmAddMaquina from "./cardConfirmAddMaquina/CardConfirmAddMaquina";
-import { maquinaReturnProps } from "../IClienteAssistencia";
+import { maquinaProps, maquinaReturnProps } from "../IClienteAssistencia";
 
 interface props {
   changeToogle: Function;
@@ -15,7 +15,7 @@ interface props {
 interface CardFilterMaquinaDisponivelProps {
   changeToogle: Function;
   toogle: boolean;
-  listMaquinas: maquinaReturnProps[];
+  listMaquinas: maquinaProps[];
   setListMaquinas: Function;
 }
 

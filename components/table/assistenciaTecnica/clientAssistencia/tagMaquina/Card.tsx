@@ -27,7 +27,7 @@ export default function Card({
     },
     "Aguardando Orçamento": {
       background: "rgb(227 12 12)",
-      color: "rgb(95 1 1)",
+      color: "rgb(255 255 255)",
     },
     "Aguardando Aprovação": {
       background: "#57067f",
