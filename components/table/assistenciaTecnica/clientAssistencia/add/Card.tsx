@@ -69,64 +69,7 @@ export default function Card({
   };
   async function Cadastrar() {
     setToogleLoading((current) => !current);
-    // const {
-    //   cnpj,
-    //   codigoRadar,
-    //   contatoTelefone,
-    //   cep,
-    //   cidade,
-    //   complemento,
-    //   estado,
-    //   numeroEstabelecimento,
-    //   rua,
-    //   nome,
-    //   nomeContatoCliente,
-    //   regiao,
-    // } = novoCliente;
 
-    // if (
-    //   codigoRadar === "" ||
-    //   valueCnpj === "" ||
-    //   nome === "" ||
-    //   cep === "" ||
-    //   rua === "" ||
-    //   numeroEstabelecimento === "" ||
-    //   cidade === "" ||
-    //   estado === "" ||
-    //   regiao === ""
-    // ) {
-    //   setDataMessage({
-    //     message: "Campo(s) obrigatório(s) vazio(s)!",
-    //     type: "WARNING",
-    //   });
-    //   setToogleMessage(true);
-    //   setToogleLoading((current) => !current);
-
-    //   return;
-    // }
-
-    // const obj = {
-    //   codigoRadar: codigoRadar,
-    //   contatoTelefone: contatoTelefone,
-    //   cep: cep,
-    //   estado: estado,
-    //   cidade: cidade,
-    //   rua: rua,
-    //   regiao: regiao,
-    //   numeroEstabelecimento: numeroEstabelecimento,
-    //   complemento: complemento,
-    //   nome: nome,
-    //   nomeContatoCliente: nomeContatoCliente,
-    //   cnpj: valueCnpj.replaceAll(".", "").replace("/", "").replace("-", ""),
-    //   userId: tokenInfo.idUser,
-    //   maquinas: listMaquinas.map((item) => ({
-    //     maquinaId: item.id,
-    //     tipoAquisicao: item.tipoAquisicao,
-    //     dataSugestaoRetorno: item.dataSugeridaRetorno
-    //       ? new Date(item.dataSugeridaRetorno)
-    //       : null,
-    //   })),
-    // };
     const obj: InsertClienteProps = {
       ...novoCliente,
       cnpj: valueCnpj,
@@ -146,56 +89,43 @@ export default function Card({
     });
     await InsertCliente(obj)
       .then((res) => {
-        console.log("then acessado");
-        console.log(res);
-        setDataMessage(() => ({
-          message: "Cliente cadastrados com sucesso!",
-          type: "SUCESS",
-        }));
-        ClearAll();
-        refreshTable();
+        if (res === null) {
+          setDataMessage(() => ({
+            message: "Campo(s) obrigatório(s) vazio(s)!",
+            type: "WARNING",
+          }));
+        } else {
+          setDataMessage(() => ({
+            message: "Cliente cadastrados com sucesso!",
+            type: "SUCESS",
+          }));
+          ClearAll();
+          refreshTable();
+        }
       })
       .catch((err) => {
         console.log(err);
-        const validate = err && err.cause;
-
-        console.log(validate);
-        if (err && err.cause && err.cause === ETypeErro.CUSTOM_ERROR) {
-          console.log("funcionu aqui");
+        if (err && err.response && err.response.data) {
+          setDataMessage(() => ({
+            message: err.response.data,
+            type: "WARNING",
+          }));
+        } else if (err && err.message) {
+          setDataMessage(() => ({
+            message: err.message,
+            type: "WARNING",
+          }));
+        } else {
+          setDataMessage(() => ({
+            message: "ERRO INESPERADO NO SERVIDOR!",
+            type: "ERROR",
+          }));
         }
-        console.log("dentro do ssssssssss");
-        console.log(err);
       })
       .finally(() => {
         setToogleMessage((current) => !current);
         setToogleLoading((current) => !current);
       });
-    // await Api.post("/cliente", obj)
-    //   .then((res) => {
-    //     setDataMessage({
-    //       message: "Cliente Cadastrado!",
-    //       type: "SUCESS",
-    //     });
-    //     ClearAll();
-    //     refreshTable();
-    //   })
-    //   .catch((err) => {
-    //     if (err.response && err.response.data) {
-    //       setDataMessage({
-    //         message: err.response.data,
-    //         type: "WARNING",
-    //       });
-    //     } else {
-    //       setDataMessage({
-    //         message: "ERRO NO SERVIDOR!",
-    //         type: "ERROR",
-    //       });
-    //     }
-    //   })
-    //   .finally(() => {
-    //     setToogleMessage((current) => !current);
-    //     setToogleLoading((current) => !current);
-    //   });
   }
   function ClearAll() {
     setNovoCliente({

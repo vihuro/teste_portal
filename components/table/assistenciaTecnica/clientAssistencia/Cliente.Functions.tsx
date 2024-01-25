@@ -1,5 +1,4 @@
 import Api from "../../../../service/api/assistenciaTecnica/Assistencia";
-import { CustomError } from "../../../utils/Erro";
 import { InsertClienteProps } from "./ICliente";
 
 export async function GetCliente() {
@@ -11,20 +10,13 @@ export async function GetCliente() {
 }
 
 export async function InsertCliente(request: InsertClienteProps) {
-  const teste = Validate(request);
-  console.log(teste);
 
   const obj: InsertClienteProps = {
     ...request,
     cnpj: ToCleanCnpj(request.cnpj),
   };
-  let Teste = {
-    message: "",
-  };
-  if (Validate(obj))
-    throw CustomError({
-      message: "Campo(s) obrigató(s) vazio(s)!",
-    });
+
+  if (!Validate(obj)) return null;
 
   const response = await Api.post("/cliente", obj)
     .then((res) => res.data)

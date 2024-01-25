@@ -15,6 +15,9 @@ import {
 import CardSugestao from "../../orcamento/Sugestao/CardSugestao";
 import { Icons } from "../../../../utils/IconDefault";
 import { maquinaReturnProps } from "../IClienteAssistencia";
+import { GetHistorico } from "../../orcamento/Orcamento.Functions";
+import { IOrcamentoProps } from "../../orcamento/IOrcamento";
+import { DateTimeStringFormat } from "../../../../utils/DateTimeString";
 
 interface props {
   changeToogle: Function;
@@ -75,6 +78,7 @@ export default function Card({
 
   const [toogleCardSugestao, setToogleCardSugestacao] =
     useState<boolean>(false);
+  const [historico, setHistorico] = useState<IOrcamentoProps[]>([]);
 
   async function InsertOrcamento() {
     const obj = {
@@ -114,16 +118,13 @@ export default function Card({
 
   useEffect(() => {
     if (!toogle || !cliente) return;
-    GetHistorico(cliente);
-  }, [toogle]);
-
-  async function GetHistorico(cliente: dataProps) {
-    await Api.get(
-      `orcamento/numero-serie/${cliente.maquinaCliente.numeroSerie}`
-    )
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
-  }
+    const historicoData = async () => {
+      await GetHistorico(cliente.maquinaCliente.numeroSerie)
+        .then((res) => setHistorico(() => res))
+        .catch((err) => console.log(err));
+    };
+    historicoData();
+  }, [cliente]);
 
   return (
     <form className={style.card}>
@@ -253,6 +254,38 @@ export default function Card({
             onChange={(e) => setDescricaoServico(e.target.value)}
           />
         </div>
+        <div className={style.containerHistorico}>
+          <span className={style.titleHistorico}>HISTÓRICO</span>
+          <div className={style.wrapContainerHistorico}>
+            {historico &&
+              historico.map((item, index) => (
+                <ul className={style.listHistorico} key={index}>
+                  Número do orçamento: {item.numeroOrcamento}
+                  <li>
+                    Técnico da manutenção:{" "}
+                    <strong> {item.tecnicoOrcamento.nome}</strong>
+                  </li>
+                  <li>
+                    Data da manutenção:{" "}
+                    <strong>
+                      {DateTimeStringFormat(item.statusSituacao[3].dataHoraFim)}
+                    </strong>
+                  </li>
+                  <ul >
+                    Peças trocadas:
+                    <br />
+                    Código - Descrição - Quantidade
+                    {item.maquina.pecas.map((pecasItem, indexPecasItem) => (
+                      <li className={style.listPecas} key={indexPecasItem}>
+                        {pecasItem.codigoPeca} - {pecasItem.descricaoPeca} -{" "}
+                        {pecasItem.quantidade}
+                      </li>
+                    ))}
+                  </ul>
+                </ul>
+              ))}
+          </div>
+        </div>
       </main>
       <footer className={style.footer}>
         <div>
@@ -271,7 +304,10 @@ export default function Card({
             classUi="glass"
             color="red"
             text="FECHAR"
-            onClick={() => changeToogle(false)}
+            onClick={() => {
+              setHistorico(() => []);
+              changeToogle(false);
+            }}
             type="button"
           />
         </div>

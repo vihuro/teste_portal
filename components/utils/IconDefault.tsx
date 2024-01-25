@@ -20,6 +20,7 @@ import { BsFilePdf } from "react-icons/bs";
 import { RiMenuAddFill } from "react-icons/ri";
 import { GrInfo } from "react-icons/gr";
 import { IconContext } from "react-icons";
+import { TbHexagonLetterH } from "react-icons/tb";
 
 export const Icons = {
   Edit: TbEdit,
@@ -40,4 +41,5 @@ export const Icons = {
   AddFill: RiMenuAddFill,
   InfoIdea: GrInfo,
   IconContext,
+  Historic: TbHexagonLetterH,
 };

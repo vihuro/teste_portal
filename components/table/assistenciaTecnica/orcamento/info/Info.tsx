@@ -20,6 +20,7 @@ import {
   handleTouchStart,
 } from "../../../../utils/HandleTouch";
 import ConfirmStatus from "./ConfirmChangeStatus/Confirm";
+import CardHistoric from "./historicMachine/Historic";
 import SearchInfoOfUserOnToken from "../../../../utils/SearchInfoOfUserOnToken";
 
 interface props {
@@ -164,6 +165,7 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
   const [toogleCardRemoverPeca, setToolgeRemoverCard] =
     useState<boolean>(false);
   const [toogleCardSugestao, setToogleCardSugestao] = useState<boolean>(false);
+  const [toogleHistoric, setToogleHistoric] = useState<boolean>(false);
 
   const [status, setStatus] = useState(
     EStatus.STATUS_AGUARDANDO_LIBERACAO_ORCAMENTO
@@ -174,7 +176,7 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
 
   const [pecaDelete, setPecaDelet] = useState<IPecasProps | undefined>();
 
-  const [indexSituacao, setIndexSituacao] = useState<number | undefined>();
+  const [indexSituacao, setIndexSituacao] = useState<string | undefined>();
 
   function changeToogleFilterParts() {
     setToogleFilterPecas((current) => !current);
@@ -465,6 +467,20 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
           maquinaId={dataBudget?.maquina.maquinaClienteId}
         />
       </div>
+      {dataBudget && (
+        <div
+          className={`${style.containerHistoric} ${
+            !toogleHistoric && style["--close"]
+          }`}
+        >
+          <CardHistoric
+            changeToogle={setToogleHistoric}
+            numeroSerie={dataBudget.maquina.numeroSerie}
+            toogle={toogleHistoric}
+          />
+        </div>
+      )}
+
       <div
         className={
           toogleConfirmStatus
@@ -638,6 +654,11 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                   changeToogle(false);
                 }}
               />
+            </button>
+          </div>
+          <div className={style.container_history}>
+            <button onClick={() => setToogleHistoric((current) => !current)}>
+              <Icons.Historic />
             </button>
           </div>
           <div className={style.containerButtonDaily}>
@@ -1052,7 +1073,39 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                       <>
                         {dataBudget.statusSituacao.map((item, index) => (
                           <tr key={index}>
-                            <td>{item.status}</td>
+                            <td className={style.container_notification}>
+                              <div
+                                className={style.tag_notification}
+                                onClick={() => {
+                                  if (item.statusId === indexSituacao) {
+                                    setToogleNotification(
+                                      (current) => !current
+                                    );
+                                  } else if (
+                                    item.statusId !== indexSituacao &&
+                                    toogleNotification
+                                  ) {
+                                    setIndexSituacao(() => item.statusId);
+                                  } else {
+                                    setIndexSituacao(() => item.statusId);
+                                    setToogleNotification(
+                                      (current) => !current
+                                    );
+                                  }
+                                }}
+                              >
+                                <Icons.BellNotification />
+                              </div>
+                              <div
+                                className={`${style.descriptionNotification} ${
+                                  toogleNotification &&
+                                  indexSituacao === item.statusId
+                                    ? ""
+                                    : style["--close"]
+                                }`}
+                              ></div>
+                              {item.status}
+                            </td>
                             <td>
                               {validateDataHoraApontamento(item.dataHoraInicio)}
                             </td>

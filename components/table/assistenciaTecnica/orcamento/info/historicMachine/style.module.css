@@ -1,0 +1,65 @@
+.container {
+  width: 400px;
+  height: 350px;
+  background-color: white;
+  margin-top: 25px;
+  border-radius: 50px 20px;
+  overflow: hidden;
+}
+.wrapContainer {
+  display: grid;
+  height: 100%;
+  grid-template-rows: 30px 1fr 50px;
+  overflow: auto;
+  grid-template-areas:
+    "header"
+    "body"
+    "footer";
+}
+.header {
+  grid-area: header;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.body {
+  grid-area: body;
+  padding: 5px;
+  overflow: auto;
+}
+.cardHistorico{
+    padding: 7px;
+    margin: 10px;
+    box-shadow: 0 0 10px rgba(175, 175, 175, 0.582);
+    border-radius: 7px;
+    font-size: 1rem;
+}
+.listPecas{
+    margin-top: 7px;
+    margin-left: 20px;
+}
+.listPecas:not(:last-child){
+    border-bottom: 1px solid rgb(0, 0, 0);
+
+}
+.wrapBody{
+    display: grid;
+}
+.footer {
+  grid-area: footer;
+  display: grid;
+
+  margin: 12px 26px 12px 26px;
+}
+.footer button {
+  padding: 3px;
+  border-radius: 7px;
+  border: 1px solid rgb(11, 223, 134);
+  color: rgb(11, 223, 134);
+  background-color: transparent;
+  transition: 0.5s;
+}
+.footer button:hover {
+  box-shadow: 0 0 10px 1px rgb(11, 223, 134);
+  letter-spacing: 2px;
+}

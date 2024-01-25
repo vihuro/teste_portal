@@ -36,7 +36,8 @@
   justify-content: center;
   align-items: center;
 }
-.containerSugestao {
+.containerSugestao,
+.containerHistoric {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -46,12 +47,12 @@
   z-index: 3;
   overflow: auto;
 }
-.containerSugestao.--close {
+.containerSugestao.--close,
+.containerHistoric.--close {
   transform: scale(1.2);
   opacity: 0;
   pointer-events: none;
 }
-
 .containerConfirmTecnico,
 .containerExcluirPeca {
   position: absolute;
@@ -408,8 +409,7 @@
   font-size: 22px;
 }
 
-.descriptionNotification,
-.descriptionNotification_close {
+.descriptionNotification {
   position: absolute;
   top: 0;
   right: -300px;
@@ -423,7 +423,7 @@
   overflow: hidden;
 }
 
-.descriptionNotification_close {
+.descriptionNotification.--close {
   transform: scaleX(0);
 }
 
@@ -590,7 +590,8 @@
 .container_buttonBack button,
 .containerButtonDaily button,
 .containerButtonDailyDir button,
-.containerButtonSugestao button {
+.containerButtonSugestao button,
+.container_history button {
   transition: 0.2s;
   cursor: pointer;
 }
@@ -600,7 +601,8 @@
 .container_buttonBack button:hover,
 .containerButtonDailyDir button:hover,
 .containerButtonDailyDir button:hover,
-.containerButtonSugestao button:hover {
+.containerButtonSugestao button:hover,
+.container_history button:hover {
   transform: scale(1.2);
 }
 
@@ -665,7 +667,7 @@
   .containerActions {
     grid-area: actions;
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(6, 1fr);
     grid-template-rows: 1fr;
     gap: 5px;
     justify-content: space-between;
@@ -813,7 +815,7 @@
     justify-content: left;
     align-items: center;
     padding-top: 5px;
-    grid-template-columns: 220px 1fr 200px;
+    grid-template-columns: 270px 1fr 200px;
     grid-template-areas: "actions status numeroOrcamento";
   }
 

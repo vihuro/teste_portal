@@ -76,7 +76,6 @@ export default function Table() {
   });
 
   async function FecthData() {
-    console.log("fetch data acessado")
     await GetCliente()
       .then((res) => {
         setData(() => res);
