@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { GetEmprestimos } from "./MquinaEmprestimo.Functions";
 import { DateAndYearStringFormat } from "../../../utils/DateTimeString";
+import styles from "./style.module.css"
+import { TableUi } from "../../../UI/table/TableUi";
+import { Icons } from "../../../utils/IconDefault";
 
 export default function Emprestimos() {
   const [data, setData] = useState<any[]>([]);
@@ -12,9 +15,71 @@ export default function Emprestimos() {
     };
     listEmpresitmos();
   }, []);
+  const columnLabel = [
+    {
+      label: "+"
+    },
+    {
+      label: "Nº ORDEM SERVIÇO"
+    },
+    {
+      label: "EXECUÇÃO"
+    },
+    {
+      label: "TIPO/SERV."
+    },
+    {
+      label: "CATEGORIA"
+    },
+    {
+      label: "DATA/IDEAL"
+    },
+    {
+      label: "PRIORIDADE"
+    },
+    {
+      label: "STATUS"
+    },
+    {
+      label: "INFO"
+    }
+  ]
+  const rowData = data.map((item, index) => ({
+    id: index,
+    data: {
+      "col0": {
+        label: "",
+        icon: Icons.ArrowFromTop,
+        onClick: () => console.log("hahaha")
+      },
+      "col1": {
+        label: item.id.toString()
+      },
+      "col2": {
+        label: item.maquina.descricaoMaquina
+      },
+      "col3": {
+        label: ""
+      },
+      "col4": {
+        label: item.maquina.dataSugestaoRetorno
+      }
+    }
+  }))
   return (
     <div>
-      <table>
+      <section className={styles.wrap_container_table} >
+        {data && (
+
+          <TableUi
+            col={columnLabel}
+            row={rowData}
+            nameTable="tableMaquinasEmprestadas"
+          />
+        )}
+
+      </section>
+      {/* <table>
         <thead>
           <tr>
             <th>CÓDIGO</th>
@@ -38,7 +103,7 @@ export default function Emprestimos() {
               </tr>
             ))}
         </tbody>
-      </table>
+      </table> */}
     </div>
   );
 }

@@ -47,8 +47,8 @@ export default function HistoricMachine({
                     <strong>Peças Trocadas:</strong>
                     {item.maquina.pecas.map((itemPecas, indexPecas) => (
                       <li className={styles.listPecas} key={indexPecas}>
-                        {itemPecas.codigoPeca} - {itemPecas.descricaoPeca} -{" "}
-                        {itemPecas.quantidade}
+                        {itemPecas.quantidade} x {itemPecas.codigoPeca} - {itemPecas.descricaoPeca} -{" "}
+                        
                       </li>
                     ))}
                   </ul>
