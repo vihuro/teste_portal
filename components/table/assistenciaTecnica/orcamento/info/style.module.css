@@ -7,7 +7,7 @@
 }
 
 .container_header {
-  grid-area: 1/1/1/1;
+  grid-area: header;
   display: flex;
   justify-content: left;
   align-items: flex-end;
@@ -201,7 +201,6 @@
 
 .container_body,
 .container_body_loading {
-  grid-area: 2/1/2/1;
   position: relative;
   overflow: hidden;
 }
@@ -403,10 +402,14 @@
   width: 25px;
   height: 25px;
   border-radius: 50%;
-  background-color: rgb(6, 196, 133);
-  color: rgb(6, 105, 72);
   font-weight: 600;
   font-size: 22px;
+  background-color: #8f8d8d;
+  color: rgb(92, 92, 92);
+}
+.tag_notification.--contain {
+  background-color: rgb(6, 196, 133) !important;
+  color: rgb(6, 105, 72) !important;
 }
 
 .descriptionNotification {
@@ -585,6 +588,9 @@
 .containerButtonSugestao button svg path {
   stroke: white;
 }
+.container_history button {
+  background-color: rgb(255, 0, 0);
+}
 
 .containerMap,
 .container_buttonBack button,
@@ -617,6 +623,7 @@
 
 .container_header {
   box-shadow: 0 0 10px 1px rgb(204, 203, 203);
+  grid-area: header;
 }
 
 .containerMap {
@@ -636,125 +643,193 @@
   text-decoration: none;
   color: inherit;
 }
+.wrapContainer_body {
+  margin: 20px 10px 0 10px;
+  display: grid;
+  gap: 20px;
+}
 
 .wrapContainer_body input {
   width: 100% !important;
 }
+.container_body {
+  grid-area: body;
 
-@media (max-width: 1200px) {
+}
+.containerCodigoCliente {
+  grid-area: codigo-cliente;
+}
+
+.containerNomeCliente {
+  grid-area: nome-cliente;
+}
+
+.containerCNPJCliente {
+  grid-area: cnpj-cliente;
+}
+
+.containerCEPCliente {
+  grid-area: cep-cliente;
+}
+
+.containerRuaCliente {
+  grid-area: rua-cliente;
+}
+
+.containerNumeroEstabelecimento {
+  grid-area: numero-estabelecimento;
+}
+
+.containerCidadeCliente {
+  grid-area: cidade-cliente;
+}
+
+.containerRegiaoCliente {
+  grid-area: regiao-cliente;
+}
+
+.containerComplementoCliente {
+  grid-area: complemento;
+}
+
+.containerNomeContatoCliente {
+  grid-area: nome-contato-cliente;
+}
+
+.containerTelefoneContatoCliente {
+  grid-area: telefone-contato-cliente;
+}
+
+.containerDescricaoServico {
+  grid-area: descricao-servico;
+}
+.containerTempoEstimadoOrcamento {
+  grid-area: tempo-estimado-orcamento;
+  position: relative;
+}
+
+.containerTempoEstimadoManutencao {
+  grid-area: tempo-estimado-manutencao;
+  position: relative;
+}
+
+.containerTecnicoOrcamento {
+  grid-area: tecnico-orcamento;
+  position: relative;
+}
+
+.containerTecnicoManutencao {
+  grid-area: tecnico-manutencao;
+}
+.containerStatus {
+  grid-area: container-status;
+  display: grid;
+}
+.containerMaquina {
+  grid-area: maquina;
+}
+.containerTablePecas {
+  grid-area: table-pecas;
+}
+
+@media (min-width: 1160px) {
   .container {
-    grid-template-rows: 160px 1fr;
+    grid-template-rows: 60px 1fr;
+    grid-template-areas:
+      "header"
+      "body";
   }
 
-  .wrapContainer_body input,
-  .container_header input {
-    width: 100% !important;
+  .container_body,
+  .container_body_loading {
+    overflow: auto;
+  }
+
+  .container_header button {
+    width: 30px;
+    height: 30px;
+  }
+  .wrapContainer_body {
+    grid-template-columns: auto;
+    grid-template-areas:
+      "codigo-cliente nome-cliente nome-cliente nome-cliente cnpj-cliente cep-cliente"
+      "rua-cliente rua-cliente rua-cliente numero-estabelecimento cidade-cliente regiao-cliente"
+      "complemento complemento nome-contato-cliente nome-contato-cliente nome-contato-cliente telefone-contato-cliente"
+      "tecnico-orcamento tecnico-orcamento tempo-estimado-orcamento tecnico-manutencao tempo-estimado-manutencao tempo-estimado-manutencao"
+      "descricao-servico descricao-servico descricao-servico descricao-servico descricao-servico descricao-servico"
+      "maquina maquina maquina maquina maquina maquina"
+      "maquina maquina maquina maquina maquina maquina"
+      "maquina maquina maquina maquina maquina maquina";
   }
 
   .container_header {
     display: grid;
-    grid-template-rows: repeat(3, 1fr);
-    grid-template-columns: 1fr;
-    justify-content: center;
+    position: relative;
+    justify-content: left;
     align-items: center;
-    grid-template-areas:
-      "numeroOrcamento numeroOrcamento"
-      "status status"
-      "actions actions";
-    padding: 15px 20px 0 10px;
+    padding-top: 5px;
+    grid-template-columns: 270px 1fr 200px;
+    grid-template-areas: "actions status numeroOrcamento";
   }
 
   .containerActions {
     grid-area: actions;
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    grid-template-rows: 1fr;
-    gap: 5px;
-    justify-content: space-between;
+    display: flex;
+    gap: 15px;
+    justify-content: center;
     align-items: center;
-    justify-items: center;
-  }
-  .container_buttonBack {
-    justify-self: flex-start;
-  }
-
-  .containerStatusOrcamento {
-    grid-area: status;
-  }
-
-  .container_header button {
-    margin-left: 5px;
-    width: 30px;
-    height: 30px;
-  }
-
-  .containerMap {
-    margin-left: 5px;
   }
 
   .containerNumeroOrcamento {
+    padding: 5px;
     grid-area: numeroOrcamento;
   }
 
-  .containerStatusOrcamento .container_body {
-    overflow: auto;
+  .containerStatusOrcamento {
+    position: absolute;
+    grid-area: status;
+    width: 100%;
+    display: flex;
   }
 
-  .container_body,
-  .container_body_loading {
-    grid-auto-rows: 20px;
-    display: grid;
-    overflow: auto;
+  .containerStatusOrcamento button {
+    margin-left: 0;
+    margin-right: 10px;
   }
 
-  .container_body_loading .wrapContainer_body div input {
-    border: none;
-    background-color: transparent;
+  .containerStatusOrcamento p {
+    width: 100%;
+    cursor: default;
   }
 
-  .wrapContainer_body {
-    margin: 20px 10px 0 10px;
-    display: grid;
-    gap: 20px;
-    grid-template-columns: 1fr;
-    grid-auto-rows: 40px;
-  }
-
-  .containerTempoEstimadoOrcamento {
-    grid-area: 14/1/14/1;
-    position: relative;
-  }
-
-  .containerTempoEstimadoManutencao {
-    grid-area: 16/1/16/1;
-    position: relative;
+  .containerDescricaoServico input {
+    width: 110% !important;
   }
 
   .containerMaquina {
-    grid-area: 17/1/30/1;
     display: grid;
-    grid-template-rows: repeat(5, 50px);
+    grid-template-areas:
+      "info-maquina table-pecas table-pecas"
+      "info-maquina table-pecas table-pecas"
+      "info-maquina table-pecas table-pecas"
+      "container-status container-status container-status";
+    /* grid-template-columns: 200px 1fr;
+    grid-template-rows: repeat(6, 60px); */
   }
 
   .container_infoMaquina {
+    grid-area: info-maquina;
     display: grid;
-    grid-area: 1/1/5/1;
-  }
-
-  .containerTablePecas {
-    grid-area: 5/1/29/1;
-    padding: 0;
+    gap: 15px;
   }
 
   .containerStatus {
-    grid-area: 30/1/35/1;
-    display: grid;
-    height: 300px;
+    margin-top: 10px;
   }
 
   .wrapContainerFilter,
   .wrapDiario {
-    width: 500px;
+    width: 550px;
     height: 500px;
     border-radius: 10px 50px;
     transition: 0.5s;
@@ -765,52 +840,37 @@
     position: absolute;
   }
 }
-@media (max-width: 700px) {
-  .wrapContainerFilter,
-  .wrapDiario {
-    width: 300px;
-    height: 500px;
-    border-radius: 10px 50px;
-    transition: 0.5s;
-    box-shadow: 0 0 10px rgba(14, 10, 231, 0.226), 0 0 1px rgb(14, 10, 231),
-      0 0 10px rgb(14, 10, 231);
-    overflow: hidden;
-    transition: 0.5s;
-    position: absolute;
-  }
-}
-@media (min-width: 1200px) {
+@media (max-width: 1160px) {
   .container {
     grid-template-rows: 60px 1fr;
+    grid-template-areas:
+      "header"
+      "body";
   }
 
   .container_body,
   .container_body_loading {
-    /* grid-auto-rows: 40px; */
-    grid-auto-rows: 40px;
-    display: grid;
     overflow: auto;
   }
-
   .container_header button {
-    /* margin-left: 50px; */
     width: 30px;
     height: 30px;
   }
-
   .wrapContainer_body {
-    margin: 20px 10px 0 10px;
-    display: grid;
-    gap: 20px;
-    grid-template-columns: repeat(8, 1fr);
-    grid-template-rows: repeat(8, 1fr);
+    grid-template-columns: auto;
+    grid-template-areas:
+      "codigo-cliente nome-cliente nome-cliente nome-cliente cnpj-cliente"
+      "cep-cliente rua-cliente numero-estabelecimento cidade-cliente regiao-cliente"
+      "complemento nome-contato-cliente nome-contato-cliente nome-contato-cliente telefone-contato-cliente"
+      "tecnico-orcamento tempo-estimado-orcamento tecnico-manutencao tempo-estimado-manutencao tempo-estimado-manutencao"
+      "descricao-servico descricao-servico descricao-servico descricao-servico descricao-servico"
+      "maquina maquina maquina maquina maquina"
+      "maquina maquina maquina maquina maquina"
+      "maquina maquina maquina maquina maquina";
   }
 
   .container_header {
-    grid-area: 1/1/1/1;
     display: grid;
-    width: 100%;
-    height: 100%;
     position: relative;
     justify-content: left;
     align-items: center;
@@ -850,96 +910,28 @@
     cursor: default;
   }
 
-  .containerCodigoCliente {
-    grid-area: 1/1/1/3;
-  }
-
-  .containerNomeCliente {
-    grid-area: 1/3/1/5;
-  }
-
-  .containerCNPJCliente {
-    grid-area: 1/5/1/7;
-  }
-
-  .containerCEPCliente {
-    grid-area: 1/7/1/9;
-  }
-
-  .containerRuaCliente {
-    grid-area: 2/1/2/5;
-  }
-
-  .containerNumeroEstabelecimento {
-    grid-area: 2/5/2/7;
-  }
-
-  .containerCidadeCliente {
-    grid-area: 2/7/2/9;
-  }
-
-  .containerRegiaoCliente {
-    grid-area: 3/1/3/3;
-  }
-
-  .containerComplementoCliente {
-    grid-area: 3/3/3/5;
-  }
-
-  .containerNomeContatoCliente {
-    grid-area: 3/5/3/7;
-  }
-
-  .containerTelefoneContatoCliente {
-    grid-area: 3/7/3/9;
-  }
-
-  .containerDescricaoServico {
-    grid-area: 4/1/4/5;
-  }
-
   .containerDescricaoServico input {
     width: 110% !important;
   }
 
-  .containerTempoEstimadoOrcamento {
-    grid-area: 4/6/4/6;
-    position: relative;
-  }
-
-  .containerTempoEstimadoManutencao {
-    grid-area: 4/8/4/9;
-    position: relative;
-  }
-
-  .containerTecnicoOrcamento {
-    grid-area: 4/5/4/5;
-    position: relative;
-  }
-
-  .containerTecnicoManutencao {
-    grid-area: 4/7/4/8;
-  }
-
   .containerMaquina {
-    grid-area: 5/1/15/9;
     display: grid;
-    grid-template-columns: 200px 1fr;
-    grid-template-rows: repeat(6, 60px);
+    grid-template-areas:
+      "info-maquina table-pecas table-pecas"
+      "info-maquina table-pecas table-pecas"
+      "info-maquina table-pecas table-pecas"
+      "container-status container-status container-status";
+    /* grid-template-columns: 200px 1fr;
+    grid-template-rows: repeat(6, 60px); */
   }
 
   .container_infoMaquina {
-    grid-area: 1/1/4/1;
+    grid-area: info-maquina;
     display: grid;
     gap: 15px;
-
-    justify-content: space-between;
   }
 
   .containerStatus {
-    grid-area: 4/1/12/9;
-    display: grid;
-    height: 300px;
     margin-top: 10px;
   }
 
@@ -956,6 +948,173 @@
     position: absolute;
   }
 }
+@media (max-width: 1000px) {
+  .container {
+    grid-template-rows: 160px 1fr;
+  }
+
+  .wrapContainer_body input,
+  .container_header input {
+    width: 100% !important;
+  }
+
+  .container_header {
+    display: grid;
+    grid-template-rows: repeat(3, 1fr);
+    grid-template-columns: 1fr;
+    justify-content: center;
+    align-items: center;
+    grid-template-areas:
+      "numeroOrcamento numeroOrcamento"
+      "status status"
+      "actions actions";
+    padding: 15px 20px 0 10px;
+  }
+
+  .containerActions {
+    grid-area: actions;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: 1fr;
+    gap: 5px;
+    justify-content: space-between;
+    align-items: center;
+    justify-items: center;
+  }
+  .container_buttonBack {
+    justify-self: flex-start;
+  }
+
+  .container_header button {
+    margin-left: 5px;
+    width: 30px;
+    height: 30px;
+  }
+
+  .containerMap {
+    margin-left: 5px;
+  }
+
+
+  .container_body,
+  .container_body_loading {
+    grid-auto-rows: 20px;
+  }
+  .container_body_loading .wrapContainer_body div input {
+    border: none;
+    background-color: transparent;
+  }
+
+  .wrapContainer_body {
+    grid-template-columns: auto;
+    grid-template-areas:
+      "codigo-cliente nome-cliente nome-cliente nome-cliente cnpj-cliente"
+      "cep-cliente rua-cliente rua-cliente numero-estabelecimento cidade-cliente"
+      "regiao-cliente regiao-cliente complemento nome-contato-cliente telefone-contato-cliente"
+      "tecnico-orcamento tempo-estimado-orcamento tecnico-manutencao tempo-estimado-manutencao tempo-estimado-manutencao"
+      "descricao-servico descricao-servico descricao-servico descricao-servico descricao-servico"
+      "maquina maquina maquina maquina maquina"
+      "maquina maquina maquina maquina maquina"
+      "maquina maquina maquina maquina maquina";
+  }
+  .wrapContainerFilter,
+  .wrapDiario {
+    width: 500px;
+    height: 500px;
+    border-radius: 10px 50px;
+    transition: 0.5s;
+    box-shadow: 0 0 10px rgba(14, 10, 231, 0.226), 0 0 1px rgb(14, 10, 231),
+      0 0 10px rgb(14, 10, 231);
+    overflow: hidden;
+    transition: 0.5s;
+    position: absolute;
+  }
+}
+@media (max-width: 910px) {
+
+}
+@media (max-width: 760px) {
+  .wrapContainer_body {
+    grid-template-areas:
+      "codigo-cliente codigo-cliente nome-cliente nome-cliente"
+      "cnpj-cliente cep-cliente rua-cliente numero-estabelecimento"
+      "cidade-cliente regiao-cliente complemento nome-contato-cliente"
+      "telefone-contato-cliente telefone-contato-cliente tecnico-orcamento tempo-estimado-orcamento"
+      "tecnico-manutencao tecnico-manutencao tempo-estimado-manutencao tempo-estimado-manutencao"
+      "descricao-servico descricao-servico descricao-servico descricao-servico"
+      "maquina maquina maquina maquina"
+      "maquina maquina maquina maquina"
+      "maquina maquina maquina maquina";
+  }
+}
+@media (max-width: 690px) {
+  .wrapContainer_body {
+    grid-template-areas:
+      "codigo-cliente codigo-cliente nome-cliente nome-cliente"
+      "cnpj-cliente cep-cliente rua-cliente rua-cliente"
+      "numero-estabelecimento cidade-cliente regiao-cliente regiao-cliente"
+      "complemento nome-contato-cliente telefone-contato-cliente telefone-contato-cliente"
+      "tecnico-orcamento tecnico-orcamento tempo-estimado-orcamento tempo-estimado-orcamento"
+      "tecnico-manutencao tecnico-manutencao tempo-estimado-manutencao tempo-estimado-manutencao"
+      "descricao-servico descricao-servico descricao-servico descricao-servico"
+      "maquina maquina maquina maquina"
+      "maquina maquina maquina maquina"
+      "maquina maquina maquina maquina";
+  }
+  .wrapContainerFilter,
+  .wrapDiario {
+    width: 300px;
+    height: 500px;
+    border-radius: 10px 50px;
+    transition: 0.5s;
+    box-shadow: 0 0 10px rgba(14, 10, 231, 0.226), 0 0 1px rgb(14, 10, 231),
+      0 0 10px rgb(14, 10, 231);
+    overflow: hidden;
+    transition: 0.5s;
+    position: absolute;
+  }
+}
+@media (max-width: 620px) {
+  .wrapContainer_body {
+    grid-template-areas:
+      "codigo-cliente codigo-cliente nome-cliente nome-cliente"
+      "cnpj-cliente cep-cliente rua-cliente rua-cliente"
+      "numero-estabelecimento cidade-cliente regiao-cliente regiao-cliente"
+      "complemento nome-contato-cliente telefone-contato-cliente telefone-contato-cliente"
+      "tecnico-orcamento tecnico-orcamento tempo-estimado-orcamento tempo-estimado-orcamento"
+      "tecnico-manutencao tecnico-manutencao tempo-estimado-manutencao tempo-estimado-manutencao"
+      "descricao-servico descricao-servico descricao-servico descricao-servico"
+      "maquina maquina maquina maquina"
+      "maquina maquina maquina maquina"
+      "maquina maquina maquina maquina";
+  }
+}
+@media (max-width: 600px) {
+  .wrapContainer_body {
+    grid-template-areas:
+      "codigo-cliente"
+      "nome-cliente"
+      "cnpj-cliente"
+      "cep-cliente"
+      "rua-cliente"
+      "numero-estabelecimento"
+      "cidade-cliente"
+      "regiao-cliente"
+      "complemento"
+      "nome-contato-cliente "
+      "telefone-contato-cliente"
+      "tecnico-orcamento"
+      "tempo-estimado-orcamento"
+      "tecnico-manutencao"
+      "tempo-estimado-manutencao"
+      "descricao-servico"
+      "maquina"
+      "maquina"
+      "maquina";
+  }
+
+}
+
 .wrapContainerFilter,
 .wrapDiario {
   margin: 20px 0 0 0;
