@@ -104,7 +104,7 @@
 }
 
 .container_input_horas div,
-.container_input_descricao div{
+.container_input_descricao div {
   position: relative;
   display: flex;
 }
@@ -170,9 +170,11 @@
   right: 2px;
   width: 98%;
   height: 1px;
-  background-image: linear-gradient(to right,
-      rgb(24, 3, 216),
-      rgb(243, 0, 252));
+  background-image: linear-gradient(
+    to right,
+    rgb(24, 3, 216),
+    rgb(243, 0, 252)
+  );
   transition: 0.5s;
   transform: scaleX(0);
 }
@@ -190,8 +192,8 @@
   outline: none;
 }
 
-.cardConfirmTecnico div input:valid~label,
-.cardConfirmTecnico div input:focus~label {
+.cardConfirmTecnico div input:valid ~ label,
+.cardConfirmTecnico div input:focus ~ label {
   transform: translateX(7px) translateY(-8px);
   background-color: rgb(28, 5, 233);
   color: rgb(232, 230, 247);
@@ -255,8 +257,10 @@
 }
 
 .checked:checked {
-  background-image: radial-gradient(rgba(255, 255, 255, 0.904) 35%,
-      rgb(6, 196, 133) 45%);
+  background-image: radial-gradient(
+    rgba(255, 255, 255, 0.904) 35%,
+    rgb(6, 196, 133) 45%
+  );
 }
 
 .containerTablePecas {
@@ -294,14 +298,19 @@
 
 .table thead tr th,
 .table_status thead tr th {
-  padding: 7px;
+  padding: 5px;
 }
 
-.container_tableBody tr td,
+.container_tableBody tr td {
+  padding: 5px;
+}
 .container_tableBody_status tr td {
   padding: 20px;
 }
-
+.container_tableBody tr:hover,
+.container_tableBody_status tr:hover{
+  background-color: #d6d6d688;
+}
 .container_tableBody tr:not(:last-child),
 .container_tableBody_status tr:not(:last-child) {
   border-bottom: 1px solid black;
@@ -344,7 +353,8 @@
   opacity: 0;
 }
 
-@media (min-width: 430px) {}
+@media (min-width: 430px) {
+}
 
 @keyframes slideIn {
   from {
@@ -455,11 +465,13 @@
   position: absolute;
   top: 0;
   left: 0;
-  background-image: linear-gradient(to left,
-      #dbdbdb,
-      #ececec,
-      #dbdbdb,
-      #f3f3f3);
+  background-image: linear-gradient(
+    to left,
+    #dbdbdb,
+    #ececec,
+    #dbdbdb,
+    #f3f3f3
+  );
   width: 100%;
   height: 100%;
   z-index: 1;
@@ -536,10 +548,10 @@
   opacity: 0;
 }
 
-.containerTecnicoOrcamento input:focus~label,
-.containerTecnicoOrcamento input:valid~label,
-.containerTecnicoManutencao input:focus~label,
-.containerTecnicoManutencao input:valid~label,
+.containerTecnicoOrcamento input:focus ~ label,
+.containerTecnicoOrcamento input:valid ~ label,
+.containerTecnicoManutencao input:focus ~ label,
+.containerTecnicoManutencao input:valid ~ label,
 .containerTempoEstimadoOrcamento label,
 .containerTempoEstimadoManutencao label {
   transform: translateY(-20px);
@@ -663,7 +675,6 @@
 
 .container_body {
   grid-area: body;
-
 }
 
 .containerCodigoCliente {
@@ -849,6 +860,9 @@
   .containerStatus {
     margin-top: 10px;
   }
+  .containerTablePecas {
+    max-height: 200px;
+  }
 
   .wrapContainerFilter,
   .wrapDiario {
@@ -950,6 +964,9 @@
     /* grid-template-columns: 200px 1fr;
     grid-template-rows: repeat(6, 60px); */
   }
+  .containerTablePecas {
+    max-height: 200px;
+  }
 
   .container_infoMaquina {
     grid-area: info-maquina;
@@ -1023,7 +1040,6 @@
     margin-left: 5px;
   }
 
-
   .container_body,
   .container_body_loading {
     grid-auto-rows: 20px;
@@ -1037,10 +1053,10 @@
   .wrapContainer_body {
     grid-template-columns: auto;
     grid-template-areas:
-      "codigo-cliente nome-cliente nome-cliente nome-cliente cnpj-cliente"
-      "cep-cliente rua-cliente rua-cliente numero-estabelecimento cidade-cliente"
-      "regiao-cliente regiao-cliente complemento nome-contato-cliente telefone-contato-cliente"
-      "tecnico-orcamento tempo-estimado-orcamento tecnico-manutencao tempo-estimado-manutencao tempo-estimado-manutencao"
+      "codigo-cliente nome-cliente nome-cliente cnpj-cliente cep-cliente"
+      "rua-cliente rua-cliente numero-estabelecimento cidade-cliente cidade-cliente regiao-cliente"
+      "complemento complemento nome-contato-cliente telefone-contato-cliente"
+      "tecnico-orcamento tempo-estimado-orcamento tecnico-manutencao tempo-estimado-manutencao orcamento-radar"
       "descricao-servico descricao-servico descricao-servico descricao-servico descricao-servico"
       "maquina maquina maquina maquina maquina"
       "maquina maquina maquina maquina maquina"
@@ -1061,20 +1077,18 @@
   }
 }
 
-@media (max-width: 910px) {}
-
 @media (max-width: 760px) {
   .wrapContainer_body {
     grid-template-areas:
       "codigo-cliente codigo-cliente nome-cliente nome-cliente"
-      "cnpj-cliente cep-cliente rua-cliente numero-estabelecimento"
-      "cidade-cliente regiao-cliente complemento nome-contato-cliente"
-      "telefone-contato-cliente telefone-contato-cliente tecnico-orcamento tempo-estimado-orcamento"
-      "tecnico-manutencao tecnico-manutencao tempo-estimado-manutencao tempo-estimado-manutencao"
-      "descricao-servico descricao-servico descricao-servico descricao-servico"
-      "maquina maquina maquina maquina"
-      "maquina maquina maquina maquina"
-      "maquina maquina maquina maquina";
+      "cnpj-cliente cep-cliente rua-cliente rua-cliente "
+      " numero-estabelecimento cidade-cliente regiao-cliente complemento nome-contato-cliente"
+      "telefone-contato-cliente telefone-contato-cliente telefone-contato-cliente tecnico-orcamento tempo-estimado-orcamento"
+      "tecnico-manutencao tecnico-manutencao tecnico-manutencao tempo-estimado-manutencao orcamento-radar"
+      "descricao-servico descricao-servico descricao-servico descricao-servico descricao-servico"
+      "maquina maquina maquina maquina maquina"
+      "maquina maquina maquina maquina maquina"
+      "maquina maquina maquina maquina maquina";
   }
 }
 
@@ -1084,9 +1098,10 @@
       "codigo-cliente codigo-cliente nome-cliente nome-cliente"
       "cnpj-cliente cep-cliente rua-cliente rua-cliente"
       "numero-estabelecimento cidade-cliente regiao-cliente regiao-cliente"
-      "complemento nome-contato-cliente telefone-contato-cliente telefone-contato-cliente"
+      "complemento complemento nome-contato-cliente telefone-contato-cliente"
       "tecnico-orcamento tecnico-orcamento tempo-estimado-orcamento tempo-estimado-orcamento"
       "tecnico-manutencao tecnico-manutencao tempo-estimado-manutencao tempo-estimado-manutencao"
+      "orcamento-radar orcamento-radar nota-radar nota-radar"
       "descricao-servico descricao-servico descricao-servico descricao-servico"
       "maquina maquina maquina maquina"
       "maquina maquina maquina maquina"
@@ -1116,6 +1131,7 @@
       "complemento nome-contato-cliente telefone-contato-cliente telefone-contato-cliente"
       "tecnico-orcamento tecnico-orcamento tempo-estimado-orcamento tempo-estimado-orcamento"
       "tecnico-manutencao tecnico-manutencao tempo-estimado-manutencao tempo-estimado-manutencao"
+      "orcamento-radar orcamento-radar nota-radar nota-radar"
       "descricao-servico descricao-servico descricao-servico descricao-servico"
       "maquina maquina maquina maquina"
       "maquina maquina maquina maquina"
@@ -1141,12 +1157,31 @@
       "tempo-estimado-orcamento"
       "tecnico-manutencao"
       "tempo-estimado-manutencao"
+      "orcamento-radar"
+      "nota-radar"
       "descricao-servico"
       "maquina"
       "maquina"
       "maquina";
   }
-
+  .containerMaquina {
+    display: grid;
+    grid-template-areas:
+      "info-maquina info-maquina"
+      "table-pecas table-pecas"
+      "table-pecas table-pecas"
+      "table-pecas table-pecas"
+      "table-pecas table-pecas"
+      "table-pecas table-pecas"
+      "table-pecas table-pecas"
+      "container-status container-status";
+  }
+  .containerTablePecas {
+    display: grid;
+    padding: 0;
+    max-height: 200px;
+    margin-top: 10px;
+  }
 }
 
 .wrapContainerFilter,

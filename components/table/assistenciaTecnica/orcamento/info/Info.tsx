@@ -953,7 +953,7 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
           </div>
           <div className={style.containerNumeroOrcamentoRadar}>
             <Input
-              id="txtNumeroNotaRadar"
+              id="txtNumeroOrcamentoRadar"
               text="Orçamento Radar"
             />
           </div>

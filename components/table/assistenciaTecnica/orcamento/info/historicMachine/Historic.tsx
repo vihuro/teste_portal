@@ -38,7 +38,7 @@ export default function HistoricMachine({
             {historicoData &&
               historicoData.map((item, index) => (
                 <div key={index} className={styles.cardHistorico}>
-                  <h5>Número do Orçamaneto: {item.numeroOrcamento}</h5>
+                  <h5>Número do Orçamento: {item.numeroOrcamento}</h5>
                   <span>
                     <strong>Data da manutenção: </strong>
                     {DateTimeStringFormat(item.statusSituacao[3].dataHoraFim)}
