@@ -36,6 +36,7 @@
   justify-content: center;
   align-items: center;
 }
+
 .containerSugestao,
 .containerHistoric {
   position: absolute;
@@ -47,12 +48,14 @@
   z-index: 3;
   overflow: auto;
 }
+
 .containerSugestao.--close,
 .containerHistoric.--close {
   transform: scale(1.2);
   opacity: 0;
   pointer-events: none;
 }
+
 .containerConfirmTecnico,
 .containerExcluirPeca {
   position: absolute;
@@ -68,6 +71,7 @@
 .containerExcluirPeca.--close {
   pointer-events: none;
 }
+
 .containerConfirmTecnico.--close .cardConfirmTecnico,
 .containerExcluirPeca.--close .cardExcluirPeca {
   transform: scale(1.5);
@@ -78,7 +82,7 @@
 .cardExcluirPeca {
   box-shadow: 0 0 10px 1px rgb(196, 196, 196);
   width: 300px;
-  height: 300px;
+  height: 330px;
   border-radius: 50px 10px;
   background-color: white;
   transition: 0.5s;
@@ -91,19 +95,22 @@
 }
 
 .container_input_horas,
-.container_button_excluirPecas {
+.container_button_excluirPecas,
+.container_input_descricao {
   position: relative;
   padding: 15px;
   height: 40px;
   display: grid;
 }
 
-.container_input_horas div {
+.container_input_horas div,
+.container_input_descricao div{
   position: relative;
   display: flex;
 }
 
-.container_input_horas div label {
+.container_input_horas div label,
+.container_input_descricao div label {
   transition: 0.5s;
   font-size: 14px;
   color: rgb(139, 139, 139);
@@ -155,23 +162,23 @@
   box-shadow: 0 0 10px 1px rgb(228, 16, 80);
 }
 
-.container_input_horas div::after {
+.container_input_horas div::after,
+.container_input_descricao div::after {
   content: "";
   position: absolute;
   bottom: 0;
   right: 2px;
   width: 98%;
   height: 1px;
-  background-image: linear-gradient(
-    to right,
-    rgb(24, 3, 216),
-    rgb(243, 0, 252)
-  );
+  background-image: linear-gradient(to right,
+      rgb(24, 3, 216),
+      rgb(243, 0, 252));
   transition: 0.5s;
   transform: scaleX(0);
 }
 
-.container_input_horas div:focus-within::after {
+.container_input_horas div:focus-within::after,
+.container_input_descricao div:focus-within::after {
   transform: scaleX(1);
 }
 
@@ -183,8 +190,8 @@
   outline: none;
 }
 
-.cardConfirmTecnico div input:valid ~ label,
-.cardConfirmTecnico div input:focus ~ label {
+.cardConfirmTecnico div input:valid~label,
+.cardConfirmTecnico div input:focus~label {
   transform: translateX(7px) translateY(-8px);
   background-color: rgb(28, 5, 233);
   color: rgb(232, 230, 247);
@@ -248,10 +255,8 @@
 }
 
 .checked:checked {
-  background-image: radial-gradient(
-    rgba(255, 255, 255, 0.904) 35%,
-    rgb(6, 196, 133) 45%
-  );
+  background-image: radial-gradient(rgba(255, 255, 255, 0.904) 35%,
+      rgb(6, 196, 133) 45%);
 }
 
 .containerTablePecas {
@@ -339,8 +344,7 @@
   opacity: 0;
 }
 
-@media (min-width: 430px) {
-}
+@media (min-width: 430px) {}
 
 @keyframes slideIn {
   from {
@@ -407,6 +411,7 @@
   background-color: #8f8d8d;
   color: rgb(92, 92, 92);
 }
+
 .tag_notification.--contain {
   background-color: rgb(6, 196, 133) !important;
   color: rgb(6, 105, 72) !important;
@@ -450,13 +455,11 @@
   position: absolute;
   top: 0;
   left: 0;
-  background-image: linear-gradient(
-    to left,
-    #dbdbdb,
-    #ececec,
-    #dbdbdb,
-    #f3f3f3
-  );
+  background-image: linear-gradient(to left,
+      #dbdbdb,
+      #ececec,
+      #dbdbdb,
+      #f3f3f3);
   width: 100%;
   height: 100%;
   z-index: 1;
@@ -533,10 +536,10 @@
   opacity: 0;
 }
 
-.containerTecnicoOrcamento input:focus ~ label,
-.containerTecnicoOrcamento input:valid ~ label,
-.containerTecnicoManutencao input:focus ~ label,
-.containerTecnicoManutencao input:valid ~ label,
+.containerTecnicoOrcamento input:focus~label,
+.containerTecnicoOrcamento input:valid~label,
+.containerTecnicoManutencao input:focus~label,
+.containerTecnicoManutencao input:valid~label,
 .containerTempoEstimadoOrcamento label,
 .containerTempoEstimadoManutencao label {
   transform: translateY(-20px);
@@ -577,17 +580,21 @@
   background-color: rgb(22, 207, 145);
   color: rgb(6, 105, 72);
 }
+
 .containerButtonDailyDir button {
   font-size: 18px;
   background-color: black;
   color: rgb(143, 142, 142);
 }
+
 .containerButtonSugestao button {
   background-color: rgba(252, 6, 231, 0.541);
 }
+
 .containerButtonSugestao button svg path {
   stroke: white;
 }
+
 .container_history button {
   background-color: rgb(255, 0, 0);
 }
@@ -643,6 +650,7 @@
   text-decoration: none;
   color: inherit;
 }
+
 .wrapContainer_body {
   margin: 20px 10px 0 10px;
   display: grid;
@@ -652,10 +660,12 @@
 .wrapContainer_body input {
   width: 100% !important;
 }
+
 .container_body {
   grid-area: body;
 
 }
+
 .containerCodigoCliente {
   grid-area: codigo-cliente;
 }
@@ -703,6 +713,7 @@
 .containerDescricaoServico {
   grid-area: descricao-servico;
 }
+
 .containerTempoEstimadoOrcamento {
   grid-area: tempo-estimado-orcamento;
   position: relative;
@@ -721,13 +732,24 @@
 .containerTecnicoManutencao {
   grid-area: tecnico-manutencao;
 }
+
+.containerNumeroNotaRadar {
+  grid-area: nota-radar;
+}
+
+.containerNumeroOrcamentoRadar {
+  grid-area: orcamento-radar;
+}
+
 .containerStatus {
   grid-area: container-status;
   display: grid;
 }
+
 .containerMaquina {
   grid-area: maquina;
 }
+
 .containerTablePecas {
   grid-area: table-pecas;
 }
@@ -749,13 +771,14 @@
     width: 30px;
     height: 30px;
   }
+
   .wrapContainer_body {
     grid-template-columns: auto;
     grid-template-areas:
       "codigo-cliente nome-cliente nome-cliente nome-cliente cnpj-cliente cep-cliente"
       "rua-cliente rua-cliente rua-cliente numero-estabelecimento cidade-cliente regiao-cliente"
       "complemento complemento nome-contato-cliente nome-contato-cliente nome-contato-cliente telefone-contato-cliente"
-      "tecnico-orcamento tecnico-orcamento tempo-estimado-orcamento tecnico-manutencao tempo-estimado-manutencao tempo-estimado-manutencao"
+      "tecnico-orcamento tempo-estimado-orcamento tecnico-manutencao tempo-estimado-manutencao nota-radar orcamento-radar"
       "descricao-servico descricao-servico descricao-servico descricao-servico descricao-servico descricao-servico"
       "maquina maquina maquina maquina maquina maquina"
       "maquina maquina maquina maquina maquina maquina"
@@ -840,6 +863,7 @@
     position: absolute;
   }
 }
+
 @media (max-width: 1160px) {
   .container {
     grid-template-rows: 60px 1fr;
@@ -852,17 +876,19 @@
   .container_body_loading {
     overflow: auto;
   }
+
   .container_header button {
     width: 30px;
     height: 30px;
   }
+
   .wrapContainer_body {
     grid-template-columns: auto;
     grid-template-areas:
-      "codigo-cliente nome-cliente nome-cliente nome-cliente cnpj-cliente"
-      "cep-cliente rua-cliente numero-estabelecimento cidade-cliente regiao-cliente"
-      "complemento nome-contato-cliente nome-contato-cliente nome-contato-cliente telefone-contato-cliente"
-      "tecnico-orcamento tempo-estimado-orcamento tecnico-manutencao tempo-estimado-manutencao tempo-estimado-manutencao"
+      "codigo-cliente nome-cliente cnpj-cliente cep-cliente rua-cliente"
+      "numero-estabelecimento cidade-cliente regiao-cliente regiao-cliente complemento"
+      "nome-contato-cliente telefone-contato-cliente telefone-contato-cliente tecnico-orcamento tempo-estimado-orcamento"
+      "tecnico-manutencao tecnico-manutencao tempo-estimado-manutencao orcamento-radar nota-radar"
       "descricao-servico descricao-servico descricao-servico descricao-servico descricao-servico"
       "maquina maquina maquina maquina maquina"
       "maquina maquina maquina maquina maquina"
@@ -948,6 +974,7 @@
     position: absolute;
   }
 }
+
 @media (max-width: 1000px) {
   .container {
     grid-template-rows: 160px 1fr;
@@ -981,6 +1008,7 @@
     align-items: center;
     justify-items: center;
   }
+
   .container_buttonBack {
     justify-self: flex-start;
   }
@@ -1000,6 +1028,7 @@
   .container_body_loading {
     grid-auto-rows: 20px;
   }
+
   .container_body_loading .wrapContainer_body div input {
     border: none;
     background-color: transparent;
@@ -1017,6 +1046,7 @@
       "maquina maquina maquina maquina maquina"
       "maquina maquina maquina maquina maquina";
   }
+
   .wrapContainerFilter,
   .wrapDiario {
     width: 500px;
@@ -1030,9 +1060,9 @@
     position: absolute;
   }
 }
-@media (max-width: 910px) {
 
-}
+@media (max-width: 910px) {}
+
 @media (max-width: 760px) {
   .wrapContainer_body {
     grid-template-areas:
@@ -1047,6 +1077,7 @@
       "maquina maquina maquina maquina";
   }
 }
+
 @media (max-width: 690px) {
   .wrapContainer_body {
     grid-template-areas:
@@ -1061,6 +1092,7 @@
       "maquina maquina maquina maquina"
       "maquina maquina maquina maquina";
   }
+
   .wrapContainerFilter,
   .wrapDiario {
     width: 300px;
@@ -1074,6 +1106,7 @@
     position: absolute;
   }
 }
+
 @media (max-width: 620px) {
   .wrapContainer_body {
     grid-template-areas:
@@ -1089,6 +1122,7 @@
       "maquina maquina maquina maquina";
   }
 }
+
 @media (max-width: 600px) {
   .wrapContainer_body {
     grid-template-areas:
