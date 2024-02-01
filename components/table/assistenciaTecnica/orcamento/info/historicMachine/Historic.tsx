@@ -16,6 +16,13 @@ export default function HistoricMachine({
   numeroSerie,
 }: HistoricMachineProps) {
   const [historicoData, setHistoricoData] = useState<IOrcamentoProps[]>([]);
+  const [filterPecasText, setFilterPecasText] = useState<string>("");
+
+  const filter = historicoData.filter((item) =>
+    item.maquina.pecas.some((pecas) =>
+      pecas.descricaoPeca.includes(filterPecasText.toUpperCase())
+    )
+  );
 
   useEffect(() => {
     if (!toogle) return;
@@ -34,9 +41,20 @@ export default function HistoricMachine({
           <h5>HISTÓRICO</h5>
         </header>
         <main className={styles.body}>
+          <div className={styles.container_filter}>
+            <div className={styles.wrap_container_filter}>
+              <input
+                value={filterPecasText}
+                onChange={(e) => setFilterPecasText(() => e.target.value)}
+                type="text"
+                required
+              />
+              <label htmlFor="">Filtro por peças</label>
+            </div>
+          </div>
           <section className={styles.wrapBody}>
-            {historicoData &&
-              historicoData.map((item, index) => (
+            {filter &&
+              filter.map((item, index) => (
                 <div key={index} className={styles.cardHistorico}>
                   <h5>Número do Orçamento: {item.numeroOrcamento}</h5>
                   <span>
@@ -47,8 +65,8 @@ export default function HistoricMachine({
                     <strong>Peças Trocadas:</strong>
                     {item.maquina.pecas.map((itemPecas, indexPecas) => (
                       <li className={styles.listPecas} key={indexPecas}>
-                        {itemPecas.quantidade} x {itemPecas.codigoPeca} - {itemPecas.descricaoPeca} -{" "}
-                        
+                        {itemPecas.quantidade} x {itemPecas.codigoPeca} -{" "}
+                        {itemPecas.descricaoPeca} -{" "}
                       </li>
                     ))}
                   </ul>

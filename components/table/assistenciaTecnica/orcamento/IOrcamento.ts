@@ -12,6 +12,7 @@ export interface IOrcamentoProps {
   maquina: IMaquinaProps;
   cadastro: usuarioDataHoraProps;
   alteracao: usuarioDataHoraProps;
+  diario: IDiarioProps[];
 }
 export interface usuarioDataHoraProps {
   apelido: string;
@@ -64,6 +65,14 @@ export interface IPecasProps {
   quantidade: number;
   preco: number;
   troca: boolean;
+}
+export interface IDiarioProps {
+  observacao: string;
+  privado:boolean;
+  tag: string;
+  usuarioApontamento: string;
+  usuarioId: string;
+  dataHoraApontamento: Date;
 }
 
 export interface ITechnicianProps {

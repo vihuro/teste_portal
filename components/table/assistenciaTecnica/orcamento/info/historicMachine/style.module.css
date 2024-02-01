@@ -25,25 +25,55 @@
 .body {
   grid-area: body;
   padding: 5px;
+  overflow: hidden;
+  display: grid;
+}
+.wrap_container_filter {
+  position: relative;
+  display: grid;
+  margin-top: 10px;
+  padding: 2px;
+  margin-left: 10px;
+  border-radius: 7px;
+  border: 1px solid rgba(109, 109, 109, 0.493);
+}
+.wrap_container_filter input {
+  padding: 5px;
+  border: none;
+  outline: none;
+}
+.wrap_container_filter label {
+  position: absolute;
+  transition: 0.5s;
+  color: rgba(82, 80, 80, 0.582);
+  transform: translate(15px, 5px);
+}
+.wrap_container_filter input:valid ~ label,
+.wrap_container_filter input:focus ~ label {
+  transform: translate(10px, -15px);
+  font-size: 12px;
+  background-color:var(--background-color-blue-700);
+  color: white;
+  padding: 2px;
+  border-radius: 3px;
+}
+.cardHistorico {
+  padding: 7px;
+  margin: 10px;
+  box-shadow: 0 0 10px rgba(175, 175, 175, 0.582);
+  border-radius: 7px;
+  font-size: 1rem;
+}
+.listPecas {
+  margin-top: 7px;
+  margin-left: 20px;
+}
+.listPecas:not(:last-child) {
+  border-bottom: 1px solid rgb(0, 0, 0);
+}
+.wrapBody {
+  display: grid;
   overflow: auto;
-}
-.cardHistorico{
-    padding: 7px;
-    margin: 10px;
-    box-shadow: 0 0 10px rgba(175, 175, 175, 0.582);
-    border-radius: 7px;
-    font-size: 1rem;
-}
-.listPecas{
-    margin-top: 7px;
-    margin-left: 20px;
-}
-.listPecas:not(:last-child){
-    border-bottom: 1px solid rgb(0, 0, 0);
-
-}
-.wrapBody{
-    display: grid;
 }
 .footer {
   grid-area: footer;

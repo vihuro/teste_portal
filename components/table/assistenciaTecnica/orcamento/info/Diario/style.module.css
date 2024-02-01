@@ -50,6 +50,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    transition: .5s;
+}
+.containerCardInsert_close{
+    transform: translateX(-100%);
 }
 .listDiario {}
 

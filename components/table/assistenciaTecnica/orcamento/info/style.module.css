@@ -331,7 +331,8 @@
 .containerFilter,
 .containerFilter_close,
 .containerDiario,
-.containerDiario_close {
+.containerDiario_close,
+.containerDiario_privado {
   position: absolute;
   width: 100%;
   height: 100%;
