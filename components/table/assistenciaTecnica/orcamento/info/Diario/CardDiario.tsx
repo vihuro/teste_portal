@@ -11,6 +11,7 @@ interface Props {
   numeroOrcamento: number;
   privado: boolean;
   toogle: boolean;
+  refresh: Function,
   listDiario: IDiarioProps[];
 }
 
@@ -183,7 +184,7 @@ function searchColor(text: string) {
   };
 }
 
-function Form({ changeToogle, numeroOrcamento, privado, listDiario }: Props) {
+function Form({ changeToogle, numeroOrcamento, privado, listDiario, refresh }: Props) {
   const { Button } = ButtonUi();
   const [toogleCardInsert, setToogleCardInsert] = useState<boolean>(false);
 
@@ -203,6 +204,7 @@ function Form({ changeToogle, numeroOrcamento, privado, listDiario }: Props) {
           numeroOrcamento={numeroOrcamento}
           changeToogle={setToogleCardInsert}
           privado={privado}
+          refresh={refresh}
         />
       </div>
       <header className={styles.header}>
@@ -215,11 +217,10 @@ function Form({ changeToogle, numeroOrcamento, privado, listDiario }: Props) {
         <ul className={styles.listDiario}>
           {filter &&
             filter.map((item, index) => (
-              <li key={index} style={searchColor(item.tag)}>{`${
-                item.observacao
-              } - ${item.usuarioApontamento} - ${DateTimeStringFormat(
-                item.dataHoraApontamento
-              )}`}</li>
+              <li key={index} style={searchColor(item.tag)}>{`${item.observacao
+                } - ${item.usuarioApontamento} - ${DateTimeStringFormat(
+                  item.dataHoraApontamento
+                )}`}</li>
             ))}
           {/* {fakeDiario.map((item, index) => (
             <li key={index} style={searchColor(item.flag)}>

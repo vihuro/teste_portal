@@ -155,6 +155,11 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
   const [listTecnicoManutecao, setListTecnicoManutencao] =
     useState<boolean>(false);
 
+  const [toogleAddNumeroOrcamentoRadar, setToogleAddNumeroOrcamentoRadar] =
+    useState<boolean>(false);
+  const [toogleAddNumeroNotaRadar, setToogleNumeroNotaRadar] =
+    useState<boolean>(false);
+
   const [toogleFilterPecas, setToogleFilterPecas] = useState<boolean>(false);
   const [toogleDiario, setToogleDiario] = useState<boolean>(false);
   const [toogleDiarioPrivado, setToogleDiarioPrivado] =
@@ -177,6 +182,10 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
   const [numeroStatus, setNumeroStatus] = useState<number>(0);
 
   const [tempoEstimaOrcamento, setTempoEstimadoOrcamento] = useState<number>(0);
+
+  const [tempoEstimadoManutencao, setTempoEstimadoManutencao] =
+    useState<number>(0);
+  const [numeroNotaRadar, setNumeroNotaRadar] = useState<number>(0);
 
   const [pecaDelete, setPecaDelet] = useState<IPecasProps | undefined>();
 
@@ -225,7 +234,18 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
       return false;
     }
   }
-
+  async function insertNumeroNotaRadar() {
+    var obj = {
+      orcamentoId: numeroOrcamento,
+      numeroNotaRadar: numeroNotaRadar,
+      usuarioId: tokenInfo.idUser,
+    };
+    await Api.put("orcamento/insert-nota-radar", obj)
+      .then((res) => {
+        getByNumeroOrcamento();
+      })
+      .catch((err) => console.log(err));
+  }
   async function deletePeca() {
     const { tokenInfo } = SearchInfoOfUserOnToken;
     const deletePecaNoORcamento = {
@@ -253,8 +273,26 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
       observacao: descricaoAtribuicaoTecnico,
     };
 
-    await Api.put("orcamento/insert-tecnico", obj)
+    await Api.put("orcamento/insert-tecnico-orcamento", obj)
       .then((res) => {
+        setToogleConfirmTecnicoOrcamento((current) => !current);
+        getByNumeroOrcamento();
+      })
+      .catch((err) => console.log(err));
+  }
+  async function insertTecnicoNaManutencao() {
+    const { tokenInfo } = SearchInfoOfUserOnToken;
+
+    const obj = {
+      tecnicoId: tecnicoManutencao?.idTecnico,
+      usuarioAlteracaoId: tokenInfo.idUser,
+      orcamentoId: numeroOrcamento,
+      tempoEstimado: tempoEstimadoManutencao,
+    };
+
+    await Api.put("orcamento/insert-tecnico-manutencao", obj)
+      .then((res) => {
+        setToogleConfirmTecnicoManutencao((current) => !current);
         getByNumeroOrcamento();
       })
       .catch((err) => console.log(err));
@@ -571,7 +609,7 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
         <div className={style.cardConfirmTecnico}>
           <span>
             Deseja atribuir esse manutenção para o técnico
-            <strong> {tecnicoManutencao?.nome}?</strong>?
+            <strong> {tecnicoManutencao?.nome}</strong>?
             <br />
             Se sim, coloque a estimativa em minutos para essa manutenção!
           </span>
@@ -581,9 +619,9 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
                 id="txtHorasCard"
                 required
                 type="number"
-                value={tempoEstimaOrcamento}
+                value={tempoEstimadoManutencao}
                 onChange={(e) =>
-                  setTempoEstimadoOrcamento(Number(e.target.value))
+                  setTempoEstimadoManutencao(() => Number(e.target.value))
                 }
               />
               <label htmlFor="txtHorasCard">MINUTOS</label>
@@ -592,7 +630,7 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
           <div className={style.container_button_card_horas}>
             <button
               onClick={() => {
-                // insertTecnicoNoOrcamento();
+                insertTecnicoNaManutencao();
               }}
             >
               ATRIBUIR
@@ -601,6 +639,34 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
               onClick={() =>
                 setToogleConfirmTecnicoManutencao((current) => !current)
               }
+            >
+              FECHAR
+            </button>
+          </div>
+        </div>
+      </div>
+      <div
+        className={`${style.containerNumeroNota} ${
+          !toogleAddNumeroNotaRadar && [style["--close"]]
+        }`}
+      >
+        <div className={style.cardNUmeroNota}>
+          <span>Insira o número da nota fiscal para este orçamento:</span>
+          <div className={style.containerInputNotaNoOrcamento}>
+            <div>
+              <input
+                value={numeroNotaRadar}
+                onChange={(e) => setNumeroNotaRadar(Number(e.target.value))}
+                type="number"
+                id="txtInsertNumeroNotaRadar"
+              />
+              <label htmlFor="txtInsertNumeroNotaRadar">Nº NOTA</label>
+            </div>
+          </div>
+          <div className={style.containerButtonCardNotaRadar}>
+            <button onClick={() => insertNumeroNotaRadar()}>INSERIR</button>
+            <button
+              onClick={() => setToogleNumeroNotaRadar((current) => !current)}
             >
               FECHAR
             </button>
@@ -662,6 +728,7 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
           <div className={style.wrapDiario}>
             <FormDiario
               numeroOrcamento={numeroOrcamento}
+              refresh={getByNumeroOrcamento}
               toogle={toogleDiario}
               changeToogle={setToogleDiario}
               privado={false}
@@ -682,6 +749,7 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
             <FormDiario
               numeroOrcamento={numeroOrcamento}
               toogle={toogleDiarioPrivado}
+              refresh={getByNumeroOrcamento}
               changeToogle={setToogleDiarioPrivado}
               privado={true}
               listDiario={dataBudget!.diario}
@@ -982,7 +1050,17 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
             <label htmlFor="">TEMPO - MANUT.</label>
           </div>
           <div className={style.containerNumeroNotaRadar}>
-            <Input id="txtNumeroNotaRadar" text="Nº NF Radar" />
+            <Input
+              id="txtNumeroNotaRadar"
+              text="Nº NF Radar"
+              onChange={() => {}}
+              onClick={() => {
+                if (ValidateRuleUser()) {
+                  setToogleNumeroNotaRadar((current) => !current);
+                }
+              }}
+              value={dataBudget ? dataBudget.numeroNotaRadar : ""}
+            />
           </div>
           <div className={style.containerNumeroOrcamentoRadar}>
             <Input id="txtNumeroOrcamentoRadar" text="Orçamento Radar" />

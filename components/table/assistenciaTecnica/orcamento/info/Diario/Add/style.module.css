@@ -65,6 +65,7 @@
     resize: none;
     border: none;
     outline: none;
+    border-radius: 7px;
 }
 
 .wrapInput {
@@ -74,6 +75,9 @@
 
 .wrapInput {
     position: relative;
+}
+.containerInput span{
+    font-size: 12px;
 }
 
 .wrapInput:focus-within::before,

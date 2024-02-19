@@ -225,9 +225,9 @@ export default function InfoForm({ numeroOrcamento }: { numeroOrcamento: number 
             <div className={toogleDiario ?
                 style.containerDiario :
                 style.containerDiario_close} >
-                <div className={style.wrapDiario} >
-                    <FormDiario changeToogle={setToogleDiario} />
-                </div>
+                {/* <div className={style.wrapDiario} >
+                    <FormDiario  changeToogle={setToogleDiario} />
+                </div> */}
             </div>
             <header className={style.container_header} >
                 <div className={style.container_buttonBack} >

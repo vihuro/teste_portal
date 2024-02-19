@@ -9,9 +9,10 @@ interface FormProps {
   changeToogle: Function;
   numeroOrcamento: number;
   privado: boolean;
+  refresh: Function
 }
 
-export function Form({ changeToogle, numeroOrcamento, privado }: FormProps) {
+export function Form({ changeToogle, numeroOrcamento, privado, refresh }: FormProps) {
   const [maxCharacter, setMaxCharacter] = useState<number>(2000);
   const [characterStay, setCharacterStay] = useState<number>(2000);
   const [observer, setObserver] = useState<string>("");
@@ -35,7 +36,13 @@ export function Form({ changeToogle, numeroOrcamento, privado }: FormProps) {
       privado: privado,
     };
     await Api.post("/orcamento/diario", obj)
-      .then((res) => console.log(res.data))
+      .then((res) => {
+        setTag(() => "")
+        setObserver("");
+        setCharacterStay(() => 2000);
+        refresh()
+        changeToogle(false);
+      })
       .catch((err) => console.log(err));
   }
 
@@ -47,7 +54,7 @@ export function Form({ changeToogle, numeroOrcamento, privado }: FormProps) {
             type="text"
             onClick={() => setToogleListColors((current) => !current)}
             value={tag}
-            onChange={() => {}}
+            onChange={() => { }}
           />
         </div>
         <ul
@@ -100,6 +107,7 @@ export function Form({ changeToogle, numeroOrcamento, privado }: FormProps) {
       <main className={styles.containerInput}>
         <div className={styles.wrapInput}>
           <textarea
+            value={observer}
             onChange={(e) => {
               setObserver((current) => (current = e.target.value));
               countCharacterHandle(e.target.value);

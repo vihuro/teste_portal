@@ -7,6 +7,7 @@ export interface IOrcamentoProps {
   tecnicoManutencao: ITechnicianProps;
   tempoEstimadoOrcamento: number;
   tempoEstimadoManutencao: number;
+  numeroNotaRadar: string;
   statusSituacao: IStatusSitucaoProps[];
   cliente: IClienteProps;
   maquina: IMaquinaProps;
@@ -68,7 +69,7 @@ export interface IPecasProps {
 }
 export interface IDiarioProps {
   observacao: string;
-  privado:boolean;
+  privado: boolean;
   tag: string;
   usuarioApontamento: string;
   usuarioId: string;

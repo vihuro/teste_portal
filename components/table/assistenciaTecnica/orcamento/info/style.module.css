@@ -57,7 +57,8 @@
 }
 
 .containerConfirmTecnico,
-.containerExcluirPeca {
+.containerExcluirPeca,
+.containerNumeroNota {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -68,18 +69,21 @@
 }
 
 .containerConfirmTecnico.--close,
-.containerExcluirPeca.--close {
+.containerExcluirPeca.--close,
+.containerNumeroNota.--close {
   pointer-events: none;
 }
 
 .containerConfirmTecnico.--close .cardConfirmTecnico,
-.containerExcluirPeca.--close .cardExcluirPeca {
+.containerExcluirPeca.--close .cardExcluirPeca,
+.containerNumeroNota.--close .cardNUmeroNota {
   transform: scale(1.5);
   opacity: 0;
 }
 
 .cardConfirmTecnico,
-.cardExcluirPeca {
+.cardExcluirPeca,
+.cardNUmeroNota {
   box-shadow: 0 0 10px 1px rgb(196, 196, 196);
   width: 300px;
   height: 330px;
@@ -90,13 +94,15 @@
 }
 
 .cardConfirmTecnico span,
-.cardExcluirPeca span {
+.cardExcluirPeca span,
+.cardNUmeroNota span {
   margin: 15px 5px 0 15px;
 }
 
 .container_input_horas,
 .container_button_excluirPecas,
-.container_input_descricao {
+.container_input_descricao,
+.containerInputNotaNoOrcamento {
   position: relative;
   padding: 15px;
   height: 40px;
@@ -104,13 +110,15 @@
 }
 
 .container_input_horas div,
-.container_input_descricao div {
+.container_input_descricao div,
+.containerInputNotaNoOrcamento div {
   position: relative;
   display: flex;
 }
 
 .container_input_horas div label,
-.container_input_descricao div label {
+.container_input_descricao div label,
+.containerInputNotaNoOrcamento div label {
   transition: 0.5s;
   font-size: 14px;
   color: rgb(139, 139, 139);
@@ -119,14 +127,16 @@
 }
 
 .container_button_card_horas,
-.container_button_excluirPecas {
+.container_button_excluirPecas,
+.containerButtonCardNotaRadar {
   display: flex;
   padding: 5px;
   gap: 15px;
 }
 
 .container_button_card_horas button,
-.container_button_excluirPecas button {
+.container_button_excluirPecas button,
+.containerButtonCardNotaRadar button {
   width: 100%;
   height: 40px;
   border: none;
@@ -136,34 +146,40 @@
 }
 
 .container_button_card_horas button:nth-child(1),
-.container_button_excluirPecas button:nth-child(1) {
+.container_button_excluirPecas button:nth-child(1),
+.containerButtonCardNotaRadar button:nth-child(1) {
   background-color: rgb(16, 228, 157);
   color: rgb(3, 61, 42);
 }
 
 .container_button_card_horas button:nth-child(2),
-.container_button_excluirPecas button:nth-child(2) {
+.container_button_excluirPecas button:nth-child(2),
+.containerButtonCardNotaRadar button:nth-child(2) {
   background-color: rgb(228, 16, 80);
   color: rgb(77, 4, 26);
 }
 
 .container_button_card_horas button:hover,
-.container_button_excluirPecas button:hover {
+.container_button_excluirPecas button:hover,
+.containerButtonCardNotaRadar button:hover {
   letter-spacing: 2px;
 }
 
 .container_button_card_horas button:nth-child(1):hover,
-.container_button_excluirPecas button:nth-child(1):hover {
+.container_button_excluirPecas button:nth-child(1):hover,
+.containerButtonCardNotaRadar button:nth-child(1):hover {
   box-shadow: 0 0 10px 1px rgb(16, 228, 157);
 }
 
 .container_button_card_horas button:nth-child(2):hover,
-.container_button_excluirPecas button:nth-child(2):hover {
+.container_button_excluirPecas button:nth-child(2):hover,
+.containerButtonCardNotaRadar button:nth-child(2):hover {
   box-shadow: 0 0 10px 1px rgb(228, 16, 80);
 }
 
 .container_input_horas div::after,
-.container_input_descricao div::after {
+.container_input_descricao div::after,
+.containerInputNotaNoOrcamento div::after {
   content: "";
   position: absolute;
   bottom: 0;
@@ -180,11 +196,13 @@
 }
 
 .container_input_horas div:focus-within::after,
-.container_input_descricao div:focus-within::after {
+.container_input_descricao div:focus-within::after,
+.containerInputNotaNoOrcamento div:focus-within::after {
   transform: scaleX(1);
 }
 
-.cardConfirmTecnico div input {
+.cardConfirmTecnico div input,
+.containerInputNotaNoOrcamento div input {
   border-radius: 7px;
   width: 100%;
   padding: 5px 0 5px 5px;
@@ -193,7 +211,9 @@
 }
 
 .cardConfirmTecnico div input:valid ~ label,
-.cardConfirmTecnico div input:focus ~ label {
+.cardConfirmTecnico div input:focus ~ label,
+.containerInputNotaNoOrcamento div input:valid ~ label,
+.containerInputNotaNoOrcamento div input:focus ~ label {
   transform: translateX(7px) translateY(-8px);
   background-color: rgb(28, 5, 233);
   color: rgb(232, 230, 247);
@@ -308,7 +328,7 @@
   padding: 20px;
 }
 .container_tableBody tr:hover,
-.container_tableBody_status tr:hover{
+.container_tableBody_status tr:hover {
   background-color: #d6d6d688;
 }
 .container_tableBody tr:not(:last-child),

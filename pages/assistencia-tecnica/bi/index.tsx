@@ -56,6 +56,7 @@ export default function Bi() {
           <th>MODELO</th>
           <th>SÉRIE</th>
           <th>INFORMAÇÕES</th>
+          <th>OBSERVAÇÃO</th>
           <th>RESP. ORÇ</th>
           <th>LIMITE ORÇ.</th>
 
@@ -91,6 +92,7 @@ export default function Bi() {
               <td>{item.maquina.descricaoMaquina}</td>
               <td>{item.maquina.numeroSerie}</td>
               <td>{item.descricaoServico}</td>
+              <td>{item.statusSituacao[0].observacao}</td>
               <td>{item.tecnicoOrcamento?.nome}</td>
               <td>{item.tempoEstimadoOrcamento}</td>
 
