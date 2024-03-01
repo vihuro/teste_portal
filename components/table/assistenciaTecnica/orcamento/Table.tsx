@@ -15,6 +15,9 @@ interface dataProps {
     maquina: maquinaProps,
 
 }
+interface teste{
+    
+}
 interface clienteProps {
     cep: string,
     cidade: string,

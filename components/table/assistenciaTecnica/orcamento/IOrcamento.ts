@@ -8,6 +8,7 @@ export interface IOrcamentoProps {
   tempoEstimadoOrcamento: number;
   tempoEstimadoManutencao: number;
   numeroNotaRadar: string;
+  numeroOrcamentoRadar: string;
   statusSituacao: IStatusSitucaoProps[];
   cliente: IClienteProps;
   maquina: IMaquinaProps;

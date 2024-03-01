@@ -186,6 +186,7 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
   const [tempoEstimadoManutencao, setTempoEstimadoManutencao] =
     useState<number>(0);
   const [numeroNotaRadar, setNumeroNotaRadar] = useState<number>(0);
+  const [numeroOrcamentoRadar, setNumeroOrcamentoRadar] = useState<number>(0);
 
   const [pecaDelete, setPecaDelet] = useState<IPecasProps | undefined>();
 
@@ -234,13 +235,25 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
       return false;
     }
   }
-  async function insertNumeroNotaRadar() {
-    var obj = {
+  async function insertNumeroOrcamentoRadar(){
+    const obj = {
       orcamentoId: numeroOrcamento,
       numeroNotaRadar: numeroNotaRadar,
       usuarioId: tokenInfo.idUser,
     };
     await Api.put("orcamento/insert-nota-radar", obj)
+      .then((res) => {
+        getByNumeroOrcamento();
+      })
+      .catch((err) => console.log(err));
+  }
+  async function insertNumeroNotaRadar() {
+    const obj = {
+      orcamentoId: numeroOrcamento,
+      NumeroOrcamentoRadar: numeroOrcamentoRadar,
+      usuarioId: tokenInfo.idUser,
+    };
+    await Api.put("orcamento/insert-orcamento-radar", obj)
       .then((res) => {
         getByNumeroOrcamento();
       })
@@ -638,6 +651,38 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
             <button
               onClick={() =>
                 setToogleConfirmTecnicoManutencao((current) => !current)
+              }
+            >
+              FECHAR
+            </button>
+          </div>
+        </div>
+      </div>
+      <div
+        className={`${style.containerAddNumeroOrcamento} ${
+          !toogleAddNumeroOrcamentoRadar && [style["--close"]]
+        }`}
+      >
+        <div className={style.cardNumeroOrcamento}>
+          <span>Insira o número do orçamento do radar:</span>
+          <div className={style.containerInputAddOrcamentoRadar}>
+            <div>
+              <input
+                type="text"
+                value={numeroOrcamentoRadar}
+                onChange={(e) =>
+                  setNumeroOrcamentoRadar(() => Number(e.target.value))
+                }
+                id="txtAddNumeroOrcamentoTeste"
+              />
+              <label htmlFor="txtAddNumeroOrcamentoTeste">Nº ORÇAMENTO</label>
+            </div>
+          </div>
+          <div className={style.containerButtonAddOrcamento}>
+            <button>INSERIR</button>
+            <button
+              onClick={() =>
+                setToogleAddNumeroOrcamentoRadar((current) => !current)
               }
             >
               FECHAR
@@ -1063,7 +1108,17 @@ function InfoForm({ changeToogle, numeroOrcamento, valueToogle }: props) {
             />
           </div>
           <div className={style.containerNumeroOrcamentoRadar}>
-            <Input id="txtNumeroOrcamentoRadar" text="Orçamento Radar" />
+            <Input
+              id="txtNumeroOrcamentoRadar"
+              text="Orçamento Radar"
+              onChangeCapture={() => {}}
+              onClick={() => {
+                if (ValidateRuleUser()) {
+                  setToogleAddNumeroOrcamentoRadar((current) => !current);
+                }
+              }}
+              value={dataBudget ? dataBudget.numeroOrcamentoRadar : ""}
+            />
           </div>
           <div
             className={style.containerTecnicoManutencao}
