@@ -83,8 +83,9 @@ export default function Card({
       nomeContatoCliente: data?.contatoNome,
       contatoTelefone: data?.contatoTelefone,
       maquinaCliente: listMaquina?.map((item) => ({
-        maquinaId: item.id ? item.id : item.id,
-        tipoAquisicao: item.tipoAquisicao,
+        maquinaId: item.maquinaId ? item.maquinaId : item.id,
+        tipoAquisicao:
+          item.tipoAquisicao === "EMPRÉSTIMO" ? 1 : item.tipoAquisicao,
         dataSugestaoRetorno: item.dataSugeridaRetorno
           ? new Date(item.dataSugeridaRetorno)
           : null,
@@ -100,6 +101,7 @@ export default function Card({
         refreshTable();
       })
       .catch((err) => {
+        console.log(err);
         if (err.response && err.response.data) {
           setDataMessage({
             message: err.response.data,
@@ -126,17 +128,22 @@ export default function Card({
                           -${dataProps.cnpj.slice(12)}`;
     handleCnpj(cnpj);
     setTextCep(dataProps.cep);
+  }, [dataProps]);
 
-    setListMaquina(
-      dataProps.maquinaCliente.map((item) => ({
-        codigoMaquina: item.codigoMaquina,
-        descricaoMaquina: item.codigoMaquina,
-        id: item.id,
-        numeroSerie: item.numeroSerie,
-        tipoAquisicao: parseInt(item.tipoAquisicao),
-        dataSugeridaRetorno: item.dataSugestaoRetorno,
-      }))
-    );
+  useEffect(() => {
+    if (listMaquina.length === 0) {
+      setListMaquina(
+        dataProps.maquinaCliente.map((item) => ({
+          codigoMaquina: item.codigoMaquina,
+          descricaoMaquina: item.codigoMaquina,
+          id: item.id,
+          maquinaId: item.maquinaId,
+          numeroSerie: item.numeroSerie,
+          tipoAquisicao: item.tipoAquisicao === "EMPRÉSTIMO" ? 1 : 0,
+          dataSugeridaRetorno: item.dataSugestaoRetorno,
+        }))
+      );
+    }
   }, [dataProps]);
 
   useEffect(() => {
@@ -146,6 +153,7 @@ export default function Card({
         codigoMaquina: item.codigoMaquina,
         numeroSerie: item.numeroSerie,
         tipoMaquina: item.descricaoMaquina,
+        maquinaId: item.maquinaId,
         status: "TESTE",
         dataSugestaoRetorno: item.dataSugeridaRetorno,
         descricaoMaquina: item.descricaoMaquina,
@@ -153,6 +161,8 @@ export default function Card({
       }));
 
       setListMaquina((current) => [...current, ...list]);
+    } else {
+      setListMaquina(() => []);
     }
   }, [toogle]);
 
@@ -230,6 +240,7 @@ export default function Card({
     codigoMaquina: item.codigoMaquina,
     descricaoMaquina: item.descricaoMaquina,
     id: item.id,
+    maquinaId: item.maquinaId,
     numeroSerie: item.numeroSerie,
     tipoAquisicao: item.tipoAquisicao,
     dataSugeridaRetorno: item.dataSugeridaRetorno,

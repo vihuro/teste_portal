@@ -5,8 +5,6 @@ import { InfoForm, Fetchdata as FetchDataByNumeroOrcamento } from "./info/Info";
 import { Icons } from "../../../utils/IconDefault";
 import Filter from "../../filterColunaTable/CardFilterColuna";
 
-
-
 interface dataProps {
     numeroOrcamento: number,
     descricaoServico: string,
@@ -15,6 +13,7 @@ interface dataProps {
     maquina: maquinaProps,
 
 }
+
 interface clienteProps {
     cep: string,
     cidade: string,

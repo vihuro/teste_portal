@@ -4,10 +4,11 @@ export enum TipoAquisicao {
 }
 export interface maquinaProps {
   id: string;
+  maquinaId: string;
   codigoMaquina: string;
   descricaoMaquina: string;
   numeroSerie: string;
-  tipoAquisicao: number;
+  tipoAquisicao: number | string;
   dataSugeridaRetorno?: Date;
 }
 export interface maquinaReturnProps {
