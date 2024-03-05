@@ -76,7 +76,7 @@ export default function Card({
       userId: tokenInfo.idUser,
       maquinas: listMaquinas.map((item) => ({
         maquinaId: item.id,
-        tipoAquisicao: item.tipoAquisicao,
+        tipoAquisicao: Number(item.tipoAquisicao),
         dataSugestaoRetorno: item.dataSugeridaRetorno
           ? new Date(item.dataSugeridaRetorno)
           : undefined,
@@ -425,7 +425,7 @@ export default function Card({
                       <td>{item.codigoMaquina}</td>
                       <td>{item.descricaoMaquina}</td>
                       <td>{item.numeroSerie}</td>
-                      <td>{TipoAquisicao[item.tipoAquisicao]}</td>
+                      <td>{TipoAquisicao[Number(item.tipoAquisicao)]}</td>
                       <td>
                         {DateAndYearStringFormat(item.dataSugeridaRetorno)}
                       </td>

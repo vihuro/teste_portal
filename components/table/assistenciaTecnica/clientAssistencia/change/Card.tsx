@@ -67,7 +67,6 @@ export default function Card({
   const tokenInfo: tokenProps = TokenDrecriptor(parseCookies().ACCESS_TOKEN);
 
   async function Altera() {
-
     const obj = {
       idCliente: data?.idCliente,
       nome: data?.nome,
@@ -162,6 +161,8 @@ export default function Card({
       }));
 
       setListMaquina((current) => [...current, ...list]);
+    } else {
+      setListMaquina(() => []);
     }
   }, [toogle]);
 
