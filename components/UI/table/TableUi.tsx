@@ -131,8 +131,8 @@ export function TableUi({ col, row, nameTable }: props) {
                         {rowTable.map((rowItem, indexRow) => (
                             <tr key={indexRow} >
                                 {column.map((colItem) => {
-                                    const Icon = rowItem.data[colItem.id].icon;
-                                    const Function = rowItem.data[colItem.id].onClick;
+                                    const Icon = rowItem.data[colItem.id]?.icon;
+                                    const Function = rowItem.data[colItem.id]?.onClick;
 
                                     return (
                                         colItem.visible &&
@@ -142,7 +142,7 @@ export function TableUi({ col, row, nameTable }: props) {
                                                 if (Function) Function()
                                             }}
                                         >
-                                            {rowItem.data[colItem.id].tag ?
+                                            {rowItem.data[colItem.id]?.tag ?
                                                 <p style={rowItem.data[colItem.id].tag} >{rowItem.data[colItem.id].label}</p> :
                                                 rowItem.data[colItem.id] && rowItem.data[colItem.id].label
                                             }

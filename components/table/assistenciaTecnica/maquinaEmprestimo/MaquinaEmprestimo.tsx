@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { GetEmprestimos } from "./MquinaEmprestimo.Functions";
 import { DateAndYearStringFormat } from "../../../utils/DateTimeString";
-import styles from "./style.module.css"
+import styles from "./style.module.css";
 import { TableUi } from "../../../UI/table/TableUi";
 import { Icons } from "../../../utils/IconDefault";
 
@@ -17,67 +17,71 @@ export default function Emprestimos() {
   }, []);
   const columnLabel = [
     {
-      label: "+"
+      label: "+",
     },
     {
-      label: "Nº ORDEM SERVIÇO"
+      label: "Nº ORDEM SERVIÇO",
     },
     {
-      label: "EXECUÇÃO"
+      label: "EXECUÇÃO",
     },
     {
-      label: "TIPO/SERV."
+      label: "TIPO/SERV.",
     },
     {
-      label: "CATEGORIA"
+      label: "CATEGORIA",
     },
     {
-      label: "DATA/IDEAL"
+      label: "DATA/IDEAL",
     },
     {
-      label: "PRIORIDADE"
+      label: "PRIORIDADE",
     },
     {
-      label: "STATUS"
+      label: "STATUS",
     },
     {
-      label: "INFO"
-    }
-  ]
+      label: "INFO",
+    },
+  ];
   const rowData = data.map((item, index) => ({
     id: index,
     data: {
-      "col0": {
+      col0: {
         label: "",
         icon: Icons.ArrowFromTop,
-        onClick: () => console.log("hahaha")
+        onClick: () => console.log("hahaha"),
       },
-      "col1": {
-        label: item.id.toString()
+      col1: {
+        label: item.id.toString(),
       },
-      "col2": {
-        label: item.maquina.descricaoMaquina
+      col2: {
+        label: item.maquina.descricaoMaquina,
       },
-      "col3": {
-        label: ""
+      col3: {
+        label: "teste",
       },
-      "col4": {
-        label: item.maquina.dataSugestaoRetorno
-      }
-    }
-  }))
+      col4: {
+        label: item.maquina.dataSugestaoRetorno,
+      },
+    },
+  }));
   return (
-    <div>
-      <section className={styles.wrap_container_table} >
-        {data && (
-
-          <TableUi
-            col={columnLabel}
-            row={rowData}
-            nameTable="tableMaquinasEmprestadas"
-          />
-        )}
-
+    <div className={styles.container}>
+      <section className={styles.wrapContainer}>
+        <div className={styles.containerTable}>
+          <div className={styles.container_table}>
+            <div className={styles.wrap_container_table}>
+              {data && (
+                <TableUi
+                  col={columnLabel}
+                  row={rowData}
+                  nameTable="tableMaquinasEmprestadas"
+                />
+              )}
+            </div>
+          </div>
+        </div>
       </section>
       {/* <table>
         <thead>
