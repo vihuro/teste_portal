@@ -20,28 +20,13 @@ export default function Emprestimos() {
       label: "+",
     },
     {
-      label: "Nº ORDEM SERVIÇO",
+      label: "CÓDIGO MÁQUINA",
     },
     {
-      label: "EXECUÇÃO",
+      label: "DESCRIÇÃO",
     },
     {
-      label: "TIPO/SERV.",
-    },
-    {
-      label: "CATEGORIA",
-    },
-    {
-      label: "DATA/IDEAL",
-    },
-    {
-      label: "PRIORIDADE",
-    },
-    {
-      label: "STATUS",
-    },
-    {
-      label: "INFO",
+      label: "DATA SUGER. RETORNO",
     },
   ];
   const rowData = data.map((item, index) => ({
@@ -53,16 +38,13 @@ export default function Emprestimos() {
         onClick: () => console.log("hahaha"),
       },
       col1: {
-        label: item.id.toString(),
+        label: item.maquina.codigoMaquina,
       },
       col2: {
         label: item.maquina.descricaoMaquina,
       },
       col3: {
-        label: "teste",
-      },
-      col4: {
-        label: item.maquina.dataSugestaoRetorno,
+        label: DateAndYearStringFormat(item.maquina.dataSugestaoRetorno),
       },
     },
   }));
