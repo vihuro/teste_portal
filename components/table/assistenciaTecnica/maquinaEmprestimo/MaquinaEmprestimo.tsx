@@ -4,9 +4,11 @@ import { DateAndYearStringFormat } from "../../../utils/DateTimeString";
 import styles from "./style.module.css";
 import { TableUi } from "../../../UI/table/TableUi";
 import { Icons } from "../../../utils/IconDefault";
+import { IGetMaquinaEmprestimo } from "./IMaquinaEmprestimo";
+import { ColumnExternal, Row } from "../../../UI/table/ITableUi";
 
 export default function Emprestimos() {
-  const [data, setData] = useState<any[]>([]);
+  const [data, setData] = useState<IGetMaquinaEmprestimo[]>([]);
   useEffect(() => {
     const listEmpresitmos = async () => {
       await GetEmprestimos()
@@ -15,9 +17,9 @@ export default function Emprestimos() {
     };
     listEmpresitmos();
   }, []);
-  const columnLabel = [
+  const columnLabel: ColumnExternal[] = [
     {
-      label: "+",
+      label: "NÚMERO SÉRIE",
     },
     {
       label: "CÓDIGO MÁQUINA",
@@ -28,14 +30,18 @@ export default function Emprestimos() {
     {
       label: "DATA SUGER. RETORNO",
     },
+    {
+      label: "DATA DIR. RETORNO",
+    },
+    {
+      label: "EDIT",
+    },
   ];
-  const rowData = data.map((item, index) => ({
+  const rowData: Row[] = data.map((item, index) => ({
     id: index,
     data: {
       col0: {
-        label: "",
-        icon: Icons.ArrowFromTop,
-        onClick: () => console.log("hahaha"),
+        label: item.maquina.numeroSerie,
       },
       col1: {
         label: item.maquina.codigoMaquina,
@@ -45,6 +51,14 @@ export default function Emprestimos() {
       },
       col3: {
         label: DateAndYearStringFormat(item.maquina.dataSugestaoRetorno),
+      },
+      col4: {
+        label: DateAndYearStringFormat(item.maquina.dataRetorno),
+      },
+      col5: {
+        label: "",
+        icon: Icons.Edit,
+        onClick: () => console.log("olá mundo")
       },
     },
   }));

@@ -162,7 +162,7 @@
 
 .table thead {
     background-color: var(--background-color-blue-700);
-    font-size: 12px;
+    font-size: 0.8rem;
     color: rgba(255, 255, 255, 0.815);
     position: sticky;
     top: 0;
@@ -178,7 +178,7 @@
 .table th,
 .table td {
     border-collapse: collapse;
-    padding: 16px 5px 16px 5px;
+    padding: 10px 3px 10px 3px;
     text-wrap: nowrap;
 }
 
@@ -190,7 +190,7 @@
 .table_body {
     background-color: rgba(219, 233, 240, .5);
     font-weight: 700;
-    font-size: 14px;
+    font-size: 0.8rem;
     color: var(--text-color-blue-600);
     text-align: center;
 }
