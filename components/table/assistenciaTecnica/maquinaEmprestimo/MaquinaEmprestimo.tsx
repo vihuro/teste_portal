@@ -6,9 +6,16 @@ import { TableUi } from "../../../UI/table/TableUi";
 import { Icons } from "../../../utils/IconDefault";
 import { IGetMaquinaEmprestimo } from "./IMaquinaEmprestimo";
 import { ColumnExternal, Row } from "../../../UI/table/ITableUi";
+import CardAtualizar from "./atualizar/AtualizarMaquinaEmprestimo";
 
 export default function Emprestimos() {
   const [data, setData] = useState<IGetMaquinaEmprestimo[]>([]);
+  const [maquinaAlteracao, setMaquinaAlteracao] = useState<
+    IGetMaquinaEmprestimo | undefined
+  >();
+  const [toogleChangeMaquina, setToogleChangeMaquina] =
+    useState<boolean>(false);
+
   useEffect(() => {
     const listEmpresitmos = async () => {
       await GetEmprestimos()
@@ -58,13 +65,20 @@ export default function Emprestimos() {
       col5: {
         label: "",
         icon: Icons.Edit,
-        onClick: () => console.log("olá mundo")
+        onClick: () => console.log("olá mundo"),
       },
     },
   }));
   return (
     <div className={styles.container}>
       <section className={styles.wrapContainer}>
+        <div className={styles.container_atualizarDataEmprestimo}>
+            <CardAtualizar
+              changeTooge={setToogleChangeMaquina}
+              maquinaEmEmpresitmo={maquinaAlteracao}
+              toogle={toogleChangeMaquina}
+            />
+        </div>
         <div className={styles.containerTable}>
           <div className={styles.container_table}>
             <div className={styles.wrap_container_table}>

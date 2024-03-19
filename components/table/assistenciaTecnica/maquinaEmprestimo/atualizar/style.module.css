@@ -1,0 +1,21 @@
+.container {
+  width: 300px;
+  height: 250px;
+  border-radius: 7px;
+  background: white;
+  inset: 2px;
+  display: grid;
+  grid-template-areas:
+    "title title title"
+    "main main main"
+    "button buton buton";
+}
+.header {
+  grid-area: title;
+}
+.main {
+  grid-area: main;
+}
+.footer {
+  grid-area: button;
+}
